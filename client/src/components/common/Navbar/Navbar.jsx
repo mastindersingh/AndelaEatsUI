@@ -114,7 +114,7 @@ export class Navbar extends Component {
 function mapStateToProps(state) {
   return {
     activeUser: state.userReducer,
-    userRole: state.userRole.role,
+    userRole: state.user.role,
   };
 }
 

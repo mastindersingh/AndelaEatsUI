@@ -60,17 +60,6 @@ class SideNav extends Component {
                   </li>
                 </Link>
 
-                <Link to="/admin/meals">
-                  <li
-                    className={
-                      `side-nav-item meals
-                      ${homeActive('admin/meals') && "active"}`
-                    }
-                  >
-                    <span>Meal Items</span>
-                  </li>
-                </Link>
-
                 <Link to="/admin/menus">
                   <li
                     className={
@@ -95,6 +84,14 @@ class SideNav extends Component {
                     ${homeActive('admin/ratings') && "active"}`}
                   >
                     <span>Ratings</span>
+                  </li>
+                </Link>
+
+                <Link to="/admin/users">
+                  <li className={`side-nav-item users
+                    ${homeActive('admin/users') && "active"}`}
+                  >
+                    <span>Users</span>
                   </li>
                 </Link>
 

@@ -94,6 +94,8 @@ export const initialSuspendedVendors = {
   vendors: [],
 };
 
-export const initialUserRole = {
-  role: 0
+export const initialUser = {
+  role: 0,
+  email: '',
+  message: ''
 };

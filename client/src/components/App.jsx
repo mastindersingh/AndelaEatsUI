@@ -15,7 +15,9 @@ import Meals from './Admin/Meals/Index';
 import Menus from './Admin/Menus/Index';
 import Engagements from './Admin/Engagements/Index';
 import VendorsTab from './Admin/Tabs/Vendors';
+import MenusAndMealsTab from './Admin/Tabs/MenusAndMeals';
 import Ratings from './Admin/Ratings/Index';
+import Users from './Admin/Users/Users';
 
 
 export const NotFound = () => (
@@ -34,10 +36,11 @@ const Root = () => (
           <Route exact path="/admin/orders" component={AdminOrderHistory} />
           <Route exact path="/admin/orders/export" component={ExportOrders} />
           <Route exact path="/admin/vendors" component={VendorsTab} />
+          <Route exact path="/admin/menus" component={MenusAndMealsTab} />
           <Route exact path="/admin/meals" component={Meals} />
-          <Route exact path="/admin/menus" component={Menus} />
           <Route exact path="/admin/engagements" component={Engagements} />
           <Route exact path="/admin/ratings" component={Ratings} />
+          <Route exact path="/admin/users" component={Users} />
           <Route component={NotFound} />
         </Switch>
       </SideNav>

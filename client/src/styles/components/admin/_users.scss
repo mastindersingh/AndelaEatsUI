@@ -1,0 +1,36 @@
+.user-form {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 10px;
+    box-sizing: border-box;
+    border: 2px solid $color-blue;
+    border-radius: 4px;
+  }
+
+.user-select-role {
+    width: 30%;
+    height: 40px;
+    border: 2px solid $color-blue;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.assign-role {
+  background-color: $color-blue;
+  color: $color-white;
+  padding: 8px 20px;
+  font-size: 1.0625rem;
+  border: 1px solid $color-blue;
+  font-family: "DINPro";
+  border-radius: 0.125rem;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  font-family: "Open Sans", "DINPro";
+  font-weight: 300;
+  margin-left: 20px;
+}
+
+.text-margin {
+  margin-right: 10px;
+}
