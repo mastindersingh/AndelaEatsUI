@@ -164,7 +164,7 @@ export class Meals extends Component {
         <div className={`${isLoading && 'blurred'}`} id="admin-meals">
           <header>
             <div>
-              <span className="title pull-left">Meal Items</span>
+            <br/><span className="title pull-left">Meal Items</span>
               <button
                 className="pull-right"
                 type="button"

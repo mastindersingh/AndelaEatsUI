@@ -114,6 +114,19 @@
   }
 }
 
+.users {
+  background-image: url('../assets/images/add-user.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/add-user-active.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/add-user-active.png');
+  }
+}
+
 .engagements {
   background-image: url('../assets/images/handshake.png');
   background-repeat: no-repeat;

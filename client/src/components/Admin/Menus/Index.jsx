@@ -232,7 +232,7 @@ class Menus extends Component {
           : (
             <Fragment>
               <header>
-                <div className="menu-header-content">
+                <br/><br/><div className="menu-header-content">
                   <div className="title-date-range">
                     <span className="title">Menu:</span>
                     <span className="date-range">from</span>
@@ -266,7 +266,7 @@ class Menus extends Component {
                   </button>
                 </div>
               </header>
-              
+              <br/>
               <main>
                 {
                   !menuList.length
@@ -280,7 +280,7 @@ class Menus extends Component {
                           <div className="custom-col-6">Side</div>
                           <div className="custom-col-5">Options</div>
                         </div>
-                        
+
                         <div className="ct-body">
                           { this.renderRows() }
                         </div>

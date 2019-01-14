@@ -21,5 +21,5 @@ export default combineReducers({
   menus: adminMenusReducer,
   allEngagements: engagementsReducer,
   suspendVendors: suspendedVendorReducer,
-  userRole: adminUserReducer
+  user: adminUserReducer
 });
