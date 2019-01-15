@@ -6,8 +6,8 @@ import { setMealImage } from '../../../../helpers/mealsHelper';
 
 const ImageView = (props) => {
   const { openFileDialog, error, dataurl } = props;
-
-  if (!dataurl || dataurl === 'google.com') {
+  if (!dataurl || dataurl
+    === 'http://andelaeats-dev.andela.com:3000/assets/images/default.png') {
     return (
       <div className="image">
         <div className="control">
@@ -31,7 +31,7 @@ const ImageView = (props) => {
       <img src={setMealImage(dataurl)} alt="added meal image" />
     </div>
   );
-}
+};
 
 ImageView.propTypes = {
   openFileDialog: PropTypes.func.isRequired,

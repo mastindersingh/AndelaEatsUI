@@ -13,18 +13,20 @@ import {
   addMealItem, setAddMealErrors, editMealItem
 } from '../../../../actions/admin/mealItemsAction';
 
+import defaultImage from '../../../../assets/images/default.png';
+
 /**
  *
  *
  * @class Vendors
- * 
+ *
  * @extends {Component}
  */
 class MealModal extends Component {
   static initalState = {
     image: {
       file: null,
-      dataurl: null,
+      dataurl: defaultImage,
       error: null
     },
 
@@ -190,7 +192,7 @@ class MealModal extends Component {
     const {
       name, type, desc, image: { dataurl }
     } = this.state;
-  
+
     let { error } = this.state.image;
 
     error = (error === null && errors.includes('image'))
