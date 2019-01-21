@@ -8,7 +8,8 @@ jest.mock('../../../../helpers/dateFormatter.js');
 
 const setup = () => {
   const props = {
-    engagement: engagements[0]
+    engagement: engagements[0],
+    handleNoEdit: jest.fn(),
   };
 
   return mount(<EngagementCard {...props} />);
@@ -20,5 +21,10 @@ describe('EngagementCard Component', () => {
   it('should render correctly', () => {
     expect(wrapper).toMatchSnapshot();
     expect(wrapper.length).toEqual(1);
+  });
+
+  it('should not edit past engagement', () => {
+    const editButton = wrapper.find('.edit--disabled').simulate('click');
+    expect(wrapper.find('.Toastify__toast Toastify__toast--error')).toBeTruthy();
   });
 });
