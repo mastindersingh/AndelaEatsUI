@@ -191,7 +191,13 @@ export class Engagements extends Component {
     })
   }
 
-  
+  handleDisplayNoEdit = engagement => {
+    const verifyDateRange = moment(engagement.endDate).isAfter(moment().toDate());
+    if (!verifyDateRange){
+      toast.error('Past Engagement cannot be edited');
+    }
+  }
+
   renderEngagements = engagements => {
     return engagements.map((engagement, key) => (
       <EngagementCard 
@@ -199,6 +205,7 @@ export class Engagements extends Component {
         engagement={engagement}
         showDeleteModal={this.showDeleteModal}
         showEditModal={this.showEditModal}
+        handleNoEdit={this.handleDisplayNoEdit}
       />
     ))
   };

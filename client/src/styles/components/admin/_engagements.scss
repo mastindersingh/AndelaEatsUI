@@ -10,7 +10,7 @@
   flex: 0 0 auto;
   box-sizing: border-box;	
   height: 39px;	
-  width: auto;	
+  width: auto;
   border: 1px solid $color-blue;	
   border-radius: 2px;	
   background-color: $color-blue;
@@ -20,13 +20,21 @@
   line-height: 18px;
 }
 
-.edit-color {
+.edit {
   color: $color-yellow;
   font-family: "DINPro";
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline solid $color-yellow;
+  border: 0;
+  margin-right: 20px;
+  outline: none;
+  &--color {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline solid $color-yellow;
+    }
+  }
+  &--disabled {
+    cursor: not-allowed;
+    color: #bbb;
   }
 }
 
@@ -34,14 +42,9 @@
   color: $color-red;
   font-family: "DINPro";
   cursor: pointer;
+  border: 0;
 
   &:hover {
     text-decoration: underline solid $color-red;
   }
 }
-
-.edit-spacing {
-  margin-right: 20px;
-}
-
-
