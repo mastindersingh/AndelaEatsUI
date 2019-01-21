@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
-const OrderCard = ({ order: { userId, dateBookedFor, mealItems, orderStatus } }) => {
+const OrderCard = ({ order: { user, dateBooked, dateBookedFor, mealItems, orderStatus } }) => {
   return (
   <div className={
       `table-body ${orderStatus === 'collected' ?
@@ -12,7 +12,10 @@ const OrderCard = ({ order: { userId, dateBookedFor, mealItems, orderStatus } })
     <div className="table-row">
       <div className="custom-row">
         <div className="custom-col-4">
-          { userId }
+          { user }
+        </div>
+        <div className={`custom-col-${orderStatus ? 2 : 3}`}>
+          { format(dateBooked, 'YYYY-MM-DD') }
         </div>
         <div className={`custom-col-${orderStatus ? 2 : 3}`}>
           { format(dateBookedFor, 'YYYY-MM-DD') }
@@ -38,9 +41,10 @@ const OrderCard = ({ order: { userId, dateBookedFor, mealItems, orderStatus } })
 
 OrderCard.propTypes = {
   order: PropTypes.shape({
-    userId: PropTypes.string.isRequired,
-    dateBookedFor: PropTypes.string.isRequired,
-    mealItems: PropTypes.array.isRequired
+  user: PropTypes.string.isRequired,
+  dateBooked: PropTypes.string.isRequired,
+  dateBookedFor: PropTypes.string.isRequired,
+  mealItems: PropTypes.array.isRequired
   })
 };
 
