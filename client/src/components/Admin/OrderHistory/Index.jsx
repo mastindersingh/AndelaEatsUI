@@ -92,7 +92,8 @@ export class OrderHistory extends Component {
               <Fragment>
                 <div className="table-header">
                   <div className="custom-col-4">Name</div>
-                  <div className="custom-col-2">Date</div>
+                  <div className="custom-col-2">Order Date</div>
+                  <div className="custom-col-2">Collection Date</div>
                   <div className="custom-col-4">Order Description</div>
                   <div className="custom-col-2">Status</div>
                 </div>

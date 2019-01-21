@@ -5,15 +5,18 @@ import { CSVLink } from "react-csv";
 import Filter from './Filter';
 
 const headers = [
-  { label: "ID", key: "id" },
-  { label: "Owner", key: "owner" },
-  { label: "OrderDescription", key: "orderDescription" }
+  { label: "Name", key: "user" },
+  { label: "Order Date", key: "dateBooked" },
+  { label: "Collection Date", key: "dateBookedFor" },
+  { label: "Main Meal", key: "mealItems[0].name" },
+  { label: "Side Meal", key: "mealItems[1].name"},
+  { label: "Protein", key: "mealItems[2].name"},
+  { label: "Status", key: "orderStatus" }
 ];
 
 export class OrdersHeader extends Component {
   render() {
     const { title, orders, redirectToExport, svg, type } = this.props;
-
     return (
       <header className="orders-header">
         <div className="left-section">
