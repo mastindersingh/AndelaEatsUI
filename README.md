@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/andela/AndelaEatsUI/tree/develop.svg?style=svg)](https://circleci.com/gh/andela/AndelaEatsUI/tree/develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/7612d96cf534e4d616bf/maintainability)](https://codeclimate.com/github/andela/AndelaEatsUI/maintainability)
 [![Coverage Status](https://coveralls.io/repos/github/andela/AndelaEatsUI/badge.svg?branch=develop)](https://coveralls.io/github/andela/AndelaEatsUI?branch=develop)
 # Andela Eats
 The Andela Eats client side implementation
