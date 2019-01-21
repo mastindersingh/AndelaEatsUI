@@ -11,10 +11,6 @@ import { createAdminUser } from '../../../actions/admin/adminUserAction';
 
 export class Users extends Component {
 
-  componentWillReceiveProps(nextProps) {
-    console.log('Next Props: ', nextProps);
-  }
-
   handleSubmit = (event) => {
     event.preventDefault();
     let userData = {
