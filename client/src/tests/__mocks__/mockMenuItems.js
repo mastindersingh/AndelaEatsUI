@@ -119,15 +119,33 @@ export const engagements = [
   }
 ];
 
-export const menu = {
-  date: "2018-10-22", 
-  mealPeriod: "Lunch",
-  mainMealId: 1,
-  allowedSide: 2, 
-  allowedProtein: 1,
-  sideItems: [1],
-  proteinItems: [1, 2]
-};
+export const menu = [
+  {
+    id: 1,
+    date: "2018-10-22",
+    mealPeriod: "Lunch",
+    mainMealId: 1,
+    allowedSide: 2,
+    allowedProtein: 1,
+    sideItems: [1],
+    proteinItems: [1, 2]
+  },
+  {
+    id: 2,
+    allowedProtein: 1,
+    allowedSide: 1,
+    date: "2019-01-22",
+    mainMealId: 71,
+    mealPeriod: "supper",
+    proteinItems: [
+      1
+    ],
+    sideItems: [
+      1
+    ],
+    vendorEngagementId: 1
+  }
+];
 
 export default {
   menuItemsUI

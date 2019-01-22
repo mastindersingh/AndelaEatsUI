@@ -12,6 +12,9 @@ import {
   CREATE_MENU_LOADING,
   CREATE_MENU_SUCCESS,
   CREATE_MENU_FAILURE,
+  EDIT_MENU_LOADING,
+  EDIT_MENU_SUCCESS,
+  EDIT_MENU_FAILURE,
 } from '../../actions/actionTypes';
 import filter from '../../helpers/filter';
 
@@ -59,8 +62,9 @@ export default (state = initialAdminMenus, { type, payload }) => {
     case FETCH_VENDOR_ENGAGEMENT_FAILURE:
     case FETCH_MEALITEMS_FAILURE:
     case CREATE_MENU_FAILURE:
-      return { 
-        ...state, 
+    case EDIT_MENU_FAILURE:
+      return {
+        ...state,
         error: {
           status: true,
           message: payload
@@ -95,7 +99,12 @@ export default (state = initialAdminMenus, { type, payload }) => {
           message: payload
         }
       };
-
+    case EDIT_MENU_SUCCESS:
+      return {
+        ...state,
+        menuList: state.menuList
+          .map(menu => menu.id === payload.menu.id ? payload.menu : menu),
+      };
     default: return state;
   }
 };

@@ -13,13 +13,16 @@ import {
   CREATE_MENU_LOADING,
   CREATE_MENU_SUCCESS,
   CREATE_MENU_FAILURE,
+  EDIT_MENU_SUCCESS,
+  EDIT_MENU_FAILURE
 } from '../../../actions/actionTypes';
 import { mealItems } from '../../__mocks__/mockMealItems';
 import { engagements, menu } from '../../__mocks__/mockMenuItems';
 
 import menusReducer from '../../../reducers/admin/menusReducer';
 
-import { initialAdminMenus } from '../../../reducers/initialState';
+import { initialAdminMenus }
+  from '../../../reducers/initialState';
 import mockMenuList from '../../__mocks__/mockMenuList';
 
 describe('Admin:: Menu Items Reducer', () => {
@@ -185,11 +188,23 @@ describe('Admin:: Menu Items Reducer', () => {
     });
   });
 
+  describe('CREATE_MENU_LOADING', () => {
+    it('should update state with meal-items', () => {
+      action = {
+        type: CREATE_MENU_LOADING,
+        payload: true,
+      };
+
+      newState = menusReducer(initialAdminMenus, action);
+      expect(newState.isCreating).toEqual(true);
+    });
+  });
+
   describe('CREATE_MENU_SUCCESS', () => {
     it('should update state with meal-items', () => {
       action = {
         type: CREATE_MENU_SUCCESS,
-        payload: { menu }
+        payload: { menu: menu[0] }
       };
 
       newState = menusReducer(initialAdminMenus, action);
@@ -203,6 +218,42 @@ describe('Admin:: Menu Items Reducer', () => {
     it('should set error status and message', () => {
       action = {
         type: CREATE_MENU_FAILURE,
+        payload: "error message",
+      };
+
+      newState = menusReducer(initialAdminMenus, action);
+      expect(newState.error.status).toBe(true);
+      expect(newState.error.message).toBe("error message");
+    });
+  });
+
+  describe('EDIT_MENU_SUCCESS', () => {
+    it('should update state on editing a menu', () => {
+      action = {
+        type: EDIT_MENU_SUCCESS,
+        payload: {
+          menu: {
+            id: 1,
+            allowedProtein: 3,
+          }
+        }
+      };
+
+      newState = menusReducer({
+        ...initialAdminMenus,
+        menuList: [
+          ...menu
+        ]
+      }, action);
+      expect(newState.menuList.length).toEqual(2);
+      expect(newState.menuList[0].allowedProtein).toEqual(3);
+    });
+  });
+
+  describe('EDIT_MENU_FAILURE', () => {
+    it('should set error status and message', () => {
+      action = {
+        type: EDIT_MENU_FAILURE,
         payload: "error message",
       };
 

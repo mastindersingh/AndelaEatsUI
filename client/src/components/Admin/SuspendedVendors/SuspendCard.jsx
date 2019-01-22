@@ -25,7 +25,7 @@ export const SuspendCard = ({
         <div className="custom-col-3">{ contactPerson }</div>
         <div className="custom-col-3">
           <span
-            className="edit-color edit-spacing"
+            className="edit edit--color"
             onClick={() => showUnSuspendModal(vendor)}
           >
             Reinstate
