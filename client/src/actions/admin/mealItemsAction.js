@@ -152,8 +152,9 @@ export const editMealItem = (mealItemId, formData) => dispatch => {
     if (error) { throw error; } else {
       const { file, dataurl, ...rest } = formData;
       const reqdata = { ...rest, image: url };
+
       return (
-        axios.put(`${apiBaseUrl}/meal-items/${mealItemId}`, reqdata)
+        axios.patch(`${apiBaseUrl}/meal-items/${mealItemId}`, reqdata)
           .then(response => {
             const { mealItem } = response.data.payload;
             toastSuccess("Meal item updated successfully");

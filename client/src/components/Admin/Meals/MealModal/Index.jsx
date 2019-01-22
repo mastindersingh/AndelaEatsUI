@@ -93,14 +93,17 @@ class MealModal extends Component {
       this.state,
       this.mealTypes
     );
-    
+
     if (Array.isArray(formData)) {
       this.props.setAddMealErrors(formData);
     } else {
-      if (edit) {
+      if (edit && formData.mealName !== this.props.mealDetails.name) {
+        return this.props.editMealItem(mealDetails.id, formData);
+      } else {
+        formData.mealName = "";
         return this.props.editMealItem(mealDetails.id, formData);
       }
-      
+
       this.props.addMealItem(formData);
     }
   }

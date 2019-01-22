@@ -33,7 +33,6 @@ export const addAdminUser = (message, type) => ({
         dispatch(addAdminUser(msg, ADD_ADMIN_USER_SUCCESS));
       })
       .catch((error) => {
-        console.log(error);
         error = error.response ? error.response.data.msg : 'Invalid Email Address entered!';
         toastError(error);
         dispatch(addAdminUser(error, ADD_ADMIN_USER_FAILURE));
