@@ -110,7 +110,7 @@ export const userRatings =
                         "userId": "-LGA1XS9X-A4hAcbFDR-",
                         "comment": "It was great.",
                         "serviceDate": "Wed, 16 Jan 2019 00:00:00 GMT",
-                        "rating": 4,
+                        "rating": 3,
                         "channel": "web",
                         "ratingType": "order",
                         "typeId": 2,
