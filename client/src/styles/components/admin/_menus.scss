@@ -212,6 +212,11 @@
     text-decoration: underline solid $color-yellow;
   }
 }
+.option div {
+  display: inline-block;
+  margin: 10px;
+  cursor: pointer;
+}
 
 .delete-menu {
   color: $color-red !important;

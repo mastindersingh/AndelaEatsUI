@@ -22,6 +22,8 @@ import {
   CREATE_MENU_SUCCESS,
   CREATE_MENU_LOADING,
   CREATE_MENU_FAILURE,
+  EDIT_MENU_SUCCESS,
+  EDIT_MENU_FAILURE,
 } from '../../../actions/actionTypes';
 
 import {
@@ -31,7 +33,8 @@ import {
   deleteMenuItem,
   mockMenu,
   fetchMealItems,
-  createMenu
+  createMenu,
+  editMenu,
 } from '../../../actions/admin/menuItemsAction';
 
 
@@ -270,9 +273,9 @@ describe('Admin::Menu Items Action', () => {
         type: FETCH_MEALITEMS_FAILURE,
         payload: new Error('Request failed with status code 400')
       }];
-  
+
       const store = mockStore({});
-      
+
       await store
         .dispatch(fetchMealItems())
         .then(() => {
@@ -289,7 +292,7 @@ describe('Admin::Menu Items Action', () => {
     it('create menu success', async (done) => {
       moxios.stubRequest(`${baseUrl}/admin/menus/`, {
         status: 201,
-        response: { payload: { menu } }
+        response: { payload: { menu: menu[0] } }
       });
 
       const expectedAction = [
@@ -299,7 +302,7 @@ describe('Admin::Menu Items Action', () => {
         },
         {
           type: CREATE_MENU_SUCCESS,
-          payload: { menu }
+          payload: { menu: menu[0] }
         },
         {
           type: CREATE_MENU_LOADING,
@@ -337,11 +340,78 @@ describe('Admin::Menu Items Action', () => {
           payload: false
         }
       ];
-  
+
       const store = mockStore({});
-      
+
       await store
         .dispatch(createMenu())
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+      done();
+    });
+  });
+
+  describe('Edit  Menu', () => {
+    beforeEach(() => moxios.install());
+    afterEach(() => moxios.uninstall());
+
+    it('should edit menu on success', async (done) => {
+      moxios.stubRequest(`${baseUrl}/admin/menus/2`, {
+        status: 200,
+        response: { payload: { menu: menu[1] } }
+      });
+
+      const expectedAction = [
+        {
+          type: FETCH_MENUS_LOADING,
+          payload: true
+        },
+        {
+          type: EDIT_MENU_SUCCESS,
+          payload: { menu: menu[1] }
+        },
+        {
+          type: FETCH_MENUS_LOADING,
+          payload: false
+        }
+      ];
+
+      const store = mockStore({});
+
+      await store
+        .dispatch(editMenu(menu[1]))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+      done();
+    });
+
+    it('edit menu failure', async (done) => {
+      moxios.stubRequest(`${baseUrl}/admin/menus/1`, {
+        status: 400,
+        response: {}
+      });
+
+      const expectedAction = [
+        {
+          type: FETCH_MENUS_LOADING,
+          payload: true
+        },
+        {
+          type: EDIT_MENU_FAILURE,
+          payload: new Error('Request failed with status code 400'),
+        },
+        {
+          type: FETCH_MENUS_LOADING,
+          payload: false
+        }
+      ];
+
+      const store = mockStore({});
+
+      await store
+        .dispatch(editMenu(menu[0]))
         .then(() => {
           expect(store.getActions()).toEqual(expectedAction);
         });

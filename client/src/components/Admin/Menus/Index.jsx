@@ -15,27 +15,27 @@ import {
   mockMenu,
   deleteMenuItem,
   fetchMealItems, 
-  createMenu
+  createMenu,
+  editMenu,
 } from '../../../actions/admin/menuItemsAction';
 import { formatMenuItemDate } from '../../../helpers/menusHelper';
 import formatMealItems, { 
   formatDate, isStartgreaterThanEnd
- } from '../../../helpers/formatMealItems';
+} from '../../../helpers/formatMealItems';
 
 import EmptyContent from '../../common/EmptyContent';
 import Loader from '../../common/Loader/Loader';
 import DeleteMenuModal from './DeleteMenuModal';
-import mockMenuList from '../../../tests/__mocks__/mockMenuList';
 
 /**
- * 
- * 
+ *
+ *
  * @description Menus Component
  * 
  * @class Menus
  * @extends Component
  */
-class Menus extends Component {
+export class Menus extends Component {
   static initialState = () => ({
     menus: [],
     displayModal: false,
@@ -44,7 +44,8 @@ class Menus extends Component {
     modalButtontext: '',
     menuDetails: {},
     startDate: moment(),
-    endDate: moment().add(1, 'days')
+    endDate: moment().add(1, 'days'),
+    editMenu: false,
   })
 
   constructor(props) {
@@ -74,7 +75,7 @@ class Menus extends Component {
    * 
    * @returns { undefined }
    */
-  handelViewMenu = () => {
+  handleViewMenu = () => {
     const { startDate, endDate } = this.state;
     const result = isStartgreaterThanEnd(startDate, endDate);
 
@@ -120,25 +121,30 @@ class Menus extends Component {
    * @method showAddModal
    * 
    * @memberof Menus
-   * 
+   *
+   * @param {Object} menu
+   * @param {boolean} edit
+   *
    * @returns { void }
    */
-  showAddModal = () => {
+  showAddModal = (menu, edit = false) => {
     this.setState(prev => ({
       displayModal: !prev.displayModal,
-      modalTitle: 'ADD MENU',
-      modalButtontext: 'Add Menu'
+      modalTitle: !edit ? 'ADD MENU' : 'EDIT MENU',
+      modalButtontext: !edit ? 'Add Menu' : 'Update Menu',
+      menuDetails: menu,
+      editMenu: edit,
     }));
   }
 
   /**
-   * 
+   *
    * @method showDeleteModal
    * 
    * @memberof Menus
    * 
    * @param {object} menuDetails
-   * 
+   *
    * @returns {void}
    */
   showDeleteModal = (menuDetails) => {
@@ -181,21 +187,29 @@ class Menus extends Component {
    * Handles form submission
    * 
    * @param {object} menu
-   * 
+   *
    * @memberof Menu
    * 
    * @returns {void}
    */
   handleSubmit = (menu) => {
-    this.props.createMenu(menu)
-      .then(() => {
-        this.closeModal();
-      });
+    if (!this.state.editMenu) {
+      this.props.createMenu(menu)
+        .then(() => {
+          this.closeModal();
+        });
+    } else {
+      const { id, mealPeriod } = this.state.menuDetails;
+      this.props.editMenu({ ...menu, id, mealPeriod: mealPeriod.toLowerCase() })
+        .then(() => {
+          this.closeModal();
+        });
+    }
   }
 
   /**
    *
-   * 
+   *
    * @description render menus section
    *
    * @memberof Menus
@@ -205,8 +219,8 @@ class Menus extends Component {
   renderMenus = () => {
     const {
       error,
-      menuList, 
-      isDeleting, 
+      menuList,
+      isDeleting,
       vendorEngagements, 
       mealItems,
       isCreating
@@ -232,7 +246,8 @@ class Menus extends Component {
           : (
             <Fragment>
               <header>
-                <br/><br/><div className="menu-header-content">
+                <br/><br/>
+                <div className="menu-header-content">
                   <div className="title-date-range">
                     <span className="title">Menu:</span>
                     <span className="date-range">from</span>
@@ -251,7 +266,7 @@ class Menus extends Component {
                       id="view-menu"
                       className="button"
                       type="button"
-                      onClick={this.handelViewMenu}
+                      onClick={this.handleViewMenu}
                     >
                       View Menu
                     </button>
@@ -260,7 +275,7 @@ class Menus extends Component {
                     id="add-menu"
                     className="button"
                     type="button"
-                    onClick={this.showAddModal}
+                    onClick={() => this.showAddModal(this.state.menuDetails, false)}
                   >
                     Add menu item
                   </button>
@@ -275,6 +290,7 @@ class Menus extends Component {
                       <div className="custom-table">
                         <div className="ct-header">
                           <div className="custom-col-5">Date</div>
+                          <div className="custom-col-5">Vendor</div>
                           <div className="custom-col-4">Main Meal</div>
                           <div className="custom-col-6">Protein</div>
                           <div className="custom-col-6">Side</div>
@@ -298,6 +314,7 @@ class Menus extends Component {
                 handleSubmit={this.handleSubmit}
                 mealItems={mealItems}
                 isCreating={isCreating}
+                menu={this.state.menuDetails}
               />
               {displayDeleteModal && (
               <DeleteMenuModal
@@ -333,17 +350,23 @@ class Menus extends Component {
         proteinItems,
         allowedSide,
         allowedProtein,
-        date
+        date,
+        vendorEngagementId
       } = menuItem;
-
+      const vendorList = this.props.menus.vendorEngagements
+        ? this.props.menus.vendorEngagements : [];
+      const menuVendor = vendorList
+        .filter(vendor => vendor.vendorId === vendorEngagementId)[0];
       return (
         <div key={id} className="ct-row">
           <div className="ct-wrap">
             <div className="custom-col-5">
               { formatMenuItemDate(date) }
             </div>
+            <div className="custom-col-5">
+              {menuVendor ? menuVendor.vendor.name : ''}
+            </div>
             <div className="custom-col-4">{mainMeal.name}</div>
-            
             { this.renderProteinSideItems(
               proteinItems,
               allowedProtein
@@ -354,14 +377,14 @@ class Menus extends Component {
               allowedSide
             )}
 
-            <div className="custom-col-5">
-              <Link to="#">
+            <div className="custom-col-5 option">
+              <div onClick={() => this.showAddModal(menuItem, true)}>
                 <span className="edit-menu">Edit</span>
-              </Link>
+              </div>
 
-              <Link to="#" onClick={() => this.showDeleteModal(menuItem)}>
+              <div onClick={() => this.showDeleteModal(menuItem)}>
                 <span className="delete-menu">Delete</span>
-              </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -386,7 +409,7 @@ class Menus extends Component {
         { optionsCanPick }
       </span>
       { this.commaJoinComplementryItems(itemsAvailable.map(item => ({
-        value: item.id, label: item.name 
+        value: item.id, label: item.name
       }))) }
     </div>
   );
@@ -408,9 +431,9 @@ Menus.propTypes = {
   fetchMenus: func.isRequired,
   fetchMealItems: func.isRequired,
   createMenu: func.isRequired,
+  editMenu: func.isRequired,
   fetchVendorEngagements: func.isRequired,
   deleteMenuItem: func.isRequired,
-  mockMenu: func,
   isCreating: bool,
   menus: shape({
     isLoading: bool.isRequired,
@@ -434,5 +457,6 @@ export default connect(mapStateToProps,
     deleteMenuItem,
     fetchVendorEngagements,
     fetchMealItems,
-    createMenu
+    createMenu,
+    editMenu,
   })(Menus);

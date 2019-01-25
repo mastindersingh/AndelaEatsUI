@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component, Fragment } from 'react';
 import { 
-  func, shape, string, array, bool, date 
+  func, shape, string, array, bool, date, object
 } from 'prop-types';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
@@ -21,10 +21,10 @@ class MenuModal extends Component {
   static initialState = () => ({
     protein: [],
     sideMeal: [],
-    mainItem: [],
-    allowedSideMeal: [],
-    allowedProtein: [],
-    vendorEngagementId: [],
+    mainItem: '',
+    allowedSideMeal: '',
+    allowedProtein: '',
+    vendorEngagementId: '',
     errors: {},
     collectionDate: moment()
   })
@@ -35,10 +35,38 @@ class MenuModal extends Component {
     this.state = MenuModal.initialState();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.menu) !== JSON.stringify(this.props.menu)) {
+      const {
+        allowedProtein, allowedSide: allowedSideMeal, vendorEngagementId,
+        date: collectionDate, mainMeal: mainItem, proteinItems: protein,
+        sideItems: sideMeal,
+      } = nextProps.menu;
+      const vendor = nextProps.vendorEngagements
+        .filter(ven => ven.vendorId === vendorEngagementId);
+      const engagement = vendor.length ? formatDropdown(vendor)[0] : '';
+      const formatedMealItems = (protein && sideMeal)
+        ? formatMealItems([...protein, ...sideMeal])
+        : { protein: [], side: [] };
+
+      this.setState({
+        allowedProtein: allowedProtein
+          ? { value: allowedProtein, label: allowedProtein } : '',
+        allowedSideMeal: allowedSideMeal
+          ? { value: allowedSideMeal, label: allowedSideMeal } : '',
+        mainItem: mainItem ? { label: mainItem.name, value: mainItem.id } : '',
+        protein: formatedMealItems.protein,
+        sideMeal: formatedMealItems.side,
+        vendorEngagementId: engagement,
+        collectionDate: moment(collectionDate),
+      });
+    }
+  }
+
   /**
-   * 
+   *
    * @method onChange
-   * 
+   *
    * @memberof MenuModal
    * 
    * @param {object} selectOption
@@ -84,7 +112,7 @@ class MenuModal extends Component {
         date: formatDate(collectionDate), 
         mealPeriod: "Lunch",
         mainMealId: mainItem.value,
-        allowedSide: allowedSideMeal.value, 
+        allowedSide: allowedSideMeal.value,
         allowedProtein: allowedProtein.value,
         sideItems: getIds(sideMeal),
         proteinItems: getIds(protein),
@@ -178,10 +206,12 @@ class MenuModal extends Component {
                 <div className="form-field-single">
                   <label htmlFor="soup">Vendor Engagements&nbsp;
                     <span>
-                      {errors.vendorEngagementId ? errors.vendorEngagementId : ""}
+                      {errors.vendorEngagementId
+                        ? errors.vendorEngagementId : ""
+                      }
                     </span>
                   </label>
-                  <Select 
+                  <Select
                     onChange={(e) => this.onChange(e, 'vendorEngagementId')}
                     isSearchable
                     value={vendorEngagementId}
@@ -194,12 +224,12 @@ class MenuModal extends Component {
                     <label htmlFor="menuItem">Main Item&nbsp;
                       <span>
                         {errors.mainItem ? errors.mainItem : ""}
-                      </span>    
+                      </span>
                     </label>
-                    <Select 
+                    <Select
                       onChange={(e) => this.onChange(e, 'mainItem')}
                       name="mainItem" 
-                      id="mainItem" 
+                      id="mainItem"
                       value={mainItem}
                       options={formatedMealItems.main}
                       isClearable
@@ -210,7 +240,7 @@ class MenuModal extends Component {
                     <label htmlFor="date">Collection Date&nbsp;
                       <span>
                         {errors.date ? errors.date : ""}
-                      </span>    
+                      </span>
                     </label>
                     <DatePicker
                       selected={collectionDate}
@@ -226,9 +256,9 @@ class MenuModal extends Component {
                         {errors.allowedSideMeal ? errors.allowedSideMeal : ""}
                       </span>
                     </label>
-                    <Select 
+                    <Select
                       onChange={(e) => this.onChange(e, "allowedSideMeal")}
-                      name="allowedSideMeal" 
+                      name="allowedSideMeal"
                       value={allowedSideMeal}
                       options={adminAllowed}
                       isClearable
@@ -241,7 +271,7 @@ class MenuModal extends Component {
                         {errors.allowedProtein ? errors.allowedProtein : ""}
                       </span>
                     </label>
-                    <Select 
+                    <Select
                       onChange={(e) => this.onChange(e, "allowedProtein")}
                       name="allowedProtein" 
                       value={allowedProtein}
@@ -271,10 +301,10 @@ class MenuModal extends Component {
                       {errors.protein ? errors.protein : ""}
                     </span>
                   </label>
-                  <Select 
+                  <Select
                     onChange={(e) => this.onChange(e, 'protein')}
                     isMulti
-                    name="protein" 
+                    name="protein"
                     value={protein}
                     options={formatedMealItems.protein}
                     placeholder="select protein"
@@ -292,7 +322,7 @@ class MenuModal extends Component {
                         >
                         Cancel
                         </button>
-                        <button 
+                        <button
                           type="submit"
                         >
                           {modalButtontext}
@@ -317,7 +347,8 @@ MenuModal.propTypes = {
   isCreating: bool,
   handleSubmit: func,
   vendorEngagements: array,
-  mealItems: array
+  mealItems: array,
+  menu: object,
 };
 
 export default MenuModal;
