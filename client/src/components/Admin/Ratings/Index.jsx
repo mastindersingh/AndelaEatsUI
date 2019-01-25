@@ -1,14 +1,23 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import DatePicker from 'react-date-picker';
 import moment from 'moment';
+import { fetchMealRatings } from '../../../actions/admin/mealRatingActions';
 
 import RatingsTabs from './RatingsTabs';
+import Loader from '../../common/Loader/Loader';
 
 
 class Ratings extends Component {
 	state = {
 		isOpen: false,
-		end: ''
+		end: '',
+		date: moment().format('YYYY-MM-DD')
+	}
+
+	componentDidMount() {
+		const today = moment().format('dddd, MMMM Do YYYY');
+		this.props.fetchMealRatings('2019-01-16');
 	}
 
 	handleFilterModal = () => {
@@ -24,6 +33,7 @@ class Ratings extends Component {
 	render() {
 		const { isOpen, end } = this.state;
 		const today = moment().format('dddd, MMMM Do YYYY');
+		let rating = this.props.ratingList.isLoading ? <Loader /> : <RatingsTabs />;
 
 		return (
 			<Fragment>
@@ -76,10 +86,12 @@ class Ratings extends Component {
 						</div>
 					</div>
 				</div>
-				<RatingsTabs />
+				{rating}
 			</Fragment>
 		)
 	}
-}
+};
 
-export default Ratings;
+const mapStateToProps = ({ ratingList }) => ({ ratingList })
+
+export default connect(mapStateToProps, {fetchMealRatings})(Ratings)

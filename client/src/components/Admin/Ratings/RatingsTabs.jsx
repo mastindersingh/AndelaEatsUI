@@ -9,8 +9,7 @@ class RatingsTabs extends Component {
   render() {
     let results = [userRatings.result];
     let me = "jksdkdk";
-    console.log(userRatings);
-    
+
     return (
       <div>
       
