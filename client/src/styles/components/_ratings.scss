@@ -9,10 +9,38 @@
   border-radius: 5px;
 }
 
+.rating-title {
+  color: $color-blue;
+}
+
+.rating-sub-title {
+  color: $color-dark-gray;
+  font-size: 1.3125rem;
+  line-height: 1.6875rem;
+  display: inline-block;
+}
+
+.vendor-name {
+  float: right;
+}
+
 .rating-modal-wrapper {
   padding: 40px;
 }
 
+.line-style {
+  border: solid $color-blue 1px;
+}
+
+.rating-container {
+  margin: 0.375rem 1.5rem;
+}
+.comments-row {
+  background: $color-white;
+  border-radius: 2px;
+  padding: 10px 10px;
+  margin-bottom: 10px;
+}
 .rating-modal-header {
   display: flex;
   justify-content: space-between;
