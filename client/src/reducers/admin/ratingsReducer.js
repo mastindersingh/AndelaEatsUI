@@ -4,9 +4,9 @@ import {
   FETCH_MEAL_RATING_FAILURE,
 } from '../../actions/actionTypes';
 
-import { intialMealRatings } from '../initialState';
+import { initialMealRatings } from '../initialState';
 
-const mealRatingsReducer = (state = intialMealRatings, action) => {
+const mealRatingsReducer = (state = initialMealRatings, action) => {
   switch (action.type) {
     case FETCH_MEAL_RATING_LOADING:
       return {
@@ -16,7 +16,7 @@ const mealRatingsReducer = (state = intialMealRatings, action) => {
     case FETCH_MEAL_RATING_SUCCESS:
       return {
         ...state,
-        ratingList: action.payload,
+        ratingList: [{ ...action.payload }],
         isLoading: false,
       };
     case FETCH_MEAL_RATING_FAILURE:

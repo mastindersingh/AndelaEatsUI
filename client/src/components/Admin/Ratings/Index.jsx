@@ -8,7 +8,7 @@ import RatingsTabs from './RatingsTabs';
 import Loader from '../../common/Loader/Loader';
 
 
-class Ratings extends Component {
+export class Ratings extends Component {
 	state = {
 		isOpen: false,
 		end: '',

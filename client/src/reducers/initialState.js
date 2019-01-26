@@ -100,7 +100,7 @@ export const initialUser = {
   message: ''
 };
 
-export const intialMealRatings = {
+export const initialMealRatings = {
   isLoading: false,
   ratingList: [],
 };
