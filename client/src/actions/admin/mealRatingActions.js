@@ -15,9 +15,9 @@ export const fetchMealRatingsLoading = () => ({
 });
 
 
-export const fetchMealRatingsSuccess = (ratings) => ({
+export const fetchMealRatingsSuccess = (ratingList) => ({
   type: FETCH_MEAL_RATING_SUCCESS,
-  payload: ratings
+  payload: ratingList
 });
 
 export const fetchMealRatingsFailure = () => ({

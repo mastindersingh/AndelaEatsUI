@@ -6,7 +6,7 @@ import { Ratings } from '../../../../components/Admin/Ratings/Index';
 
 const setup = () => {
   const props = {
-    ratingList: {
+    allRatings: {
       isLoading: false,
       ratingList: [],
     },
@@ -18,13 +18,9 @@ const setup = () => {
 const wrapper = setup();
 
 
-describe('OrderHistory Component', () => {
+describe('Ratings Component', () => {
   it('should render correctly', () => {
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it('should have an RatingsTabs component', () => {
-    expect(wrapper.find('RatingsTabs').exists()).toBe(true);
   });
   
   it('expects the following methods to be defined', () => {

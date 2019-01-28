@@ -23,5 +23,5 @@ export default combineReducers({
   allEngagements: engagementsReducer,
   suspendVendors: suspendedVendorReducer,
   user: adminUserReducer,
-  ratingList: mealRatingsReducer,
+  allRatings: mealRatingsReducer,
 });

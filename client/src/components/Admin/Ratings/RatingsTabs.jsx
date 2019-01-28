@@ -1,21 +1,25 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import ReactStars from 'react-stars';
 
 import Tabs from '../../common/Tab/Index';
-import ReactStars from 'react-stars';
-import { userRatings } from '../../../store/Ratings';
+import EmptyContent from '../../common/EmptyContent';
 
 
-class RatingsTabs extends Component {
+export class RatingsTabs extends Component {
   render() {
+    const userRatings = this.props.ratings;
 
     return (
       <div>
-        <Tabs>
-          {userRatings.result.map((mealObject, key) => (
+      {
+        userRatings.length > 0
+        ? (<Tabs>
+          { userRatings[0].result.map((mealObject, key) => (
             <div key={key} label={mealObject.mainMeal}>
               <div className="rating-container" label="Rice">
               <h1 className="rating-sub-title">Main Meal Rated: {mealObject.mainMeal}</h1>
-              <h1 className="vendor-name rating-sub-title">Vendor: {userRatings.vendor}</h1>
+              <h1 className="vendor-name rating-sub-title">Vendor: {userRatings[0].vendor}</h1>
               <hr className="line-style" />
               <span><br />Overall Rating:</span>
               <ReactStars
@@ -43,10 +47,16 @@ class RatingsTabs extends Component {
               </div>
             </div>
           ))}
-        </Tabs>
+        </Tabs>)
+        : <EmptyContent message = 'No Ratings for this day' />
+      }
       </div>
     );
   }
 }
 
-export default RatingsTabs;
+const mapStateToProps = ({ allRatings }) => ({
+  ratings: allRatings.ratingList
+});
+
+export default connect(mapStateToProps)(RatingsTabs);
