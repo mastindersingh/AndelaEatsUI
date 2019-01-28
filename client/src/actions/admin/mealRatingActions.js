@@ -32,7 +32,6 @@ export const fetchMealRatings = (date) => (dispatch) => {
       dispatch(fetchMealRatingsSuccess(result));
     })
     .catch((error) => {
-      toastError(error.response.data.msg);
       dispatch(fetchMealRatingsFailure());
     });
 };

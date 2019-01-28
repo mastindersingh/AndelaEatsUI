@@ -15,6 +15,8 @@ import {
   CREATE_MENU_LOADING,
   CREATE_MENU_SUCCESS,
   CREATE_MENU_FAILURE,
+  EDIT_MENU_SUCCESS,
+  EDIT_MENU_FAILURE
 } from '../actionTypes';
 
 import { formatCurrentDate } from '../../helpers';
@@ -22,6 +24,15 @@ import { config } from '../../config';
 
 export const baseUrl = config.ANDELAEATS_API_BASE_URL;
 
+export const editMenuSuccess = (menu) => ({
+  type: EDIT_MENU_SUCCESS,
+  payload: menu,
+});
+
+export const editMenuFailure = (error) => ({
+  type: EDIT_MENU_FAILURE,
+  payload: error
+});
 export const fetchMenusLoading = isLoading => ({
   type: FETCH_MENUS_LOADING,
   payload: isLoading
@@ -41,6 +52,22 @@ export const mockMenu = menuList => dispatch => dispatch({
   type: 'MOCK_MENU_LIST',
   payload: menuList
 });
+
+export const editMenu = menu => dispatch => {
+  dispatch(fetchMenusLoading(true));
+  return axios.put(`${baseUrl}/admin/menus/${menu.id}`, menu)
+    .then(response => {
+      const { payload } = response.data;
+      toastSuccess('Menu successfully updated');
+      dispatch(editMenuSuccess(payload));
+      dispatch(fetchMenusLoading(false));
+    })
+    .catch((error) => {
+      toastError(error.response.data.msg);
+      dispatch(editMenuFailure(error));
+      dispatch(fetchMenusLoading(false));
+    });
+};
 
 export const fetchMenus = (startDate, endDate) => (dispatch) => {
   dispatch(fetchMenusLoading(true));

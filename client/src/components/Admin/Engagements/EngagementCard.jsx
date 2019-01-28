@@ -36,7 +36,7 @@ export const EngagementCard = ({
               onClick={(moment(engagement.endDate).isAfter(moment().toDate()))
                 ? () => showEditModal(engagement)
                 : () => handleNoEdit(engagement)}
-              className={`${classes} edit-spacing edit`}
+              className={`${classes} edit`}
               type="button"
             >
               Edit

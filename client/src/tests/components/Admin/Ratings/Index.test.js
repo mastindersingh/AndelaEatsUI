@@ -10,7 +10,7 @@ const setup = () => {
       isLoading: false,
       ratingList: [],
     },
-    fetchMealRatings: jest.fn(),
+    fetchMealRatings: jest.fn(() => Promise.resolve()),
   };
   return mount(<Ratings {...props} />);
 };
@@ -22,7 +22,7 @@ describe('Ratings Component', () => {
   it('should render correctly', () => {
     expect(wrapper).toMatchSnapshot();
   });
-  
+
   it('expects the following methods to be defined', () => {
     wrapper.instance().handleFilterModal();
     wrapper.instance().handleFilterSubmit();

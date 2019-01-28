@@ -1,6 +1,6 @@
 import menuReducer from '../../reducers/menuReducer';
 import { initialMenus } from '../../reducers/initialState';
-import { 
+import {
   SET_MENUS, SELECT_MEAL, MAKE_ORDER_SUCCESS, MAKE_ORDER_FAILURE, RESET_MENU, MENU_IS_LOADING
 } from '../../actions/actionTypes';
 

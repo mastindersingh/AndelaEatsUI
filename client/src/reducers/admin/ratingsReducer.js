@@ -20,7 +20,11 @@ const mealRatingsReducer = (state = initialMealRatings, action) => {
         isLoading: false,
       };
     case FETCH_MEAL_RATING_FAILURE:
-      return state;
+      return {
+        ...state,
+        isLoading: false,
+        ratingList: [],
+      };
     default:
       return state;
   }

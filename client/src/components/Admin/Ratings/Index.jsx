@@ -15,13 +15,26 @@ export class Ratings extends Component {
 	state = {
 		isOpen: false,
 		end: '',
-		date: moment().format('YYYY-MM-DD')
+		date: moment().format('YYYY-MM-DD'),
+		ratingList: []
 	}
 
 	componentDidMount() {
-		this.props.fetchMealRatings(this.state.date);
+		this.props.fetchMealRatings(this.state.date)
+			.then(() => {
+				this.setState({
+					ratingList:this.props.allRatings.ratingList
+				})
+			})
 	}
 
+	componentDidUpdate(prevProps) {
+		if(this.props.allRatings.ratingList !== prevProps.allRatings.ratingList) {
+			this.setState({
+				ratingList:this.props.allRatings.ratingList
+			});
+		}
+	}
 	handleFilterModal = () => {
 		this.setState(prevProps => ({
 			isOpen: !prevProps.isOpen
@@ -32,10 +45,15 @@ export class Ratings extends Component {
 		const { end } = this.state;
 		const filterDate = format(end, 'YYYY-MM-DD');
 		if(end != '') {
-			this.props.fetchMealRatings(filterDate);
-			this.setState(prevProps => ({
-				isOpen: !prevProps.isOpen
-			}));
+			this.props.fetchMealRatings(filterDate)
+				.then(() => {
+					this.setState((prevProps) => {
+						return {
+							isOpen: !prevProps.isOpen,
+							ratingList: this.props.allRatings.ratingList
+						}
+					});
+				})
 		} else {
 			toast.error(filterDate);
 		}
@@ -45,10 +63,9 @@ export class Ratings extends Component {
 		const { isOpen, end } = this.state;
 		const today = moment().format('dddd, MMMM Do YYYY');
 		const displayDate = this.state.end !== '' ? format(end, 'dddd, MMMM Do YYYY') : today;
-		let rating = this.props.allRatings.ratingList.length === 0
-			? <EmptyContent message = 'No Ratings for this day' />
-			: <RatingsTabs />;
-
+		let rating = this.props.allRatings.isLoading
+			? <Loader />
+			: <RatingsTabs userRatings={this.state.ratingList} />
 		return (
 			<Fragment>
 				<div>
