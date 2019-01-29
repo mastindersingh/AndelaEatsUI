@@ -3,7 +3,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import { Menus } from '../../../../components/Admin/Menus/Index';
 import menu from '../../../__mocks__/mockMenuList';
 import Loader from '../../../../components/common/Loader/Loader';
@@ -36,7 +35,8 @@ describe('Admin: Menu Component', () => {
     fetchMealItems: jest.fn(),
     createMenu: jest.fn(() => Promise.resolve()),
     editMenu: jest.fn(() => Promise.resolve()),
-    deleteMenuItem: jest.fn(() => Promise.resolve())
+    deleteMenuItem: jest.fn(() => Promise.resolve()),
+    isLoading: false,
   };
 
   beforeEach(() => {

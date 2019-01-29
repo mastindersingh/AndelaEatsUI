@@ -13,6 +13,10 @@ _tabs.scss
   margin-right: 3rem;
   padding-right: 5rem;
   cursor: pointer;
+  transition: border-bottom 0.2s
+}
+.tab-list-item:hover {
+  border-bottom: 1px solid $color-blue;
 }
 
 .tab-list-active {
@@ -22,6 +26,6 @@ _tabs.scss
   border-style: solid solid;
   border-color: rgb(221, 221, 221) rgb(221, 221, 221);
   border-image: initial;
-  border-top: 2px solid rgb(52, 152, 219);
+  border-top: 2px solid $color-blue;
   border-bottom: 0px;
 }

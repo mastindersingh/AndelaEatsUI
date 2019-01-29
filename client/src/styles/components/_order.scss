@@ -1,18 +1,22 @@
 .orders-wrapper {
   h3 {
     font-weight: 700;
-    color: $color-dark-gray;
     font-size: 21px;
     line-height: 27px;
+    color:$color-blue;
+  }
+  .menu-container {
+    padding: 10px;
   }
 
 .orders-container {
-  height: auto;    
+  height: auto;
   width: 1080px; 
   border: 1px solid $color-light-gray;    
   background-color: $color-white;
   display: flex;
   flex-direction: row;
+  margin: 4px;
 
   .date-wrapper {
     flex: 0 0 280px;
@@ -21,7 +25,6 @@
 
     h3 {
       text-align: center;
-      color: $color-medium-gray;
     }
 
     ul {

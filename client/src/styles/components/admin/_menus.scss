@@ -83,21 +83,6 @@
           .ct-wrap {
             width: 95%;
             margin: 0 auto;
-            
-            .side-pick-count {
-              display: block;
-              width: 20px;
-              height: 20px;
-              float: left;
-              background: $color-blue;
-              color: white;
-              border-radius: 50%;
-              font-size: 13px;
-              overflow: hidden;
-              text-align: center;
-              padding-top: 1px;
-              margin-right: 10px;
-            }
 
             &:last-child {
               a {
@@ -224,4 +209,35 @@
   &:hover {
     text-decoration: underline solid $color-red;
   }
+}
+
+.menu-table-row {
+  background: #F4F8F9;
+  width: 1080px;
+  margin: 4px;
+}
+
+.card-header {
+  padding-left: 20px;
+  width: 20%;
+  margin-top: 30px;
+  transition: border-bottom 0.2s;
+}
+.card-header:hover {
+   border-bottom: 1px solid $color-blue;
+}
+
+.side-pick-count {
+  display: block;
+  width: 20px;
+  height: 20px;
+  float: left;
+  background: $color-blue;
+  color: white;
+  border-radius: 50%;
+  font-size: 13px;
+  overflow: hidden;
+  text-align: center;
+  padding-top: 1px;
+  margin-right: 10px;
 }

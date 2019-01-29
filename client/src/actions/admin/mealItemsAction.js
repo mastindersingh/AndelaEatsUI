@@ -86,6 +86,7 @@ export const addMealItem = formData => dispatch => {
         axios.post(`${apiBaseUrl}/meal-items/`, reqdata)
           .then((response) => {
             const { mealItem } = response.data.payload;
+            toastSuccess('Meal successfully created');
             dispatch(addMealItemSuccess(mealItem));
             dispatch(showMealModalAction(false, false));
             dispatch(setAddMealLoading(false));

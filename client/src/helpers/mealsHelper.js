@@ -76,9 +76,7 @@ export const findUpdatedIndex = (prevState, updatedId) => (
 );
 
 export const setMealImage = (image) => (
-  image === 'google.com' || image.match(/^image.+$/)
-    ? defMealImage
-    : image
+  !image ? defMealImage : image
 );
 
 export const mealImageUpload = (file, dataurl, callback) => {

@@ -14,24 +14,25 @@ import {
   fetchVendorEngagements,
   mockMenu,
   deleteMenuItem,
-  fetchMealItems, 
+  fetchMealItems,
   createMenu,
   editMenu,
 } from '../../../actions/admin/menuItemsAction';
 import { formatMenuItemDate } from '../../../helpers/menusHelper';
-import formatMealItems, { 
+import formatMealItems, {
   formatDate, isStartgreaterThanEnd
 } from '../../../helpers/formatMealItems';
 
 import EmptyContent from '../../common/EmptyContent';
 import Loader from '../../common/Loader/Loader';
 import DeleteMenuModal from './DeleteMenuModal';
+import MenuTable from './MenuTable';
 
 /**
  *
  *
  * @description Menus Component
- * 
+ *
  * @class Menus
  * @extends Component
  */
@@ -58,19 +59,20 @@ export class Menus extends Component {
    * Can be removed in favor of loading menus from DB
    * 
    * @memberof Menus
-   * 
+   *
    * @returns { undefined }
    */
   componentDidMount() {
-    const { startDate, endDate } = this.state;
-    this.props.fetchMenus(formatDate(startDate), formatDate(endDate));
-    this.props.fetchVendorEngagements();
     this.props.fetchMealItems();
+    this.props.fetchVendorEngagements();
+    this.props.fetchMenus(formatDate(
+      this.state.startDate), formatDate(this.state.endDate)
+    );
   }
 
   /**
    * @description fetch menu given date range
-   * 
+   *
    * @memberof Menus
    * 
    * @returns { undefined }
@@ -99,22 +101,6 @@ export class Menus extends Component {
       [name]: selectOption
     });
   }
-
-  /**
-   *
-   *
-   * @description joins strings
-   *
-   * @param { Array } array
-   * @param { Stirng } key
-   * 
-   * @returns { String }
-   *
-   * @memberof Menus
-   */
-  commaJoinComplementryItems = (array) => (
-    array.map(item => item.label).join(', ')
-  );
 
   /**
    * 
@@ -234,7 +220,7 @@ export class Menus extends Component {
       startDate,
       endDate
     } = this.state;
-    
+
     return (
       <div id="admin-menus">
         { error.status
@@ -283,26 +269,17 @@ export class Menus extends Component {
               </header>
               <br/>
               <main>
-                {
-                  !menuList.length
-                    ? <EmptyContent message="No menus within the seleted date range" />
-                    : (
-                      <div className="custom-table">
-                        <div className="ct-header">
-                          <div className="custom-col-5">Date</div>
-                          <div className="custom-col-5">Vendor</div>
-                          <div className="custom-col-4">Main Meal</div>
-                          <div className="custom-col-6">Protein</div>
-                          <div className="custom-col-6">Side</div>
-                          <div className="custom-col-5">Options</div>
-                        </div>
+                { !menuList.length
+                  ? <EmptyContent message="No menus within the seleted date range" />
+                  : (
+                    <MenuTable
+                      menus={this.props.menus}
+                      showAddModal={this.showAddModal}
+                      showDeleteModal={this.showDeleteModal}
+                    />
+                  )
+                }
 
-                        <div className="ct-body">
-                          { this.renderRows() }
-                        </div>
-                      </div>
-                    )
-                  }
               </main>
               <ToastContainer />
               <MenuModal
@@ -331,108 +308,20 @@ export class Menus extends Component {
     );
   }
 
-  /**
-   * @description generate menu rows
-   * 
-   * @returns { Array }
-   * 
-   * @memberof Menus
-   */
-  renderRows = () => {
-    const { menuList } = this.props.menus;
-    return menuList.map(menuItem => {
-      const {
-        mainMealId,
-        id,
-        mainMeal,
-        mealPeriod,
-        sideItems,
-        proteinItems,
-        allowedSide,
-        allowedProtein,
-        date,
-        vendorEngagementId
-      } = menuItem;
-      const vendorList = this.props.menus.vendorEngagements
-        ? this.props.menus.vendorEngagements : [];
-      const menuVendor = vendorList
-        .filter(vendor => vendor.vendorId === vendorEngagementId)[0];
-      return (
-        <div key={id} className="ct-row">
-          <div className="ct-wrap">
-            <div className="custom-col-5">
-              { formatMenuItemDate(date) }
-            </div>
-            <div className="custom-col-5">
-              {menuVendor ? menuVendor.vendor.name : ''}
-            </div>
-            <div className="custom-col-4">{mainMeal.name}</div>
-            { this.renderProteinSideItems(
-              proteinItems,
-              allowedProtein
-            )}
-
-            { this.renderProteinSideItems(
-              sideItems,
-              allowedSide
-            )}
-
-            <div className="custom-col-5 option">
-              <div onClick={() => this.showAddModal(menuItem, true)}>
-                <span className="edit-menu">Edit</span>
-              </div>
-
-              <div onClick={() => this.showDeleteModal(menuItem)}>
-                <span className="delete-menu">Delete</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    });
-  }
-
-  /**
-   * 
-   * @description render side and protein listing
-   *
-   * @param { Array } itemsAvailable
-   * @param { Integer } optionsCanPick
-   *
-   * @memberof Menus
-   * 
-   * @returns { JSX }
-   */
-  renderProteinSideItems = (itemsAvailable, optionsCanPick) => (
-    <div className="custom-col-6 clearfix">
-      <span className="side-pick-count">
-        { optionsCanPick }
-      </span>
-      { this.commaJoinComplementryItems(itemsAvailable.map(item => ({
-        value: item.id, label: item.name
-      }))) }
-    </div>
-  );
-  
   render() {
-    const { isLoading } = this.props.menus;
     return (
-      <Fragment>
-        { isLoading
-          ? <Loader />
-          : this.renderMenus()
-        }
-      </Fragment>
+      <React.Fragment>
+        {this.props.menus.isLoading ? <Loader /> : this.renderMenus()}
+      </React.Fragment>
     );
   }
 }
 
 Menus.propTypes = {
-  fetchMenus: func.isRequired,
+  fetchVendorEngagements: func.isRequired,
   fetchMealItems: func.isRequired,
   createMenu: func.isRequired,
   editMenu: func.isRequired,
-  fetchVendorEngagements: func.isRequired,
   deleteMenuItem: func.isRequired,
   isCreating: bool,
   menus: shape({
@@ -445,7 +334,8 @@ Menus.propTypes = {
       status: bool,
       message: any
     })
-  })
+  }),
+  fetchMenus: func.isRequired,
 };
 
 const mapStateToProps = ({ menus }) => ({ menus });
