@@ -24,7 +24,9 @@ export class Users extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <span className="heading-style">Assign Admin role to a user</span>
+        <hr className="line"/>
+        <form className="parent-div" onSubmit={this.handleSubmit}>
           <label htmlFor="userEmail">Email</label>
           <input  className="user-form" type="text" id="userEmail" name="userEmail"/>
           <button type="submit" className="assign-role">
