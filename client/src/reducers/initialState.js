@@ -99,3 +99,8 @@ export const initialUser = {
   email: '',
   message: ''
 };
+
+export const initialMealRatings = {
+  isLoading: false,
+  ratingList: [],
+};
