@@ -7,7 +7,7 @@ import ConnectedOrders, { Orders } from '../../../components/Order/Orders';
 import { mockMenu } from '../../helpers/mockOrders';
 
 const props = {
-  menus: mockMenu,
+  userMenus: mockMenu,
   match: {
     url: 'http:abc.css'
   },
@@ -81,7 +81,7 @@ describe('ConnectedOrders test', () => {
   it('should render correctly', () => {
     const store = mockStore({
       upcomingMenus: {
-        menus: [], 
+        userMenus: [],
         acc1: {},
         acc2: {},
         mainMeal: {},

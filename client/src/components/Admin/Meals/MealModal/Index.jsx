@@ -97,13 +97,14 @@ class MealModal extends Component {
     if (Array.isArray(formData)) {
       this.props.setAddMealErrors(formData);
     } else {
-      if (edit && formData.mealName !== this.props.mealDetails.name) {
-        return this.props.editMealItem(mealDetails.id, formData);
-      } else {
-        formData.mealName = "";
-        return this.props.editMealItem(mealDetails.id, formData);
+      if (edit) {
+        const mealData = {
+          ...formData,
+          mealName: (this.props.mealDetails.name === formData.mealName)
+            ? '' : formData.mealName
+        };
+        this.props.editMealItem(mealDetails.id, mealData);
       }
-
       this.props.addMealItem(formData);
     }
   }
@@ -298,7 +299,9 @@ MealModal.propTypes = {
   isLoading: PropTypes.bool,
   addBtnDisabled: PropTypes.bool,
   setAddMealErrors: PropTypes.func.isRequired,
-  mealDetails: PropTypes.shape({}),
+  mealDetails: PropTypes.shape({
+    name: PropTypes.string.isRequired
+  }),
   editMealItem: PropTypes.func,
 };
 
