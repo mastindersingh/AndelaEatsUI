@@ -47,7 +47,7 @@ export class Orders extends Component {
       selectedMenu: '',
       menuListId: '',
       startDate: moment(),
-      endDate: moment().add(1, 'days'),
+      endDate: moment().add(3, 'days'),
     };
   }
 
@@ -181,7 +181,7 @@ export class Orders extends Component {
                         setSelectedMenu={this.setSelectedMenu}
                         orderedMenus={orderedMenus}
                         selectMenuListId={this.selectMenuListId}
-                        {...props}
+                        { ...props }
                       />
                       <ConfirmOrder
                         menuId={this.state.menuId}

@@ -93,7 +93,7 @@ class MenuTable extends Component {
               { formatMenuItemDate(date) }
             </div>
             <div className="custom-col-5">
-              {menuVendor ? menuVendor.vendor.name : ''}
+              {menuVendor ? menuVendor.vendor.name : '---------'}
             </div>
             <div className="custom-col-4">{mainMeal.name}</div>
             { this.renderProteinSideItems(
