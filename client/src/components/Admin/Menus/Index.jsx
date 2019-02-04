@@ -314,6 +314,8 @@ export class Menus extends Component {
   }
 
   render() {
+    console.log(this.props, 'props.menus');
+
     return (
       <React.Fragment>
         {this.props.menus.isLoading ? <Loader /> : this.renderMenus()}
