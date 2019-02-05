@@ -1,8 +1,6 @@
-_tabs.scss
-
 .tab-list {
   border-bottom: 1px solid #ccc;
-  padding-left: 40;
+  padding-left: 0px;
 }
 
 .tab-list-item {
@@ -15,12 +13,13 @@ _tabs.scss
   cursor: pointer;
   transition: border-bottom 0.2s
 }
+
 .tab-list-item:hover {
   border-bottom: 1px solid $color-blue;
 }
 
 .tab-list-active {
-  color: rgb(51, 51, 51);
+  color: $color-blue;
   background: rgb(255, 255, 255);
   border-width: 2px 1px 0px;
   border-style: solid solid;

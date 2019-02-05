@@ -20,7 +20,7 @@ const ratingsTabs = props => {
                   Vendor: {props.userRatings[0].vendor}
                 </h1>
                 <hr className="line-style" />
-                <span>
+                <span className="rating-sub-title">
                   <br />
                   Overall Rating:
                 </span>
@@ -34,7 +34,7 @@ const ratingsTabs = props => {
                 <br />
                 <br />
                 <br />
-                <span>
+                <span className="rating-sub-title">
                   <strong>Comments</strong>
                 </span>
                 <br />

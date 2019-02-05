@@ -30,11 +30,6 @@ export const SuspendCard = ({
           >
             Reinstate
           </span>
-          <span
-            className="delete-color"
-          >
-            Delete
-          </span>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@
 
 .profile-items {
   display: flex;
-  flex: 0 0 30%;
+  flex: 0 0 21%;
   align-items: center;
   justify-content: space-evenly;
 }
@@ -21,20 +21,20 @@
 }
 
 .bell {
-  color: #bcbcbc;
+  color: $color-blue;
   font-size: 25px;
   font-weight: 100;
 }
 
 .profile-pics img{
-  border: solid 1px #dddddd;
+  border: solid 1px $color-blue;
   height: 34px;
   width: 34px;
   border-radius: 50%;
 }
 
 .profile-name {
-	color: #838383;
+	color: $color-blue;
 	font-size: 18px;
   line-height: 23px;
 }
@@ -45,7 +45,7 @@
 .arrow-down {
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-top: 7px solid #E4DEDE;
+  border-top: 7px solid $color-blue;
   margin-left: 15px;
   cursor: pointer;
   
@@ -58,16 +58,16 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  right: 0;
+  right: -30px;
   top: 6px;
-  background-color: #f1f1f1;
+  background-color: $color-white;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1000;
 }
 
 .dropdown-content a {
-  color: black;
+  color: $color-blue;
   padding: 12px 16px;
   text-decoration: none;
   display: block;

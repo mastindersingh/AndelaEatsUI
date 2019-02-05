@@ -176,7 +176,7 @@ export class Menus extends Component {
                   </div>
               </div>
               ) : (
-                <div> No options available </div>
+                <div className="no-options"> No options available </div>
               )}
             </div>
           )

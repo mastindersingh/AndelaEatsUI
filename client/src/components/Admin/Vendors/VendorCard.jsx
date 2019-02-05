@@ -25,8 +25,6 @@ export const VendorCard = ({
           <span>{ vendor.address }</span>
         </div>
         <div className="custom-col-2">{ vendor.tel }</div>
-        <div className="custom-col-2">{dateFormatter(vendor.timestamps.created_at)}</div>
-        <div className="custom-col-2">{dateFormatter(vendor.timestamps.updated_at)}</div>
         <div className="custom-col-3">
           <ReactStars
             value={rating}

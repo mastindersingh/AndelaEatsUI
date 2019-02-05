@@ -13,7 +13,7 @@
   flex: 1 1 auto;
   height: 27px;	
   width: 53px;	
-  color: #333E44;	
+  color: $color-blue;	
   font-family: "DINPro";	
   font-size: 21px;	
   font-weight: 500;	
@@ -45,11 +45,11 @@
 
 .table-body {
   background-color: #fff;
-  height: 62px;	
   border-radius: 2px;
   font-size: 13px;
   color: #333E44;
   margin-bottom: 5px;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 
   .table-row {
     margin-left: 10px;
@@ -74,13 +74,16 @@
   padding: 10px;
   justify-content: space-between;
   align-items: center;
-  color: #747474;
+  color: $color-white;
+  background: $color-blue;
+  margin-bottom: 10px;
   width: 100%;
   font-size: 13px;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 }
 
 .table-align {
-  margin-left: 14px;
+  margin-left: 0px;
 }
 
 .options-wrapper {

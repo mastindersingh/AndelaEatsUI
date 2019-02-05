@@ -124,7 +124,7 @@ export const createEngagement = engagementDetails => dispatch => {
       dispatch(createEngagementsLoading(false));
     })
     .catch(error => {
-      toastError(error);
+      toastError(error.response.data.msg);
       dispatch(createEngagementFailure(error));
       dispatch(createEngagementsLoading(false));
     });
@@ -157,7 +157,7 @@ export const deleteEngagement = (engagementId) => dispatch => {
       dispatch(deleteEngagementsLoading(false));
     })
     .catch((error) => {
-      toastError(error);
+      toastError(error.response.data.msg);
       dispatch(deleteEngagementFailure(error));
       dispatch(deleteEngagementsLoading(false));
     });
