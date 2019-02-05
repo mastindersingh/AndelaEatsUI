@@ -37,6 +37,8 @@ describe('Admin: Menu Component', () => {
     editMenu: jest.fn(() => Promise.resolve()),
     deleteMenuItem: jest.fn(() => Promise.resolve()),
     isLoading: false,
+    fetchUpcomingEngagements: jest.fn(),
+    upComingEngagements: [...menusState],
   };
 
   beforeEach(() => {

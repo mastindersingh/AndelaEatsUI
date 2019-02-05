@@ -18,6 +18,10 @@ import {
   createMenu,
   editMenu,
 } from '../../../actions/admin/menuItemsAction';
+
+import {
+  fetchUpcomingEngagements,
+} from '../../../actions/admin/engagementsAction';
 import { formatMenuItemDate } from '../../../helpers/menusHelper';
 import formatMealItems, {
   formatDate, isStartgreaterThanEnd
@@ -63,6 +67,7 @@ export class Menus extends Component {
    * @returns { undefined }
    */
   componentDidMount() {
+    this.props.fetchUpcomingEngagements();
     this.props.fetchMealItems();
     this.props.fetchVendorEngagements();
     this.props.fetchMenus(formatDate(
@@ -287,7 +292,7 @@ export class Menus extends Component {
                 modalTitle={modalTitle}
                 modalButtontext={modalButtontext}
                 displayModal={displayModal}
-                vendorEngagements={vendorEngagements}
+                vendorEngagements={this.props.upComingEngagements}
                 handleSubmit={this.handleSubmit}
                 mealItems={mealItems}
                 isCreating={isCreating}
@@ -318,7 +323,9 @@ export class Menus extends Component {
 }
 
 Menus.propTypes = {
+  upComingEngagements: arrayOf.isRequired,
   fetchVendorEngagements: func.isRequired,
+  fetchUpcomingEngagements: func.isRequired,
   fetchMealItems: func.isRequired,
   createMenu: func.isRequired,
   editMenu: func.isRequired,
@@ -338,7 +345,11 @@ Menus.propTypes = {
   fetchMenus: func.isRequired,
 };
 
-const mapStateToProps = ({ menus }) => ({ menus });
+const mapStateToProps = (state) => (
+  {
+    menus: state.menus,
+    upComingEngagements: state.allEngagements.upComingEngagements.engagements
+  });
 
 export default connect(mapStateToProps,
   {
@@ -346,6 +357,7 @@ export default connect(mapStateToProps,
     mockMenu,
     deleteMenuItem,
     fetchVendorEngagements,
+    fetchUpcomingEngagements,
     fetchMealItems,
     createMenu,
     editMenu,

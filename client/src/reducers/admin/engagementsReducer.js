@@ -2,6 +2,7 @@ import {
   FETCH_VENDOR_ENGAGEMENT_LOADING, 
   FETCH_VENDOR_ENGAGEMENT_SUCCESS, 
   FETCH_VENDOR_ENGAGEMENT_FAILURE,
+  FETCH_UPCOMING_VENDOR_ENGAGEMENTS_SUCCESS,
   FETCH_VENDORS_SUCCESS,
   FETCH_VENDORS_FAILURE,
   CREATE_VENDOR_ENGAGEMENT_LOADING,
@@ -29,6 +30,13 @@ const engagementsReducer = (state = initialEngagements, action) => {
       return { ...state, engagements: action.payload };
     case FETCH_VENDORS_SUCCESS:
       return { ...state, vendors: action.payload };
+    case FETCH_UPCOMING_VENDOR_ENGAGEMENTS_SUCCESS:
+      return {
+        ...state,
+        upComingEngagements: {
+          ...action.payload
+        }
+      };
     case CREATE_VENDOR_ENGAGEMENT_LOADING:
       return { ...state, isCreating: action.payload };
     case CREATE_VENDOR_ENGAGEMENT_SUCCESS:

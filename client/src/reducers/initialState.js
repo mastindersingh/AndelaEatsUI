@@ -86,6 +86,9 @@ export const initialEngagements = {
   isDeleting: false,
   isUpdating: false,
   engagements: [],
+  upComingEngagements: {
+    engagements: [],
+  },
   vendors: []
 };
 
