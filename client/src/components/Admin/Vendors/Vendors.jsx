@@ -275,8 +275,6 @@ export class Vendors extends Component {
           <div className="table-header custom-row table-align">
             <div className="custom-col-4">Name</div>
             <div className="custom-col-2">Contacts</div>
-            <div className="custom-col-2">Start Date</div>
-            <div className="custom-col-2">End Date</div>
             <div className="custom-col-3">Rating</div>
             <div className="custom-col-3">Options</div>
           </div>)}

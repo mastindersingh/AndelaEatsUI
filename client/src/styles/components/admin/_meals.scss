@@ -132,13 +132,15 @@
     div {
       display: block;
       overflow: hidden;
-      width: 96.3%;
-      margin: 0 0 px-to-rem(30px) 1.7%;
+      width: 100%;
+      margin: 0 0 px-to-rem(30px) 0;
 
       .title {
         @include title-text(
           px-to-rem(6px) 0 0
         );
+        color: $color-blue;
+        padding: 0px;
       }
 
       button {
@@ -175,7 +177,7 @@
         overflow: hidden;
         font-family: 'Open Sans', Arial, Helvetica, sans-serif;
         width: 90%;
-        margin: 0 2% px-to-rem(30px);
+        margin: 0 2% px-to-rem(30px) 0;
         height: px-to-rem(265px);
         border-radius: px-to-rem(2px);
         transition: box-shadow .2s;
@@ -223,7 +225,7 @@
             font-weight: 100;
             margin-bottom: px-to-rem(15px);
             padding-bottom: px-to-rem(30px); 
-            border-bottom: px-to-rem(1px) solid #e8e8e8;
+            border-bottom: px-to-rem(2px) solid $color-blue;
           }
 
           .controls {
@@ -274,7 +276,7 @@
         }
 
         @media all and (min-width: px-to-rem(1200px)) {
-          width: 21%;
+          width: 22.5%;
         }
       }
     }

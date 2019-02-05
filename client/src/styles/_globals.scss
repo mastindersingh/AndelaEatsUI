@@ -144,7 +144,10 @@ body {
     width: 100%;
     font-weight: 900;
     font-size: 14px;
-    color: $color-light-black;
+    color: $color-white;
+    background: $color-blue;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
   }
 
   .ct-body {
@@ -153,6 +156,7 @@ body {
       border-radius: 2px;
       padding: 6px 0;
       margin-bottom: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 
       .ct-wrap {
         display: flex;

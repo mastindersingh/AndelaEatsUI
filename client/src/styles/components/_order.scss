@@ -11,12 +11,13 @@
 
 .orders-container {
   height: auto;
-  width: 1080px; 
+  width: 100%; 
   border: 1px solid $color-light-gray;    
   background-color: $color-white;
   display: flex;
   flex-direction: row;
   margin: 4px;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 
   .date-wrapper {
     flex: 0 0 280px;
@@ -107,7 +108,7 @@
     margin-top: 10px;
 
     h3 {
-      color: $color-medium-gray;
+      color: $color-blue;
       font-weight: normal;
       font-size: 16px;
     }
@@ -190,8 +191,9 @@
   }
 
 .selected {
-  box-shadow: 3px 2px 5px #ececec;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
   color: $color-blue;
+  border: 1px solid $color-blue !important;
  }
 }
 

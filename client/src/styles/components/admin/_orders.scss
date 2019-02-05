@@ -39,6 +39,7 @@ $filter-btn-style: (
       font-family: $font-family-pro;
       font-weight: 600;
       font-size: px-to-rem(21px);
+      color: $color-blue;
     }
 
     .export-btn {
@@ -110,6 +111,7 @@ $filter-btn-style: (
       border-radius: 3px;
       font-size: px-to-rem(15px);
       height: unset;
+      box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 
       .table-row {
         padding: 16px;

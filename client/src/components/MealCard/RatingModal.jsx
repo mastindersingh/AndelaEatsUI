@@ -50,7 +50,7 @@ const RatingModal = ({
                   value={textArea}
                   onChange={onChange}
                   name="textArea"
-                  maxLength="40"
+                  maxLength="200"
                 />
                 <span className="validate-rating">
                   * Required
