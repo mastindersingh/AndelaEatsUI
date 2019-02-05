@@ -4,6 +4,7 @@ import {
   FETCH_VENDOR_ENGAGEMENT_SUCCESS,
   FETCH_VENDOR_ENGAGEMENT_FAILURE,
   FETCH_VENDOR_ENGAGEMENT_LOADING,
+  FETCH_UPCOMING_VENDOR_ENGAGEMENTS_SUCCESS,
   CREATE_VENDOR_ENGAGEMENT_SUCCESS,
   CREATE_VENDOR_ENGAGEMENT_FAILURE,
   CREATE_VENDOR_ENGAGEMENT_LOADING,
@@ -35,6 +36,25 @@ export const fetchEngagementsFailure = error => ({
   type: FETCH_VENDOR_ENGAGEMENT_FAILURE,
   payload: error
 });
+
+export const fetchUpcomingEngagementsSuccess = engagements => ({
+  type: FETCH_UPCOMING_VENDOR_ENGAGEMENTS_SUCCESS,
+  payload: engagements,
+});
+
+export const fetchUpcomingEngagements = () => dispatch => {
+  dispatch(fetchEngagementsLoading(true));
+
+  return axios.get(`${baseUrl}/engagements/upcoming`)
+    .then(response => {
+      dispatch(fetchUpcomingEngagementsSuccess(response.data.payload));
+      dispatch(fetchEngagementsLoading(false));
+    })
+    .catch(error => {
+      dispatch(fetchEngagementsLoading(false));
+      dispatch(fetchEngagementsFailure(error));
+    });
+};
 
 export const fetchEngagements = () => dispatch => {
   dispatch(fetchEngagementsLoading(true));

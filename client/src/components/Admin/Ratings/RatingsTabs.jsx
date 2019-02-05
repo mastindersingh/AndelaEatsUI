@@ -6,8 +6,6 @@ import Tabs from "../../common/Tab/Index";
 import EmptyContent from "../../common/EmptyContent";
 
 const ratingsTabs = props => {
-  console.log(props.userRatings);
-
   return (
     <div>
       {props.userRatings.length > 0 ? (
