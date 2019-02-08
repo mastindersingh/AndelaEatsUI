@@ -180,7 +180,7 @@ export const createMenu = (menu) => dispatch => {
       dispatch(createMenuLoading(false));
     })
     .catch((error) => {
-      toastError(error);
+      toastError(error.response.data.msg);
       dispatch(createMenuFailure(error));
       dispatch(createMenuLoading(false));
     });

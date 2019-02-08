@@ -43,7 +43,7 @@ class MenuModal extends Component {
         sideItems: sideMeal,
       } = nextProps.menu;
       const vendor = nextProps.vendorEngagements
-        .filter(ven => ven.vendorId === vendorEngagementId);
+        .filter(ven => ven.id === vendorEngagementId);
       const engagement = vendor.length ? formatDropdown(vendor)[0] : '';
       const formatedMealItems = (protein && sideMeal)
         ? formatMealItems([...protein, ...sideMeal])
