@@ -323,7 +323,7 @@ export class Menus extends Component {
 }
 
 Menus.propTypes = {
-  upComingEngagements: arrayOf.isRequired,
+  upComingEngagements: arrayOf(shape({})),
   fetchVendorEngagements: func.isRequired,
   fetchUpcomingEngagements: func.isRequired,
   fetchMealItems: func.isRequired,

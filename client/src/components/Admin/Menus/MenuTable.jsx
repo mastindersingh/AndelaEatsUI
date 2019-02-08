@@ -85,7 +85,7 @@ class MenuTable extends Component {
       const vendorList = this.props.menus.vendorEngagements
         ? this.props.menus.vendorEngagements : [];
       const menuVendor = vendorList
-        .filter(vendor => vendor.vendorId === vendorEngagementId)[0];
+        .filter(vendor => vendor.id === vendorEngagementId)[0];
       return (
         <div key={id} className="ct-row">
           <div className="ct-wrap">
