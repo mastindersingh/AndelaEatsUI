@@ -103,7 +103,8 @@ class MealModal extends Component {
           mealName: (this.props.mealDetails.name === formData.mealName)
             ? '' : formData.mealName
         };
-        this.props.editMealItem(mealDetails.id, mealData);
+
+        return this.props.editMealItem(mealDetails.id, mealData);
       }
       this.props.addMealItem(formData);
     }
