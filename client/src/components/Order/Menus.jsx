@@ -65,18 +65,18 @@ export class Menus extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
+    let newState = {
       mainMeal: nextProps.mealSelected.mainMeal,
       acc1: nextProps.mealSelected.firstAccompaniment,
       acc2: nextProps.mealSelected.secondAccompaniment
-    })
-
-    if(this.state.menuDate !== nextProps.match.params.date){
-      this.setState({
-        menuDate: nextProps.match.params.date,
-        menuId: ""
-      })
     }
+    
+    if(this.state.menuDate !== nextProps.match.params.date){
+      newState.menuDate = nextProps.match.params.date
+      newState.menuId = ""
+    }
+
+    this.setState(newState)
   }
 
   /**
