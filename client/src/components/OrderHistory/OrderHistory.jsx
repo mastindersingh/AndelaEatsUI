@@ -16,6 +16,7 @@ import Loader from '../common/Loader/Loader';
 import EmptyContent from '../common/EmptyContent';
 import 'rc-pagination/assets/index.css';
 
+
 import {
   fetchOrders,
   filterOrders,
@@ -50,7 +51,8 @@ export class Orders extends Component {
       showRatingModal: false,
       textArea: '',
       newRating: 0,
-      modalTitle: ''
+      modalTitle: '',
+      editOrder: false,
     };
     
 
@@ -58,7 +60,6 @@ export class Orders extends Component {
     this.clearForm = this.clearForm.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
-    this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.deleteOrder = this.deleteOrder.bind(this);
   }
@@ -205,10 +206,11 @@ export class Orders extends Component {
    *
    * @returns {void}
    */
-  showModal(meal, modalTitle) {
+  showModal = (meal, modalTitle, edit=false) => {
     this.setState({
       modalContent: meal,
       showModal: true,
+      editOrder: edit,
       modalTitle
     });
   }
@@ -235,6 +237,14 @@ export class Orders extends Component {
     this.props.collectOrder(orderDetails)
       .then(() => window.location.reload())
   }
+
+  /**
+   * Edits an order
+   */
+  editOrder = () => {
+    console.log('I am editing');
+
+  };
 
   /**
    * Hide modal
@@ -433,6 +443,8 @@ export class Orders extends Component {
             modalContent={this.state.modalContent}
             modalTitle={modalTitle}
             tapOrder={this.tapOrder}
+            editOrder={this.editOrder}
+            edit={this.state.editOrder}
           />
           <RatingModal
             displayModal={showRatingModal}

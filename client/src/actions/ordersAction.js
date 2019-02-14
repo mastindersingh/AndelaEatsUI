@@ -138,7 +138,7 @@ export const editOrder = (id) => dispatch => {
 export const updateOrder = (data, id) => dispatch => {
   dispatch(setOrdersLoading(true));
   dispatch(setMenuLoading(true));
-  return axios.put(`/${id}`, data)
+  return axios.put(`${base}/orders/${id}`, data)
     .then((response) => {
       dispatch(updateOrderSuccess(response.data));
       toast.success(response.data.response);

@@ -117,6 +117,8 @@ export class Menus extends Component {
   }
 
   render() {
+    console.log(this.props.menu, );
+    
     const {
       menu: { id },
       match,

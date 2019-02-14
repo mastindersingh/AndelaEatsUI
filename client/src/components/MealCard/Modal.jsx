@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import EditOrder from '../EditOrder/EditOrder';
 
 const Modal = ({
   displayModal,
@@ -7,10 +8,16 @@ const Modal = ({
   deleteOrder,
   modalContent,
   modalTitle,
-  tapOrder
+  tapOrder,
+  editOrder,
+  edit,
 }) => (
-  <div className="modal" style={(displayModal) ? { display: 'block' } : { display: 'none' }}>
-    { displayModal
+  <div
+    className="modal"
+    style={(displayModal)
+      ? { display: 'block' } : { display: 'none' }}
+  >
+    { displayModal && !edit
       ? (
         <div className="modal-content">
           <div className="modal-header">
@@ -28,28 +35,38 @@ const Modal = ({
                 >
                   Cancel
                 </button>
+                { /* eslint-disable */}
                 {modalTitle === 'Collect Order' ? (
                   <button
                     type="button"
                     className="fill upper delete-order"
                     onClick={() => tapOrder(modalContent)}
                   >
-                    Collect
-                  </button>) : (
-                  <button
-                    type="button"
-                    className="fill upper delete-order"
-                    onClick={() => deleteOrder(modalContent.id)}
-                  >
+                    Collects
+                  </button>) : modalTitle === 'Edit Order' ? (
+                    <button
+                      type="button"
+                      className="fill upper delete-order"
+                      onClick={() => editOrder(modalContent.id)}
+                    >
+                    Edit
+                    </button>) :
+                    (
+                      <button
+                      type="button"
+                      className="fill upper delete-order"
+                      onClick={() => deleteOrder(modalContent.id)}
+                    >
                     Delete
-                  </button>)
+                    </button>
+                    )
                 }
               </div>
             </div>
           </div>
         </div>
       )
-      : null
+      : <EditOrder closeModal={closeModal} meal={modalContent}/>
     }
   </div>
 )
@@ -61,7 +78,11 @@ Modal.propTypes = {
   deleteOrder: PropTypes.func,
   modalContent: PropTypes.shape({
     mealItems: PropTypes.array
-  })
+  }),
+  modalTitle: PropTypes.string,
+  tapOrder: PropTypes.func,
+  editOrder: PropTypes.func,
+  edit: PropTypes.bool,
 };
 
 export default Modal;

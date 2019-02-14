@@ -18,14 +18,12 @@ import {
   createOrder
 } from '../../actions/menuAction';
 import {
-  fetchMenus as fetchAdminMenu,
-  fetchVendorEngagements
+  fetchVendorEngagements,
 } from '../../actions/admin/menuItemsAction';
-import { canOrderMeal, validateDate, endDate } from '../../helpers/mealsHelper';
-import ConfirmOrder from './ConfirmOrder';
-import Loader from '../common/Loader/Loader';
-import { updateOrder } from '../../actions/ordersAction';
-import { formatDate } from '../../helpers/formatMealItems';
+import { canOrderMeal, validateDate, endDate } from "../../helpers/mealsHelper";
+import ConfirmOrder from "./ConfirmOrder";
+import Loader from "../common/Loader/Loader";
+import { updateOrder } from "../../actions/ordersAction";
 
 /**
  *
@@ -58,10 +56,6 @@ export class Orders extends Component {
     this.props.fetchMenu(startDate, endDate).then(() => {
       this.props.fetchUserOrders(startDate, endDate);
       this.selectDefaultMenu();
-      this.props.fetchAdminMenu(
-        formatDate(this.state.startDate),
-        formatDate(this.state.endDate)
-      );
       this.props.fetchVendorEngagements();
     });
   }
@@ -162,6 +156,12 @@ export class Orders extends Component {
       createOrder //eslint-disable-line
     } = this.props;
 
+  let allMenus = [];
+    for (let item of userMenus) {
+      item.menus.forEach(menu => {
+        allMenus.push(menu);
+      })
+    };
     const { selectedMenu, menuListId } = this.state;
 
     return (
@@ -170,7 +170,7 @@ export class Orders extends Component {
           <Loader />
         ) : (
           <div className="orders-wrapper">
-            <MenuTable menus={this.props.menus} preview />
+            <MenuTable menus={{menuList: allMenus}} preview/>
             <h3 className="card-header">Place Your Order</h3>
             <div className="orders-container">
               <div className="date-wrapper">
@@ -224,7 +224,7 @@ Orders.propTypes = {
   getUpComingMenus: PropType.func,
   isLoading: PropType.bool,
   match: PropType.object,
-  mealSelected: PropType.object,
+gi  mealSelected: PropType.object,
   message: PropType.string,
   resetMenu: PropType.func.isRequired,
   selectMeal: PropType.func.isRequired
@@ -274,8 +274,7 @@ const actionCreators = {
   fetchMenu,
   fetchUserOrders,
   createOrder,
-  fetchAdminMenu,
-  fetchVendorEngagements
+  fetchVendorEngagements,
 };
 
 export default connect(

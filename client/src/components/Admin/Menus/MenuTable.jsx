@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import {
   func, shape, arrayOf, bool, any
 } from 'prop-types';
-import moment from 'moment';
-import formatMealItems, {
-  formatDate, isStartgreaterThanEnd
-} from '../../../helpers/formatMealItems';
 
 import { formatMenuItemDate } from '../../../helpers/menusHelper';
 import Loader from "../../common/Loader/Loader";
@@ -71,10 +67,8 @@ class MenuTable extends Component {
     const { menuList } = this.props.menus;
     return menuList.map(menuItem => {
       const {
-        mainMealId,
         id,
         mainMeal,
-        mealPeriod,
         sideItems,
         proteinItems,
         allowedSide,
@@ -82,8 +76,8 @@ class MenuTable extends Component {
         date,
         vendorEngagementId
       } = menuItem;
-      const vendorList = this.props.menus.vendorEngagements
-        ? this.props.menus.vendorEngagements : [];
+      const vendorList = this.props.engagements
+        ? this.props.engagements : [];
       const menuVendor = vendorList
         .filter(vendor => vendor.id === vendorEngagementId)[0];
       return (
@@ -150,6 +144,7 @@ class MenuTable extends Component {
 
 
   render() {
+    
     const { isLoading } = this.props.menus;
     return (
       <div className="menu-table-row">
@@ -164,8 +159,6 @@ class MenuTable extends Component {
 
 MenuTable.propTypes = {
   menus: shape({
-    isLoading: bool.isRequired,
-    isDeleting: bool.isRequired,
     menuList: arrayOf(shape({})),
     error: shape({
       status: bool,
@@ -177,4 +170,8 @@ MenuTable.propTypes = {
   showDeleteModal: func,
 };
 
-export default MenuTable;
+const mapStateToProps = (state) => ({
+  engagements: state.allEngagements.engagements.engagements
+})
+
+export default connect(mapStateToProps)(MenuTable);
