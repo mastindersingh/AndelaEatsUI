@@ -93,11 +93,11 @@ export class Navbar extends Component {
           <div className="dropdown">
             <div className="arrow-down" />
             <div className="dropdown-content">
-              <a href="" onClick={logoutActiveUser}>Signout</a>
               { userRole === 1 ? adminDashboard ? <Link to="/">User Dashboard</Link>
                 : <Link to="/admin/orders">Admin Dashboard</Link>
                 : ''
               }
+              <a href="" onClick={logoutActiveUser}>Signout</a>
             </div>
           </div>
         </div>
