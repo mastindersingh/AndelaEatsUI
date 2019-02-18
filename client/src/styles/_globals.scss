@@ -169,6 +169,11 @@ body {
         font-weight: 300;
         color: #333E44;
       }
+
+      &:hover {
+        background: $color-light-grey;
+        transition: all .5s ease-out;
+      }
     }
   }
 }
