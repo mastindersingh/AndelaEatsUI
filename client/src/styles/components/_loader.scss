@@ -1,0 +1,28 @@
+.loader-container {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+
+  .wheel {
+    width: 25px;
+    height: 25px;
+    margin: auto;
+    border: 3px solid $color-blue;
+    border-radius: 50%;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    animation: spin 950ms infinite linear;
+  }
+}
+
+@keyframes spin {
+	100%{ transform: rotate(360deg); }
+}
+
+.modal-loader {
+  position: relative;
+  margin: 0 auto;
+}

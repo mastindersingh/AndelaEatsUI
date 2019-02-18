@@ -1,0 +1,93 @@
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 900;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+
+  .modal-content {
+    position: relative;
+    background-color: $color-white;
+    border-radius: px-to-rem(4px);
+    border: none;
+    top: 25%;
+    width: 50%;
+    padding: 40px;
+    margin: auto;
+    border-radius: 4px;
+
+    .modal-header {
+      display: flex;
+      flex-direction: column;
+      flex-flow: row wrap;
+      margin: px-to-rem(10px) 0 px-to-rem(30px);
+  
+      .close-icon {
+        flex: 1 0 0;
+        margin-top: 2px;
+        font-size: 15px;
+        font-weight: 100;
+        cursor: pointer;
+        border: none;
+        color: $color-light-blue;
+      }
+  
+      .header-title{
+        flex: 1 0 0;
+        font-size: px-to-rem(20px);
+        font-weight: 600;
+        color: $color-blue;
+        font-family: $font-family-opensans;
+      }
+    }
+  
+    .modal-footer {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-end;
+      margin-top: 35px;
+
+      button {
+        @include buttons(
+          $color-blue,
+          $color-white,
+          px-to-rem(10px) px-to-rem(18px) px-to-rem(7px), 
+          px-to-rem(16px),
+          1px solid $color-blue
+        );
+
+        min-width: px-to-rem(100px);
+        font-weight: 300;
+
+        &.grayed {
+          background: none;
+          border-color: $color-medium-gray;
+          color: $color-medium-gray;
+          margin-right: 20px;
+        }
+
+        &.fill {
+          color: $color-white;
+          background-color: $color-blue;
+        }
+
+        &.upper {
+          font-size: px-to-rem(14px);
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}
+
+.vendor-name-validation {
+  color: red;
+  margin-top: 5px;
+  display: none;
+}

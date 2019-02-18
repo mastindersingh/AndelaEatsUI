@@ -1,0 +1,91 @@
+// Buttons mixin
+@mixin buttons($bg-color, $text-color, $btn-padding, $font-size, $border) {
+  background-color: $bg-color;
+  color: $text-color;
+  padding: $btn-padding;
+  font-size: $font-size;
+  border: $border;
+  font-family: $font-family-pro;
+  border-radius: px-to-rem(2px);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+@mixin status($border-color) {
+  border-left: 6px solid $border-color;
+}
+
+@mixin dropdown($border-size, $margin, $border-color) {
+  border-left: $border-size solid transparent;
+  border-right: $border-size solid transparent;
+  border-top: $border-size solid $border-color;
+  margin: $margin;
+}
+
+@mixin title-text($margin) {
+  font-weight: 700;
+  color: $color-dark-gray;	
+  font-size: px-to-rem(21px);
+  line-height: px-to-rem(27px);
+  margin: $margin;
+  display: inline-block;
+}
+
+@mixin field-label($display: block) {
+  display: $display;
+  font-size: 15px;
+  font-weight: 100;
+  margin-bottom: 8px;
+
+  @if $display == "block" {
+    width: 100%;
+  }
+}
+
+@mixin field-input($display: block) {
+  display: $display;
+  border: 1px solid lightgray;
+  outline: none;
+  font-size: 16px;
+  font-weight: 100;
+  border-radius: 2px;
+  padding: 11px 10px;
+
+  @if $display == "block" {
+    width: 100%;
+  }
+}
+
+
+@mixin field-select($display: block) {
+  all: unset;
+  display: $display;
+  border: 1px solid lightgray;
+  outline: none;
+  font-weight: 100;
+  font-size: 15px;
+  cursor: pointer;
+  background: white url('../assets/images/down-arrow.png') no-repeat;
+  background-size: 20px 20px;
+  background-position: 98% 50%;
+  border-radius: 2px;
+  padding: 10px;
+
+  @if $display == "block" {
+    width: calc(100% - 22px);
+  }
+}
+
+@mixin circled-btn($dimension, $bgcolor, $fgcolor, $fontsize) {
+  border: none;
+  width: $dimension;
+  height: $dimension;
+  background: $bgcolor;
+  padding-top: 5px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  color: $fgcolor;
+  font-size: $fontsize;
+  border-radius: 50%;
+}

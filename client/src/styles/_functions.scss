@@ -1,0 +1,9 @@
+@function px-to-rem($target, $context: $base-font-size) {
+  @return ($target / $context) * 1rem;
+}
+
+@for $span from 1 through $num-col-spans {
+  .custom-col-#{$span} {
+    width: ($span / $num-col-spans) * 100%;
+  }
+}

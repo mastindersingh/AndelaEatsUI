@@ -1,0 +1,197 @@
+$export-btn-style: (
+  $background-white,
+  $background-blue,
+  0.3rem 0.8rem,
+  0.7rem,
+  1px solid $background-blue
+);
+
+$filter-btn-style: (
+  $background-white,
+  $background-blue,
+  0.6rem 1.5rem 0.3rem,
+  1.1rem,
+  1px solid $background-blue
+);
+
+#admin-orders-no-content {
+  .empty-content {
+    width: 80%;
+    margin-top: 15%;
+  }
+}
+
+.admin-orders {
+  width: 96%;
+
+  .orders-header,
+  .left-section, {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .orders-header {
+    margin-bottom: 20px;
+
+    .orders-header-title {
+      font-family: $font-family-pro;
+      font-weight: 600;
+      font-size: px-to-rem(21px);
+      color: $color-blue;
+    }
+
+    .export-btn {
+      @include buttons($export-btn-style...);
+      text-align: center;
+      display: table-cell;
+      font-weight: 900;
+      margin-left: px-to-rem(20px);
+      transform: translateY(px-to-rem(-2px));
+
+      .export-icon {
+        margin-left: 10px;
+      }
+
+      &.grayed {
+        border-color: $color-light-grey;
+        background-color: $color-light-grey;
+        color: $color-medium-gray;
+      }
+    }
+
+    .export-btn-2 {
+      margin-top: px-to-rem(10px);
+      margin-left: px-to-rem(10px);
+    }
+
+    .filter-btn, .export-btn-2 {
+      @include buttons($filter-btn-style...);
+      transform: translateY(px-to-rem(-6px));
+
+      img {
+        margin-right: px-to-rem(10px);
+      }
+
+      &.grayed {
+        border-color: $color-light-grey;
+        background-color: $color-light-grey;
+        color: $color-medium-gray;
+
+        i { -webkit-text-stroke-color: $color-medium-gray; }
+      }
+
+      .fa-filter {
+        margin-right: px-to-rem(8px);
+      }
+    }
+  }
+
+  div {
+    > .table-header {
+      padding-left: px-to-rem(40px);
+      font-size: px-to-rem(13.5px);
+      margin-left: unset;
+    }
+
+    > .not-collected {
+      @include status($pending-yellow);
+    }
+
+    > .collected {
+      @include status($collected-green);
+    }
+
+    > .cancelled {
+      @include status($color-red);
+    }
+
+    > .table-body {
+      border-radius: 3px;
+      font-size: px-to-rem(15px);
+      height: unset;
+      box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+
+      .table-row {
+        padding: 16px;
+        padding-left: px-to-rem(33px);
+        margin-left: unset;
+
+        &:hover {
+          background: $color-light-grey;
+          transition: all .5s ease-out;
+        }
+      }
+
+      .options-wrapper span {
+        font-size: px-to-rem(13.5px);
+        margin-left: unset;
+
+        > .arrow-down {
+          @include dropdown(4px, -6px 10px 0, $color-medium-gray)
+        }
+      }
+    }
+  }
+
+  .dropdown{
+        display: none;
+        position: absolute;
+        padding: 20px;
+        margin: 5px auto;
+        right: 0px;
+        border-radius: 3px;
+        background-color: $color-white;
+        box-shadow: 0 2px 10px 0 $color-dark-gray;
+        z-index: 5;
+        margin-right: 70px;
+
+        &.active {
+          display: block;
+        }
+
+        .input {
+          height: 36px;
+          width: 160px;
+          border: 1px solid $color-light-grey;
+          border-radius: 1px;
+          background-color: $color-white;
+          padding: 0px 10px;
+
+          &::placeholder {
+            color: $color-light-grey;
+            font-size: 14px;
+          }
+
+          &.btn {
+            background-color: $color-blue;
+            color: $color-white;
+            margin-bottom: 5px;
+            cursor: pointer;
+          }
+        }
+
+        .date-label {
+          display: block;
+          margin: 15px 0px;
+          color: $color-dark-gray;
+          font-size: 14px;
+        }
+
+        .actions {
+          display: flex;
+          color: $color-blue;
+          font-size: 14px;
+          line-height: 18px;
+
+          .action-item {
+            cursor: pointer;
+            margin-top: 10px;
+            &:last-child {
+              margin-left: auto;
+            }
+          }
+        }
+      }
+}

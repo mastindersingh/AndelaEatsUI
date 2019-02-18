@@ -1,0 +1,183 @@
+.side-nav {
+	height: 100%;
+	width: 120px;
+	background-color: #F4F8F9;
+	box-shadow: inset -1px 0 0 0 #DCDCDC;
+  position: fixed;
+}
+.side-nav-item-wrapper {
+	width: 110px;
+  background-color: #F4F8F9;
+  margin: 0;
+  padding: 0;
+  list-style-position: inside;
+  list-style-type: none;
+}
+
+.side-nav-item {
+	height: 150px;
+  width: 119px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 60px;
+  color: $color-medium-gray;
+  font-weight: 500;
+
+
+  &.active {
+    background-color: $color-white;
+    cursor: pointer;
+    color: $color-dark-gray;
+  }
+
+  &.active::before {
+    border-width: 10px;
+    border-right-color: $color-blue;
+    border-bottom-color: $color-blue;
+    color: $color-dark-gray;
+  }
+
+  &:hover {
+    background-color: $color-white;
+    cursor: pointer;
+    color: $color-dark-gray;
+  }
+  &:hover::after {
+    border-width: 10px;
+    border-right-color: $color-blue;
+    border-bottom-color: $color-blue;
+  }
+}
+
+.side-nav-item::before,
+.side-nav-item::after {
+  content: '';
+  position: absolute;
+  top: 87.05%;
+  right: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+.home {
+  background-image: url('../assets/images/home-icon@2x.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/active-home-icon@2x.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/active-home-icon@2x.png');
+  }
+}
+
+.order {
+  background-image: url('../assets/images/delivery-truck.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/active-delivery-truck.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/active-delivery-truck.png');
+  }
+}
+
+.vendors {
+  background-image: url('../assets/images/vendor.svg');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/active-vendor.svg');
+  }
+  &:hover {
+    background-image: url('../assets/images/active-vendor.svg');
+  }
+}
+
+.ratings {
+  background-image: url('../assets/images/rating.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/rating.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/rating.png');
+  }
+}
+
+.users {
+  background-image: url('../assets/images/add-user.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/add-user-active.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/add-user-active.png');
+  }
+}
+
+.engagements {
+  background-image: url('../assets/images/handshake.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/handshake.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/handshake.png');
+  }
+}
+
+.meals {
+  background-image: url('../assets/images/meals.svg');
+  background-repeat: no-repeat;
+  background-size: 40px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/active-meals.svg');
+  }
+  &:hover {
+    background-image: url('../assets/images/active-meals.svg');
+  }
+}
+
+.menus {
+  background-image: url('../assets/images/menus.svg');
+  background-repeat: no-repeat;
+  background-size: 33px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/active-menus.svg');
+  }
+  &:hover {
+    background-image: url('../assets/images/active-menus.svg');
+  }
+}
+
+.main-container {
+  margin-left: 150px;
+  width: calc(100% - 150px);
+
+  .section {
+    width: 90%;
+    margin: 50px auto;
+    min-width: 400px;
+  }
+}
+
+.push-down {
+  padding-top: 80px;
+}
+

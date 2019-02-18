@@ -1,0 +1,31 @@
+@import './variables';
+@import './mixins';
+@import './globals';
+@import './functions';
+
+@import './components/order';
+@import './components/login';
+@import './components/navbar';
+@import './components/sidenav';
+@import './components/mealcard';
+@import './components/orderhistory';
+@import './components/modal';
+@import './components/loader';
+@import './components/admin/vendors';
+@import './components/admin/orders';
+@import './components/admin/meals';
+@import './components/admin/menus';
+@import './components/admin/_engagements';
+@import './components/_tabs';
+@import './components/_ratings';
+@import './components/admin/_ratings';
+@import './components/admin/_users';
+
+button {
+    text-transform: uppercase;
+}
+
+:required:hover {
+    border: 1px solid red;
+    outline: none;
+  }

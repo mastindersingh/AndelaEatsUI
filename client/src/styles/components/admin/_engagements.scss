@@ -1,0 +1,64 @@
+.start-date {
+  margin-left: 17px;
+}
+
+.end-date {
+  margin-right: 80px;
+}
+
+.engagement-button {
+  flex: 0 0 auto;
+  box-sizing: border-box;	
+  height: 39px;	
+  width: auto;
+  border: 1px solid $color-blue;	
+  border-radius: 2px;	
+  background-color: $color-blue;
+  color: $color-white;	
+  font-family: "DINPro";	
+  font-size: 18px;	
+  line-height: 18px;
+}
+
+.edit {
+  color: $color-white;
+  font-family: "DINPro";
+  border: 0;
+  margin-right: 20px;
+  outline: none;
+  background: $color-yellow;
+  padding: 5px 15px;
+  text-transform: capitalize;
+  border-radius: 0.1875rem;
+  &--color {
+    cursor: pointer;
+
+    &:hover {
+      color: $color-yellow;
+      background: $color-white;
+      border: 1px solid $color-yellow;
+    }
+  }
+  &--disabled {
+    cursor: not-allowed;
+    color: $color-medium-gray;
+    background: $color-gray;
+  }
+}
+
+.delete-color {
+  background: $color-red;
+  padding: 5px 15px;
+  text-transform: capitalize;
+  border-radius: 0.1875rem;
+  color: $color-white;
+  font-family: "DINPro";
+  cursor: pointer;
+  border: 0;
+
+  &:hover {
+    color: $color-red;
+    background: $color-white;
+    border: 1px solid $color-red;
+  }
+}

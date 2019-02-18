@@ -1,0 +1,30 @@
+.tab-list {
+  border-bottom: 1px solid #ccc;
+  padding-left: 0px;
+}
+
+.tab-list-item {
+  display: inline-block;
+  list-style: none;
+  margin-bottom: -1px;
+  padding: 0.5rem 0.75rem;
+  margin-right: 3rem;
+  padding-right: 5rem;
+  cursor: pointer;
+  transition: border-bottom 0.2s
+}
+
+.tab-list-item:hover {
+  border-bottom: 1px solid $color-blue;
+}
+
+.tab-list-active {
+  color: $color-blue;
+  background: rgb(255, 255, 255);
+  border-width: 2px 1px 0px;
+  border-style: solid solid;
+  border-color: rgb(221, 221, 221) rgb(221, 221, 221);
+  border-image: initial;
+  border-top: 2px solid $color-blue;
+  border-bottom: 0px;
+}

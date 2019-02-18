@@ -1,0 +1,132 @@
+.grid-container {
+  display: grid;
+  height: inherit;
+  grid-template-columns: 40% auto;
+  background-color: $color-blue;
+  color: $color-white
+}
+
+a{
+  text-decoration: none;
+  color:$color-blue
+}
+
+.main-wrapper {
+  overflow: hidden;
+}
+
+.login-input-frame {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-blue;
+  height: 100%;
+  padding-left: 50px;
+  align-content: center;
+}
+
+.logo-container {
+  flex: 0 0 25%;
+  display: flex;
+  align-items: center;
+}
+
+.logo-name {
+  font-size: 30px;
+  font-weight: 600;
+  padding-left: 15px;
+  padding-top: 10px;
+}
+
+.login-picture-frame {
+  background-image: url('./../assets/images/side_image.jpg');
+  background-size: cover;
+}
+
+.login-page-caption {
+  flex: 0 0 40%;
+  font-size: 3rem;
+  font-weight: 300;
+  text-align: justify;
+  padding-top: 90px;
+}
+
+.action-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-button {
+  height: 50px;
+  background-color: #fff;
+  color: $color-blue;
+  width: 224px;
+  padding: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 40px;
+  text-align: center;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+  display: block;
+}
+
+.select-button {
+  color: $color-blue;
+  width: 275px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 40px;
+  text-align: center;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+
+.google-button {
+  flex: 1 1 auto;
+  display: flex;
+}
+
+.google-img {
+  height: 50px;
+  width: 50px;
+  margin-right: 1px;
+  padding: 16px;
+  background-color: #fff;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  cursor: pointer;
+}
+
+.google-img > img {
+  height: 18px;
+  width: 18px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  body {
+    overflow: hidden;
+  }
+
+  .login-input-frame {
+    padding-left: 25px;
+  }
+  .login-page-caption {
+    font-size: 2.5rem;
+  }
+  .login-picture-frame {
+    display: none;
+  }
+  .grid-container {
+    grid-template-columns: 100%;
+  }
+} 
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+} 

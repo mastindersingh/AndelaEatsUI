@@ -1,0 +1,218 @@
+.vendors-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.vendors-header {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+
+.vendor-menu {
+  flex: 1 1 auto;
+  height: 27px;	
+  width: 53px;	
+  color: $color-blue;	
+  font-family: "DINPro";	
+  font-size: 21px;	
+  font-weight: 500;	
+  line-height: 27px;
+}
+
+.vendor-button {
+  flex: 0 0 auto;
+  box-sizing: border-box;	
+  height: 39px;	
+  width: 131px;	
+  border: 1px solid $color-blue;	
+  border-radius: 2px;	
+  background-color: $color-blue;
+  color: $color-white;	
+  font-family: "DINPro";	
+  font-size: 18px;	
+  line-height: 18px;
+}
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .empty-content {
+    margin-top: 10%;
+  }
+}
+
+.table-body {
+  background-color: #fff;
+  border-radius: 2px;
+  font-size: 13px;
+  color: #333E44;
+  margin-bottom: 5px;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+
+  .table-row {
+    padding: 15px;
+
+    &:hover {
+      background: $color-light-grey;
+      transition: all .5s ease-out;
+    }
+  }
+
+}
+
+.row-content {
+  display: flex;
+  flex-direction: column;
+
+  span {
+    font-size: 13px;
+    color: #ccc;
+    margin-top: 5px;
+  }
+}
+
+.table-header {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+  color: $color-white;
+  background: $color-blue;
+  margin-bottom: 10px;
+  width: 100%;
+  font-size: 13px;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+}
+
+.table-align {
+  margin-left: 0px;
+}
+
+.options-wrapper {
+
+  .edit-vendor {
+    margin-left: 12px;
+    color: $color-white;
+    background: $color-yellow;
+    padding: 5px 15px;
+    border-radius: 0.1875rem;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-yellow;
+      background: $color-white;
+      border: 1px solid $color-yellow;
+    }
+  }
+
+  .suspend-vendor {
+    margin-left: 12px;
+    color: $color-white;
+    background: $color-red;
+    padding: 5px 15px;
+    border-radius: 0.1875rem;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-red;
+      background: $color-white;
+      border: 1px solid $color-red;
+    }
+  }
+}
+
+.custom-row {
+  display: flex;
+}
+
+.body-content {
+  background-color: #f9f9f9;
+  display: flex;
+  padding: 15px;
+  margin: 3px 0;
+  border: solid 1px #dddddd;
+  justify-content: space-between;
+  color: #747474;
+  font-size: 13px;
+  box-shadow: 0 20px 80px 4px rgba(0, 0, 0, 0.02);
+  padding: 15px;
+  transition: 0.3s;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 15px;
+  }
+
+  &:active {
+    border-color: rgba(51, 89, 223, 0.2);
+  }
+
+  &:hover {
+    border: 1px solid rgba(51, 89, 223, 0.2);
+    box-shadow: 0 10px 30px 7px rgba(77, 14, 33, 0.08);
+    z-index: 2;
+  }
+}
+
+
+/* Delete Vendor */
+#delete-vendor-modal {
+  .modal-content{
+    width: 95%;
+    max-width: px-to-rem(420px);
+  }
+}
+
+/* Add Vendor */
+#add-vendor-modal {
+  .modal-header {
+    .close-icon {
+      margin-top: 5px;
+    }
+  }
+
+  .modal-content{
+    width: 95%;
+    max-width: px-to-rem(420px);
+    top: 14%;
+    
+    .form-field-set {
+      display: block;
+      margin-bottom: 20px;
+      
+      label {
+        @include field-label();
+        font-size: 16px;
+        color: #333E44;
+  
+        input {
+          @include field-input();
+          margin-top: 2px;
+        }
+      }
+    }
+
+    .form-error {
+      color: red;
+      font-size: 12px;
+    }
+  }
+
+  @media only screen and (max-width: 640px) {
+    .modal-content {
+      width: 60%;
+    }
+  }
+  
+  @media only screen and (min-width: 641px) and (max-width: 1007px) {
+    .modal-content {
+      width: 50%;
+    }
+  }
+}

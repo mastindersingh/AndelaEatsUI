@@ -1,0 +1,298 @@
+#add-meal-modal {
+  .modal-content{
+    width: 95%;
+    max-width: px-to-rem(486px);
+    top: 14%;
+    margin-bottom: 50px;
+    font-family: $font-family-opensans;
+
+    .modal-header {
+      .close-icon {
+        margin-top: 4px;
+      }
+    }
+
+    main {
+      div:nth-child(1) {
+        font-size: 15px;
+        font-weight: 100;
+
+        a { text-decoration: underline;}
+      }
+
+      .err-invalid {
+        display: inline-block;
+        font-size: 12px;
+        color: $color-red;
+        margin-left: 8px;
+      }
+
+      .image {
+        display: block;
+        margin: 5px auto 20px;
+        height: 201px;
+        font-weight: 300;
+        background: #f7f7f7;
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
+
+        .control {
+          margin-top: 13%;
+          text-align: center;
+          
+          button {
+            @include circled-btn(
+              50px,
+              $color-light-blue,
+              white,
+              px-to-rem(22px)
+            );
+          }
+          
+          span {
+            display: block;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 300;
+            color: $color-light-blue;
+
+            &.error {
+              color: $color-red;
+            }
+          }
+        }
+      }
+
+      .preview {
+        display: block;
+        margin: 5px auto 20px;
+        width: 100%;
+        height: 201px;
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          min-height: 201px;
+        }
+      }
+
+      .two-col-wrap {
+        .column {
+          label {
+            @include field-label();
+          }
+
+          input {
+            @include field-input();
+            margin-top: 8px;
+          }
+
+          select {
+            @include field-select();
+            margin-top: 8px;
+          }
+        }
+      }
+
+      .form-field-set {
+        display: block;
+        margin-bottom: 20px;
+        
+        label {
+          @include field-label();
+          font-size: 16px;
+          color: #333E44;
+        }
+    
+        input {
+          @include field-input();
+          margin-top: 2px;
+        }
+      }
+    }
+
+    .modal-footer {
+      .loader-wheel {
+        display: inline-block;
+        margin: 8px 40px 0 0;
+      }
+    }
+  }
+}
+
+#admin-meals {
+  display: block;
+  overflow: hidden;
+
+  header {
+    all: unset;
+
+    div {
+      display: block;
+      overflow: hidden;
+      width: 100%;
+      margin: 0 0 px-to-rem(30px) 0;
+
+      .title {
+        @include title-text(
+          px-to-rem(6px) 0 0
+        );
+        color: $color-blue;
+        padding: 0px;
+      }
+
+      button {
+        @include buttons(
+          $color-blue,
+          $color-white,
+          px-to-rem(7px) px-to-rem(18px),
+          px-to-rem(17px),
+          1px solid $color-blue
+        );
+
+        font-family: 'Open Sans', $font-family-pro;
+        font-weight: 300;
+      }
+    }
+  }
+
+  main {
+    ul {
+      &.pagination {
+        margin-left: 24px;
+      }
+    }
+  
+    div {
+      display: block;
+
+      .empty-content {
+        margin-top: 10%;
+      }
+
+      .meal-card {
+        display: inline-block;
+        overflow: hidden;
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+        width: 90%;
+        margin: 0 2% px-to-rem(30px) 0;
+        height: px-to-rem(265px);
+        border-radius: px-to-rem(2px);
+        transition: box-shadow .2s;
+        background: white;
+
+        &:hover {
+          box-shadow: px-to-rem(3px) px-to-rem(3px) px-to-rem(5px) $color-light-grey;
+        }
+
+        .image {
+          display: block;
+          width: 100%;
+          height: px-to-rem(130px);
+          background-repeat: no-repeat; 
+          background-size: cover; 
+        }
+
+        .label-container{
+          display: block;
+          position: relative;
+
+          span {
+            display: inline-block;
+            position: absolute;
+            right: 5%;
+            top: px-to-rem(-12px);
+            font-size: px-to-rem(11px);
+            background: #48aaaf;
+            color: white;
+            padding: px-to-rem(3px) px-to-rem(15px) px-to-rem(4px);
+            font-weight: 100;
+            border-radius: px-to-rem(50px);
+            text-transform: capitalize;
+          }
+        }
+
+        .details {
+          display: block;
+          width: 85%;
+          margin: px-to-rem(20px) auto 0;
+
+          div:nth-child(1) {
+            font-size: px-to-rem(18px);
+            color: #272727;
+            font-weight: 100;
+            margin-bottom: px-to-rem(15px);
+            padding-bottom: px-to-rem(30px); 
+            border-bottom: px-to-rem(2px) solid $color-blue;
+          }
+
+          .controls {
+            float: right;
+
+            button {
+              display: inline-block;
+              font-size: px-to-rem(11px);
+              padding: px-to-rem(3px) px-to-rem(15px);
+              font-weight: 100;
+              cursor: pointer;
+              outline: none !important;
+              border-radius: px-to-rem(3px);
+              margin-right: px-to-rem(10px);
+            }
+
+            .edit-meal-item {
+              color: $color-white;
+              background: $color-yellow;
+              border: 1px solid $color-yellow;
+
+              &:hover {
+                color: $color-yellow;
+                background: $color-white;
+              }
+            }
+
+            .delete-meal-item {
+              color: $color-white;
+              background: $color-red;
+              border: 1px solid $color-red;
+
+              &:hover {
+                color: $color-red;
+                background: $color-white;
+              }
+            }
+          }
+        }
+
+        @media all and (min-width: px-to-rem(567px)) and (max-width: px-to-rem(991px)) {
+          width: 45%;
+        }
+
+        @media all and (min-width: px-to-rem(992px)) and (max-width: px-to-rem(1190px)) {
+          width: 28%;
+          margin: 0 2.6% px-to-rem(30px);
+        }
+
+        @media all and (min-width: px-to-rem(1200px)) {
+          width: 22.5%;
+        }
+      }
+    }
+  }
+}
+
+/* Delete Meal */
+#delete-meal-modal {
+  .modal-content{
+    width: 95%;
+    max-width: px-to-rem(420px);
+  }
+  .modal-footer {
+    .loader-wheel {
+      display: inline-block;
+      margin: 5px 40px 0 0;
+    }
+  }
+}
