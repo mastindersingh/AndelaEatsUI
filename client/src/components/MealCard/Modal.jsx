@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import EditOrder from '../EditOrder/EditOrder';
-
 const Modal = ({
   displayModal,
   closeModal,
@@ -9,7 +8,6 @@ const Modal = ({
   modalContent,
   modalTitle,
   tapOrder,
-  editOrder,
   edit,
 }) => (
   <div
@@ -42,15 +40,8 @@ const Modal = ({
                     className="fill upper delete-order"
                     onClick={() => tapOrder(modalContent)}
                   >
-                    Collects
-                  </button>) : modalTitle === 'Edit Order' ? (
-                    <button
-                      type="button"
-                      className="fill upper delete-order"
-                      onClick={() => editOrder(modalContent.id)}
-                    >
-                    Edit
-                    </button>) :
+                    Collect
+                  </button>) : 
                     (
                       <button
                       type="button"

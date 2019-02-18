@@ -314,7 +314,6 @@ export class Menus extends Component {
   }
 
   render() {
-    console.log(this.props, 'props.menus');
 
     return (
       <React.Fragment>

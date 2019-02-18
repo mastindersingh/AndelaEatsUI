@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isFuture } from 'date-fns';
-import { Link } from 'react-router-dom';
 
 
 const NotCollectedAction = ({
@@ -18,20 +17,16 @@ const NotCollectedAction = ({
         {isFuture(new Date(meal.dateBookedFor))
           ? (
             <React.Fragment>
-              <Link
-                to={{
-                  pathname:`/orders/edit/${meal.id}/${meal.dateBookedFor}`,
-                  date: meal.dateBookedFor,
-                }}
+              <a
                 className="button test rate-button"
                 tabIndex="0"
+                onClick={() => showModal(meal, 'Delete Order', edit=true)}
               > Edit
-              </Link>
+              </a>
               <a
                 className="button test"
-                role="button"
                 tabIndex="0"
-                onClick={() => showModal(meal, 'Delete Order', edit=false)}
+                onClick={() => showModal(meal, 'Delete Order')}
               > Delete
               </a>
             </React.Fragment>
@@ -41,7 +36,7 @@ const NotCollectedAction = ({
               className="button test rate-button"
               role="button"
               tabIndex="0"
-              onClick={() => showModal(meal, 'Collect Order', edit=false)}
+              onClick={() => showModal(meal, 'Collect Order')}
             > Collect
             </a>
           )

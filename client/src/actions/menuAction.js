@@ -121,7 +121,10 @@ export const fetchMenu = (startDate, endDate) => dispatch => {
 
   return axios.get(`/menus/lunch/${startDate}/${endDate}`)
     .then(response => {
-      dispatch(fetchMenuSuccess(response.data.payload.menuList));
+      const menuList = response.data.payload.menuList.reduce((accu, curr) => {
+        return [...accu, ...curr.menus]
+      }, []);
+      dispatch(fetchMenuSuccess(menuList));
       dispatch(fetchMenuLoading(false));
     })
     .catch(error => {

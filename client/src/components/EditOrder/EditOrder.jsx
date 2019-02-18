@@ -1,12 +1,15 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import { format } from "date-fns";
-import PropType from "prop-types";
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { format, addDays, subDays } from 'date-fns';
+import PropType from 'prop-types';
 import { ToastContainer } from 'react-toastify';
 
-import { editOrder, updateOrder } from "../../actions/ordersAction";
-import MealOptions from "./MealOptions";
+import { editOrder, updateOrder } from '../../actions/ordersAction';
+import MealOptions from './MealOptions';
 import Loader from '../common/Loader/Loader';
+import ConfirmModal from '../Order/ConfirmOrder';
+
+import { fetchMenu } from '../../actions/menuAction';
 
 /**
  *
@@ -16,95 +19,151 @@ import Loader from '../common/Loader/Loader';
  */
 export class EditOrder extends Component {
   state = {
-    main: "",
-    firstAccompaniment: "",
-    secondAccompaniment: "Cake"
+    main: '',
+    firstAccompaniment: '',
+    secondAccompaniment: 'Cake',
+    menu: { mainMeal: [], proteinItems: [], sideItems: [] },
+    filteredMenus: [],
+    showModal: false
   };
 
   componentDidMount() {
-    const { id } = this.props.match.params;
-    this.props.editOrder(id);
+    const menuStartDate = format(subDays(new Date(), 30), 'YYYY-MM-DD');
+    const menuEndDate = format(addDays(new Date(), 5), 'YYYY-MM-DD');
+    this.props.fetchMenu(menuStartDate, menuEndDate).then(() => {
+      this.handlesetState();
+    });
+  }
 
-    if (this.props.location.query) {
-      const { mainMeal, protein } = this.props.location.query;
-
-      this.setState({
-        main: mainMeal,
-        firstAccompaniment: protein
-      })
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.menus !== prevProps.menus ||
+      this.props.meal !== prevProps.meal
+    ) {
+      this.handlesetState();
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.order) {
-      const { main, firstAccompaniment, secondAccompaniment } = nextProps.order.orderData;
+  handlesetState = () => {
+    const filteredMenus =
+      this.props.meal !== null
+        ? this.props.menus.filter(
+            item => item.date === this.props.meal.dateBookedFor
+          )
+        : [];
+    const menu =
+      this.props.meal !== null
+        ? this.props.menus.filter(item => item.id === this.props.meal.menuId)[0]
+        : { mainMeal: [], proteinItems: [], sideItems: [] };
+    this.setState({
+      menu,
+      filteredMenus,
+      main: this.props.meal ? this.props.meal.mealItems.filter(item => item.meal_type === 'main')[0].name : '',
+      firstAccompaniment: this.props.meal
+        ? this.props.meal.mealItems.filter(item => item.meal_type === 'side')[0].name
+        : '',
+      secondAccompaniment: this.props.meal
+        ? this.props.meal.mealItems.filter(item => item.meal_type === 'protein')[0].name
+        : ''
+    });
+  };
+  handleOptionChange = event => {
+    if (event.target.name === 'main') {
+      const menu = this.props.menus.filter(
+        item => item.mainMeal.name === event.target.value
+      );
       this.setState({
-        main,
-        firstAccompaniment,
-        secondAccompaniment
+        menu: menu[0]
       });
     }
-  }
 
-  handleOptionChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     });
   };
 
-  handleFormSubmit = event => {
-    event.preventDefault();
-
-    const { main, firstAccompaniment, secondAccompaniment } = this.state;
-
-    const orderData = {
-      main,
-      firstAccompaniment,
-      secondAccompaniment
-    }
-
-    this.props.updateOrder(orderData)
+  handleModalDisplay = () => {
+    this.setState(prevState => {
+      return {
+        showModal: !prevState.showModal
+      };
+    });
   };
-  
-  isDisabled = () => {
-    if (this.props.location.query) {
-      const { mainMeal, protein } = this.props.location.query;
-      const { main, firstAccompaniment } = this.state;
-      return mainMeal === main && protein === firstAccompaniment;
-    }
-  }
+  handleFormSubmit = () => {
+    const { firstAccompaniment, secondAccompaniment, menu } = this.state;
+    const mealProtein = this.state.menu.proteinItems.filter(
+      item => item.name === secondAccompaniment
+    )[0];
+    const mealSide = this.state.menu.sideItems.filter(
+      item => item.name === firstAccompaniment
+    )[0];
+    const { dateBookedFor, id, channel, mealPeriod } = this.props.meal;
+    const orderData = {
+      dateBookedFor: format(dateBookedFor, 'YYYY-MM-DD'),
+      channel,
+      mealItems: [mealProtein.id, mealSide.id, menu.mainMeal.id],
+      mealPeriod,
+      menuId: this.state.menu.id
+    };
+
+    this.props.updateOrder(orderData, id).then(() => {
+      this.props.closeModal();
+      this.handleModalDisplay();
+    });
+  };
 
   render() {
-    const {
-      main,
-      firstAccompaniment,
-      secondAccompaniment,
-    } = this.props.menu.meal;
-    
-    const { isLoading } = this.props;
+    const menuOptions = this.state.filteredMenus.map(menu => ({
+      id: menu.mainMeal.id,
+      mealPicture: menu.mainMeal.image,
+      meal: menu.mainMeal.name
+    }));
+    const proteinOptions = this.state.menu.proteinItems.map(item => ({
+      id: item.id,
+      mealPicture: item.image,
+      meal: item.name
+    }));
+    const sideOptions = this.state.menu.sideItems.map(item => ({
+      id: item.id,
+      mealPicture: item.image,
+      meal: item.name
+    }));
 
+    const { isLoading, meal } = this.props;
+    const bookingDate = meal ? meal.dateBooked : '';
+    const collectionDate = meal ? meal.dateBookedFor : '';
     return (
       <Fragment>
-        { isLoading && <Loader />}
+        {isLoading && <Loader />}
         <div className={`wrapper ${isLoading && 'blurred'}`}>
           <div className="orders-wrapper">
-            <h3>Edit Order</h3>
-            <ToastContainer />
             <div className="orders-container">
               <div className="date-wrapper">
-                <h3>{format(Date.now(), "MMMM YYYY")}</h3>
-                <ul>
-                  <li className="active">
-                    {format(this.props.menu.date, "dddd Do")}
-                  </li>
-                </ul>
+                <div className="booking-date">
+                  <h3>Date Booked</h3>
+                  <h4>
+                    {`${format(Date.now(), 'MMMM YYYY')} ${format(
+                      bookingDate,
+                      'dddd Do'
+                    )}`}
+                  </h4>
+                </div>
+                <div>
+                  <h3>Collection Date</h3>
+                  <h4>
+                    {`${format(Date.now(), 'MMMM YYYY')} ${format(
+                      collectionDate,
+                      'dddd Do'
+                    )}`}
+                  </h4>
+                </div>
               </div>
               <div className="menu-wrapper">
                 <div className="menus-container">
                   <div className="main-meal">
                     <h3>Main Meal</h3>
                     <ul>
-                      {main.map(meal => (
+                      {menuOptions.map(meal => (
                         <MealOptions
                           key={meal.id}
                           name="main"
@@ -114,9 +173,9 @@ export class EditOrder extends Component {
                         />
                       ))}
                     </ul>
-                    <h3>Accompaniment 1</h3>
+                    <h3>Side Meal</h3>
                     <ul>
-                      {firstAccompaniment.map(meal => (
+                      {sideOptions.map(meal => (
                         <MealOptions
                           key={meal.id}
                           name="firstAccompaniment"
@@ -126,9 +185,9 @@ export class EditOrder extends Component {
                         />
                       ))}
                     </ul>
-                    <h3>Accompaniment 2</h3>
+                    <h3>Protein Meal</h3>
                     <ul>
-                      {secondAccompaniment.map(meal => (
+                      {proteinOptions.map(meal => (
                         <MealOptions
                           key={meal.id}
                           name="secondAccompaniment"
@@ -144,17 +203,27 @@ export class EditOrder extends Component {
                     <div className="float-right">
                       <div
                         className="btn reset-order"
-                        onClick={() => this.props.history.push("/orders")}
+                        onClick={this.props.closeModal}
                       >
                         cancel
                       </div>
                       <button
-                        className={!this.isDisabled() ? "btn submit-order" : 'btn isDisabled'}
+                        className="btn submit-order"
                         type="submit"
-                        onClick={this.handleFormSubmit}
+                        onClick={this.handleModalDisplay}
                       >
                         save changes
                       </button>
+                      <ConfirmModal
+                        menuId={this.state.menu.id}
+                        menus={this.state.filteredMenus}
+                        menu={this.state.menu}
+                        toggleModal={this.handleModalDisplay}
+                        isModalOpen={this.state.showModal}
+                        proteinItem={this.state.secondAccompaniment}
+                        sideItem={this.state.firstAccompaniment}
+                        updateOrder={this.handleFormSubmit}
+                      />
                     </div>
                   </div>
                 </div>
@@ -183,14 +252,14 @@ EditOrder.propTypes = {
  * @returns {object} menus
  */
 function mapStateToProps(state) {
-  return { 
-    menu: state.orders.menu, 
+  return {
     order: state.orders.order,
-    isLoading: state.orders.isLoading
+    isLoading: state.orders.isLoading,
+    menus: state.upcomingMenus.menus
   };
 }
 
 export default connect(
   mapStateToProps,
-  { editOrder, updateOrder }
+  { editOrder, updateOrder, fetchMenu }
 )(EditOrder);

@@ -7,6 +7,7 @@ import DatePicker from 'react-date-picker';
 import { format, addDays } from "date-fns";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from 'moment';
 
 import MealCard from '../MealCard/MealCard';
 import Modal from '../MealCard/Modal';
@@ -24,6 +25,10 @@ import {
   createRating,
   collectOrder
 } from '../../actions/ordersAction';
+
+import {
+  fetchMenus,
+} from '../../actions/admin/menuItemsAction';
 
 import { validateDate } from '../../helpers/dateFormatter';
 import { fetchMenus } from '../../actions/admin/menuItemsAction';
@@ -53,6 +58,8 @@ export class Orders extends Component {
       newRating: 0,
       modalTitle: '',
       editOrder: false,
+      startDate: moment(),
+      endDate: moment().add(3, 'days'),
     };
     
 
@@ -76,8 +83,12 @@ export class Orders extends Component {
    
     const startDate = format(start, 'YYYY-MM-DD');
     const endDate = format(end, 'YYYY-MM-DD');
+
+    const menuStartDate = format(new Date, 'YYYY-MM-DD');
+    const menuEndDate = format(addDays(new Date, 5), 'YYYY-MM-DD');
+
     this.props.fetchOrders(startDate, endDate);
-    this.props.fetchMenus(startDate, endDate);
+    this.props.fetchMenus(menuStartDate, menuEndDate);
   }
 
   
@@ -239,14 +250,6 @@ export class Orders extends Component {
   }
 
   /**
-   * Edits an order
-   */
-  editOrder = () => {
-    console.log('I am editing');
-
-  };
-
-  /**
    * Hide modal
    *
    * @memberof Orders
@@ -279,7 +282,6 @@ export class Orders extends Component {
    * Change ratings stars
    *
    * @memberof Orders
-   *
    * @returns {void}
    */
   ratingChanged = newRating => {
@@ -524,11 +526,18 @@ Orders.defaultProps = {
 
 const mapStateToProps = state => ({
   orders: state.orders,
+<<<<<<< HEAD
   menu: state.menus,
 });
 
 const actionCreators = {
   fetchOrders, filterOrders, deleteOrder, createRating, collectOrder,fetchMenus
+=======
+});
+
+const actionCreators = {
+  fetchOrders, filterOrders, deleteOrder, createRating, collectOrder, fetchMenus
+>>>>>>> feat(edit-order): implement editing an order
 };
 
 export default connect(mapStateToProps, actionCreators)(Orders);
