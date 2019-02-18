@@ -117,6 +117,11 @@ $filter-btn-style: (
         padding: 16px;
         padding-left: px-to-rem(33px);
         margin-left: unset;
+
+        &:hover {
+          background: $color-light-grey;
+          transition: all .5s ease-out;
+        }
       }
 
       .options-wrapper span {
