@@ -41,10 +41,17 @@
   padding: 10px 10px;
   margin-bottom: 10px;
   box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+
+  &:hover {
+    background: $color-light-grey;
+    transition: all .5s ease-out;
+  }
 }
+
 .rating-modal-header {
   display: flex;
   justify-content: space-between;
+
   .header-title{
     height: 28px;
     color: $color-blue;
@@ -61,6 +68,7 @@
   display: flex;
   height: auto;
   flex-direction: column;
+
   .selected-foods {
     display: flex;
     margin-bottom: 30px;
@@ -70,6 +78,7 @@
       width: 270px;
       border: solid 1px $color-light-gray;
       border-radius: 5px;
+
       .food-img {
         flex: 0 0 70px;
         height: 70px;
@@ -83,6 +92,7 @@
         flex: 1 1 auto;
         align-self: center;
         padding-left: 10px;
+
         .text {
           color: $color-dark-gray;
           font-weight: 600;
@@ -91,6 +101,7 @@
           margin-right: 5px;
         }
       }
+
       .food-rating-spacer {
         flex: 0 0 70px;
       }
@@ -102,6 +113,7 @@
   margin-top: 20px;
   margin-bottom: 20px;
   padding-left: 36%;
+
   .text {
     font-size: 13px;
     color: $color-medium-gray;
@@ -116,10 +128,12 @@
 }
 
 .comment-area {
+
   .text {
     color: $color-medium-gray;
     padding-bottom: 5px;
   }
+
   .comment-textarea {
     width: 100%;
     height: 70px;
@@ -165,15 +179,18 @@
 .right-spacer {
   margin-right: 30px;
 }
+
 .comment-count {
   font-size: 13px;
   color: $color-blue;
 }
+
 .rating-modal-comment-area {
   background-color: $color-light-gray;
   padding: 30px;
   height: 150px;
 }
+
 .user-comment-area {
   display: flex;
 
@@ -184,6 +201,7 @@
     width: 40px;
     background-color: $color-dark-gray;
   }
+
   .user-comment {
     margin-left: 20px;
 
@@ -194,6 +212,7 @@
       padding-bottom: 10px;
       color: $color-dark-gray;
     }
+
     .user-comment-text {
       color: $color-medium-gray;
     }
