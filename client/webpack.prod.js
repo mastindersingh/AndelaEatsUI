@@ -18,7 +18,5 @@ module.exports = merge(webpackCommonConfig, {
   devServer: {
     historyApiFallback: true,
     hot: true,
-    publicPath: 'https://feed-staging.andela.com/',
-    overlay: true,
   }
 });
