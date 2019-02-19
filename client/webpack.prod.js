@@ -15,4 +15,10 @@ module.exports = merge(webpackCommonConfig, {
     new webpack.EnvironmentPlugin({ NODE_ENV: 'production' }),
   ],
   devtool: "source-map",
+  devServer: {
+    historyApiFallback: true,
+    hot: true,
+    publicPath: 'https://feed-staging.andela.com/',
+    overlay: true,
+  }
 });

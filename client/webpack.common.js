@@ -7,13 +7,13 @@ module.exports = {
   context: __dirname,
   devtool: 'inline-source-map',
   entry: [
-    path.resolve(__dirname, './src/index')
+    path.resolve(__dirname, './src/index.js')
   ],
   target: 'web',
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'js/bundle.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   node: {
     fs: 'empty'
@@ -60,6 +60,10 @@ module.exports = {
         }
       }
     ]
+  },
+  devServer: {
+    historyApiFallback: true,
+    hot: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
