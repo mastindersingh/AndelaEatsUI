@@ -69,4 +69,7 @@ module.exports = {
     }),
     new ExtractTextPlugin("css/bundle.css")
   ],
+  devServer: {
+    historyApiFallback: true,
+  }
 };

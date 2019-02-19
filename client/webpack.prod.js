@@ -11,7 +11,6 @@ module.exports = merge(webpackCommonConfig, {
       },
       minimize: true,
       sourceMap: true,
-      historyApiFallback: true,
     }),
     new webpack.EnvironmentPlugin({ NODE_ENV: 'production' }),
   ],
