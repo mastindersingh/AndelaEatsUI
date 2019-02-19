@@ -10,13 +10,9 @@ module.exports = merge(webpackCommonConfig, {
         warnings: false
       },
       minimize: true,
-      sourceMap: true
+      sourceMap: true,
+      historyApiFallback: true,
     }),
     new webpack.EnvironmentPlugin({ NODE_ENV: 'production' }),
   ],
-  devtool: "source-map",
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-  }
 });
