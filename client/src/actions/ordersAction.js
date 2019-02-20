@@ -193,7 +193,7 @@ export const createRating = ratingDetails => dispatch => {
 
   return axios(options)
     .then((response) => {
-      const { msg: message, payload: { rating  } } = response.data;
+      const { msg: message, payload: { rating } } = response.data;
       dispatch(createRatingSuccess(rating ));
       dispatch(createRatingLoading(false));
     })

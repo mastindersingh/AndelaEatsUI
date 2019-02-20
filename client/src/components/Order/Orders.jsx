@@ -52,6 +52,7 @@ export class Orders extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props, '>>>>')
     const startDate = format(new Date, 'YYYY-MM-DD');
     const endDate = format(addDays(new Date, 10), 'YYYY-MM-DD');
 
