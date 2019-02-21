@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { format, addDays } from "date-fns";
-import { toast, ToastContainer } from "react-toastify";
-import { Route, NavLink } from "react-router-dom";
-import PropType from "prop-types";
-import moment from 'moment'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { format, addDays } from 'date-fns';
+import { toast, ToastContainer } from 'react-toastify';
+import { Route, NavLink } from 'react-router-dom';
+import PropType from 'prop-types';
+import moment from 'moment';
 
-import Menus from "./Menus";
+import Menus from './Menus';
 import MenuTable from '../Admin/Menus/MenuTable';
 
 import {
@@ -16,16 +16,16 @@ import {
   fetchMenu,
   fetchUserOrders,
   createOrder
-} from "../../actions/menuAction";
+} from '../../actions/menuAction';
 import {
   fetchMenus as fetchAdminMenu,
-  fetchVendorEngagements,
+  fetchVendorEngagements
 } from '../../actions/admin/menuItemsAction';
-import { canOrderMeal, validateDate, endDate } from "../../helpers/mealsHelper";
-import ConfirmOrder from "./ConfirmOrder";
-import Loader from "../common/Loader/Loader";
-import { updateOrder } from "../../actions/ordersAction";
-import { formatDate } from "../../helpers/formatMealItems";
+import { canOrderMeal, validateDate, endDate } from '../../helpers/mealsHelper';
+import ConfirmOrder from './ConfirmOrder';
+import Loader from '../common/Loader/Loader';
+import { updateOrder } from '../../actions/ordersAction';
+import { formatDate } from '../../helpers/formatMealItems';
 
 /**
  *
@@ -47,27 +47,30 @@ export class Orders extends Component {
       selectedMenu: '',
       menuListId: '',
       startDate: moment(),
-      endDate: moment().add(3, 'days'),
+      endDate: moment().add(3, 'days')
     };
   }
 
   componentDidMount() {
-    const startDate = format(new Date, 'YYYY-MM-DD');
-    const endDate = format(addDays(new Date, 10), 'YYYY-MM-DD');
+    const startDate = format(new Date(), 'YYYY-MM-DD');
+    const endDate = format(addDays(new Date(), 10), 'YYYY-MM-DD');
 
     this.props.fetchMenu(startDate, endDate).then(() => {
       this.props.fetchUserOrders(startDate, endDate);
       this.selectDefaultMenu();
-      this.props.fetchAdminMenu(formatDate(this.state.startDate), formatDate(this.state.endDate))
+      this.props.fetchAdminMenu(
+        formatDate(this.state.startDate),
+        formatDate(this.state.endDate)
+      );
       this.props.fetchVendorEngagements();
-    })
+    });
   }
 
   selectMenuListId = id => {
     this.setState({
       menuListId: id
-    })
-  }
+    });
+  };
 
   showToast = () => {
     toast.success(this.props.message, {
@@ -76,8 +79,16 @@ export class Orders extends Component {
   };
 
   toggleModal = menuId => {
-    const { firstAccompaniment, secondAccompaniment, mainMeal } = this.props.mealSelected;
-    if (firstAccompaniment !== "" && secondAccompaniment !== "" && mainMeal !== "") {
+    const {
+      firstAccompaniment,
+      secondAccompaniment,
+      mainMeal
+    } = this.props.mealSelected;
+    if (
+      firstAccompaniment !== '' &&
+      secondAccompaniment !== '' &&
+      mainMeal !== ''
+    ) {
       this.setState(state => ({
         isModalOpen: !state.isModalOpen,
         menuId
@@ -88,8 +99,8 @@ export class Orders extends Component {
   setSelectedMenu = id => {
     this.setState({
       selectedMenu: id
-    })
-  }
+    });
+  };
 
   selectDefaultMenu() {
     const selectedMeal = this.props.userMenus.find(
@@ -107,7 +118,7 @@ export class Orders extends Component {
    * @memberof Orders
    */
   renderDates() {
-    const { userMenus } = this.props
+    const { userMenus } = this.props;
     if (userMenus) {
       return userMenus.map(
         menuDate =>
@@ -115,19 +126,19 @@ export class Orders extends Component {
             <li
               onClick={() => this.props.resetMenu()}
               key={menuDate.date}
-              className={canOrderMeal(menuDate) ? "dates" : "dates-disable"}
+              className={canOrderMeal(menuDate) ? 'dates' : 'dates-disable'}
             >
               <NavLink
                 activeClassName={
-                  canOrderMeal(menuDate) ? "active" : "isDisabled"
+                  canOrderMeal(menuDate) ? 'active' : 'isDisabled'
                 }
                 to={
                   canOrderMeal(menuDate)
                     ? `${this.props.match.url}/${menuDate.date}`
-                    : "#"
+                    : '#'
                 }
               >
-                {format(menuDate.date, "dddd Do")}
+                {format(menuDate.date, 'dddd Do')}
               </NavLink>
               <div className="border-circle" />
             </li>
@@ -151,20 +162,19 @@ export class Orders extends Component {
       createOrder //eslint-disable-line
     } = this.props;
 
-
     const { selectedMenu, menuListId } = this.state;
-    
+
     return (
       <div className="wrapper">
         {isLoading ? (
           <Loader />
         ) : (
           <div className="orders-wrapper">
-            <MenuTable menus={this.props.menus} preview/>
+            <MenuTable menus={this.props.menus} preview />
             <h3 className="card-header">Place Your Order</h3>
             <div className="orders-container">
               <div className="date-wrapper">
-                <h3>{format(Date.now(), "MMMM YYYY")}</h3>
+                <h3>{format(Date.now(), 'MMMM YYYY')}</h3>
                 <ul>{this.renderDates()}</ul>
               </div>
               <div className="menu-wrapper">
@@ -181,7 +191,7 @@ export class Orders extends Component {
                         setSelectedMenu={this.setSelectedMenu}
                         orderedMenus={orderedMenus}
                         selectMenuListId={this.selectMenuListId}
-                        { ...props }
+                        {...props}
                       />
                       <ConfirmOrder
                         menuId={this.state.menuId}
@@ -230,7 +240,15 @@ Orders.contextTypes = {
  * @returns {object} menus
  */
 function mapStateToProps({ upcomingMenus, menus }) {
-  const { menus:userMenus, acc1, acc2, mainMeal, message, isLoading, orderedMenus } = upcomingMenus;
+  const {
+    menus: userMenus,
+    acc1,
+    acc2,
+    mainMeal,
+    message,
+    isLoading,
+    orderedMenus
+  } = upcomingMenus;
 
   const mealSelected = {
     mainMeal,
@@ -244,7 +262,7 @@ function mapStateToProps({ upcomingMenus, menus }) {
     message,
     isLoading,
     orderedMenus,
-    menus,
+    menus
   };
 }
 
@@ -257,7 +275,7 @@ const actionCreators = {
   fetchUserOrders,
   createOrder,
   fetchAdminMenu,
-  fetchVendorEngagements,
+  fetchVendorEngagements
 };
 
 export default connect(

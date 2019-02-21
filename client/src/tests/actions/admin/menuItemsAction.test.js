@@ -28,7 +28,6 @@ import {
 
 import {
   fetchMenus,
-  baseUrl,
   fetchVendorEngagements,
   deleteMenuItem,
   mockMenu,
@@ -65,7 +64,7 @@ describe('Admin::Menu Items Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('fetch menu items success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/${menusPath}`, {
+      moxios.stubRequest(`/${menusPath}`, {
         status: 200,
         response: { ...menusFromApi }
       });
@@ -89,7 +88,7 @@ describe('Admin::Menu Items Action', () => {
     });
 
     it('fetch menu items error', async (done) => {
-      moxios.stubRequest(`${baseUrl}/${menusPath}`, {
+      moxios.stubRequest(`/${menusPath}`, {
         status: 400,
         response: {}
       });
@@ -113,7 +112,7 @@ describe('Admin::Menu Items Action', () => {
     });
 
     it('delete menu item success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/admin/menus/2`, {
+      moxios.stubRequest(`/admin/menus/2`, {
         status: 200,
         response: {}
       });
@@ -143,7 +142,7 @@ describe('Admin::Menu Items Action', () => {
     });
 
     it('delete menu item failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/admin/menus/2`, {
+      moxios.stubRequest(`/admin/menus/2`, {
         status: 400,
         response: {
           msg: 'Access Error - Permission Denied'
@@ -196,7 +195,7 @@ describe('Admin::Menu Items Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('fetch vendor engagements success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/engagements/`, {
+      moxios.stubRequest(`/engagements/`, {
         status: 200,
         response: { payload: engagements }
       });
@@ -217,7 +216,7 @@ describe('Admin::Menu Items Action', () => {
     });
 
     it('fetch vendor engagements failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/engagements/`, {
+      moxios.stubRequest(`/engagements/`, {
         status: 400,
         response: {}
       });
@@ -243,7 +242,7 @@ describe('Admin::Menu Items Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('fetch meal item success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/meal-items/`, {
+      moxios.stubRequest(`/meal-items/`, {
         status: 200,
         response: { payload: { mealItems } }
       });
@@ -264,7 +263,7 @@ describe('Admin::Menu Items Action', () => {
     });
 
     it('fetch meal items failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/meal-items/`, {
+      moxios.stubRequest(`/meal-items/`, {
         status: 400,
         response: {}
       });
@@ -290,7 +289,7 @@ describe('Admin::Menu Items Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('create menu success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/admin/menus/`, {
+      moxios.stubRequest(`/admin/menus/`, {
         status: 201,
         response: { payload: { menu: menu[0] } }
       });
@@ -321,7 +320,7 @@ describe('Admin::Menu Items Action', () => {
     });
 
     it('create menu failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/admin/menus/`, {
+      moxios.stubRequest(`/admin/menus/`, {
         status: 400,
         response: {}
       });
@@ -357,7 +356,7 @@ describe('Admin::Menu Items Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('should edit menu on success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/admin/menus/2`, {
+      moxios.stubRequest(`/admin/menus/2`, {
         status: 200,
         response: { payload: { menu: menu[1] } }
       });
@@ -388,7 +387,7 @@ describe('Admin::Menu Items Action', () => {
     });
 
     it('edit menu failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/admin/menus/1`, {
+      moxios.stubRequest(`/admin/menus/1`, {
         status: 400,
         response: {}
       });

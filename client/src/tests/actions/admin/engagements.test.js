@@ -16,8 +16,7 @@ import {
   EDIT_VENDOR_ENGAGEMENT_FAILURE
 } from '../../../actions/actionTypes';
 
-import { 
-  baseUrl, 
+import {  
   fetchEngagements,
   createEngagement,
   deleteEngagement,
@@ -33,7 +32,7 @@ describe('Engagements Action', () => {
     afterEach(() => moxios.uninstall());
     
     it('fetch engagement success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/engagements/`, {
+      moxios.stubRequest(`/engagements/`, {
         status: 200,
         response: {
           payload: {
@@ -67,7 +66,7 @@ describe('Engagements Action', () => {
     });
 
     it('fetch engagement failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/engagements/`, {
+      moxios.stubRequest(`/engagements/`, {
         status: 401
       });
 
@@ -103,7 +102,7 @@ describe('Create Engagement', () => {
   afterEach(() => moxios.uninstall());
 
   it('create engagement success', async (done) => {
-    moxios.stubRequest(`${baseUrl}/engagements/`, {
+    moxios.stubRequest(`/engagements/`, {
       status: 201,
       response: {
         payload: {
@@ -138,7 +137,7 @@ describe('Create Engagement', () => {
   });
 
   it('create engagement failure', async (done) => {
-    moxios.stubRequest(`${baseUrl}/engagements/`, {
+    moxios.stubRequest(`/engagements/`, {
       status: 401,
       response: {}
     });
@@ -173,7 +172,7 @@ describe('Delete Engagement', () => {
   afterEach(() => moxios.uninstall());
 
   it('delete engagement success', async (done) => {
-    moxios.stubRequest(`${baseUrl}/engagements/${engagements[0].id}`, {
+    moxios.stubRequest(`/engagements/${engagements[0].id}`, {
       status: 200,
       response: {}
     });
@@ -201,7 +200,7 @@ describe('Delete Engagement', () => {
     done();
   });
   it('return engagement failure', async (done) => {
-    moxios.stubRequest(`${baseUrl}/engagements/${engagements[0].id}`, {
+    moxios.stubRequest(`/engagements/${engagements[0].id}`, {
       status: 401,
       response: {}
     });
@@ -235,7 +234,7 @@ describe('Update Engagement', () => {
   afterEach(() => moxios.uninstall());
 
   it('update engagement success', async (done) => {
-    moxios.stubRequest(`${baseUrl}/engagements/${engagements[0].id}`, {
+    moxios.stubRequest(`/engagements/${engagements[0].id}`, {
       status: 200,
       response: {
         payload: {
@@ -270,7 +269,7 @@ describe('Update Engagement', () => {
   });
 
   it('update engagement failure', async (done) => {
-    moxios.stubRequest(`${baseUrl}/engagements/${engagements[0].id}`, {
+    moxios.stubRequest(`/engagements/${engagements[0].id}`, {
       status: 401,
       response: {}
     });

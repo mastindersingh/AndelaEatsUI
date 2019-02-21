@@ -9,9 +9,6 @@ import {
   UNSUSPEND_VENDOR_FAILURE
 } from '../actionTypes';
 
-import { config } from '../../config';
-
-export const baseUrl = config.ANDELAEATS_API_BASE_URL;
 
 export const fetchSuspensionLoading = isLoading => ({
   type: FETCH_SUSPENDED_VENDOR_LOADING,
@@ -31,7 +28,7 @@ export const fetchSuspensionFailure = error => ({
 export const fetchSuspensions = () => dispatch => {
   dispatch(fetchSuspensionLoading(true));
 
-  return axios.get(`${baseUrl}/vendors/suspended/`)
+  return axios.get(`/vendors/suspended/`)
     .then(response => {
       dispatch(fetchSuspensionSuccess(response.data.payload.vendors));
       dispatch(fetchSuspensionLoading(false));
@@ -61,7 +58,7 @@ export const unsuspendVendorFailure = error => ({
 export const unsuspendVendor = (vendorId) => dispatch => {
   dispatch(unsuspendVendorLoading(true));
 
-  const url = `${baseUrl}/vendors/un_suspend/${vendorId}`;
+  const url = `/vendors/un_suspend/${vendorId}`;
 
   const options = {
     method: 'PATCH',
