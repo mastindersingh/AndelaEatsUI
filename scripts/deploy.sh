@@ -11,7 +11,7 @@ DOCKER_REGISTRY=gcr.io
 GCLOUD_SERVICE_KEY_NAME=gcloud-service-key.json
 ALLOWED_DEPLOY_ENVIRONMENTS=('staging', 'production')
 
-PROJECT_NAME=eats
+PROJECT_NAME=eats-frontend
 DOCKER_REGISTRY=gcr.io
 
 
