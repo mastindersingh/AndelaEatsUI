@@ -6,10 +6,6 @@ import {
   PAGINATION_CHANGE
 } from '../actionTypes';
 
-import { config } from '../../config';
-
-export const baseUrl = config.ANDELAEATS_API_BASE_URL;
-
 export const fecthOrdersLoading = (isLoading) => ({
   type: FETCH_MEAL_ORDERS_LOADING,
   payload: isLoading,
@@ -32,9 +28,9 @@ export const fetchOrders = (currentPage = '', startDate = '', endDate = '') => d
   let url;
 
   if (!startDate || !endDate) {
-    url = `${baseUrl}/orders/?page=${currentPage}&per_page=15`
+    url = `/orders/?page=${currentPage}&per_page=15`
   } else {
-    url = `${baseUrl}/orders/${startDate}/${endDate}?page=${currentPage}&per_page=15`
+    url = `/orders/${startDate}/${endDate}?page=${currentPage}&per_page=15`
   }
 
   return axios.get(url)

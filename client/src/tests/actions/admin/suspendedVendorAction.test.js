@@ -11,7 +11,6 @@ import {
 } from '../../../actions/actionTypes';
 
 import { 
-  baseUrl,
   fetchSuspensions,
   unsuspendVendor 
 } from '../../../actions/admin/suspendedVendorAction';
@@ -24,7 +23,7 @@ describe('Suspended Vendor Action', () => {
     afterEach(() => moxios.uninstall());
     
     it('fetch vendors success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/vendors/suspended/`, {
+      moxios.stubRequest(`/vendors/suspended/`, {
         status: 200,
         response: {
           payload: {
@@ -58,7 +57,7 @@ describe('Suspended Vendor Action', () => {
     });
 
     it('fetch vendors failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/vendors/suspended/`, {
+      moxios.stubRequest(`/vendors/suspended/`, {
         status: 401
       });
 
@@ -94,7 +93,7 @@ describe('UnSuspend Vendor', () => {
   afterEach(() => moxios.uninstall());
 
   it('unSuspend vendor success', async (done) => {
-    moxios.stubRequest(`${baseUrl}/vendors/un_suspend/${vendors[0].id}`, {
+    moxios.stubRequest(`/vendors/un_suspend/${vendors[0].id}`, {
       status: 200,
       response: {}
     });
@@ -123,7 +122,7 @@ describe('UnSuspend Vendor', () => {
   });
 
   it('return vendor failure', async (done) => {
-    moxios.stubRequest(`${baseUrl}/vendors/un_suspend/${vendors[0].id}`, {
+    moxios.stubRequest(`/vendors/un_suspend/${vendors[0].id}`, {
       status: 401,
       response: {}
     });

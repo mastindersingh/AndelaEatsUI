@@ -2,7 +2,7 @@ import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import {
-  baseUrl, userID, fetchMenu, createOrder, fetchUserOrders, selectMeal, resetMenu
+  userID, fetchMenu, createOrder, fetchUserOrders, selectMeal, resetMenu
 } from '../../actions/menuAction';
 import {
   SET_MENUS,
@@ -30,7 +30,7 @@ describe('Menu actions', () => {
   afterEach(() => moxios.uninstall());
 
   it('should set upcoming menus', async (done) => {
-    moxios.stubRequest(`${baseUrl}/menus/lunch/2018-11-11/2018-11-18`, {
+    moxios.stubRequest(`/menus/lunch/2018-11-11/2018-11-18`, {
       status: 200,
       response: {
         payload: {
@@ -63,7 +63,7 @@ describe('Menu actions', () => {
     const startDate = '2018-11-18';
     const endDate = '2018-12-12';
 
-    moxios.stubRequest(`${baseUrl}/orders/user/${userID}/${startDate}/${endDate}`, {
+    moxios.stubRequest(`/orders/user/${userID}/${startDate}/${endDate}`, {
       status: 200,
       response: {
         payload: {
@@ -93,7 +93,7 @@ describe('Menu actions', () => {
     done();
   });
   it('should handle order success', async (done) => {
-    moxios.stubRequest(`${baseUrl}/orders/`, {
+    moxios.stubRequest(`/orders/`, {
       status: 200,
       response: {}
     });
@@ -124,7 +124,7 @@ describe('Menu actions', () => {
     done();
   });
   it('should handle order failure', async (done) => {
-    moxios.stubRequest(`${baseUrl}/orders/`, {
+    moxios.stubRequest(`/orders/`, {
       status: 400,
     });
     const expectedActions = [{"payload": true, "type": "CREATE_ORDER_LOADING"}, {"payload": new Error("Request failed with status code 400"), "type": "CREATE_ORDER_FAILURE"}, {"payload": false, "type": "CREATE_ORDER_LOADING"}];
