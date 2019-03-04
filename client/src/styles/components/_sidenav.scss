@@ -88,6 +88,19 @@
   }
 }
 
+.faq {
+  background-image: url('../assets/images/faqs.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/faqs-active.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/faqs-active.png');
+  }
+}
+
 .vendors {
   background-image: url('../assets/images/vendor.svg');
   background-repeat: no-repeat;
