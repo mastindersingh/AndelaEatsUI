@@ -1,13 +1,22 @@
 .side-nav {
-	height: 100%;
-	width: 120px;
-	background-color: #F4F8F9;
-	box-shadow: inset -1px 0 0 0 #DCDCDC;
+  height: 100%;
+  width: 120px;
+  background-color: #f4f8f9;
+  box-shadow: inset -1px 0 0 0 #dcdcdc;
   position: fixed;
+  top: 7%;
+  bottom: 0%;
+  overflow-y: scroll;
 }
+a:last-child {
+  li {
+    margin-bottom: 80%;
+  }
+}
+
 .side-nav-item-wrapper {
-	width: 110px;
-  background-color: #F4F8F9;
+  width: 110px;
+  background-color: #f4f8f9;
   margin: 0;
   padding: 0;
   list-style-position: inside;
@@ -15,7 +24,7 @@
 }
 
 .side-nav-item {
-	height: 150px;
+  height: 150px;
   width: 119px;
   position: relative;
   cursor: pointer;
@@ -25,7 +34,6 @@
   padding-top: 60px;
   color: $color-medium-gray;
   font-weight: 500;
-
 
   &.active {
     background-color: $color-white;
@@ -166,6 +174,19 @@
   }
 }
 
+.reports {
+  background-image: url('../assets/images/reports.png');
+  background-repeat: no-repeat;
+  background-size: 33px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/active-reports.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/active-reports.png');
+  }
+}
+
 .main-container {
   margin-left: 150px;
   width: calc(100% - 150px);
@@ -180,4 +201,3 @@
 .push-down {
   padding-top: 80px;
 }
-

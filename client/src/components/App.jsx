@@ -18,6 +18,7 @@ import VendorsTab from './Admin/Tabs/Vendors';
 import MenusAndMealsTab from './Admin/Tabs/MenusAndMeals';
 import Ratings from './Admin/Ratings/Index';
 import Users from './Admin/Users/Users';
+import Reports from './Admin/Reports/Index';
 
 
 export const NotFound = () => (
@@ -41,6 +42,7 @@ const Root = () => (
           <Route exact path="/admin/engagements" component={Engagements} />
           <Route exact path="/admin/ratings" component={Ratings} />
           <Route exact path="/admin/users" component={Users} />
+          <Route exact path="/admin/reports" component={Reports} />
           <Route component={NotFound} />
         </Switch>
       </SideNav>
