@@ -1,4 +1,9 @@
-import { GET_ADMIN_USER, ADD_ADMIN_USER_SUCCESS, ADD_ADMIN_USER_FAILURE } from "../actionTypes";
+import {
+  GET_ADMIN_USER,
+  GET_ALL_ADMIN_USERS,
+  ADD_ADMIN_USER_SUCCESS,
+  ADD_ADMIN_USER_FAILURE
+} from "../actionTypes";
 import token from '../../helpers/jwtDecode';
 import axios from "axios";
 import { toastSuccess, toastError } from '../../helpers/toast';
@@ -11,6 +16,11 @@ export const setAdminUser = role => ({
     payload: role
   });
 
+export const fetchAdminUsers = adminUsers => ({
+    type: GET_ALL_ADMIN_USERS,
+    payload: adminUsers
+  });
+
 export const addAdminUser = (message, type) => ({
     type,
     message
@@ -20,6 +30,14 @@ export const addAdminUser = (message, type) => ({
     return axios.get(`/roles/user/${userID}`)
       .then((response) => {
         dispatch(setAdminUser(response.data.payload.user_role[0].roleId));
+      });
+  };
+
+  export const getAllAdminUsers = () => dispatch => {
+    
+    return axios.get('/users/admin')
+      .then((response) => {
+        dispatch(fetchAdminUsers(response.data.payload.AdminUsers));
       });
   };
 
