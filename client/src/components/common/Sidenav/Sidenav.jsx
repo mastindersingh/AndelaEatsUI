@@ -48,6 +48,14 @@ class SideNav extends Component {
                     <span>Orders</span>
                   </li>
                 </Link>
+
+                <Link to="/about">
+                  <li className={`side-nav-item about
+                    ${homeActive('about') && "active"}`}
+                  >
+                    <span>About</span>
+                  </li>
+                </Link>
               </ul>
             )}
             {this.checkAdmin() && (
@@ -97,7 +105,6 @@ class SideNav extends Component {
 
               </ul>
             )}
-            {/* { sideBarComponent } */}
           </div>
           <div className="main-container">
             <div className="section">{children}</div>

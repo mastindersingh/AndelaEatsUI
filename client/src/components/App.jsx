@@ -18,6 +18,7 @@ import VendorsTab from './Admin/Tabs/Vendors';
 import MenusAndMealsTab from './Admin/Tabs/MenusAndMeals';
 import Ratings from './Admin/Ratings/Index';
 import Users from './Admin/Users/Users';
+import About from './About/About';
 
 
 export const NotFound = () => (
@@ -32,6 +33,7 @@ const Root = () => (
         <Switch>
           <Route path="/ordermeal" component={Orders} />
           <Route exact path="/orders" component={OrderHistory} />
+          <Route exact path="/about" component={About} />
           <Route exact path="/orders/edit/:id" component={EditOrder} />
           <Route exact path="/admin/orders" component={AdminOrderHistory} />
           <Route exact path="/admin/orders/export" component={ExportOrders} />
