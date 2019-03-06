@@ -31,12 +31,12 @@ reset() {
 }
 
 function addEnvFile() {
-  ENV_FILE=$ROOT_DIRECTORY/.env
+  ENV_FILE=$ROOT_DIRECTORY/client/.env
   warning "Adding .env file to Andela Easts root project directory"
   echo " "
 
   if [ ! -f "$ENV_FILE" ]; then
-    cat <<EOF >>${ROOT_DIRECTORY}/.env
+    cat <<EOF >>${ROOT_DIRECTORY}/client/.env
 CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
 CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
 CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
