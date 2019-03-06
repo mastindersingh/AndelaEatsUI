@@ -212,7 +212,6 @@ export class Engagements extends Component {
 
   render() {
     const { isLoading, engagements, vendors, isDeleting } = this.props;
-
     const vendorsResult = vendors.map(result => (
       { value: result.name, label: result.name, vendorId: result.id }
     ));
