@@ -83,6 +83,10 @@
 
       .ct-body {
         .ct-row {
+          &:hover {
+            background: $color-light-grey;
+            transition: all .5s ease-out;
+          }
           .ct-wrap {
             width: 95%;
             margin: 0 auto;
@@ -194,10 +198,15 @@
 }
 
 .edit-menu {
-  color: $color-yellow !important;
+  color: $color-white !important;
+  padding: 5px 15px;
+  background: $color-yellow;
+  border-radius: 0.1875rem;
 
   &:hover {
-    text-decoration: underline solid $color-yellow;
+    color: $color-yellow !important;
+    background: $color-white;
+    border: 1px solid $color-yellow;
   }
 }
 .option div {
@@ -207,10 +216,15 @@
 }
 
 .delete-menu {
-  color: $color-red !important;
+  color: $color-white !important;
+  padding: 5px 15px;
+  background: $color-red;
+  border-radius: 0.1875rem;
 
   &:hover {
-    text-decoration: underline solid $color-red;
+    color: $color-red !important;
+    background: $color-white;
+    border: 1px solid $color-red;
   }
 }
 

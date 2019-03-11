@@ -15,7 +15,6 @@ import {
   UPDATE_VENDOR_LOADING
 } from '../../actions/actionTypes';
 import {
-  baseUrl,
   fetchVendors,
   createVendor,
   suspendVendor,
@@ -35,7 +34,7 @@ describe('Vendors Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('fetch vendors success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/vendors/`, {
+      moxios.stubRequest(`/vendors/`, {
         status: 200,
         response: {
           payload: {
@@ -69,7 +68,7 @@ describe('Vendors Action', () => {
     });
 
     it('fetch vendors failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/vendors/`, {
+      moxios.stubRequest(`/vendors/`, {
         status: 401,
       });
 
@@ -103,7 +102,7 @@ describe('Vendors Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('create vendor success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/vendors/`, {
+      moxios.stubRequest(`/vendors/`, {
         status: 201,
         response: {
           payload: {
@@ -137,7 +136,7 @@ describe('Vendors Action', () => {
     });
 
     it('create vendor failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/vendors/`, {
+      moxios.stubRequest(`/vendors/`, {
         status: 401,
         response: {}
       });
@@ -171,7 +170,7 @@ describe('Vendors Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('suspend vendor success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/vendors/suspend/${vendors[0].id}`, {
+      moxios.stubRequest(`/vendors/suspend/${vendors[0].id}`, {
         status: 200,
         response: {}
       });
@@ -199,7 +198,7 @@ describe('Vendors Action', () => {
       done();
     });
     it('return vendor failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/vendors/suspend/${vendors[0].id}`, {
+      moxios.stubRequest(`/vendors/suspend/${vendors[0].id}`, {
         status: 401,
         response: {}
       });
@@ -234,7 +233,7 @@ describe('Vendors Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('update vendor success', async (done) => {  
-      moxios.stubRequest(`${baseUrl}/vendors/${createdVendor.id}`, {
+      moxios.stubRequest(`/vendors/${createdVendor.id}`, {
         status: 200,
         response: {
           payload: {
@@ -266,7 +265,7 @@ describe('Vendors Action', () => {
       done();
     });
     it('return vendor failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/vendors/${createdVendor.id}`, {
+      moxios.stubRequest(`/vendors/${createdVendor.id}`, {
         status: 401,
         response: {}
       });

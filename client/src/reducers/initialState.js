@@ -100,6 +100,7 @@ export const initialSuspendedVendors = {
 
 export const initialUser = {
   role: 0,
+  adminUsers: [],
   email: '',
   message: ''
 };

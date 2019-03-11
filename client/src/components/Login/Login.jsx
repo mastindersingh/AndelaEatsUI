@@ -8,8 +8,6 @@ backgroundImg
   from '../../assets/images/google-logo-icon-PNG-Transparent-Background.png';
 
 import 'react-toastify/dist/ReactToastify.css';
-// configuration
-import { config } from '../../config';
 
 // helper
 import checkLogin from '../../helpers/checkLogin';
@@ -47,7 +45,7 @@ class Login extends Component {
    * @return { void }
    */
   render() {
-    const redirectUrl = `${config.ANDELA_API_BASE_URL}/login?redirect_url=${config.BASE_URL}`;
+    const redirectUrl = `${process.env.ANDELA_API_URL}/login?redirect_url=${process.env.BASE_URL}`;
     const options = {
       position: 'top-right',
       autoClose: false,
@@ -78,7 +76,7 @@ class Login extends Component {
               </div>
             </div>
             <div className="login-page-caption">
-                A convinent way to 
+                A convenient way to 
               <br /> 
                 order your meals
             </div>

@@ -59,16 +59,24 @@ export class Menus extends Component {
       isLoading: true,
       updated: false,
       mainMealId: false,
-      menuId: ""
+      menuId: "",
+      menuDate: ""
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
+    let newState = {
       mainMeal: nextProps.mealSelected.mainMeal,
       acc1: nextProps.mealSelected.firstAccompaniment,
       acc2: nextProps.mealSelected.secondAccompaniment
-    })
+    }
+    
+    if(this.state.menuDate !== nextProps.match.params.date){
+      newState.menuDate = nextProps.match.params.date
+      newState.menuId = ""
+    }
+
+    this.setState(newState)
   }
 
   /**
@@ -81,6 +89,7 @@ export class Menus extends Component {
     this.setState({
       selectedMainMealId: "",
       mainMeal: "",
+      menuId: "",
       acc1: "",
       acc2: ""
     });
@@ -105,7 +114,6 @@ export class Menus extends Component {
   validateMeals = () => {
     const { firstAccompaniment, secondAccompaniment, mainMeal } = this.props.mealSelected;
     return (firstAccompaniment !== "" && secondAccompaniment !== "" && mainMeal !== "")
-
   }
 
   render() {

@@ -21,30 +21,44 @@
 }
 
 .edit {
-  color: $color-yellow;
+  color: $color-white;
   font-family: "DINPro";
   border: 0;
   margin-right: 20px;
   outline: none;
+  background: $color-yellow;
+  padding: 5px 15px;
+  text-transform: capitalize;
+  border-radius: 0.1875rem;
   &--color {
     cursor: pointer;
+
     &:hover {
-      text-decoration: underline solid $color-yellow;
+      color: $color-yellow;
+      background: $color-white;
+      border: 1px solid $color-yellow;
     }
   }
   &--disabled {
     cursor: not-allowed;
-    color: #bbb;
+    color: $color-medium-gray;
+    background: $color-gray;
   }
 }
 
 .delete-color {
-  color: $color-red;
+  background: $color-red;
+  padding: 5px 15px;
+  text-transform: capitalize;
+  border-radius: 0.1875rem;
+  color: $color-white;
   font-family: "DINPro";
   cursor: pointer;
   border: 0;
 
   &:hover {
-    text-decoration: underline solid $color-red;
+    color: $color-red;
+    background: $color-white;
+    border: 1px solid $color-red;
   }
 }
