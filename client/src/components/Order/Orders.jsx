@@ -95,7 +95,7 @@ export class Orders extends Component {
   };
 
   selectDefaultMenu() {
-    const selectedMeal = this.props.userMenus.find(
+    const selectedMeal = this.props.menus.find(
       menu => canOrderMeal(menu) && validateDate(menu, endDate())
     );
     this.context.router.history.push(
@@ -142,33 +142,30 @@ export class Orders extends Component {
   render() {
     const {
       match: { url },
-      userMenus: { menuList },
       selectMeal,
       mealSelected,
       orderMeal,
       resetMenu,
       isLoading,
       updateOrder,
-      userMenus,
+      menus,
       orderedMenus,
       createOrder //eslint-disable-line
     } = this.props;
 
-    let allMenus = [];
-    for (let item of userMenus) {
-      item.menus.forEach(menu => {
-        allMenus.push(menu);
-      });
-    }
-    const { selectedMenu, menuListId } = this.state;
+    const menuList = menus.reduce((accu, curr) => {
+      return [...accu, ...curr.menus]
+    }, []);
 
+    const { selectedMenu, menuListId } = this.state;
+    
     return (
       <div className="wrapper">
         {isLoading ? (
           <Loader />
         ) : (
           <div className="orders-wrapper">
-            <MenuTable menus={{ menuList: allMenus }} preview />
+            <MenuTable menus={{ menuList, }} preview />
             <h3 className="card-header">Place Your Order</h3>
             <div className="orders-container">
               <div className="date-wrapper">
@@ -181,7 +178,7 @@ export class Orders extends Component {
                   render={props => (
                     <div>
                       <Menus
-                        data={userMenus}
+                        data={menus}
                         toggleModal={this.toggleModal}
                         selectMeal={selectMeal}
                         resetMenu={resetMenu}
@@ -195,7 +192,7 @@ export class Orders extends Component {
                         menuId={this.state.menuId}
                         toggleModal={this.toggleModal}
                         isModalOpen={this.state.isModalOpen}
-                        menus={userMenus}
+                        menus={menus}
                         mealSelected={mealSelected}
                         selectedMenu={selectedMenu}
                         orderMeal={orderMeal}
@@ -237,15 +234,15 @@ Orders.contextTypes = {
  * @param {state} state
  * @returns {object} menus
  */
-function mapStateToProps({ upcomingMenus, menus }) {
+function mapStateToProps({ upcomingMenus }) {
   const {
-    menus: userMenus,
     acc1,
     acc2,
     mainMeal,
     message,
     isLoading,
-    orderedMenus
+    orderedMenus,
+    menus
   } = upcomingMenus;
 
   const mealSelected = {
@@ -255,12 +252,11 @@ function mapStateToProps({ upcomingMenus, menus }) {
   };
 
   return {
-    userMenus,
     mealSelected,
     message,
     isLoading,
     orderedMenus,
-    menus
+    menus,
   };
 }
 

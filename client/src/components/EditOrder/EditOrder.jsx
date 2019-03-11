@@ -22,7 +22,7 @@ export class EditOrder extends Component {
     main: '',
     firstAccompaniment: '',
     secondAccompaniment: 'Cake',
-    menu: { mainMeal: [], proteinItems: [], sideItems: [] },
+    menu: { mainMeal: {name: '', id: ''}, proteinItems: [], sideItems: [] },
     filteredMenus: [],
     showModal: false
   };
@@ -37,8 +37,8 @@ export class EditOrder extends Component {
 
   componentDidUpdate(prevProps) {
     if (
-      this.props.menus !== prevProps.menus ||
-      this.props.meal !== prevProps.meal
+      JSON.stringify(this.props.menus) !== JSON.stringify(prevProps.menus) ||
+      JSON.stringify(this.props.meal) !== JSON.stringify(prevProps.meal)
     ) {
       this.handlesetState();
     }
@@ -54,7 +54,8 @@ export class EditOrder extends Component {
     const menu =
       this.props.meal !== null
         ? this.props.menus.filter(item => item.id === this.props.meal.menuId)[0]
-        : { mainMeal: [], proteinItems: [], sideItems: [] };
+        : { mainMeal: {}, proteinItems: [], sideItems: [] };
+        
     this.setState({
       menu,
       filteredMenus,
@@ -107,8 +108,8 @@ export class EditOrder extends Component {
     };
 
     this.props.updateOrder(orderData, id).then(() => {
-      this.props.closeModal();
       this.handleModalDisplay();
+      this.props.closeModal();
     });
   };
 
@@ -255,7 +256,9 @@ function mapStateToProps(state) {
   return {
     order: state.orders.order,
     isLoading: state.orders.isLoading,
-    menus: state.upcomingMenus.menus
+    menus: state.upcomingMenus.menus.reduce((accu, curr) => {
+      return [...accu, ...curr.menus]
+    }, [])
   };
 }
 

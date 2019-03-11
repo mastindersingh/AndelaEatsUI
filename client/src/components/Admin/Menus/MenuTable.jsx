@@ -17,7 +17,7 @@ import EmptyContent from '../../common/EmptyContent';
  * @class MenuTable
  * @extends Component
  */
-class MenuTable extends Component {
+export class MenuTable extends Component {
   /**
    *
    * @description render side and protein listing
@@ -102,7 +102,7 @@ class MenuTable extends Component {
 
             {!this.props.preview ? (
               <div className="custom-col-5 option">
-                <div onClick={() => this.props.showAddModal(menuItem, true)}>
+                <div  onClick={() => this.props.showAddModal(menuItem, true)}>
                   <span className="edit-menu">Edit</span>
                 </div>
 
@@ -120,7 +120,7 @@ class MenuTable extends Component {
   renderMenuBody = () => (
     <React.Fragment>
       {this.props.preview
-        ? <h3 className="card-header"> Available Menus</h3>
+        ? <h3 className="card-header">Available Menus</h3>
         : null}
       <div className="custom-table">
         {this.props.menus.menuList.length
@@ -137,14 +137,13 @@ class MenuTable extends Component {
                   : null}
               </div>
               <div className="ct-body">{this.renderRows()}</div>
-            </React.Fragment>) : <EmptyContent message="No menu available" />}
+            </React.Fragment>) : <EmptyContent message="No menus within the seleted date range" />}
       </div>
     </React.Fragment>
   )
 
 
-  render() {
-    
+  render() { 
     const { isLoading } = this.props.menus;
     return (
       <div className="menu-table-row">
@@ -170,7 +169,7 @@ MenuTable.propTypes = {
   showDeleteModal: func,
 };
 
-const mapStateToProps = (state) => ({
+export const mapStateToProps = (state) => ({
   engagements: state.allEngagements.engagements.engagements
 })
 

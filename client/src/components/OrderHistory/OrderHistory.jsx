@@ -26,10 +26,6 @@ import {
   collectOrder
 } from '../../actions/ordersAction';
 
-import {
-  fetchMenus,
-} from '../../actions/admin/menuItemsAction';
-
 import { validateDate } from '../../helpers/dateFormatter';
 import { fetchMenus } from '../../actions/admin/menuItemsAction';
 
@@ -526,18 +522,11 @@ Orders.defaultProps = {
 
 const mapStateToProps = state => ({
   orders: state.orders,
-<<<<<<< HEAD
   menu: state.menus,
 });
 
 const actionCreators = {
   fetchOrders, filterOrders, deleteOrder, createRating, collectOrder,fetchMenus
-=======
-});
-
-const actionCreators = {
-  fetchOrders, filterOrders, deleteOrder, createRating, collectOrder, fetchMenus
->>>>>>> feat(edit-order): implement editing an order
 };
 
 export default connect(mapStateToProps, actionCreators)(Orders);

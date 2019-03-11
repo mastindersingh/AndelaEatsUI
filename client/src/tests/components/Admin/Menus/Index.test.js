@@ -1,11 +1,13 @@
 /* eslint-disable no-undef */
 
 import React from 'react';
-import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import { Menus } from '../../../../components/Admin/Menus/Index';
+import { shallow } from 'enzyme';
+import { Menus, mapStateToProps } from '../../../../components/Admin/Menus/Index';
 import menu from '../../../__mocks__/mockMenuList';
+import engagement from '../../../__mocks__/mockEngagements';
 import Loader from '../../../../components/common/Loader/Loader';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
 
 const menusState = {
   error: {
@@ -42,7 +44,8 @@ describe('Admin: Menu Component', () => {
   };
 
   beforeEach(() => {
-    wrapper = mount(<Menus {...props} />);
+    wrapper = shallow(
+      <Menus {...props} />)
   });
 
   afterEach(() => {
@@ -76,40 +79,10 @@ describe('Admin: Menu Component', () => {
     expect(wrapper.find('.no-content').length).toEqual(1);
   });
 
-  it('should render empty menus items', () => {
-    wrapper.setProps({
-      ...props,
-      menus: {
-        ...menusState,
-        menuList: [],
-      }
-    });
-
-    expect(wrapper.find('.empty-content').length).toEqual(1);
-  });
-
-  it('should call showAddModal method when creating a menu', () => {
-    const spy = jest.spyOn(wrapper.instance(), 'showAddModal');
-    wrapper.setState({
-      displayModal: true,
-      modalTitle: 'ADD MENU',
-      modalButtontext: 'Add Menu',
-    });
-    wrapper.instance().showAddModal(menu[0]);
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(wrapper.find('.custom-table').length).toEqual(1);
-  });
-
   it('should call showAddModal method when editing a menu', () => {
-    const spy = jest.spyOn(wrapper.instance(), 'showAddModal');
-    wrapper.setState({
-      displayModal: true,
-      modalTitle: 'ADD MENU',
-      modalButtontext: 'Add Menu',
-    });
-    wrapper.instance().showAddModal(menu[0], true);
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(wrapper.find('.custom-table').length).toEqual(1);
+    expect(wrapper.instance().state.displayModal).toBeFalsy();
+    wrapper.find('#add-menu').simulate('click'); 
+    expect(wrapper.instance().state.displayModal).toBeTruthy();
   });
 
   it('should call closeModal method', () => {
@@ -129,8 +102,8 @@ describe('Admin: Menu Component', () => {
   it('should call handleSubmit method on editing a menu', () => {
     wrapper.setState({
       editMenu: true,
-      menuDetails: menusState.menuList[0],
     });
+    wrapper.instance().showAddModal(menusState.menuList[0], true);
     const handleSubmitSpy = jest.spyOn(wrapper.instance(), 'handleSubmit');
     wrapper.update();
     wrapper.instance().handleSubmit();
@@ -144,9 +117,39 @@ describe('Admin: Menu Component', () => {
   });
 
   it('should call deleteMenu on clicking delete', () => {
-    expect(wrapper.instance().state.displayDeleteModal).toBe(false);
-    const deleteButton = wrapper.find('.delete-menu').simulate('click');
-    expect(wrapper.instance().state.displayDeleteModal).toBe(true);
-    const callDeleteButton = wrapper.find('#delete-meal').simulate('click');
+    const spy = jest.spyOn(wrapper.instance(), 'showDeleteModal')
+    wrapper.instance().showDeleteModal({});
+    expect(spy).toHaveBeenCalled()
   });
+
+  it('should show error if endDate is greater than startDate', () => {
+    wrapper.setState({
+      endDate: moment(),
+      startDate: moment().add(1, 'days'),
+    });
+    wrapper.find('#view-menu').simulate('click');
+    expect(wrapper.find('.Toastify__toast--error')).toBeTruthy()
+  })
+
+  it('changes date', () => {
+    wrapper.find(DatePicker).at(0).simulate('change', '2019-02-03');
+    expect(wrapper.instance().state.startDate).toEqual('2019-02-03')
+    wrapper.find(DatePicker).at(1).simulate('change');
+  });
+
+  it('calls delete menu', () => {
+    wrapper.instance().deleteMenu(1);
+    expect(wrapper.find('.Toastify__toast Toastify__toast--success')).toBeTruthy();
+  });
+
+  describe('mapStateToProps', () => {
+    it('mapStateToProps', () => {
+      const initialState = {
+        menus: menu,
+        allEngagements: {upComingEngagements: {engagements: engagement}}
+      }
+
+      expect(mapStateToProps(initialState).menus).toEqual(menu)
+    });
+  })
 });

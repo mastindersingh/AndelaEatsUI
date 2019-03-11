@@ -1,3 +1,5 @@
+import faker from 'faker';
+
 export const menuItemsUI = [
   {
     id: 2,
@@ -128,7 +130,8 @@ export const menu = [
     allowedSide: 2,
     allowedProtein: 1,
     sideItems: [1],
-    proteinItems: [1, 2]
+    proteinItems: [1, 2],
+    vendorEngagementId: faker.random.number({min:0, max:5}),
   },
   {
     id: 2,
@@ -143,7 +146,7 @@ export const menu = [
     sideItems: [
       1
     ],
-    vendorEngagementId: 1
+    vendorEngagementId: faker.random.number({min:0, max:5}),
   }
 ];
 
