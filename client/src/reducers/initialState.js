@@ -108,3 +108,11 @@ export const initialMealRatings = {
   isLoading: false,
   ratingList: [],
 };
+
+export const initialFaqs = {
+  isLoading: false,
+  isCreating: false,
+  isSuspending: false,
+  isUpdating: false,
+  faqs: [],
+};
