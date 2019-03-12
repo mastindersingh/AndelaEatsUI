@@ -30,7 +30,8 @@ export const orders = {
       secondAccompaniment: []
     }
   },
-  isDeleting: false
+  isDeleting: false,
+  rating:0,
 };
 
 export const initialVendors = {
