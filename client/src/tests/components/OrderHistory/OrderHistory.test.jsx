@@ -37,7 +37,8 @@ let props = {
   },
   fetchOrders: () => Promise.resolve(),
   filterOrders: () => Promise.resolve(),
-  deleteOrder: () => Promise.resolve()
+  deleteOrder: () => Promise.resolve(),
+  fetchMenus: () => Promise.resolve()
 };
 
 /**
