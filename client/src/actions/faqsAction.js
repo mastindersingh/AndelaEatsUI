@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { toastSuccess, toastError } from '../helpers/toast';
 import {
   FETCH_FAQS_SUCCESS,
   FETCH_FAQS_FAILURE,

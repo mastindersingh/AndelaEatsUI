@@ -18,7 +18,7 @@ import VendorsTab from './Admin/Tabs/Vendors';
 import MenusAndMealsTab from './Admin/Tabs/MenusAndMeals';
 import Ratings from './Admin/Ratings/Index';
 import Users from './Admin/Users/Users';
-import { Faqs } from './Faqs/Faqs';
+import Faqs  from './Faqs/Faqs';
 
 
 export const NotFound = () => (

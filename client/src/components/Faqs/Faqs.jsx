@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import FaqItem from "./FaqItem";
@@ -13,7 +13,7 @@ import { fetchFaqs } from "../../actions/faqsAction";
  */
 export class Faqs extends Component {
   componentDidMount() {
-    // this.props.fetchFaqs();
+    this.props.fetchFaqs();
   }
 
   render() {
@@ -39,9 +39,9 @@ Faqs.propTypes = {
   fetchFaqs: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ state }) => ({
-  faqs: state.faqs, 
-  isLoading: state.isLoading
+const mapStateToProps = ({ faqsReducer }) => ({
+  faqs: faqsReducer.faqs, 
+  isLoading: faqsReducer.isLoading
 });
 
 export default connect(mapStateToProps, { fetchFaqs })(Faqs);
