@@ -6,7 +6,6 @@ import {
 } from '../../../actions/actionTypes';
 
 import {
-  baseUrl,
   userID,
   getAdminUser
 } from '../../../actions/admin/adminUserAction';
@@ -18,7 +17,7 @@ describe('Get User Role Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('fetch user role success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/roles/user/${userID}`, {
+      moxios.stubRequest(`/roles/user/${userID}`, {
         status: 200,
         response: {
           payload: {

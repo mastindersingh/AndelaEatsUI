@@ -8,7 +8,6 @@ import {
 } from '../../../actions/actionTypes';
 
 import {
-  baseUrl,
   fetchOrders
 } from '../../../actions/admin/ordersAction';
 
@@ -21,7 +20,7 @@ describe('Admin Orders Action', () => {
     const currentPage = 1;
 
     it('fetch orders success', async (done) => {
-      moxios.stubRequest(`${baseUrl}/orders/?page=${currentPage}&per_page=15`, {
+      moxios.stubRequest(`/orders/?page=${currentPage}&per_page=15`, {
         status: 200,
         response: {
           payload: {
@@ -57,7 +56,7 @@ describe('Admin Orders Action', () => {
     });
 
     it('fetch orders failure', async (done) => {
-      moxios.stubRequest(`${baseUrl}/orders/?page=${currentPage}&per_page=15`, {
+      moxios.stubRequest(`/orders/?page=${currentPage}&per_page=15`, {
         status: 401,
         response: {
           payload: {

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { toastSuccess, toastError } from '../../helpers/toast';
-import { config } from '../../config';
 
 import {
   FETCH_MEAL_RATING_LOADING,
@@ -8,7 +7,6 @@ import {
   FETCH_MEAL_RATING_FAILURE,
 } from '../actionTypes';
 
-export const baseUrl = config.ANDELAEATS_API_BASE_URL;
 
 export const fetchMealRatingsLoading = () => ({
   type: FETCH_MEAL_RATING_LOADING,
@@ -26,7 +24,7 @@ export const fetchMealRatingsFailure = () => ({
 
 export const fetchMealRatings = (date) => (dispatch) => {
   dispatch(fetchMealRatingsLoading());
-  return axios.get(`${baseUrl}/ratings/${date}`)
+  return axios.get(`/ratings/${date}`)
     .then(response => {
       const { payload: result } = response.data;
       dispatch(fetchMealRatingsSuccess(result));

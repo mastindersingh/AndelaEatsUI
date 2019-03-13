@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { toastSuccess, toastError } from '../../helpers/toast';
-import { config } from '../../config';
 import {
   FETCH_MEAL_ITEMS_LOADING,
   FETCH_MEAL_ITEMS_SUCCESS,
@@ -18,7 +17,6 @@ import {
 } from '../actionTypes';
 import { mealImageUpload } from '../../helpers/mealsHelper';
 
-export const apiBaseUrl = config.ANDELAEATS_API_BASE_URL;
 
 export const fectchMealItemsLoading = isLoading => ({
   type: FETCH_MEAL_ITEMS_LOADING,
@@ -37,7 +35,7 @@ export const fetchMealItemsSuccess = (mealItems, pagination) => ({
 
 export const fetchMealItems = (page = 1) => dispatch => {
   dispatch(fectchMealItemsLoading(true));
-  return axios.get(`${apiBaseUrl}/meal-items/?page=${page}`)
+  return axios.get(`/meal-items/?page=${page}`)
     .then((response) => {
       const { meta: pagination, mealItems } = response.data.payload;
       dispatch(fetchMealItemsSuccess(mealItems, pagination));
@@ -83,7 +81,7 @@ export const addMealItem = formData => dispatch => {
       const reqdata = { ...rest, image: url };
 
       return (
-        axios.post(`${apiBaseUrl}/meal-items/`, reqdata)
+        axios.post(`/meal-items/`, reqdata)
           .then((response) => {
             const { mealItem } = response.data.payload;
             toastSuccess('Meal successfully created');
@@ -116,7 +114,7 @@ export const deleteMealItemSuccess = mealItemId => ({
 
 export const deleteMealItem = (mealItemId) => dispatch => {
   dispatch(deleteMealItemLoading(true));
-  return axios.delete(`${apiBaseUrl}/meal-items/${mealItemId}`)
+  return axios.delete(`/meal-items/${mealItemId}`)
     .then(() => {
       toastSuccess("Deleted successfully");
       dispatch(deleteMealItemSuccess(mealItemId));
@@ -155,7 +153,7 @@ export const editMealItem = (mealItemId, formData) => dispatch => {
       const reqdata = { ...rest, image: url };
 
       return (
-        axios.patch(`${apiBaseUrl}/meal-items/${mealItemId}`, reqdata)
+        axios.patch(`/meal-items/${mealItemId}`, reqdata)
           .then(response => {
             const { mealItem } = response.data.payload;
             toastSuccess("Meal item updated successfully");

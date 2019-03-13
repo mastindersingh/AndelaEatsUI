@@ -36,6 +36,8 @@ Here is how to get a copy of the project up and running on your local machine fo
   To edit it, get into insert mode by pressing ```i``` key and put these
    ```127.0.0.1       andelaeats-dev.andela.com``` after the last line.
 
+*  Setup your .env variables (ask the other team members for the keys). An example is available in the env.example file.
+
 ### Starting the app
 * To start the app locally run the following commands 
 `npm run build` followed by `npm run dev`

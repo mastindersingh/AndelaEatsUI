@@ -17,7 +17,6 @@ import {
 
 import {
   fetchMealItems,
-  apiBaseUrl,
   deleteMealItem,
   addMealItem,
   editMealItem
@@ -36,7 +35,7 @@ describe('Admin::Meal Items Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('fetch meal items success', async (done) => {
-      moxios.stubRequest(`${apiBaseUrl}/meal-items/?page=1`, {
+      moxios.stubRequest(`/meal-items/?page=1`, {
         status: 200,
         response: {
           payload: {
@@ -72,7 +71,7 @@ describe('Admin::Meal Items Action', () => {
     });
 
     it('fetch meal items failure', async (done) => {
-      moxios.stubRequest(`${apiBaseUrl}/meal-items/?page=1`, {
+      moxios.stubRequest(`/meal-items/?page=1`, {
         status: 401,
       });
   
@@ -120,7 +119,7 @@ describe('Admin::Meal Items Action', () => {
     ];
 
     it('should add a meal without error', async (done) => {
-      moxios.stubRequest(`${apiBaseUrl}/meal-items/`, {
+      moxios.stubRequest(`/meal-items/`, {
         status: 201,
         response: {
           payload: {
@@ -161,7 +160,7 @@ describe('Admin::Meal Items Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('delete meal items success', async (done) => {
-      moxios.stubRequest(`${apiBaseUrl}/meal-items/${mealItems[0].id}`, {
+      moxios.stubRequest(`/meal-items/${mealItems[0].id}`, {
         status: 200,
         response: {}
       });
@@ -192,7 +191,7 @@ describe('Admin::Meal Items Action', () => {
     });
   
     it('delete meal item failure', async (done) => {
-      moxios.stubRequest(`${apiBaseUrl}/meal-items/${mealItems[0].id}`, {
+      moxios.stubRequest(`/meal-items/${mealItems[0].id}`, {
         status: 401,
       });
   
@@ -258,7 +257,7 @@ describe('Admin::Meal Items Action', () => {
         }
       });
 
-      moxios.stubRequest(`${apiBaseUrl}/meal-items/${mealItems[0].id}`, {
+      moxios.stubRequest(`/meal-items/${mealItems[0].id}`, {
         status: 200,
         response: {
           payload: {
@@ -292,7 +291,7 @@ describe('Admin::Meal Items Action', () => {
 
       const store = mockStore({});
 
-      moxios.stubRequest(`${apiBaseUrl}/meal-items/${mealItems[0].id}`, {
+      moxios.stubRequest(`/meal-items/${mealItems[0].id}`, {
         status: 500
       });
       

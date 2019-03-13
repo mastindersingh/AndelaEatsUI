@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import moxios from 'moxios';
 import {
-  base,
   fetchOrders,
   filterOrders,
   deleteOrder,
@@ -46,7 +45,7 @@ describe('Order actions', () => {
   const orderDetails = {}
 
   it('fetch past orders success', async (done) => {
-    moxios.stubRequest(`${base}/orders/user/${userID}/${startDate}/${endDate}`, {
+    moxios.stubRequest(`/orders/user/${userID}/${startDate}/${endDate}`, {
       status: 200,
       response: {
         payload: {
@@ -75,7 +74,7 @@ describe('Order actions', () => {
   });
 
   it('fetch past orders failure', async (done) => {
-    moxios.stubRequest(`${base}/orders/user/${userID}/${startDate}/${endDate}`, {
+    moxios.stubRequest(`/orders/user/${userID}/${startDate}/${endDate}`, {
       status: 401
     });
     const expectedActions = [
@@ -99,7 +98,7 @@ describe('Order actions', () => {
   });
 
   it('tabs an order success', async (done) => {
-    moxios.stubRequest(`${base}/orders/collect`, {
+    moxios.stubRequest(`/orders/collect`, {
       status: 200,
       response: {
         payload: {
@@ -128,7 +127,7 @@ describe('Order actions', () => {
   });
 
   it('fetch past orders failure', async (done) => {
-    moxios.stubRequest(`${base}/orders/collect`, {
+    moxios.stubRequest(`/orders/collect`, {
       status: 401
     });
     const expectedActions = [
@@ -152,7 +151,7 @@ describe('Order actions', () => {
   });
 
   it('edit order success', async (done) => {
-    moxios.stubRequest(`${base}/${id}`, {
+    moxios.stubRequest(`/${id}`, {
       status: 200,
       response: {}
     });
@@ -177,7 +176,7 @@ describe('Order actions', () => {
   });
 
   it('edit order failure', async (done) => {
-    moxios.stubRequest(`${base}/${id}`, {
+    moxios.stubRequest(`/${id}`, {
       status: 401,
       response: {}
     });
@@ -199,7 +198,7 @@ describe('Order actions', () => {
   });
 
   it('delete orders success', async (done) => {
-    moxios.stubRequest(`${base}/orders/${id}`, {
+    moxios.stubRequest(`/orders/${id}`, {
       status: 200,
       response: {}
     });
@@ -224,7 +223,7 @@ describe('Order actions', () => {
   });
 
   it('delete orders failure', async (done) => {
-    moxios.stubRequest(`${base}/orders/${id}`, {
+    moxios.stubRequest(`/orders/${id}`, {
       status: 401
     });
     const expectedActions = [
@@ -256,7 +255,7 @@ describe('Order actions', () => {
   };
 
   it('filter orders success', async (done) => {
-    moxios.stubRequest(`${base}/orders/user/${userID}/${order.startDate}/${order.endDate}`, {//eslint-disable-line
+    moxios.stubRequest(`/orders/user/${userID}/${order.startDate}/${order.endDate}`, {//eslint-disable-line
       status: 200,
       response: {}
     });
@@ -281,7 +280,7 @@ describe('Order actions', () => {
   });
 
   it('filter orders failure', async (done) => {
-    moxios.stubRequest(`${base}/orders/user/${userID}/${order.startDate}/${order.endDate}`, {//eslint-disable-line
+    moxios.stubRequest(`/orders/user/${userID}/${order.startDate}/${order.endDate}`, {//eslint-disable-line
       status: 401
     });
 
@@ -306,7 +305,7 @@ describe('Order actions', () => {
   });
 
   it('update order success', async (done) => {
-    moxios.stubRequest(`${base}/${id}`, {
+    moxios.stubRequest(`/${id}`, {
       status: 200,
       response: {}
     });
@@ -339,7 +338,7 @@ describe('Order actions', () => {
   });
 
   it('update order failure', async (done) => {
-    moxios.stubRequest(`${base}/${id}`, {
+    moxios.stubRequest(`/${id}`, {
       status: 401,
       response: {}
     });
@@ -369,7 +368,7 @@ describe('Order actions', () => {
   });
 
   it('get order success', async (done) => {
-    moxios.stubRequest(`${base}/search?date=${date}`, {
+    moxios.stubRequest(`/search?date=${date}`, {
       status: 200,
       response: {}
     });
@@ -394,7 +393,7 @@ describe('Order actions', () => {
   });
 
   it('get order failure', async (done) => {
-    moxios.stubRequest(`${base}/search?date=${date}`, {
+    moxios.stubRequest(`/search?date=${date}`, {
       status: 419,
       response: {}
     });
