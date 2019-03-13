@@ -1,44 +1,47 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import FaqItem from "./FaqItem";
 
+import EmptyContent from '../common/EmptyContent';
+import { fetchFaqs } from "../../actions/faqsAction";
+
+/**
+ * @description Faqs Component
+ *
+ * @name Faqs
+ */
 export class Faqs extends Component {
+  componentDidMount() {
+    // this.props.fetchFaqs();
+  }
 
   render() {
+    const { faqs } = this.props;
 
     return (
       <div>
         <h3 className="faq-head">Frequently Asked Questions</h3>
-        <div className="wrap-collabsible">
-          <input id="collapsible" className="toggle" type="checkbox" />
-          <label htmlFor="collapsible" className="lbl-toggle">How do I rate an order?</label>
-          <div className="collapsible-content">
-            <div className="content-inner">
-              <p>
-                In order to rate an order, you need to first collect it by clicking <strong>Collect</strong>
-                on the order card. When this is done, the <strong>Rate</strong> button will now be visible.
-                Click on it and rate the meal!
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="wrap-collabsible">
-          <input id="yu" className="toggle" type="checkbox" />
-          <label htmlFor="yu" className="lbl-toggle">How do I rate an order?</label>
-          <div className="collapsible-content">
-            <div className="content-inner">
-              <p>
-                In order to rate an order, you need to first collect it by clicking <strong>Collect</strong>
-                on the order card. When this is done, the <strong>Rate</strong> button will now be visible.
-                Click on it and rate the meal!
-              </p>
-            </div>
-          </div>
-        </div>
+        { faqs && faqs.length > 0
+          ? faqs.map(faq => <FaqItem key={faq.id} faq={faq} />) 
+          : <EmptyContent message="No FAQ has been created" />
+        }
       </div>
     );
   }
-
-
 }
 
-export default Faqs;
+Faqs.propTypes = {
+  faqs: PropTypes.arrayOf(PropTypes.shape({
+    question: PropTypes.string.isRequired,
+    answer: PropTypes.string.isRequired
+  })),
+  fetchFaqs: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({ state }) => ({
+  faqs: state.faqs, 
+  isLoading: state.isLoading
+});
+
+export default connect(mapStateToProps, { fetchFaqs })(Faqs);

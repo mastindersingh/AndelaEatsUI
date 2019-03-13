@@ -25,6 +25,7 @@ import {
 } from '../../actions/ordersAction';
 
 import { validateDate } from '../../helpers/dateFormatter';
+import { fetchMenus } from '../../actions/admin/menuItemsAction';
 
 
 /**
@@ -51,6 +52,7 @@ export class Orders extends Component {
       newRating: 0,
       modalTitle: ''
     };
+    
 
     this.onChange = this.onChange.bind(this);
     this.clearForm = this.clearForm.bind(this);
@@ -70,11 +72,14 @@ export class Orders extends Component {
    */
   componentDidMount() {
     const { start, end } = this.state;
+   
     const startDate = format(start, 'YYYY-MM-DD');
     const endDate = format(end, 'YYYY-MM-DD');
-
     this.props.fetchOrders(startDate, endDate);
+    this.props.fetchMenus(startDate, endDate);
   }
+
+  
 
   /**
    * Handles input fields text changes
@@ -247,7 +252,8 @@ export class Orders extends Component {
   }
 
   /**
-   * Toggle Filter modal
+   * Toggle Filter m
+   * odal
    *
    * @memberof Orders
    *
@@ -272,6 +278,7 @@ export class Orders extends Component {
     })
   }
 
+
   /**
    * Submit ratings
    *
@@ -282,14 +289,25 @@ export class Orders extends Component {
   handleRatingSubmit = event => {
     event.preventDefault();
     const { newRating, textArea, modalContent } = this.state;
+    const {menuList} = this.props.menu;   
+    const engagement = menuList.filter(menu => menu.id == modalContent.menuId);
+    let vendorEngagementId, mainMealId;
+    const serviceDate = format(modalContent.dateBookedFor, 'YYYY-MM-DD')
+    if (engagement[0]){
+      vendorEngagementId= engagement[0].vendorEngagementId;
+      mainMealId =engagement[0].mainMealId
+    }
 
     const ratingDetails = {
       channel: "web",
       comment: textArea,
       rating: newRating,
-      orderId: modalContent.id
+      orderId: modalContent.id,
+      engagementId:vendorEngagementId,
+      mainMealId,
+      serviceDate
+      
     }
-
     if ( newRating && textArea ) {
       this.props.createRating(ratingDetails)
         .then(() => {
@@ -309,7 +327,7 @@ export class Orders extends Component {
         }
     }
   }
-
+ 
   /**
    *
    * This is React render method that render the UI on the dom
@@ -493,11 +511,12 @@ Orders.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  orders: state.orders
+  orders: state.orders,
+  menu: state.menus,
 });
 
 const actionCreators = {
-  fetchOrders, filterOrders, deleteOrder, createRating, collectOrder
+  fetchOrders, filterOrders, deleteOrder, createRating, collectOrder,fetchMenus
 };
 
 export default connect(mapStateToProps, actionCreators)(Orders);

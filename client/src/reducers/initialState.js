@@ -30,7 +30,8 @@ export const orders = {
       secondAccompaniment: []
     }
   },
-  isDeleting: false
+  isDeleting: false,
+  rating:0,
 };
 
 export const initialVendors = {
@@ -112,7 +113,7 @@ export const initialMealRatings = {
 export const initialFaqs = {
   isLoading: false,
   isCreating: false,
-  isSuspending: false,
+  isDeleting: false,
   isUpdating: false,
   faqs: [],
 };
