@@ -18,30 +18,50 @@ class ConfirmOrder extends Component {
       showToast,
       menuId,
       updateOrder,
-      createOrder
+      createOrder,
+      toggleModal,
+      closeModal,
+      order,
+      mealSelected
     } = this.props;
+  
+    const {
+      menuListId
+    } = this.props;
+
+    const mainMeal = mealSelected.mainMeal || order.mainMeal;
+    const firstAccompaniment = mealSelected.firstAccompaniment || order.firstAccompaniment;
+    const secondAccompaniment = mealSelected.secondAccompaniment || order.secondAccompaniment
+    
+    const newOrder = {
+      channel: "web",
+      mealItems: [mainMeal, firstAccompaniment, secondAccompaniment],
+      mealPeriod: "lunch",
+      menuId: menuListId || menuId
+    };
+    let date;
     if (menuId) {
+      date = format(this.props.date, 'YYYY-MM-DD'),
       // Updating an already created order
-      updateOrder();
+      updateOrder({
+        ...newOrder,
+        dateBookedFor: date,
+      }, order.orderId).then(() => {
+        closeModal()
+        toggleModal();
+      })
     } else {
       // Creating a new order
       const {
-        mealSelected: { mainMeal, firstAccompaniment, secondAccompaniment },
         match: {
           params: { date }
-        },
-        menuListId
+        }
       } = this.props;
 
-      const newOrder = {
-        channel: "web",
+      createOrder({
+        ...newOrder,
         dateBookedFor: date,
-        mealItems: [mainMeal, firstAccompaniment, secondAccompaniment],
-        mealPeriod: "lunch",
-        menuId: menuListId
-      };
-
-      createOrder(newOrder)
+      })
         .then(() => {
           this.props.history.push("/");
         })
@@ -51,6 +71,13 @@ class ConfirmOrder extends Component {
     }
   };
 
+  renderItems = (meal, mealType) => (
+    <div>
+      <div className="label meal-title">{mealType}</div>
+      <Meal meal={meal} shouldHaveCheckBox={false} />
+    </div>
+  )
+
   render() {
     const {
       isModalOpen,
@@ -59,7 +86,8 @@ class ConfirmOrder extends Component {
       match,
       mealSelected,
       isLoading,
-      selectedMenu
+      selectedMenu,
+      order
     } = this.props;
 
     let mainMeal;
@@ -84,14 +112,15 @@ class ConfirmOrder extends Component {
         );
       }
     } else {
-      userSelectedMenu = this.props.menu;
+      const filterId = this.props.menuListId ? this.props.menuListId  : this.props.menuId
+      userSelectedMenu = this.props.menus.filter(menu => menu.id === filterId)[0];
       if (userSelectedMenu) {
         mainMeal = userSelectedMenu.mainMeal;
         proteinItems = userSelectedMenu.proteinItems
-          .filter(meal => meal.name === this.props.proteinItem)[0];
+          .filter(meal => meal.id === order.secondAccompaniment)[0];
         sideItems = userSelectedMenu.sideItems
-        .filter(meal => meal.name === this.props.sideItem)[0];
-        date = this.props.menu.date    
+        .filter(meal => meal.id === order.firstAccompaniment)[0];
+        date = userSelectedMenu.date    
       }    
     }
 
@@ -119,26 +148,17 @@ class ConfirmOrder extends Component {
             <div className="main-meal">
               <ul>
                 {mainMeal ? (
-                  <div>
-                    <div className="label meal-title">Main Meal</div>
-                    <Meal meal={mainMeal} shouldHaveCheckBox={false} />
-                  </div>
+                  this.renderItems(mainMeal, 'Main Meal')
                 ) : (
                   ""
                 )}
                 {sideItems ? (
-                  <div>
-                    <div className="meal-title">Side Item</div>
-                    <Meal meal={sideItems} shouldHaveCheckBox={false} />
-                  </div>
+                  this.renderItems(sideItems, 'Side Items')
                 ) : (
                   ""
                 )}
                 {proteinItems ? (
-                  <div>
-                    <div className="meal-title">Protein Item</div>
-                    <Meal meal={proteinItems} shouldHaveCheckBox={false} />
-                  </div>
+                  this.renderItems(proteinItems, 'Protein Item')
                 ) : (
                   ""
                 )}

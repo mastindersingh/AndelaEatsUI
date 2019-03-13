@@ -23,7 +23,8 @@ const props = {
     mainMeal: 1,
     accompaniment1: 1,
     accompaniment2: 1,
-  }
+  },
+  order: {}
 };
 let wrapper;
 /* 

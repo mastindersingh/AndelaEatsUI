@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { format, addDays } from 'date-fns';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Route, NavLink } from 'react-router-dom';
 import PropType from 'prop-types';
 import moment from 'moment';
@@ -110,9 +110,9 @@ export class Orders extends Component {
    * @memberof Orders
    */
   renderDates() {
-    const { userMenus } = this.props;
-    if (userMenus) {
-      return userMenus.map(
+    const { menus } = this.props;
+    if (menus) {
+      return menus.map(
         menuDate =>
           validateDate(menuDate, endDate()) && (
             <li
@@ -187,6 +187,8 @@ export class Orders extends Component {
                         orderedMenus={orderedMenus}
                         selectMenuListId={this.selectMenuListId}
                         {...props}
+                        edit={false}
+                        order={{mainMeal: '', acc1: '', acc2: ''}}
                       />
                       <ConfirmOrder
                         menuId={this.state.menuId}
