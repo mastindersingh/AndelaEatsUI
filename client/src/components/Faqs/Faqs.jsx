@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import FaqItem from "./FaqItem";
 
+
+import Loader from '../common/Loader/Loader';
 import EmptyContent from '../common/EmptyContent';
 import { fetchFaqs } from "../../actions/faqsAction";
 
@@ -13,19 +15,27 @@ import { fetchFaqs } from "../../actions/faqsAction";
  */
 export class Faqs extends Component {
   componentDidMount() {
-    this.props.fetchFaqs();
+    // this.props.fetchFaqs();
   }
 
   render() {
-    const { faqs } = this.props;
+    const { faqs, isLoading } = this.props;
+    const header = <h3 className="faq-head">Frequently Asked Questions</h3>;
+
+    if (!isLoading && faqs && faqs.length === 0) {
+      return (
+        <div>
+          { header }
+          <EmptyContent message="No FAQ has been created" />
+        </div>
+      );
+    }
 
     return (
       <div>
-        <h3 className="faq-head">Frequently Asked Questions</h3>
-        { faqs && faqs.length > 0
-          ? faqs.map(faq => <FaqItem key={faq.id} faq={faq} />) 
-          : <EmptyContent message="No FAQ has been created" />
-        }
+        { header }
+        { isLoading && <Loader /> }
+        { faqs.map(faq => <FaqItem key={faq.id} faq={faq} />) }
       </div>
     );
   }
@@ -36,6 +46,7 @@ Faqs.propTypes = {
     question: PropTypes.string.isRequired,
     answer: PropTypes.string.isRequired
   })),
+  isLoading: PropTypes.bool.isRequired,
   fetchFaqs: PropTypes.func.isRequired,
 };
 
