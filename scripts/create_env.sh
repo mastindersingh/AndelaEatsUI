@@ -11,7 +11,7 @@ export TERM=xterm-256color
 # colors
 red=$(tput setaf 1)
 green=$(tput setaf 76)
-tan=$(tput setaf 3)
+tan=$(tput setaf 3) 
 white=$(tput setaf 7)
 
 success() {
