@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Create Env file at Repository root
           command: |
-            chmod +x scripts/create_env.sh && ./scripts/create_env.sh .env
+            chmod +x scripts/create_env.sh && ./scripts/create_env.sh
       - run: 
           name: install dependencies 
           command: cd client/ && npm install
