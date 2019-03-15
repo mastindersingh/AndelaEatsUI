@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 
 DIRECTORY="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
-
+ 
 ROOT_DIRECTORY=$(dirname $DIRECTORY)
 export TERM=xterm-256color
 
