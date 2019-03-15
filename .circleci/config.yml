@@ -11,10 +11,6 @@ jobs:
             - v1-dependencies-{{ checksum "client/package.json" }}
           # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run:
-          name: Create Env file at Repository root
-          command: |
-            chmod +x scripts/create_env.sh && ./scripts/create_env.sh .env
       - run: 
           name: install dependencies 
           command: cd client/ && npm install
@@ -32,6 +28,10 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 17.11.0-ce
+      - run:
+          name: Create Env file at Repository root
+          command: |
+            chmod +x scripts/create_env.sh && ./scripts/create_env.sh .env
       - run: 
           name: install dependencies 
           command: cd client/ && npm install
