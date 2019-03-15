@@ -28,6 +28,10 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 17.11.0-ce
+      - run:
+          name: Create Env file at Repository root
+          command: |
+            chmod +x scripts/create_env.sh && ./scripts/create_env.sh
       - run: 
           name: install dependencies 
           command: cd client/ && npm install
@@ -50,4 +54,5 @@ workflows:
                 - master
                 - develop
                 - /(release|hotfix)\/v[0-9].[0-9].[0-9]/
+                - ch-script-create-env-file-circleci
 
