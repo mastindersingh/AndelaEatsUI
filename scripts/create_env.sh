@@ -53,7 +53,7 @@ EOF
   warning "Skipping, Environment file already exist"
   reset
 }
-
+ 
 main () {
   addEnvFile
 }
