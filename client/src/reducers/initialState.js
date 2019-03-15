@@ -31,7 +31,7 @@ export const orders = {
     }
   },
   isDeleting: false,
-  rating:0,
+  rating: 0,
 };
 
 export const initialVendors = {
@@ -115,5 +115,13 @@ export const initialFaqs = {
   isCreating: false,
   isDeleting: false,
   isUpdating: false,
-  faqs: [],
+  faqs: [{
+    question: "First question",
+    answer: "First answer",
+    id: 1
+  }, {
+    question: "Second question",
+    answer: "Second answer",
+    id: 2
+  }]
 };
