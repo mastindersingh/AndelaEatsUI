@@ -41,8 +41,8 @@ IMAGE_TAG=$(getImageTag $(getCommitHash))
 IMAGE_NAME=$(getImageName)
 
 buildApplicationArtifacts() {
+    ./create_env.sh
     cd client
-    ./scripts/create_env.sh
     npm run build:production 
     cd $OLDPWD
 }
