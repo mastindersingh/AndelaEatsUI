@@ -42,6 +42,7 @@ IMAGE_NAME=$(getImageName)
 
 buildApplicationArtifacts() {
     cd client
+    ./scripts/create_env.sh
     npm run build:production 
     cd $OLDPWD
 }
