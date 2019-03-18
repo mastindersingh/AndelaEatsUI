@@ -1,13 +1,7 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
 import {
   func, shape, arrayOf, bool, any
 } from 'prop-types';
-import moment from 'moment';
-import formatMealItems, {
-  formatDate, isStartgreaterThanEnd
-} from '../../../helpers/formatMealItems';
-
 import { formatMenuItemDate } from '../../../helpers/menusHelper';
 import Loader from "../../common/Loader/Loader";
 import EmptyContent from '../../common/EmptyContent';
@@ -71,10 +65,8 @@ class MenuTable extends Component {
     const { menuList } = this.props.menus;
     return menuList.map(menuItem => {
       const {
-        mainMealId,
         id,
         mainMeal,
-        mealPeriod,
         sideItems,
         proteinItems,
         allowedSide,

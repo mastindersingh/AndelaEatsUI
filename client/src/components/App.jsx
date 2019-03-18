@@ -10,19 +10,15 @@ import OrderHistory from './OrderHistory/OrderHistory';
 import EditOrder from './EditOrder/EditOrder';
 import AdminOrderHistory from './Admin/OrderHistory/Index';
 import ExportOrders from './Admin/OrderHistory/ExportOrders';
-import Vendors from './Admin/Vendors/Vendors';
 import Meals from './Admin/Meals/Index';
-import Menus from './Admin/Menus/Index';
 import Engagements from './Admin/Engagements/Index';
 import VendorsTab from './Admin/Tabs/Vendors';
 import MenusAndMealsTab from './Admin/Tabs/MenusAndMeals';
 import Ratings from './Admin/Ratings/Index';
+import UserRatingsTab from './Ratings/RatingsTabs';
 import Users from './Admin/Users/Users';
 
-
-export const NotFound = () => (
-  <h1>Page Not Found</h1>
-);
+export const NotFound = () => <h1>Page Not Found</h1>;
 
 const Root = () => (
   <Router>
@@ -40,6 +36,7 @@ const Root = () => (
           <Route exact path="/admin/meals" component={Meals} />
           <Route exact path="/admin/engagements" component={Engagements} />
           <Route exact path="/admin/ratings" component={Ratings} />
+          <Route exact path="/users/ratings" component={UserRatingsTab} />
           <Route exact path="/admin/users" component={Users} />
           <Route component={NotFound} />
         </Switch>

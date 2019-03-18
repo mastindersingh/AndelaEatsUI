@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Pagination from 'rc-pagination/lib';
 import { connect } from 'react-redux';
 import DatePicker from 'react-date-picker';
-import { format, addDays } from "date-fns";
+import { format, addDays } from 'date-fns';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -26,7 +26,6 @@ import {
 
 import { validateDate } from '../../helpers/dateFormatter';
 
-
 /**
  * @description Orders Component
  *
@@ -42,7 +41,7 @@ export class Orders extends Component {
     this.state = {
       isOpen: false,
       searchParam: '',
-      start: addDays(new Date, -7),
+      start: addDays(new Date(), -7),
       end: addDays(new Date(), 7),
       showModal: false,
       modalContent: null,
@@ -96,16 +95,18 @@ export class Orders extends Component {
    * @memberof Orders
    *
    * @returns { String }
-  */
+   */
   filterClassName = () => {
-    const { orders: { orders } } = this.props;
+    const {
+      orders: { orders }
+    } = this.props;
     const { isOpen } = this.state;
 
-      if (isOpen) {
-        return 'active';
-      }
-      return '';
+    if (isOpen) {
+      return 'active';
     }
+    return '';
+  };
 
   /**
    * Reset the form fields
@@ -139,7 +140,6 @@ export class Orders extends Component {
     }
   }
 
-
   /**
    * Handles search/filter of orders
    *
@@ -150,18 +150,17 @@ export class Orders extends Component {
     const { searchParam, start, end } = this.state;
     const dates = validateDate(start, end);
 
-    if(dates){
+    if (dates) {
       const order = {
         searchParam,
         startDate: dates.startDate,
         endDate: dates.endDate
-      }
+      };
 
-      this.props.filterOrders(order)
-        .then(() => this.setState({ isOpen: false }))
+      this.props
+        .filterOrders(order)
+        .then(() => this.setState({ isOpen: false }));
     }
-
-
   }
 
   /**
@@ -173,7 +172,8 @@ export class Orders extends Component {
    *
    * @returns {string} summary
    */
-  showTotal(total, range) { //eslint-disable-line
+  showTotal(total, range) {
+    //eslint-disable-line
     return `Showing ${range[0]} - ${range[1]} of ${total} items`;
   }
 
@@ -190,9 +190,9 @@ export class Orders extends Component {
       modalContent: meal,
       showRatingModal: true
     });
-  }
+  };
 
-   /**
+  /**
    * Display a modal
    *
    * @param {object} meal
@@ -217,19 +217,17 @@ export class Orders extends Component {
    * @returns {void}
    */
   deleteOrder(id) {
-    this.props.deleteOrder(id)
-      .then(() => this.hideModal());
+    this.props.deleteOrder(id).then(() => this.hideModal());
   }
 
-  tapOrder = (modalContent) => {
+  tapOrder = modalContent => {
     const orderDetails = {
       orderDate: format(modalContent.dateBookedFor, 'YYYY-MM-DD'),
       orderType: modalContent.mealPeriod,
       userId: modalContent.userId
-    }
-    this.props.collectOrder(orderDetails)
-      .then(() => window.location.reload())
-  }
+    };
+    this.props.collectOrder(orderDetails).then(() => window.location.reload());
+  };
 
   /**
    * Hide modal
@@ -256,8 +254,8 @@ export class Orders extends Component {
   openFilterModal = () => {
     this.setState(prevProps => ({
       isOpen: !prevProps.isOpen
-    }))
-  }
+    }));
+  };
 
   /**
    * Change ratings stars
@@ -269,8 +267,8 @@ export class Orders extends Component {
   ratingChanged = newRating => {
     this.setState({
       newRating
-    })
-  }
+    });
+  };
 
   /**
    * Submit ratings
@@ -284,31 +282,36 @@ export class Orders extends Component {
     const { newRating, textArea, modalContent } = this.state;
 
     const ratingDetails = {
-      channel: "web",
+      channel: 'web',
       comment: textArea,
       rating: newRating,
       orderId: modalContent.id
-    }
+    };
 
-    if ( newRating && textArea ) {
-      this.props.createRating(ratingDetails)
-        .then(() => {
-          toast.success('Your Feedback has been noted');
-          this.hideModal()
-        });
+    if (newRating && textArea) {
+      this.props.createRating(ratingDetails).then(() => {
+        toast.success('Your Feedback has been noted');
+        this.hideModal();
+      });
     } else {
       if (newRating && !textArea) {
-        document.getElementsByClassName("validate-rating")[1].style.display = 'block';
-        document.getElementsByClassName("comment-textarea")[0].style.border = '1px solid red';
+        document.getElementsByClassName('validate-rating')[1].style.display =
+          'block';
+        document.getElementsByClassName('comment-textarea')[0].style.border =
+          '1px solid red';
       } else if (!newRating && textArea) {
-        document.getElementsByClassName("validate-rating")[0].style.display = 'block';
-        } else {
-          document.getElementsByClassName("validate-rating")[0].style.display = 'block';
-          document.getElementsByClassName("validate-rating")[1].style.display = 'block';
-          document.getElementsByClassName("comment-textarea")[0].style.border = '1px solid red';
-        }
+        document.getElementsByClassName('validate-rating')[0].style.display =
+          'block';
+      } else {
+        document.getElementsByClassName('validate-rating')[0].style.display =
+          'block';
+        document.getElementsByClassName('validate-rating')[1].style.display =
+          'block';
+        document.getElementsByClassName('comment-textarea')[0].style.border =
+          '1px solid red';
+      }
     }
-  }
+  };
 
   /**
    *
@@ -318,7 +321,10 @@ export class Orders extends Component {
    * @return { void }
    */
   render() {
-    const { match: { url }, orders } = this.props;
+    const {
+      match: { url },
+      orders
+    } = this.props;
     const {
       isOpen,
       searchParam,
@@ -344,11 +350,10 @@ export class Orders extends Component {
                 className={`button ${this.filterClassName()}`}
                 type="button"
                 onClick={this.openFilterModal}
-              ><i className="fas fa-filter" />   Filter
-              </button>
-              <form
-                className={`dropdown ${isOpen && "active"}`}
               >
+                <i className="fas fa-filter" /> Filter
+              </button>
+              <form className={`dropdown ${isOpen && 'active'}`}>
                 <div>
                   <input
                     className="input"
@@ -360,17 +365,19 @@ export class Orders extends Component {
                   />
                 </div>
                 <div>
-                  <label className="date-label" htmlFor="start">Start Date
+                  <label className="date-label" htmlFor="start">
+                    Start Date
                     <DatePicker
-                      onChange={(date) => this.setState({ start: date })}
+                      onChange={date => this.setState({ start: date })}
                       value={start}
                     />
                   </label>
                 </div>
                 <div>
-                  <label className="date-label" htmlFor="end">End Date
+                  <label className="date-label" htmlFor="end">
+                    End Date
                     <DatePicker
-                      onChange={(date) => this.setState({ end: date })}
+                      onChange={date => this.setState({ end: date })}
                       value={end}
                     />
                   </label>
@@ -389,25 +396,26 @@ export class Orders extends Component {
                     role="button"
                     tabIndex="0"
                     onClick={() => this.clearForm()}
-                  >Clear filters
+                  >
+                    Clear filters
                   </a>
                   <a
                     className="action-item"
                     role="button"
                     tabIndex="0"
                     onClick={() => this.setState({ isOpen: false })}
-                  >Close
+                  >
+                    Close
                   </a>
                 </div>
               </form>
             </div>
           </div>
-          {
-            orders.error && (
-              <div className="network-error">
-                {orders.error.response || "Unable to connect to the internet"}
-              </div>)
-          }
+          {orders.error && (
+            <div className="network-error">
+              {orders.error.response || 'Unable to connect to the internet'}
+            </div>
+          )}
           <Modal
             displayModal={this.state.showModal}
             closeModal={this.hideModal}
@@ -420,49 +428,39 @@ export class Orders extends Component {
             displayModal={showRatingModal}
             hideModal={this.hideModal}
             modalContent={modalContent}
-            ratingChanged={this.ratingChanged}
+            ratingChanged={this.onChange}
             newRating={newRating}
             textArea={textArea}
             onChange={this.onChange}
             handleSubmit={this.handleRatingSubmit}
           />
-          {
-            Array.isArray(orders.orders) && orders.orders.length > 0
-              ? (
-                <Fragment>
-                  <div className="container">
-                    {
-                      orders.orders.map((meal) => (
-                        <MealCard
-                          key={meal.id}
-                          meal={meal}
-                          showModal={this.showModal}
-                          showRatingModal={this.showRatingModal}
-                        />
-                      ))
-                    }
-                    </div>
-                  {
-                    orders.orders.length > 15 && (
-                      <Pagination
-                        locale={{ items_per_page: 'Items' }}
-                        onChange={this.handlePageChange}
-                        current={+orders.currentPage}
-                        pageSize={9}
-                        total={+orders.totalRecords}
-                        className="pagination"
-                        showTotal={this.showTotal}
-                      />
-                    )
-                  }
-                </Fragment>
-              )
-              : (
-                <EmptyContent
-                  message="No meals available at the moment"
+          {Array.isArray(orders.orders) && orders.orders.length > 0 ? (
+            <Fragment>
+              <div className="container">
+                {orders.orders.map(meal => (
+                  <MealCard
+                    key={meal.id}
+                    meal={meal}
+                    showModal={this.showModal}
+                    showRatingModal={this.showRatingModal}
+                  />
+                ))}
+              </div>
+              {orders.orders.length > 15 && (
+                <Pagination
+                  locale={{ items_per_page: 'Items' }}
+                  onChange={this.handlePageChange}
+                  current={+orders.currentPage}
+                  pageSize={9}
+                  total={+orders.totalRecords}
+                  className="pagination"
+                  showTotal={this.showTotal}
                 />
-              )
-          }
+              )}
+            </Fragment>
+          ) : (
+            <EmptyContent message="No meals available at the moment" />
+          )}
         </div>
       </Fragment>
     );
@@ -497,7 +495,14 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
-  fetchOrders, filterOrders, deleteOrder, createRating, collectOrder
+  fetchOrders,
+  filterOrders,
+  deleteOrder,
+  createRating,
+  collectOrder
 };
 
-export default connect(mapStateToProps, actionCreators)(Orders);
+export default connect(
+  mapStateToProps,
+  actionCreators
+)(Orders);

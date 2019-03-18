@@ -13,20 +13,19 @@ const RatingModal = ({
   onChange,
   handleSubmit
 }) => {
-
-	return (
-		<div
+  return (
+    <div
       className="modal"
-      style={displayModal ? { display: "block" } : { display: "none" }}
+      style={displayModal ? { display: 'block' } : { display: 'none' }}
     >
-        {displayModal ? (
-          <div className="rating-modal-content">
-            <div className="rating-modal-wrapper">
-              <div className="rating-modal-header">
-                <div className="rating header-title">
-                  Rate Meal for { format(modalContent.dateBookedFor, 'dddd, Do MMMM YYYY') }
-                </div>
+      {displayModal ? (
+        <div className="rating-modal-content">
+          <div className="rating-modal-wrapper">
+            <div className="rating-modal-header">
+              <div className="rating header-title">
+                {/* Rate Meal for { format(modalContent.dateBookedFor, 'dddd, Do MMMM YYYY') } */}
               </div>
+            </div>
 
             <form onSubmit={handleSubmit}>
               <div className="average-rating">
@@ -39,9 +38,7 @@ const RatingModal = ({
                   onChange={ratingChanged}
                 />
                 <div className="text">Average Rating</div>
-                <span className="validate-rating">
-                  * Required
-                </span>
+                <span className="validate-rating">* Required</span>
               </div>
               <div className="comment-area">
                 <div className="text">Leave a comment</div>
@@ -52,9 +49,7 @@ const RatingModal = ({
                   name="textArea"
                   maxLength="200"
                 />
-                <span className="validate-rating">
-                  * Required
-                </span>
+                <span className="validate-rating">* Required</span>
               </div>
               <div className="modal-footer">
                 <button
@@ -64,26 +59,22 @@ const RatingModal = ({
                 >
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  className="submit-comment"
-                >
+                <button type="submit" className="submit-comment">
                   Submit
                 </button>
               </div>
             </form>
-            </div>
           </div>
-        ) : null}
-      </div>
-	)
-}
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 RatingModal.propTypes = {
   displayModal: PropTypes.bool,
   hideModal: PropTypes.func,
   modalContent: PropTypes.object
 };
-
 
 export default RatingModal;

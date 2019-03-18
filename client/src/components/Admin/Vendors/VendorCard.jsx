@@ -3,28 +3,28 @@ import ReactStars from 'react-stars';
 import PropTypes from 'prop-types';
 import dateFormatter from '../../../helpers/dateFormatter';
 
-
 /**
  * @function VendorCard
- * 
+ *
  * @param {object} { vendor, rating }
- * 
+ *
  * @returns {JSX}
  */
 export const VendorCard = ({
   vendor,
   rating,
   showSuspendModal,
-  showEditModal
+  showEditModal,
+  edit
 }) => (
   <div className="table-body">
     <div className="table-row">
       <div className="custom-row">
         <div className="custom-col-4 row-content">
-          { vendor.name }
-          <span>{ vendor.address }</span>
+          {vendor.name}
+          <span>{vendor.address}</span>
         </div>
-        <div className="custom-col-2">{ vendor.tel }</div>
+        <div className="custom-col-2">{vendor.tel}</div>
         <div className="custom-col-3">
           <ReactStars
             value={rating}
@@ -35,26 +35,29 @@ export const VendorCard = ({
           />
         </div>
         <div className="custom-col-3 options-wrapper">
-          <span className="edit-vendor"
+          <span
+            className="edit-vendor"
             onClick={() => showEditModal(vendor)}
             role="button"
             tabIndex={0}
           >
-            Edit
+            {!edit ? 'Edit' : 'Rate'}
           </span>
-          <span className="suspend-vendor"
-            onClick={() => showSuspendModal(vendor)}
-            role="button"
-            tabIndex={0}
-          >
-            Suspend
-          </span>
+          {!edit && (
+            <span
+              className="suspend-vendor"
+              onClick={() => showSuspendModal(vendor)}
+              role="button"
+              tabIndex={0}
+            >
+              Suspend
+            </span>
+          )}
         </div>
       </div>
     </div>
   </div>
 );
-
 
 VendorCard.propTypes = {
   vendor: PropTypes.shape({
@@ -63,7 +66,7 @@ VendorCard.propTypes = {
     contactPerson: PropTypes.string,
     address: PropTypes.string,
     created_at: PropTypes.string,
-    updated_at: PropTypes.string,
+    updated_at: PropTypes.string
   }),
   rating: PropTypes.number,
   showSuspendModal: PropTypes.func,

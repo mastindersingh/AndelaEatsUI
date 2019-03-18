@@ -20,12 +20,13 @@
 @import './components/_ratings';
 @import './components/admin/_ratings';
 @import './components/admin/_users';
+@import './components/userratings';
 
 button {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 :required:hover {
-    border: 1px solid red;
-    outline: none;
-  }
+  border: 1px solid red;
+  outline: none;
+}

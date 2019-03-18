@@ -8,7 +8,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import { fetchMealRatings } from '../../../actions/admin/mealRatingActions';
 import RatingsTabs from './RatingsTabs';
 import Loader from '../../common/Loader/Loader';
-import EmptyContent from '../../common/EmptyContent';
 
 
 export class Ratings extends Component {
