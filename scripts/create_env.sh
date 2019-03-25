@@ -30,48 +30,43 @@ reset() {
   printf "${white}"
 }
 
-read -r -d '' BASE_CONFIG <<- EOM
-    CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
-    CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
-    CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
-    CLOUDINARY_URL=${CLOUDINARY_URL}
-    SENTRY_URL=${SENTRY_URL}
-EOM
+BASE_CONFIG=("
+    CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}\n
+    CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}\n
+    CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}\n
+    CLOUDINARY_URL=${CLOUDINARY_URL}\n
+    SENTRY_URL=${SENTRY_URL}\n"
+)
 
-read -r -d '' PRODUCTION_CONFIG <<- EOM
-    API_BASE_URL=${API_BASE_URL}
-    BASE_URL=${BASE_URL}
-    ANDELA_API_URL=${ANDELA_API_URL}
-EOM
+PRODUCTION_CONFIG=("
+    API_BASE_URL=${API_BASE_URL}\n
+    BASE_URL=${BASE_URL}\n
+    ANDELA_API_URL=${ANDELA_API_URL}\n"
+)
 
-read -r -d '' STAGING_CONFIG <<- EOM
-    API_BASE_URL=${STAGING_API_BASE_URL}
-    BASE_URL=${STAGING_BASE_URL}
-    ANDELA_API_URL=${STAGING_ANDELA_API_URL}
-EOM
-
+STAGING_CONFIG=("
+    API_BASE_URL=${STAGING_API_BASE_URL}\n
+    BASE_URL=${STAGING_BASE_URL}\n
+    ANDELA_API_URLAyoola=${STAGING_ANDELA_API_URL}\n"
+)
 
 function addEnvFile() {
   ENV_FILE=$ROOT_DIRECTORY/client/.env
   warning "Adding .env file to Andela Easts root project directory"
-  echo " "
+  echo ">>>>>>>>>>>>>>>>>"
 
-  [[ $CIRCLE_BRANCH == "master" ]] &&
-   $BASE_CONFIG += $PRODUCTION_CONFIG 
-   || $BASE_CONFIG += $STAGING_CONFIG
+  [[ $CIRCLE_BRANCH == "master" ]] && BASE_CONFIG+=$PRODUCTION_CONFIG || BASE_CONFIG+=$STAGING_CONFIG
 
   if [ ! -f "$ENV_FILE" ]; then
-    cat <<EOF >>${ROOT_DIRECTORY}/client/.env
-    ${BASE_CONFIG}
-EOF
-    success "lsEnvironment file has been created successfully"
+    echo -e $BASE_CONFIG >> ${ROOT_DIRECTORY}/client/.env
+    success "Environment file has been created successfully"
     return
   fi
 
   warning "Skipping, Environment file already exist"
   reset
 }
- 
+
 main () {
   addEnvFile
 }
