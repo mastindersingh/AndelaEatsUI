@@ -4,10 +4,12 @@ import FaqItem from '../../../components/Faqs/FaqItem';
 
 const props = {
   faq: {
-    question: "First question",
-    answer: "First answer",
+    question: 'First question',
+    answer: 'First answer',
     id: 0
-  }
+  },
+  showFaqModal: jest.fn(),
+  isAdmin: 0
 };
 
 let wrapper;
@@ -19,5 +21,14 @@ describe('FaqItem Component', () => {
   it('should mount successfully', () => {
     wrapper = shallow(<FaqItem {...props} />);
     expect(wrapper).toMatchSnapshot();
+  });
+
+  it('calls showFaqModal on click', () => {
+    wrapper.setProps({
+      isAdmin: 1
+    });
+    // const spy = jest.spyOn(wrapper.instance(), 'showFaqModal');
+    wrapper.find('.fa-edit').simulate('click');
+    // expect(spy).toHaveBeenCalled();
   });
 });

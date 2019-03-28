@@ -115,13 +115,5 @@ export const initialFaqs = {
   isCreating: false,
   isDeleting: false,
   isUpdating: false,
-  faqs: [{
-    question: "First question",
-    answer: "First answer",
-    id: 1
-  }, {
-    question: "Second question",
-    answer: "Second answer",
-    id: 2
-  }]
+  faqs: []
 };

@@ -27,7 +27,7 @@ describe('Faqs Reducer', () => {
     it('should set isLoading state to true when making api request', () => {
       const action = {
         type: FETCH_FAQS_LOADING,
-        payload: true,
+        payload: true
       };
 
       const newState = faqsReducer(initialFaqs, action);
@@ -37,7 +37,7 @@ describe('Faqs Reducer', () => {
     it('should set isLoading state to false when request is resolved', () => {
       const action = {
         type: FETCH_FAQS_LOADING,
-        payload: false,
+        payload: false
       };
 
       const newState = faqsReducer(initialFaqs, action);
@@ -49,7 +49,7 @@ describe('Faqs Reducer', () => {
     it('should update the allFaqs state in the store', () => {
       const action = {
         type: FETCH_FAQS_SUCCESS,
-        payload: faqs,
+        payload: faqs
       };
 
       const newState = faqsReducer(initialFaqs, action);
@@ -61,7 +61,7 @@ describe('Faqs Reducer', () => {
     it('should return the previous state of allFaqs in the store', () => {
       const action = {
         type: FETCH_FAQS_FAILURE,
-        payload: {},
+        payload: {}
       };
 
       const newState = faqsReducer(initialFaqs, action);
@@ -73,7 +73,7 @@ describe('Faqs Reducer', () => {
     it('should set isCreating state to true when creating faq', () => {
       const action = {
         type: CREATE_FAQ_LOADING,
-        payload: true,
+        payload: true
       };
 
       const newState = faqsReducer(initialFaqs, action);
@@ -83,7 +83,7 @@ describe('Faqs Reducer', () => {
     it('should set isCreating state to false when request is resolved', () => {
       const action = {
         type: CREATE_FAQ_LOADING,
-        payload: false,
+        payload: false
       };
 
       const newState = faqsReducer(initialFaqs, action);
@@ -95,7 +95,7 @@ describe('Faqs Reducer', () => {
     it('should update vendprs in the store', () => {
       const action = {
         type: CREATE_FAQ_SUCCESS,
-        payload: createdFaq,
+        payload: createdFaq
       };
 
       const newState = faqsReducer(initialFaqs, action);
@@ -107,7 +107,7 @@ describe('Faqs Reducer', () => {
     it('should return the previous state', () => {
       const action = {
         type: CREATE_FAQ_FAILURE,
-        payload: {},
+        payload: {}
       };
 
       const newState = faqsReducer(initialFaqs, action);
@@ -119,7 +119,7 @@ describe('Faqs Reducer', () => {
     it('should set isDeleting state to true when deleting faq', () => {
       const action = {
         type: DELETE_FAQ_LOADING,
-        payload: true,
+        payload: true
       };
       const newState = faqsReducer(initialFaqs, action);
       expect(newState.isDeleting).toEqual(true);
@@ -128,7 +128,7 @@ describe('Faqs Reducer', () => {
     it('should set isDeleting state to false when request is resolved', () => {
       const action = {
         type: DELETE_FAQ_LOADING,
-        payload: false,
+        payload: false
       };
       const newState = faqsReducer(initialFaqs, action);
       expect(newState.isDeleting).toEqual(false);
@@ -139,19 +139,19 @@ describe('Faqs Reducer', () => {
     it('should update faqs in the store', () => {
       const action = {
         type: DELETE_FAQ_SUCCESS,
-        payload: faqs[0].id,
+        payload: faqs[0].id
       };
 
       const newState = faqsReducer(initialFaqs, action);
       expect(newState.faqs).toEqual([]);
     });
   });
-  
+
   describe('DELETE_FAQ_FAILURE', () => {
     it('should return the previous state', () => {
       const action = {
         type: DELETE_FAQ_FAILURE,
-        payload: {},
+        payload: {}
       };
       const newState = faqsReducer(initialFaqs, action);
       expect(newState.faqs).toEqual([]);
@@ -162,16 +162,16 @@ describe('Faqs Reducer', () => {
     it('should set isUpdating state to true when deleting faq', () => {
       const action = {
         type: UPDATE_FAQ_LOADING,
-        payload: true,
+        payload: true
       };
       const newState = faqsReducer(initialFaqs, action);
       expect(newState.isUpdating).toEqual(true);
     });
-    
+
     it('should set isUpdating state to false when request is resolved', () => {
       const action = {
         type: UPDATE_FAQ_LOADING,
-        payload: false,
+        payload: false
       };
       const newState = faqsReducer(initialFaqs, action);
       expect(newState.isUpdating).toEqual(false);
@@ -180,13 +180,22 @@ describe('Faqs Reducer', () => {
 
   describe('UPDATE_FAQ_SUCCESS', () => {
     it('should update faqs in the store', () => {
+      const initialFaqState = {
+        ...initialFaqs,
+        faqs: [
+          { id: 1, question: 'How can i order a meal', answer: 'an answer' }
+        ]
+      };
       const action = {
         type: UPDATE_FAQ_SUCCESS,
-        payload: faqs[0],
+        payload: {
+          id: 1,
+          question: 'How can i order my meal',
+          answer: 'an answer'
+        }
       };
-
-      const newState = faqsReducer(initialFaqs, action);
-      expect(newState.faqs).toEqual([faqs[0]]);
+      const newState = faqsReducer(initialFaqState, action);
+      expect(newState.faqs[0].question).toEqual('How can i order my meal');
     });
   });
 
@@ -194,7 +203,7 @@ describe('Faqs Reducer', () => {
     it('should return the previous state', () => {
       const action = {
         type: UPDATE_FAQ_FAILURE,
-        payload: {},
+        payload: {}
       };
       const newState = faqsReducer(initialFaqs, action);
       expect(newState.faqs).toEqual([]);

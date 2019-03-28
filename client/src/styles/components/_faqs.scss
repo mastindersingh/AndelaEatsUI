@@ -5,7 +5,7 @@
   color: $color-blue;
 }
 
-.add-right{
+.add-right {
   float: right;
   color: $color-blue;
   cursor: pointer;
@@ -13,7 +13,7 @@
   padding: 4px;
 }
 
-.edit-right{
+.edit-right {
   @extend .add-right;
   color: $color-gray;
 }
@@ -22,12 +22,12 @@
   color: $color-pale-blue;
 }
 
-.edit-right:hover{
+.edit-right:hover {
   color: $color-white;
 }
 
 input[type='checkbox'] {
-    display: none;
+  display: none;
 }
 
 .wrap-collabsible {
@@ -35,17 +35,17 @@ input[type='checkbox'] {
 }
 
 .lbl-toggle {
-    display: block;
-    font-weight: bold;
-    font-size: 1.2rem;
-    text-align: center;
-    padding: 1rem;
-    color: $color-white;
-    background: $color-blue;
-    cursor: pointer;
-    border-top-right-radius: 7px;
-    border-top-left-radius: 7px;
-    transition: all 0.25s ease-out;
+  display: block;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 1rem;
+  color: $color-white;
+  background: $color-blue;
+  cursor: pointer;
+  border-top-right-radius: 7px;
+  border-top-left-radius: 7px;
+  transition: all 0.25s ease-out;
 }
 
 .lbl-toggle:hover {
@@ -58,13 +58,13 @@ input[type='checkbox'] {
   border-bottom: 1px solid $color-blue;
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .collapsible-content {
   max-height: 0px;
   overflow: hidden;
-  transition: max-height .25s ease-in-out;
+  transition: max-height 0.25s ease-in-out;
 }
 
 .toggle:checked + .lbl-toggle + .collapsible-content {

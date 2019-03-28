@@ -20,11 +20,7 @@ import {
   deleteFaq,
   updateFaq
 } from '../../actions/faqsAction';
-import {
-  newFaq,
-  createdFaq,
-  update
-} from '../__mocks__/mockNewFaq';
+import { newFaq, createdFaq, update } from '../__mocks__/mockNewFaq';
 import faqs from '../__mocks__/mockFaqs';
 
 describe('Faqs Action', () => {
@@ -32,7 +28,7 @@ describe('Faqs Action', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    it('fetch faqs success', async (done) => {
+    it('fetch faqs success', async done => {
       moxios.stubRequest(`/faqs/`, {
         status: 200,
         response: {
@@ -45,53 +41,49 @@ describe('Faqs Action', () => {
       const expectedActions = [
         {
           type: FETCH_FAQS_LOADING,
-          payload: true,
+          payload: true
         },
         {
           type: FETCH_FAQS_SUCCESS,
-          payload: faqs,
+          payload: faqs
         },
         {
           type: FETCH_FAQS_LOADING,
-          payload: false,
+          payload: false
         }
       ];
 
       const store = mockStore({});
-      await store
-        .dispatch(fetchFaqs())
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(fetchFaqs()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
 
-    it('fetch faqs failure', async (done) => {
+    it('fetch faqs failure', async done => {
       moxios.stubRequest(`/faqs/`, {
-        status: 401,
+        status: 401
       });
 
       const expectedActions = [
         {
           type: FETCH_FAQS_LOADING,
-          payload: true,
+          payload: true
         },
         {
           type: FETCH_FAQS_FAILURE,
-          payload: new Error('Request failed with status code 401'),
+          payload: new Error('Request failed with status code 401')
         },
         {
           type: FETCH_FAQS_LOADING,
-          payload: false,
+          payload: false
         }
       ];
 
       const store = mockStore({});
-      await store
-        .dispatch(fetchFaqs())
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(fetchFaqs()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
   });
@@ -100,7 +92,7 @@ describe('Faqs Action', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    it('create faq success', async (done) => {
+    it('create faq success', async done => {
       moxios.stubRequest(`/faqs/`, {
         status: 201,
         response: {
@@ -113,28 +105,26 @@ describe('Faqs Action', () => {
       const expectedActions = [
         {
           type: CREATE_FAQ_LOADING,
-          payload: true,
+          payload: true
         },
         {
           type: CREATE_FAQ_SUCCESS,
-          payload: createdFaq,
+          payload: createdFaq
         },
         {
           type: CREATE_FAQ_LOADING,
-          payload: false,
+          payload: false
         }
       ];
 
       const store = mockStore({});
-      await store
-        .dispatch(createFaq(newFaq))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(createFaq(newFaq)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
 
-    it('create faq failure', async (done) => {
+    it('create faq failure', async done => {
       moxios.stubRequest(`/faqs/`, {
         status: 401,
         response: {}
@@ -143,24 +133,22 @@ describe('Faqs Action', () => {
       const expectedActions = [
         {
           type: CREATE_FAQ_LOADING,
-          payload: true,
+          payload: true
         },
         {
           type: CREATE_FAQ_FAILURE,
-          payload: new Error('Request failed with status code 401'),
+          payload: new Error('Request failed with status code 401')
         },
         {
           type: CREATE_FAQ_LOADING,
-          payload: false,
+          payload: false
         }
       ];
 
       const store = mockStore({});
-      await store
-        .dispatch(createFaq(newFaq))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(createFaq(newFaq)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
   });
@@ -169,8 +157,8 @@ describe('Faqs Action', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    it('delete faq success', async (done) => {
-      moxios.stubRequest(`/faqs/delete/${faqs[0].id}`, {
+    it('delete faq success', async done => {
+      moxios.stubRequest(`/faqs/${faqs[0].id}`, {
         status: 200,
         response: {}
       });
@@ -178,7 +166,7 @@ describe('Faqs Action', () => {
       const expectedActions = [
         {
           type: DELETE_FAQ_LOADING,
-          payload: true,
+          payload: true
         },
         {
           type: DELETE_FAQ_SUCCESS,
@@ -186,19 +174,17 @@ describe('Faqs Action', () => {
         },
         {
           type: DELETE_FAQ_LOADING,
-          payload: false,
+          payload: false
         }
       ];
       const store = mockStore({});
-      await store
-        .dispatch(deleteFaq(faqs[0].id))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(deleteFaq(faqs[0].id)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
-    it('return faq failure', async (done) => {
-      moxios.stubRequest(`/faqs/delete/${faqs[0].id}`, {
+    it('return faq failure', async done => {
+      moxios.stubRequest(`/faqs/${faqs[0].id}`, {
         status: 401,
         response: {}
       });
@@ -206,23 +192,21 @@ describe('Faqs Action', () => {
       const expectedActions = [
         {
           type: DELETE_FAQ_LOADING,
-          payload: true,
+          payload: true
         },
         {
           type: DELETE_FAQ_FAILURE,
-          payload: new Error('Request failed with status code 401'),
+          payload: new Error('Request failed with status code 401')
         },
         {
           type: DELETE_FAQ_LOADING,
-          payload: false,
+          payload: false
         }
       ];
       const store = mockStore({});
-      await store
-        .dispatch(deleteFaq(faqs[0].id))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(deleteFaq(faqs[0].id)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
   });
@@ -231,7 +215,7 @@ describe('Faqs Action', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    it('update faq success', async (done) => {  
+    it('update faq success', async done => {
       moxios.stubRequest(`/faqs/${createdFaq.id}`, {
         status: 200,
         response: {
@@ -244,7 +228,7 @@ describe('Faqs Action', () => {
       const expectedActions = [
         {
           type: UPDATE_FAQ_LOADING,
-          payload: true,
+          payload: true
         },
         {
           type: UPDATE_FAQ_SUCCESS,
@@ -252,18 +236,16 @@ describe('Faqs Action', () => {
         },
         {
           type: UPDATE_FAQ_LOADING,
-          payload: false,
+          payload: false
         }
       ];
       const store = mockStore({});
-      await store
-        .dispatch(updateFaq(update.id, update.faq))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(updateFaq(update.id, update.faq)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
-    it('return faq failure', async (done) => {
+    it('return faq failure', async done => {
       moxios.stubRequest(`/faqs/${createdFaq.id}`, {
         status: 401,
         response: {}
@@ -272,23 +254,21 @@ describe('Faqs Action', () => {
       const expectedActions = [
         {
           type: UPDATE_FAQ_LOADING,
-          payload: true,
+          payload: true
         },
         {
           type: UPDATE_FAQ_FAILURE,
-          payload: new Error('Request failed with status code 401'),
+          payload: new Error('Request failed with status code 401')
         },
         {
           type: UPDATE_FAQ_LOADING,
-          payload: false,
+          payload: false
         }
       ];
       const store = mockStore({});
-      await store
-        .dispatch(updateFaq(update.id, update.faq))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(updateFaq(update.id, update.faq)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
   });

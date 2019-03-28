@@ -28,7 +28,7 @@ const faqsReducer = (state = initialFaqs, action) => {
     case CREATE_FAQ_LOADING:
       return { ...state, isCreating: action.payload };
     case CREATE_FAQ_SUCCESS:
-      return { ...state, faqs: [...state.faqs, action.payload] };
+      return { ...state, faqs: state.faqs.concat(action.payload) };
     case DELETE_FAQ_LOADING:
       return { ...state, isDeleting: action.payload };
     case DELETE_FAQ_SUCCESS:
@@ -37,14 +37,11 @@ const faqsReducer = (state = initialFaqs, action) => {
         faqs: filter(state.faqs, action.payload)
       };
     case UPDATE_FAQ_SUCCESS:
-      index = findIndex(state.faqs, action.payload.id);
       return {
         ...state,
-        faqs: [
-          ...state.faqs.slice(0, index),
-          action.payload, 
-          ...state.faqs.slice(index + 1)
-        ]
+        faqs: state.faqs.map(faq => (faq.id === action.payload.id 
+          ? action.payload : faq)
+        )
       };
     case UPDATE_FAQ_LOADING:
       return { ...state, isUpdating: action.payload };
@@ -52,7 +49,6 @@ const faqsReducer = (state = initialFaqs, action) => {
     case CREATE_FAQ_FAILURE:
     case DELETE_FAQ_FAILURE:
     case UPDATE_FAQ_FAILURE:
-      return state;
     default:
       return state;
   }

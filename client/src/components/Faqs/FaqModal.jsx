@@ -1,5 +1,7 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import Loader from '../common/Loader/Loader';
 
 /**
  *
@@ -11,52 +13,50 @@ import PropTypes from 'prop-types';
 class FaqModal extends Component {
   static initialState = {
     errors: [],
-    show: false,
-    faq: { 
-      question: "",
-      answer: ""
-    },
-    isLoading: false
+    faq: {
+      question: '',
+      answer: ''
+    }
   };
 
   state = {
     ...FaqModal.initialState
-  }
-  
-  componentWillReceiveProps = (nextProps) => {
+  };
+
+  /**
+   * @param {Object} nextProps
+   *
+   * @returns {void}
+   */
+  componentWillReceiveProps = nextProps => {
     const newState = {
-      show: nextProps.show,
-      faq: nextProps.faq && nextProps.faq.id !== this.state.faq.id 
-        ? nextProps.faq : FaqModal.initialState.faq
+      faq:
+        nextProps.faq && nextProps.faq.id !== this.state.faq.id
+          ? nextProps.faq
+          : FaqModal.initialState.faq
     };
     this.setState(newState);
-  }
-
-  closeModal = () => {
-    this.setState({
-      ...FaqModal.initialState
-    });
-  }
+  };
 
   /**
    *
    *
    * @description handle onChage event
-   * 
+   *
    * @param { Object } event
-   * 
+   *
    * @returns { undefined }
    */
-  onChange = (event) => {
+  onChange = event => {
     const { name, value } = event.target;
-    const oldFaq = this.state.faq;
+    const oldFaq = { ...this.state.faq };
     oldFaq[name] = value;
-    this.setState({ 
-      faq: oldFaq,
-    });
-  }
+    this.setState(preState => ({
+      faq: oldFaq
+    }));
+  };
 
-  faqFormIsValid =() => {
+  faqFormIsValid = () => {
     let formIsValid = true;
     const errs = {};
     const { faq } = this.state;
@@ -65,7 +65,7 @@ class FaqModal extends Component {
       errs.question = 'Field cannot be empty.';
       formIsValid = false;
     }
-    
+
     if (faq.answer.length < 1) {
       errs.answer = 'Field cannot be empty.';
       formIsValid = false;
@@ -73,17 +73,17 @@ class FaqModal extends Component {
 
     this.setState({ errors: errs });
     return formIsValid;
-  }
+  };
 
   /**
    *
    * @description handle onSubmit event
-   * 
+   *
    * @param { Object } event
-   * 
+   *
    * @returns { undefined }
    */
-  onSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault();
 
     if (!this.faqFormIsValid()) return;
@@ -91,35 +91,38 @@ class FaqModal extends Component {
     const { faq } = this.state;
 
     if (faq.id) {
-      this.props.updateFaq(faq.id, faq).then(() => this.closeModal());
+      this.props
+        .updateFaq(faq.id, faq)
+        .then(() => this.props.handleModal(null));
     } else {
-      this.props.createFaq(faq).then(() => this.closeModal());
+      this.props
+        .createFaq({ ...faq, category: 'user_faq' })
+        .then(() => this.props.handleModal(null));
     }
-  }
+  };
 
   render() {
-    const {
-      faq,
-      show,
-      errors,
-      isLoading
-    } = this.state;
-
+    const { faq, errors } = this.state;
+    const { isCreating, isUpdating } = this.props;
+    const isLoading = isCreating || isUpdating;
     return (
       <div
         className="modal"
         id="add-meal-modal"
-        style={show ? { display: 'block' } : { display: 'none' }}
+        style={this.props.show ? { display: 'block' } : { display: 'none' }}
       >
         <div className="modal-content">
+          {(isCreating || isUpdating) && <Loader />}
           <div className="modal-header">
-            <div className="header-title">{ faq && faq.id ? 'EDIT' : 'ADD'} FAQ</div>
+            <div className="header-title">
+              {faq && faq.id ? 'EDIT' : 'ADD'} FAQ
+            </div>
             <div className="main">
               <button
                 tabIndex={0}
                 type="button"
                 className="close-icon btn-no-style"
-                onClick={() => this.closeModal()}
+                onClick={() => this.props.handleModal(null)}
               >
                 X&nbsp;&nbsp;Close
               </button>
@@ -134,11 +137,11 @@ class FaqModal extends Component {
                   <span
                     className="err-invalid"
                     style={{
-                      display: errors.question
-                        ? 'inline-block'
-                        : 'none'
+                      display: errors.question ? 'inline-block' : 'none'
                     }}
-                  > * Invalid
+                  >
+                    {' '}
+                    * Invalid
                   </span>
                 </label>
                 <input
@@ -156,11 +159,11 @@ class FaqModal extends Component {
                   <span
                     className="err-invalid"
                     style={{
-                      display: errors.answer
-                        ? 'inline-block'
-                        : 'none'
+                      display: errors.answer ? 'inline-block' : 'none'
                     }}
-                  > * Invalid
+                  >
+                    {' '}
+                    * Invalid
                   </span>
                 </label>
                 <input
@@ -170,28 +173,18 @@ class FaqModal extends Component {
                   value={faq && faq.answer}
                   onChange={this.onChange}
                 />
-              </div> 
+              </div>
             </main>
 
             <div className="modal-footer">
-              <div>
-                <div
-                  className="loader-wheel"
-                  style={{ display: isLoading ? 'inline-block' : 'none' }}
-                />
-              </div>
-
               <button
                 type="button"
                 className="grayed"
-                onClick={this.closeModal}
+                onClick={() => this.props.handleModal(null)}
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                disabled={isLoading}
-              >
+              <button type="submit" disabled={isLoading}>
                 {faq && faq.id ? 'Update' : 'Add'} FAQ
               </button>
             </div>
@@ -203,16 +196,18 @@ class FaqModal extends Component {
 }
 
 FaqModal.propTypes = {
-  errors: PropTypes.arrayOf(PropTypes.string),
   faq: PropTypes.shape({
     id: PropTypes.number,
     question: PropTypes.string,
     answer: PropTypes.string
   }),
   show: PropTypes.bool,
-  isLoading: PropTypes.bool,
   updateFaq: PropTypes.func.isRequired,
   createFaq: PropTypes.func.isRequired,
+  isCreating: PropTypes.bool,
+  isUpdating: PropTypes.bool,
+  handleModal: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool
 };
 
 export default FaqModal;

@@ -22,24 +22,26 @@ export const fetchFaqsLoading = isLoading => ({
 
 export const fetchFaqsSuccess = faqs => ({
   type: FETCH_FAQS_SUCCESS,
-  payload: faqs,
+  payload: faqs
 });
 
-export const fetchFaqsFailure = error => ({
-  type: FETCH_FAQS_FAILURE,
-  payload: error
-});
+export const fetchFaqsFailure = error => {
+  return {
+    type: FETCH_FAQS_FAILURE,
+    payload: error
+  };
+};
 
 export const fetchFaqs = () => dispatch => {
   dispatch(fetchFaqsLoading(true));
 
-  return axios.get(`/faqs/`)
-    .then((res) => {
+  return axios
+    .get(`/faqs/`)
+    .then(res => {
       dispatch(fetchFaqsSuccess(res.data.payload.faqs));
       dispatch(fetchFaqsLoading(false));
     })
-    .catch((error) => {
-      toastError(error.response.data.msg);
+    .catch(error => {
       dispatch(fetchFaqsFailure(error));
       dispatch(fetchFaqsLoading(false));
     });
@@ -60,7 +62,7 @@ export const createFaqFailure = error => ({
   payload: error
 });
 
-export const createFaq = (faqDetails) => dispatch => {
+export const createFaq = faqDetails => dispatch => {
   dispatch(createFaqLoading(true));
 
   const url = `/faqs/`;
@@ -72,13 +74,16 @@ export const createFaq = (faqDetails) => dispatch => {
   };
 
   return axios(options)
-    .then((res) => {
-      const { msg: message, payload: { faq } } = res.data;
+    .then(res => {
+      const {
+        msg: message,
+        payload: { faq }
+      } = res.data;
       toastSuccess(message);
       dispatch(createFaqSuccess(faq));
       dispatch(createFaqLoading(false));
     })
-    .catch((error) => {
+    .catch(error => {
       toastError(error.response.data.msg);
       dispatch(createFaqFailure(error));
       dispatch(createFaqLoading(false));
@@ -100,23 +105,23 @@ export const deleteFaqFailure = error => ({
   payload: error
 });
 
-export const deleteFaq = (faqId) => dispatch => {
+export const deleteFaq = faqId => dispatch => {
   dispatch(deleteFaqLoading(true));
 
-  const url = `/faqs/delete/${faqId}`;
+  const url = `/faqs/${faqId}`;
 
   const options = {
-    method: 'PATCH',
+    method: 'DELETE',
     url
   };
 
   return axios(options)
-    .then((res) => {
+    .then(res => {
       toastSuccess(res.data.msg);
       dispatch(deleteFaqSuccess(faqId));
       dispatch(deleteFaqLoading(false));
     })
-    .catch((error) => {
+    .catch(error => {
       toastError(error.response.data.msg);
       dispatch(deleteFaqFailure(error));
       dispatch(deleteFaqLoading(false));
@@ -128,10 +133,12 @@ export const updateFaqLoading = isUpdating => ({
   payload: isUpdating
 });
 
-export const updateFaqSuccess = faq => ({
-  type: UPDATE_FAQ_SUCCESS,
-  payload: faq
-});
+export const updateFaqSuccess = faq => {
+  return {
+    type: UPDATE_FAQ_SUCCESS,
+    payload: faq
+  };
+};
 
 export const updateFaqFailure = error => ({
   type: UPDATE_FAQ_FAILURE,
@@ -140,7 +147,6 @@ export const updateFaqFailure = error => ({
 
 export const updateFaq = (id, faqDetails) => dispatch => {
   dispatch(updateFaqLoading(true));
-
   const url = `/faqs/${id}`;
 
   const options = {
@@ -150,13 +156,16 @@ export const updateFaq = (id, faqDetails) => dispatch => {
   };
 
   return axios(options)
-    .then((res) => {
-      const { msg: message, payload: { faq } } = res.data;
+    .then(res => {
+      const {
+        msg: message,
+        payload: { faq }
+      } = res.data;
       toastSuccess(message);
       dispatch(updateFaqSuccess(faq));
       dispatch(updateFaqLoading(false));
     })
-    .catch((error) => {
+    .catch(error => {
       toastError(error.response.data.msg);
       dispatch(updateFaqFailure(error));
       dispatch(updateFaqLoading(false));
