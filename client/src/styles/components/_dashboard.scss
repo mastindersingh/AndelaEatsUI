@@ -1,0 +1,24 @@
+@import "./../_variables";
+.charts-container {
+  margin-bottom: 2em;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1.875em;
+}
+
+.chart-card{
+  border-radius: 0.250em;
+  background-color: $color-white;
+  padding: 1.875em;
+
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+}
+
+.chart-card .chart-header{
+  justify-content: space-between;
+}
+
+.chart-card .chart-header, .chart-card .chart-content {
+  display: flex;
+  justify-content: center;
+}

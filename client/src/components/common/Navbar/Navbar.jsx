@@ -94,7 +94,7 @@ export class Navbar extends Component {
             <div className="arrow-down" />
             <div className="dropdown-content">
               { userRole === 1 ? adminDashboard ? <Link to="/">User Dashboard</Link>
-                : <Link to="/admin/orders">Admin Dashboard</Link>
+                : <Link to="/admin/dashboard">Admin Dashboard</Link>
                 : ''
               }
               <a href="" onClick={logoutActiveUser}>Signout</a>

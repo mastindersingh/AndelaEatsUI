@@ -16,6 +16,7 @@ import VendorsTab from './Admin/Tabs/Vendors';
 import MenusAndMealsTab from './Admin/Tabs/MenusAndMeals';
 import Ratings from './Admin/Ratings/Index';
 import Users from './Admin/Users/Users';
+import Dashboard from './Dashboard/Dashboard';
 import About from './About/About';
 import Faqs from './Faqs/Faqs';
 
@@ -31,6 +32,7 @@ const Root = () => (
       <SideNav>
         <Switch>
           <Route path="/ordermeal" component={Orders} />
+          <Route exact path="/admin/dashboard" component={Dashboard} />
           <Route exact path="/orders" component={OrderHistory} />
           <Route exact path="/about" component={About} />
           <Route exact path="/faqs" component={Faqs} />
