@@ -20,12 +20,11 @@ import {
   COLLECT_ORDER_SUCCESS,
   COLLECT_ORDER_FAILURE
 } from './actionTypes';
-import { config } from '../config';
+
 import { setMenuLoading } from './menuAction';
 import token from '../helpers/jwtDecode';
 
 
-export const base = `${config.ANDELAEATS_API_BASE_URL}`;
 export const userID = token().id;
 
 export const setOrdersSuccess = (orders, currentPage) => ({
@@ -82,7 +81,7 @@ export const getOrderSuccess = (order) => ({
 export const fetchOrders = (startDate, endDate, page = 1, limit = 9) => (dispatch) => {
   dispatch(setOrdersLoading(true));
 
-  return axios.get(`${base}/orders/user/${userID}/${startDate}/${endDate}`)
+  return axios.get(`/orders/user/${userID}/${startDate}/${endDate}`)
     .then((response) => {
       dispatch(setOrdersSuccess(response.data.payload, page));
       dispatch(setOrdersLoading(false));
@@ -98,7 +97,7 @@ export const filterOrders = (order) => (dispatch) => {
   } = order;
 
   dispatch(setOrdersLoading(true));
-  return axios.get(`${base}/orders/user/${userID}/${startDate}/${endDate}`) //eslint-disable-line
+  return axios.get(`/orders/user/${userID}/${startDate}/${endDate}`) //eslint-disable-line
     .then((response) => {
       dispatch(setFilteredOrders(response.data.payload, page));
       dispatch(setOrdersLoading(false));
@@ -111,7 +110,7 @@ export const filterOrders = (order) => (dispatch) => {
 
 export const deleteOrder = (id) => (dispatch) => {
   dispatch(deleteOrdersLoading(true));
-  return axios.delete(`${base}/orders/${id}`)
+  return axios.delete(`/orders/${id}`)
     .then((response) => {
       toast.success(response.data.msg)
       dispatch(deleteOrdersSuccess(id));
@@ -126,7 +125,7 @@ export const deleteOrder = (id) => (dispatch) => {
 
 export const editOrder = (id) => dispatch => {
   dispatch(setOrdersLoading(true));
-  return axios.get(`${base}/${id}`)
+  return axios.get(`/${id}`)
     .then((response) => {
       dispatch(editOrderSuccess(response));
       dispatch(setOrdersLoading(false));
@@ -139,7 +138,7 @@ export const editOrder = (id) => dispatch => {
 export const updateOrder = (data, id) => dispatch => {
   dispatch(setOrdersLoading(true));
   dispatch(setMenuLoading(true));
-  return axios.put(`${base}/${id}`, data)
+  return axios.put(`/${id}`, data)
     .then((response) => {
       dispatch(updateOrderSuccess(response.data));
       toast.success(response.data.response);
@@ -154,7 +153,7 @@ export const updateOrder = (data, id) => dispatch => {
 
 export const getOrderByDate = (date) => dispatch => {
   dispatch(setOrdersLoading(true));
-  return axios.get(`${base}/search?date=${date}`)
+  return axios.get(`/search?date=${date}`)
     .then((response) => {
       dispatch(getOrderSuccess(response.data));
       dispatch(setOrdersLoading(false));
@@ -183,7 +182,7 @@ export const createRatingFailure = error => ({
 
 export const createRating = ratingDetails => dispatch => {
   dispatch(createRatingLoading(true));
-  const url = `${base}/ratings/order/`;
+  const url = `/ratings/order/`;
 
   const options = {
     method: 'POST',
@@ -193,7 +192,7 @@ export const createRating = ratingDetails => dispatch => {
 
   return axios(options)
     .then((response) => {
-      const { msg: message, payload: { rating  } } = response.data;
+      const { msg: message, payload: { rating } } = response.data;
       dispatch(createRatingSuccess(rating ));
       dispatch(createRatingLoading(false));
     })
@@ -222,7 +221,7 @@ export const collectOrderFailure = error => ({
 
 export const collectOrder = orderDetails => dispatch => {
   dispatch(collectOrderLoading(true));
-  const url = `${base}/orders/collect`;
+  const url = `/orders/collect`;
 
   const options = {
     method: 'POST',

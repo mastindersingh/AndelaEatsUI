@@ -9,6 +9,7 @@ import {
   EDIT_ORDER_SUCCESS,
   UPDATE_ORDER_SUCCESS,
   GET_ORDER_SUCCESS,
+  CREATE_MENU_RATING_SUCCESS
 } from '../actions/actionTypes';
 
 import filter from '../helpers/filter';
@@ -30,7 +31,7 @@ export default (state = orders, action) => {
         ...state, ...action.orders, isFiltered: true, error: ''
       };
     case DELETE_ORDER_LOADING:
-      return { ...state, isDeleting: action.payload }
+      return { ...state, isDeleting: action.payload };
     case DELETE_ORDER_SUCCESS:
       return {
         ...state,
@@ -54,6 +55,20 @@ export default (state = orders, action) => {
       };
     case DELETE_ORDER_FAILURE:
       return state;
+    case CREATE_MENU_RATING_SUCCESS:
+      return {
+        ...state,
+        orders: state.orders.map(order => {
+          if (order.id === action.payload.typeId) {
+            order = {
+              ...order,
+              hasRated: true,
+              user_rating: action.payload.rating
+            };
+          }
+          return order;
+        })
+      };
     default:
       return state;
   }

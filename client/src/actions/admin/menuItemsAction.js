@@ -19,10 +19,7 @@ import {
   EDIT_MENU_FAILURE
 } from '../actionTypes';
 
-import { formatCurrentDate } from '../../helpers';
-import { config } from '../../config';
 
-export const baseUrl = config.ANDELAEATS_API_BASE_URL;
 
 export const editMenuSuccess = (menu) => ({
   type: EDIT_MENU_SUCCESS,
@@ -55,7 +52,7 @@ export const mockMenu = menuList => dispatch => dispatch({
 
 export const editMenu = menu => dispatch => {
   dispatch(fetchMenusLoading(true));
-  return axios.put(`${baseUrl}/admin/menus/${menu.id}`, menu)
+  return axios.put(`/admin/menus/${menu.id}`, menu)
     .then(response => {
       const { payload } = response.data;
       toastSuccess('Menu successfully updated');
@@ -71,7 +68,7 @@ export const editMenu = menu => dispatch => {
 
 export const fetchMenus = (startDate, endDate) => (dispatch) => {
   dispatch(fetchMenusLoading(true));
-  return axios.get(`${baseUrl}/admin/menus/lunch/${startDate}/${endDate}`)
+  return axios.get(`/admin/menus/lunch/${startDate}/${endDate}`)
     .then(response => {
       const { payload } = response.data;
 
@@ -101,7 +98,7 @@ const deleteMenuItemSuccess = menuId => ({
 
 export const deleteMenuItem = menuId => dispatch => {
   dispatch(deleteMenuItemLoading(true));
-  return axios.delete(`${baseUrl}/admin/menus/${menuId}`)
+  return axios.delete(`/admin/menus/${menuId}`)
     .then(() => {
       toastSuccess('Deleted Successfully');
       dispatch(deleteMenuItemSuccess(menuId));
@@ -126,7 +123,7 @@ const fetchVendorEngagementFailure = payload => ({
 });
 
 export const fetchVendorEngagements = () => dispatch => axios
-  .get(`${baseUrl}/engagements/`)
+  .get(`/engagements/`)
   .then((response) => {
     const { payload } = response.data;
     dispatch(fetchVendorEngagementSuccess(payload));
@@ -145,7 +142,7 @@ const fetchMealItemsFailure = payload => ({
 });
 
 export const fetchMealItems = () => dispatch => axios
-  .get(`${baseUrl}/meal-items/`)
+  .get(`/meal-items/`)
   .then((response) => {
     const { payload } = response.data;
     dispatch(fetchMealItemsSuccess(payload));
@@ -172,7 +169,7 @@ const createMenuFailure = message => ({
 export const createMenu = (menu) => dispatch => {
   dispatch(createMenuLoading(true));
 
-  return axios.post(`${baseUrl}/admin/menus/`, menu)
+  return axios.post(`/admin/menus/`, menu)
     .then((response) => {
       const { msg, payload } = response.data;
       toastSuccess(msg);

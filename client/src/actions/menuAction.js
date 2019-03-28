@@ -19,9 +19,7 @@ import {
   FETCH_ORDERS_FAILURE,
 
 } from "./actionTypes";
-import { config } from "../config";
 
-export const baseUrl = config.ANDELAEATS_API_BASE_URL;
 export const userID = token().id;
 
 /**
@@ -121,7 +119,7 @@ export const fetchMenuFailure = error => ({
 export const fetchMenu = (startDate, endDate) => dispatch => {
   dispatch(fetchMenuLoading(true));
 
-  return axios.get(`${baseUrl}/menus/lunch/${startDate}/${endDate}`)
+  return axios.get(`/menus/lunch/${startDate}/${endDate}`)
     .then(response => {
       dispatch(fetchMenuSuccess(response.data.payload.menuList));
       dispatch(fetchMenuLoading(false));
@@ -152,7 +150,7 @@ export const setOrdersLoading = (isLoading) => ({
 
 export const fetchUserOrders = (startDate, endDate) => (dispatch) => {
   dispatch(setOrdersLoading(true));
-  return axios.get(`${baseUrl}/orders/user/${userID}/${startDate}/${endDate}`)
+  return axios.get(`/orders/user/${userID}/${startDate}/${endDate}`)
     .then((response) => {
       dispatch(setOrdersSuccess(response.data.payload.orders));
       dispatch(setOrdersLoading(false));
@@ -185,7 +183,7 @@ export const createOrderFailure = error => ({
 export const createOrder = orderDetails => dispatch => {
   dispatch(createOrderLoading(true));
 
-  const url = `${baseUrl}/orders/`;
+  const url = `/orders/`;
 
   const options = {
     method: 'POST',

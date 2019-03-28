@@ -15,9 +15,6 @@ import {
   UPDATE_VENDOR_LOADING
 } from './actionTypes';
 
-import { config } from '../config';
-
-export const baseUrl = config.ANDELAEATS_API_BASE_URL;
 
 export const fetchVendorsLoading = isLoading => ({
   type: FETCH_VENDORS_LOADING,
@@ -37,7 +34,7 @@ export const fetchVendorsFailure = error => ({
 export const fetchVendors = () => dispatch => {
   dispatch(fetchVendorsLoading(true));
 
-  return axios.get(`${baseUrl}/vendors/`)
+  return axios.get(`/vendors/`)
     .then((res) => {
       dispatch(fetchVendorsSuccess(res.data.payload.vendors));
       dispatch(fetchVendorsLoading(false));
@@ -67,7 +64,7 @@ export const createVendorFailure = error => ({
 export const createVendor = (vendorDetails) => dispatch => {
   dispatch(createVendorLoading(true));
 
-  const url = `${baseUrl}/vendors/`;
+  const url = `/vendors/`;
 
   const options = {
     method: 'POST',
@@ -110,7 +107,7 @@ export const suspendVendorFailure = error => ({
 export const suspendVendor = (vendorId) => dispatch => {
   dispatch(suspendVendorLoading(true));
 
-  const url = `${baseUrl}/vendors/suspend/${vendorId}`;
+  const url = `/vendors/suspend/${vendorId}`;
 
   const options = {
     method: 'PATCH',
@@ -151,7 +148,7 @@ export const updateVendorFailure = error => ({
 export const updateVendor = (id, vendorDetails) => dispatch => {
   dispatch(updateVendorLoading(true));
 
-  const url = `${baseUrl}/vendors/${id}`;
+  const url = `/vendors/${id}`;
 
   const options = {
     method: 'PUT',

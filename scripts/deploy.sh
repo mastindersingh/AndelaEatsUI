@@ -11,7 +11,7 @@ DOCKER_REGISTRY=gcr.io
 GCLOUD_SERVICE_KEY_NAME=gcloud-service-key.json
 ALLOWED_DEPLOY_ENVIRONMENTS=('staging', 'production')
 
-PROJECT_NAME=feed-frontend
+PROJECT_NAME=eats-frontend
 DOCKER_REGISTRY=gcr.io
 
 
@@ -41,6 +41,7 @@ IMAGE_TAG=$(getImageTag $(getCommitHash))
 IMAGE_NAME=$(getImageName)
 
 buildApplicationArtifacts() {
+    ./scripts/create_env.sh
     cd client
     npm run build:production 
     cd $OLDPWD

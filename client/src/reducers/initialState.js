@@ -30,7 +30,8 @@ export const orders = {
       secondAccompaniment: []
     }
   },
-  isDeleting: false
+  isDeleting: false,
+  rating:0,
 };
 
 export const initialVendors = {
@@ -99,6 +100,7 @@ export const initialSuspendedVendors = {
 
 export const initialUser = {
   role: 0,
+  adminUsers: [],
   email: '',
   message: ''
 };

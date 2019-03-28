@@ -18,9 +18,6 @@ import {
   EDIT_VENDOR_ENGAGEMENT_FAILURE
 } from "../actionTypes";
 
-import { config } from '../../config';
-
-export const baseUrl = config.ANDELAEATS_API_BASE_URL;
 
 export const fetchEngagementsLoading = isLoading => ({
   type: FETCH_VENDOR_ENGAGEMENT_LOADING,
@@ -45,7 +42,7 @@ export const fetchUpcomingEngagementsSuccess = engagements => ({
 export const fetchUpcomingEngagements = () => dispatch => {
   dispatch(fetchEngagementsLoading(true));
 
-  return axios.get(`${baseUrl}/engagements/upcoming`)
+  return axios.get(`/engagements/upcoming`)
     .then(response => {
       dispatch(fetchUpcomingEngagementsSuccess(response.data.payload));
       dispatch(fetchEngagementsLoading(false));
@@ -59,7 +56,7 @@ export const fetchUpcomingEngagements = () => dispatch => {
 export const fetchEngagements = () => dispatch => {
   dispatch(fetchEngagementsLoading(true));
 
-  return axios.get(`${baseUrl}/engagements/`)
+  return axios.get(`/engagements/`)
     .then(response => {
       dispatch(fetchEngagementsSuccess(response.data.payload.engagements));
       dispatch(fetchEngagementsLoading(false));
@@ -81,7 +78,7 @@ export const fetchVendorsFailure = error => ({
 });
 
 export const fetchVendors = () => dispatch => {
-  return axios.get(`${baseUrl}/vendors/`)
+  return axios.get(`/vendors/`)
     .then((res) => {
       dispatch(fetchVendorsSuccess(res.data.payload.vendors));
     })
@@ -108,7 +105,7 @@ export const createEngagementFailure = error => ({
 export const createEngagement = engagementDetails => dispatch => {
   dispatch(createEngagementsLoading(true));
 
-  const url = `${baseUrl}/engagements/`;
+  const url = `/engagements/`;
 
   const options = {
     method: 'POST',
@@ -150,7 +147,7 @@ export const deleteEngagementFailure = error => ({
 export const deleteEngagement = (engagementId) => dispatch => {
   dispatch(deleteEngagementsLoading(true));
 
-  return axios.delete(`${baseUrl}/engagements/${engagementId}`)
+  return axios.delete(`/engagements/${engagementId}`)
     .then((res) => {
       toastSuccess(res.data.msg);
       dispatch(deleteEngagementsSuccess(engagementId));
@@ -182,7 +179,7 @@ export const editEngagementFailure = error => ({
 export const editEngagement = (engagementId, engagementDetails) => dispatch => {
   dispatch(editEngagementsLoading(true));
 
-  const url = `${baseUrl}/engagements/${engagementId}`;
+  const url = `/engagements/${engagementId}`;
 
   const options = {
     method: 'PATCH',
