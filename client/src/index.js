@@ -13,7 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./assets/images/favicon.ico";
 
 // set the application baseUrl
-axios.defaults.baseURL = process.env.API_BASE_URL
+axios.defaults.baseURL = process.env.API_BASE_URL;
 
 const store = configureStore();
 if (window.Raven) {

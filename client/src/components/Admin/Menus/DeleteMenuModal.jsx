@@ -42,7 +42,6 @@ const DeleteMenuModal = ({
       </div>
     )
     : null
-
    }
   </div>
 );
