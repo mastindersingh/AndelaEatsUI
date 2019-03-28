@@ -31,7 +31,7 @@ export const orders = {
     }
   },
   isDeleting: false,
-  rating:0,
+  rating: 0,
 };
 
 export const initialVendors = {
@@ -108,4 +108,12 @@ export const initialUser = {
 export const initialMealRatings = {
   isLoading: false,
   ratingList: [],
+};
+
+export const initialFaqs = {
+  isLoading: false,
+  isCreating: false,
+  isDeleting: false,
+  isUpdating: false,
+  faqs: []
 };
