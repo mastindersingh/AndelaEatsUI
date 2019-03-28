@@ -206,8 +206,7 @@ FaqModal.propTypes = {
   createFaq: PropTypes.func.isRequired,
   isCreating: PropTypes.bool,
   isUpdating: PropTypes.bool,
-  handleModal: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool
+  handleModal: PropTypes.func.isRequired
 };
 
 export default FaqModal;
