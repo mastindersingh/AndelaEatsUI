@@ -15,6 +15,17 @@ export const initialMenus = {
   orderedMenus: []
 };
 
+export const initialVendorsPerformance = {
+  isLoading: false,
+  collectedOrders: [],
+  uncollectedOrders: [],
+  cancelledOrders: [],
+  datesConsidered: [],
+  vendorRatings: [],
+  vendorName: '',
+  error: '',
+};
+
 export const orders = {
   isLoading: false,
   error: "",
