@@ -12,23 +12,13 @@ const props = {
   isAdmin: 0
 };
 
-let wrapper;
 /* 
 global jest 
 expect 
 */
 describe('FaqItem Component', () => {
   it('should mount successfully', () => {
-    wrapper = shallow(<FaqItem {...props} />);
+    const wrapper = shallow(<FaqItem {...props} />);
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it('calls showFaqModal on click', () => {
-    wrapper.setProps({
-      isAdmin: 1
-    });
-    // const spy = jest.spyOn(wrapper.instance(), 'showFaqModal');
-    wrapper.find('.fa-edit').simulate('click');
-    // expect(spy).toHaveBeenCalled();
   });
 });
