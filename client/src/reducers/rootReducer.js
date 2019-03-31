@@ -12,6 +12,7 @@ import engagementsReducer from './admin/engagementsReducer';
 import suspendedVendorReducer from './admin/suspendedVendorReducer';
 import adminUserReducer from './admin/adminUserReducer';
 import mealRatingsReducer from './admin/ratingsReducer';
+import aboutReducer from './aboutReducer';
 
 export default combineReducers({
   userReducer,
@@ -26,4 +27,5 @@ export default combineReducers({
   user: adminUserReducer,
   allRatings: mealRatingsReducer,
   faqsReducer,
+  aboutReducer,
 });

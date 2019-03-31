@@ -1,79 +1,104 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { ToastContainer } from 'react-toastify';
 
-class About extends Component {
+import AboutModal from './AboutModal';
+import Loader from '../common/Loader/Loader';
+
+import {
+  fetchAbout,
+  updateAbout
+} from '../../actions/aboutAction';
+
+/**
+ * @class About
+ *
+ * @extends {Component}
+ */
+export class About extends Component {
+  state = {
+    showModal: false,
+  };
+
+  componentDidMount() {
+    this.props.fetchAbout();
+  }
+
+  showAboutModal = about => {
+    this.setState(prevState => ({
+      showModal: !prevState.showModal,
+      selectedAbout: about
+    }));
+  };
+
   render() {
-    return (
-      <div className="animation-class">
-        <span className="about-heading">About Andela Eats</span><br/><br/>
-        <span>
-          The Andela Eats is the software automation of the current feeding system so as to make it
-          scalable through enabling access to all Andelans without Andela having to incur extra cost.
-          The solution will also serve as a central place where all meal information is stored both for
-          andelans and vendors. Vendors can manage meals and view feedback. Andelans can conveniently
-          pre-order meals without the fear that a particular favourite meal is finished.
-        </span><br/><br/>
-        <span>
-          <strong className="about-sub-heading">AS-IS</strong><br/><br/>
-          Currently, when andelans go for meals especially during lunch. There are the following pain
-          points that make having lunch cumbersome.
-          <ol>
-            <li>
-              Long queues<br/><br/>
-            </li>
-            <li>
-              Loss of man-hour<br/><br/>
-            </li>
-            <li>
-              Offline NFC tags<br/><br/>
-            </li>
-          </ol>
-          Also andelans might have a meeting during lunch time or overflow into the lunch time.
-          One sometimes has to rush up to get the food booked or packaged and run back into the meeting.
-          The major challenge is that sometimes the meeting may be so critical there is no room to leave
-          the meeting for lunch or to book lunch. 
-        </span><br/><br/>
-        <span>
-        <strong className="about-sub-heading">TO-BE</strong><br/><br/>
-          Automation of the current feeding system so as to make it scalable through enabling access to
-          all Andelans without Andela having to incur extra cost.  
-          The solution will also serve as a central place where all meal information is stored both for 
-          andelans and vendors.
-          Vendors can manage meals and view feedback.
-          Andelans can conveniently pre-order meals without the fear that a particular favourite meal is
-          finished.
-        </span><br/><br/>
-        <div className="numberlist">
-          <span>
-          <strong className="about-sub-heading">Key Features</strong><br/>
-          <ul>
-            <li>
-              <br/>Authentication and authorization<br/><br/>
-              <ul>
-                <li>Only Andelans should be able to pre-order meals</li>
-                <li>Vendors should see and be able to CRU meals</li>
-                <li>Facilities should be able to CRUD type of  meals for Andelans</li>
-                <li>Andelans should be able to give feedback on meals</li>
-              </ul>
-            </li>
-            <li>List of Meals for view on weekly basis</li><br/><br/>
-            <li>Meal Tagging ID</li>
-            <li>CRUD for Meal types/ plans to Vendors by Facilities Dept</li>
-            <li>CRUD for Vendor selection and assignment.</li>
-            <li>Pull Tag information from NFC device</li>
-            <li>Feedback For Meals</li>
-            <li>Assigning/updating a Vendor for current Month to Month + 2</li><br/><br/>
-            <li>Slack Integration to Meal App</li>
-            <li>Restriction to Time for Posting of Meals</li>
-            <li>Analytics and Stats</li>
-            <li>Type of Meals Ordered</li>
-            <li>Feedback/Rating  from Andelans</li>
-            <li>Export of the Analytics and Stats to excel</li>
-          </ul>
+    const { 
+      about,
+      isLoading, 
+      isAdmin,
+    } = this.props;
+
+    const header = (
+      <div>
+        {isAdmin ? (
+          <span className="add-right" onClick={() => this.showAboutModal(about)}>
+            Add About
           </span>
+        ) : null}
+        <span className="about-heading">About Andela Eats</span><br /><br />
+      </div>
+    );
+
+    const aboutModal = (
+      <AboutModal
+        show={this.state.showModal}
+        error={this.state.error}
+        about={this.state.selectedAbout}
+        handleModal={this.showAboutModal}
+        isUpdating={this.props.isUpdating}
+        updateAbout={this.props.updateAbout}
+        isLoading={this.props.isLoading}
+      />
+    );
+    
+    return (
+      <div>
+        <ToastContainer />
+        <div className="animation-class">
+          {isLoading && <Loader />}
+          {header}
+          {aboutModal}
+          <div>{(about && about.details) || about.details}</div>
         </div>
       </div>
     );
   }
 }
 
-export default About;
+About.propTypes = {
+  about: PropTypes.shape({
+    details: PropTypes.string,
+  }),
+  isLoading: PropTypes.bool,
+  isAdmin: PropTypes.number,
+  isUpdating: PropTypes.bool,
+  fetchAbout: PropTypes.func,
+  updateAbout: PropTypes.func.isRequired
+};
+
+export const mapStateToProps = ({ aboutReducer, user }) => ({
+  about: aboutReducer.about,
+  isLoading: aboutReducer.isLoading,
+  isUpdating: aboutReducer.isUpdating,
+  isAdmin: user.role
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    fetchAbout,
+    updateAbout
+  }
+)(About);
