@@ -64,16 +64,14 @@ export const updateAbout = (aboutDetails) => dispatch => {
     url
   };
 
-  console.log(aboutDetails);
-
   return axios(options)
     .then(res => {
       const {
         msg: message,
-        payload: { about }
+        payload: { data }
       } = res.data;
       toastSuccess(message);
-      dispatch(updateAboutSuccess(about));
+      dispatch(updateAboutSuccess(data));
       dispatch(updateAboutLoading(false));
     })
     .catch(error => {

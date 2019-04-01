@@ -25,7 +25,7 @@ describe('About Action', () => {
         status: 200,
         response: {
           payload: {
-            about
+            data: { about }
           }
         }
       });
@@ -37,7 +37,7 @@ describe('About Action', () => {
         },
         {
           type: FETCH_ABOUT_SUCCESS,
-          payload: about
+          payload: { about }
         },
         {
           type: FETCH_ABOUT_LOADING,
@@ -89,7 +89,7 @@ describe('About Action', () => {
         status: 200,
         response: {
           payload: {
-            about: createdAbout
+            data: createdAbout
           }
         }
       });

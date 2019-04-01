@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ToastContainer } from 'react-toastify';
+import parse from 'html-react-parser';
 
 import AboutModal from './AboutModal';
 import Loader from '../common/Loader/Loader';
@@ -22,10 +23,24 @@ export class About extends Component {
     showModal: false,
   };
 
+  /**
+   * @param {Object} nextProps
+   *
+   * @returns {void}
+   */
   componentDidMount() {
     this.props.fetchAbout();
   }
 
+  /**
+   *
+   *
+   * @description show About Modal
+   *
+   * @param { Object } about
+   *
+   * @returns { undefined }
+   */
   showAboutModal = about => {
     this.setState(prevState => ({
       showModal: !prevState.showModal,
@@ -41,13 +56,16 @@ export class About extends Component {
     } = this.props;
 
     const header = (
-      <div>
+      <div className="about-header">
         {isAdmin ? (
-          <span className="add-right" onClick={() => this.showAboutModal(about)}>
-            Add About
+          <span 
+            className="add-about-right" 
+            onClick={() => this.showAboutModal(about)}
+          >
+            <i className="fa-edit fas" />
           </span>
         ) : null}
-        <span className="about-heading">About Andela Eats</span><br /><br />
+        <span className="about-title">About Andela Eats</span>
       </div>
     );
 
@@ -66,11 +84,11 @@ export class About extends Component {
     return (
       <div>
         <ToastContainer />
-        <div className="animation-class">
+        <div>
           {isLoading && <Loader />}
           {header}
           {aboutModal}
-          <div>{(about && about.details) || about.details}</div>
+          <div className="content">{parse(about && about.details ? about.details : '')}</div>
         </div>
       </div>
     );
@@ -79,12 +97,13 @@ export class About extends Component {
 
 About.propTypes = {
   about: PropTypes.shape({
+    id: PropTypes.number,
     details: PropTypes.string,
   }),
   isLoading: PropTypes.bool,
   isAdmin: PropTypes.number,
   isUpdating: PropTypes.bool,
-  fetchAbout: PropTypes.func,
+  fetchAbout: PropTypes.func.isRequired,
   updateAbout: PropTypes.func.isRequired
 };
 

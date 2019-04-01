@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { TrixEditor } from 'react-trix';
 
 import Loader from '../common/Loader/Loader';
 
@@ -30,7 +31,24 @@ class AboutModal extends Component {
   componentWillReceiveProps = nextProps => {
     if (nextProps.about && nextProps.about.id !== this.state.about.id) {
       this.setState({ about: nextProps.about });
+      
+      if (this.state.textEditor) {
+        this.state.textEditor.insertHTML(nextProps.about.details);
+      }
     }
+  };
+
+  /**
+   *
+   *
+   * @description handle Editor Ready event
+   *
+   * @param { Object } editor
+   *
+   * @returns { undefined }
+   */
+  handleEditorReady = editor => {
+    this.setState({ textEditor: editor });
   };
 
   /**
@@ -38,16 +56,16 @@ class AboutModal extends Component {
    *
    * @description handle onChage event
    *
-   * @param { Object } event
+   * @param { String } value
    *
    * @returns { undefined }
    */
-  onChange = event => {
-    const { name, value } = event.target;
-    const oldAbout = { ...this.state.about };
-    oldAbout[name] = value;
+  onChange = value => {
     this.setState(preState => ({
-      about: oldAbout
+      about: {
+        ...preState.about,
+        details: value
+      }
     }));
   };
 
@@ -57,7 +75,7 @@ class AboutModal extends Component {
     const { about } = this.state;
 
     if (about.details.length < 1) {
-      errs.question = 'Field cannot be empty.';
+      errs.details = 'Field cannot be empty.';
       formIsValid = false;
     }
 
@@ -90,7 +108,7 @@ class AboutModal extends Component {
     return (
       <div
         className="modal"
-        id="add-meal-modal"
+        id="trix-modal"
         style={this.props.show ? { display: 'block' } : { display: 'none' }}
       >
         <div className="modal-content">
@@ -119,19 +137,19 @@ class AboutModal extends Component {
                   <span
                     className="err-invalid"
                     style={{
-                      display: errors.question ? 'inline-block' : 'none'
+                      display: errors.details ? 'inline-block' : 'none'
                     }}
                   >
                     {' '}
                     * Invalid
                   </span>
                 </label>
-                <input
+                <TrixEditor
                   id="details"
-                  type="text"
                   name="details"
-                  value={about && about.details}
                   onChange={this.onChange}
+                  value={about && about.details}
+                  onEditorReady={this.handleEditorReady}
                 />
               </div>
             </main>
