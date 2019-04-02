@@ -1,12 +1,15 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import MenuModal from '../../../../components/Admin/Menus/MenuModal';
-import { mockMenuItem } from '../../../__mocks__/mockMenuItems';
+import { mockMenuItem, menu } from '../../../__mocks__/mockMenuItems';
+import vendorEngagements from '../../../__mocks__/mockEngagements';
+import Select from 'react-select';
 
 describe('MenuModal Component', () => {
   const setup = () => {
     const props = {
+      modalButtontext: 'ADD MENU',
       closeModal: jest.fn(),
       handleSubmit: jest.fn(),
       vendorEngagements: [
@@ -45,7 +48,7 @@ describe('MenuModal Component', () => {
       ]
     };
 
-    return shallow(<MenuModal {...props} />);
+    return mount(<MenuModal {...props} />);
   };
 
   const wrapper = setup();
@@ -79,4 +82,17 @@ describe('MenuModal Component', () => {
     wrapper.instance().checkAllowedSelection();
     expect(spy).toHaveBeenCalled();
   });
+
+  describe('Component methods', () => {
+    it('componentWillReceiveProps', () => {
+      const nextProps = {
+        menu: menu[0],
+        vendorEngagements,
+      }
+      const instance = wrapper.instance()
+      const spy = jest.spyOn(instance, 'componentWillReceiveProps');
+      instance.componentWillReceiveProps(nextProps);
+      expect(spy).toHaveBeenCalled();
+    });
+  })
 });

@@ -139,7 +139,7 @@ export class Meals extends Component {
       showEditModal={this.toggleAddModal}
     />
   );
-  
+
   render() {
     const {
       displayMealModal,

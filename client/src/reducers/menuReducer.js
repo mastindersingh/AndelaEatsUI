@@ -33,7 +33,8 @@ const menuReducer = (state = initialMenus, action) => {
     case FETCH_USERS_MENU_LOADING:
       return { ...state, isLoading: action.payload };
     case FETCH_USERS_MENU_SUCCESS:
-      return { ...state, menus: action.payload };
+      return { ...state, 
+        menus: action.payload };
     case FETCH_ORDERS_LOADING:
       return { ...state, isLoading: action.payload };
     case FETCH_ORDERS_SUCCESS:

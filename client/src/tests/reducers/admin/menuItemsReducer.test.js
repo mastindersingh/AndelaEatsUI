@@ -169,9 +169,9 @@ describe('Admin:: Menu Items Reducer', () => {
       };
 
       newState = menusReducer(initialAdminMenus, action);
-      expect(newState.mealItems.length).toEqual(2);
+      expect(newState.mealItems.length).toEqual(3);
       expect(newState.mealItems[0].id).toEqual(1);
-      expect(newState.mealItems[0].mealType).toEqual('side');
+      expect(newState.mealItems[0].meal_type).toEqual('main');
     });
   });
 

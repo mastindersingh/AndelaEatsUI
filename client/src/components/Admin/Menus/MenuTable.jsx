@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import {
   func, shape, arrayOf, bool, any
 } from 'prop-types';
-import moment from 'moment';
-import formatMealItems, {
-  formatDate, isStartgreaterThanEnd
-} from '../../../helpers/formatMealItems';
 
 import { formatMenuItemDate } from '../../../helpers/menusHelper';
 import Loader from "../../common/Loader/Loader";
@@ -21,7 +17,7 @@ import EmptyContent from '../../common/EmptyContent';
  * @class MenuTable
  * @extends Component
  */
-class MenuTable extends Component {
+export class MenuTable extends Component {
   /**
    *
    * @description render side and protein listing
@@ -71,10 +67,8 @@ class MenuTable extends Component {
     const { menuList } = this.props.menus;
     return menuList.map(menuItem => {
       const {
-        mainMealId,
         id,
         mainMeal,
-        mealPeriod,
         sideItems,
         proteinItems,
         allowedSide,
@@ -82,8 +76,8 @@ class MenuTable extends Component {
         date,
         vendorEngagementId
       } = menuItem;
-      const vendorList = this.props.menus.vendorEngagements
-        ? this.props.menus.vendorEngagements : [];
+      const vendorList = this.props.engagements
+        ? this.props.engagements : [];
       const menuVendor = vendorList
         .filter(vendor => vendor.id === vendorEngagementId)[0];
       return (
@@ -108,7 +102,7 @@ class MenuTable extends Component {
 
             {!this.props.preview ? (
               <div className="custom-col-5 option">
-                <div onClick={() => this.props.showAddModal(menuItem, true)}>
+                <div  onClick={() => this.props.showAddModal(menuItem, true)}>
                   <span className="edit-menu">Edit</span>
                 </div>
 
@@ -126,7 +120,7 @@ class MenuTable extends Component {
   renderMenuBody = () => (
     <React.Fragment>
       {this.props.preview
-        ? <h3 className="card-header"> Available Menus</h3>
+        ? <h3 className="card-header">Available Menus</h3>
         : null}
       <div className="custom-table">
         {this.props.menus.menuList.length
@@ -143,13 +137,13 @@ class MenuTable extends Component {
                   : null}
               </div>
               <div className="ct-body">{this.renderRows()}</div>
-            </React.Fragment>) : <EmptyContent message="No menu available" />}
+            </React.Fragment>) : <EmptyContent message="No menus within the seleted date range" />}
       </div>
     </React.Fragment>
   )
 
 
-  render() {
+  render() { 
     const { isLoading } = this.props.menus;
     return (
       <div className="menu-table-row">
@@ -164,8 +158,6 @@ class MenuTable extends Component {
 
 MenuTable.propTypes = {
   menus: shape({
-    isLoading: bool.isRequired,
-    isDeleting: bool.isRequired,
     menuList: arrayOf(shape({})),
     error: shape({
       status: bool,
@@ -177,4 +169,8 @@ MenuTable.propTypes = {
   showDeleteModal: func,
 };
 
-export default MenuTable;
+export const mapStateToProps = (state) => ({
+  engagements: state.allEngagements.engagements.engagements
+})
+
+export default connect(mapStateToProps)(MenuTable);

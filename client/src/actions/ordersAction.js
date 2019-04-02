@@ -24,7 +24,6 @@ import {
 import { setMenuLoading } from './menuAction';
 import token from '../helpers/jwtDecode';
 
-
 export const userID = token().id;
 
 export const setOrdersSuccess = (orders, currentPage) => ({
@@ -32,12 +31,12 @@ export const setOrdersSuccess = (orders, currentPage) => ({
   orders: { ...orders, currentPage }
 });
 
-export const setOrdersFailure = (error) => ({
+export const setOrdersFailure = error => ({
   type: FETCH_ORDERS_FAILURE,
   error
 });
 
-export const setOrdersLoading = (isLoading) => ({
+export const setOrdersLoading = isLoading => ({
   type: FETCH_ORDERS_LOADING,
   isLoading
 });
@@ -52,7 +51,7 @@ export const deleteOrdersLoading = isLoading => ({
   payload: isLoading
 });
 
-export const deleteOrdersSuccess = (id) => ({
+export const deleteOrdersSuccess = id => ({
   type: DELETE_ORDER_SUCCESS,
   payload: id
 });
@@ -62,74 +61,82 @@ export const deleteOrdersFailure = error => ({
   payload: error
 });
 
-export const editOrderSuccess = (response) => ({
+export const editOrderSuccess = response => ({
   type: EDIT_ORDER_SUCCESS,
   payload: response.data
 });
 
-export const updateOrderSuccess = (response) => ({
+export const updateOrderSuccess = response => ({
   type: UPDATE_ORDER_SUCCESS,
   payload: response
 });
 
-export const getOrderSuccess = (order) => ({
+export const getOrderSuccess = order => ({
   type: GET_ORDER_SUCCESS,
   order
 });
 
-
-export const fetchOrders = (startDate, endDate, page = 1, limit = 9) => (dispatch) => {
+export const fetchOrders = (
+  startDate,
+  endDate,
+  page = 1,
+  limit = 9
+) => dispatch => {
   dispatch(setOrdersLoading(true));
 
-  return axios.get(`/orders/user/${userID}/${startDate}/${endDate}`)
-    .then((response) => {
+  return axios
+    .get(`/orders/user/${userID}/${startDate}/${endDate}`)
+    .then(response => {
       dispatch(setOrdersSuccess(response.data.payload, page));
       dispatch(setOrdersLoading(false));
-    }).catch((error) => {
+    })
+    .catch(error => {
       dispatch(setOrdersFailure(error.message));
       dispatch(setOrdersLoading(false));
     });
 };
 
-export const filterOrders = (order) => (dispatch) => {
-  const {
-    searchParam, startDate, endDate, page = 1
-  } = order;
+export const filterOrders = order => dispatch => {
+  const { searchParam, startDate, endDate, page = 1 } = order;
 
   dispatch(setOrdersLoading(true));
-  return axios.get(`/orders/user/${userID}/${startDate}/${endDate}`) //eslint-disable-line
-    .then((response) => {
+  return axios
+    .get(`/orders/user/${userID}/${startDate}/${endDate}`) //eslint-disable-line
+    .then(response => {
       dispatch(setFilteredOrders(response.data.payload, page));
       dispatch(setOrdersLoading(false));
-    }).catch((error) => {
+    })
+    .catch(error => {
       dispatch(setOrdersFailure(error.message));
       dispatch(setOrdersLoading(false));
     });
 };
 
-
-export const deleteOrder = (id) => (dispatch) => {
+export const deleteOrder = id => dispatch => {
   dispatch(deleteOrdersLoading(true));
-  return axios.delete(`/orders/${id}`)
-    .then((response) => {
-      toast.success(response.data.msg)
+  return axios
+    .delete(`/orders/${id}`)
+    .then(response => {
+      toast.success(response.data.msg);
       dispatch(deleteOrdersSuccess(id));
       dispatch(deleteOrdersLoading(false));
-    }).catch((error) => {
-      toast.error(error.message)
+    })
+    .catch(error => {
+      toast.error(error.message);
       dispatch(deleteOrdersFailure(error.message));
-      dispatch(deleteOrdersLoading(false))
+      dispatch(deleteOrdersLoading(false));
     });
 };
 
-
-export const editOrder = (id) => dispatch => {
+export const editOrder = id => dispatch => {
   dispatch(setOrdersLoading(true));
-  return axios.get(`/${id}`)
-    .then((response) => {
+  return axios
+    .get(`/${id}`)
+    .then(response => {
       dispatch(editOrderSuccess(response));
       dispatch(setOrdersLoading(false));
-    }).catch((error) => {
+    })
+    .catch(error => {
       toast.error(error.message);
       dispatch(setOrdersLoading(false));
     });
@@ -138,31 +145,34 @@ export const editOrder = (id) => dispatch => {
 export const updateOrder = (data, id) => dispatch => {
   dispatch(setOrdersLoading(true));
   dispatch(setMenuLoading(true));
-  return axios.put(`/${id}`, data)
-    .then((response) => {
-      dispatch(updateOrderSuccess(response.data));
-      toast.success(response.data.response);
+  return axios
+    .put(`/orders/${id}`, data)
+    .then(response => {
+      dispatch(updateOrderSuccess(response.data.payload.order));
+      toast.success(response.data.msg);
       dispatch(setOrdersLoading(false));
       dispatch(setMenuLoading(false));
-    }).catch((error) => {
+    })
+    .catch(error => {
       toast.error(error.message);
       dispatch(setOrdersLoading(false));
       dispatch(setMenuLoading(false));
     });
 };
 
-export const getOrderByDate = (date) => dispatch => {
+export const getOrderByDate = date => dispatch => {
   dispatch(setOrdersLoading(true));
-  return axios.get(`/search?date=${date}`)
-    .then((response) => {
+  return axios
+    .get(`/search?date=${date}`)
+    .then(response => {
       dispatch(getOrderSuccess(response.data));
       dispatch(setOrdersLoading(false));
-    }).catch((error) => {
+    })
+    .catch(error => {
       toast.error(error.message);
       dispatch(setOrdersLoading(false));
     });
 };
-
 
 export const createRatingLoading = isLoading => ({
   type: CREATE_MENU_RATING_LOADING,
@@ -171,14 +181,13 @@ export const createRatingLoading = isLoading => ({
 
 export const createRatingSuccess = ratings => ({
   type: CREATE_MENU_RATING_SUCCESS,
-  payload: ratings,
+  payload: ratings
 });
 
 export const createRatingFailure = error => ({
   type: CREATE_MENU_RATING_FAILURE,
   payload: error
 });
-
 
 export const createRating = ratingDetails => dispatch => {
   dispatch(createRatingLoading(true));
@@ -196,12 +205,11 @@ export const createRating = ratingDetails => dispatch => {
       dispatch(createRatingSuccess(rating ));
       dispatch(createRatingLoading(false));
     })
-    .catch((error) => {
+    .catch(error => {
       dispatch(createRatingFailure(error));
       dispatch(createRatingLoading(false));
     });
 };
-
 
 export const collectOrderLoading = isLoading => ({
   type: COLLECT_ORDER_LOADING,
@@ -210,14 +218,13 @@ export const collectOrderLoading = isLoading => ({
 
 export const collectOrderSuccess = orderDetails => ({
   type: COLLECT_ORDER_SUCCESS,
-  payload: orderDetails,
+  payload: orderDetails
 });
 
 export const collectOrderFailure = error => ({
   type: COLLECT_ORDER_FAILURE,
   payload: error
 });
-
 
 export const collectOrder = orderDetails => dispatch => {
   dispatch(collectOrderLoading(true));
@@ -230,16 +237,18 @@ export const collectOrder = orderDetails => dispatch => {
   };
 
   return axios(options)
-    .then((response) => {
-      const { msg: message, payload: { order  } } = response.data;
-      toastSuccess(message)
-      dispatch(collectOrderSuccess(order ));
+    .then(response => {
+      const {
+        msg: message,
+        payload: { order }
+      } = response.data;
+      toastSuccess(message);
+      dispatch(collectOrderSuccess(order));
       dispatch(collectOrderLoading(false));
     })
-    .catch((error) => {
-      toastError(error.message)
+    .catch(error => {
+      toastError(error.message);
       dispatch(collectOrderFailure(error.message));
       dispatch(collectOrderLoading(false));
     });
 };
-
