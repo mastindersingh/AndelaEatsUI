@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import {
   func, shape, arrayOf, bool, any
 } from 'prop-types';
@@ -18,16 +17,13 @@ import {
   createMenu,
   editMenu,
 } from '../../../actions/admin/menuItemsAction';
-
 import {
   fetchUpcomingEngagements,
 } from '../../../actions/admin/engagementsAction';
-import { formatMenuItemDate } from '../../../helpers/menusHelper';
-import formatMealItems, {
+import  {
   formatDate, isStartgreaterThanEnd
 } from '../../../helpers/formatMealItems';
 
-import EmptyContent from '../../common/EmptyContent';
 import Loader from '../../common/Loader/Loader';
 import DeleteMenuModal from './DeleteMenuModal';
 import MenuTable from './MenuTable';
@@ -212,7 +208,7 @@ export class Menus extends Component {
       error,
       menuList,
       isDeleting,
-      vendorEngagements, 
+ 
       mealItems,
       isCreating
     } = this.props.menus;
@@ -274,17 +270,11 @@ export class Menus extends Component {
               </header>
               <br/>
               <main>
-                { !menuList.length
-                  ? <EmptyContent message="No menus within the seleted date range" />
-                  : (
-                    <MenuTable
-                      menus={this.props.menus}
-                      showAddModal={this.showAddModal}
-                      showDeleteModal={this.showDeleteModal}
-                    />
-                  )
-                }
-
+                <MenuTable
+                  menus={this.props.menus}
+                  showAddModal={this.showAddModal}
+                  showDeleteModal={this.showDeleteModal}
+                />
               </main>
               <ToastContainer />
               <MenuModal
@@ -314,6 +304,7 @@ export class Menus extends Component {
   }
 
   render() {
+
     return (
       <React.Fragment>
         {this.props.menus.isLoading ? <Loader /> : this.renderMenus()}
@@ -345,7 +336,7 @@ Menus.propTypes = {
   fetchMenus: func.isRequired,
 };
 
-const mapStateToProps = (state) => (
+export const mapStateToProps = (state) => (
   {
     menus: state.menus,
     upComingEngagements: state.allEngagements.upComingEngagements.engagements

@@ -2,6 +2,34 @@
   button {
     outline: none;
   }
+  .orders-wrapper {
+    position: relative;
+    .orders-container {
+    width: 70%;
+    border: 1px solid #ECECEC;
+    margin: 4px auto;
+    margin-top: 170px;
+    .menus-container {
+      .main-meal li {
+        min-width: 200px;
+      }
+    }
+    .date-wrapper {
+      flex: 2 2 150px;
+      justify-content: space-evenly;
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px;
+      h3, h4 {
+        display: inline-block;
+        margin-right: 5px;
+      }
+      h4 {
+        margin: 0;
+      }
+    }
+    }
+}
   
   .empty-content {
     width: 93.6%;

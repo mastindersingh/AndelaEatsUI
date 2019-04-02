@@ -5,16 +5,17 @@ export default [
     date: 'Sun, 11 Nov 2018 00:00:00 GMT',
     id: 2,
     isDeleted: false,
-    mainMeal: 'Beans',
+    mainMeal:{ name: 'Beans'},
     mainMealId: 2,
     mealPeriod: 'lunch',
     proteinItems: [
-      'Moi Moi',
-      'Salad'
+      {name: 'Fish',id:1},
+      {name:'Turkey', id:2}
     ],
     sideItems: [
-      'Moi Moi',
-      'Salad'
+
+      {name: 'Moi Moi',id:1},
+      {name: 'Salad', id: 2}
     ],
     timestamps: {
       created_at: 'Tue, 09 Oct 2018 16:34:40 GMT',
@@ -30,12 +31,12 @@ export default [
     date: 'Sun, 11 Nov 2018 00:00:00 GMT',
     id: 3,
     isDeleted: false,
-    mainMeal: 'Amala',
+    mainMeal:{ name: 'Rice Beans', id:9},
     mainMealId: 3,
     mealPeriod: 'lunch',
     proteinItems: [
-      'Moi Moi',
-      'Salad'
+      {name: 'Moi Moi', id:7},
+      {name: 'Salad', id:8}
     ],
     sideItems: [
       'Moi Moi',
@@ -55,7 +56,7 @@ export default [
     date: 'Sun, 11 Nov 2018 00:00:00 GMT',
     id: 4,
     isDeleted: false,
-    mainMeal: 'Yam',
+    mainMeal:{ name: 'Yam'},
     mainMealId: 4,
     mealPeriod: 'lunch',
     proteinItems: [
@@ -80,7 +81,7 @@ export default [
     date: 'Sun, 11 Nov 2018 00:00:00 GMT',
     id: 5,
     isDeleted: false,
-    mainMeal: 'Ofada Rice',
+    mainMeal:{ name: 'Ofada Rice'},
     mainMealId: 5,
     mealPeriod: 'lunch',
     proteinItems: [

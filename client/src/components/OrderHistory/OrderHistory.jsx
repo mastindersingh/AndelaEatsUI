@@ -7,6 +7,7 @@ import DatePicker from 'react-date-picker';
 import { format, addDays } from "date-fns";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from 'moment';
 
 import MealCard from '../MealCard/MealCard';
 import Modal from '../MealCard/Modal';
@@ -15,6 +16,7 @@ import RatingModal from '../MealCard/RatingModal';
 import Loader from '../common/Loader/Loader';
 import EmptyContent from '../common/EmptyContent';
 import 'rc-pagination/assets/index.css';
+
 
 import {
   fetchOrders,
@@ -50,7 +52,10 @@ export class Orders extends Component {
       showRatingModal: false,
       textArea: '',
       newRating: 0,
-      modalTitle: ''
+      modalTitle: '',
+      editOrder: false,
+      startDate: moment(),
+      endDate: moment().add(3, 'days'),
     };
     
 
@@ -58,7 +63,6 @@ export class Orders extends Component {
     this.clearForm = this.clearForm.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
-    this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.deleteOrder = this.deleteOrder.bind(this);
   }
@@ -75,8 +79,12 @@ export class Orders extends Component {
    
     const startDate = format(start, 'YYYY-MM-DD');
     const endDate = format(end, 'YYYY-MM-DD');
+
+    const menuStartDate = format(new Date, 'YYYY-MM-DD');
+    const menuEndDate = format(addDays(new Date, 5), 'YYYY-MM-DD');
+
     this.props.fetchOrders(startDate, endDate);
-    this.props.fetchMenus(startDate, endDate);
+    this.props.fetchMenus(menuStartDate, menuEndDate);
   }
 
   
@@ -205,10 +213,11 @@ export class Orders extends Component {
    *
    * @returns {void}
    */
-  showModal(meal, modalTitle) {
+  showModal = (meal, modalTitle, edit=false) => {
     this.setState({
       modalContent: meal,
       showModal: true,
+      editOrder: edit,
       modalTitle
     });
   }
@@ -269,7 +278,6 @@ export class Orders extends Component {
    * Change ratings stars
    *
    * @memberof Orders
-   *
    * @returns {void}
    */
   ratingChanged = newRating => {
@@ -433,6 +441,8 @@ export class Orders extends Component {
             modalContent={this.state.modalContent}
             modalTitle={modalTitle}
             tapOrder={this.tapOrder}
+            editOrder={this.editOrder}
+            edit={this.state.editOrder}
           />
           <RatingModal
             displayModal={showRatingModal}

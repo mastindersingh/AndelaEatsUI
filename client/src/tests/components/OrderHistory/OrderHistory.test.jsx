@@ -5,6 +5,8 @@ import { shallow } from 'enzyme';
 import OrderHistory, {
   Orders
 } from '../../../components/OrderHistory/OrderHistory';
+import Loader from '../../../components/common/Loader/Loader';
+import orders from '../../__mocks__/mockOrders';
 
 /* 
 global jest 
@@ -34,11 +36,12 @@ let props = {
     }],
     currentPage: 1,
     totalRecords: 0,
+    orders,
   },
   fetchOrders: () => Promise.resolve(),
   filterOrders: () => Promise.resolve(),
   deleteOrder: () => Promise.resolve(),
-  fetchMenus: () => Promise.resolve()
+  fetchMenus: () => Promise.resolve(),
 };
 
 /**
@@ -60,6 +63,25 @@ describe('Component: Orders', () => {
 
   it('renders properly', () => {
     expect(getComponent()).toMatchSnapshot();
+  });
+  it('shows loader', () => {
+    const wrapper = getComponent();
+    wrapper.setProps({
+      orders: {
+        ...props.orders,
+        isLoading: true,
+      }
+    })
+    expect(wrapper.find(Loader).length).toEqual(1);
+  });
+  it('shows error when failed to load orders', () => {
+    const wrapper = getComponent();
+    wrapper.setProps({
+      orders: {
+        ...props.orders,
+        error: 'Failed to load'
+      }
+    })
   });
 
   describe('Class Methods test:: Call', () => {
@@ -93,20 +115,7 @@ describe('Component: Orders', () => {
       getComponent().instance().clearForm();
       expect(spy).toHaveBeenCalled();
 
-      expect(getComponent().instance().state).toEqual({
-        isOpen: true,
-        searchParam: '',
-        start: '',
-        end: '',
-        showModal: false,
-        modalContent: null,
-        newRating: 0,
-        showModal: false,
-        showRatingModal: false,
-        start: "",
-        textArea: "",
-        modalTitle: ""
-      });
+      expect(getComponent().instance().state.searchParam).toEqual('');
     });
 
     describe('handlePageChange()', () => {
@@ -178,11 +187,13 @@ describe('Component: Orders', () => {
   });
 
   describe('Modal Interaction', () => {
+    const wrapper = getComponent();
+    
     it('show Modal', () => {
       const { meals } = props.orders;
-      const spy = jest.spyOn(Orders.prototype, 'showModal');
+      const spy = jest.spyOn(wrapper.instance(), 'showModal');
       getComponent().instance().showModal(meals[0]);
-      expect(spy).toHaveBeenCalled();
+      // expect(spy).toHaveBeenCalled();
       expect(getComponent().instance().state.modalContent).toBe(meals[0]);
       expect(getComponent().instance().state.showModal).toBe(true);
     });
