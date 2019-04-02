@@ -10,14 +10,13 @@ import OrderHistory from './OrderHistory/OrderHistory';
 import EditOrder from './EditOrder/EditOrder';
 import AdminOrderHistory from './Admin/OrderHistory/Index';
 import ExportOrders from './Admin/OrderHistory/ExportOrders';
-import Vendors from './Admin/Vendors/Vendors';
 import Meals from './Admin/Meals/Index';
-import Menus from './Admin/Menus/Index';
 import Engagements from './Admin/Engagements/Index';
 import VendorsTab from './Admin/Tabs/Vendors';
 import MenusAndMealsTab from './Admin/Tabs/MenusAndMeals';
 import Ratings from './Admin/Ratings/Index';
 import Users from './Admin/Users/Users';
+import About from './About/About';
 import Faqs from './Faqs/Faqs';
 
 
@@ -33,6 +32,7 @@ const Root = () => (
         <Switch>
           <Route path="/ordermeal" component={Orders} />
           <Route exact path="/orders" component={OrderHistory} />
+          <Route exact path="/about" component={About} />
           <Route exact path="/faqs" component={Faqs} />
           <Route exact path="/orders/edit/:id" component={EditOrder} />
           <Route exact path="/admin/orders" component={AdminOrderHistory} />

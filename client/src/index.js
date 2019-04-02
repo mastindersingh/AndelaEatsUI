@@ -9,6 +9,8 @@ import configureStore from "./store/store";
 import "./styles/main.scss";
 import "react-day-picker/lib/style.css";
 import "react-datepicker/dist/react-datepicker.css";
+import "trix/dist/trix.css";
+import "trix/dist/trix.js";
 
 import "./assets/images/favicon.ico";
 

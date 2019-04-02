@@ -51,7 +51,12 @@ export class Faqs extends Component {
   };
 
   render() {
-    const { faqs, isLoading, isAdmin, isCreating } = this.props;
+    const { 
+      faqs,
+      isLoading, 
+      isAdmin,
+      isCreating
+    } = this.props;
     const header = (
       <div>
         {isAdmin ? (

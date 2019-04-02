@@ -11,19 +11,17 @@
   cursor: pointer;
   margin-top: 1rem;
   padding: 4px;
+  :hover {
+    color: $color-pale-blue;
+  }
 }
 
 .edit-right {
   @extend .add-right;
   color: $color-gray;
-}
-
-.add-right:hover {
-  color: $color-pale-blue;
-}
-
-.edit-right:hover {
-  color: $color-white;
+  :hover {
+    color: $color-white;
+  }
 }
 
 input[type='checkbox'] {

@@ -117,3 +117,9 @@ export const initialFaqs = {
   isUpdating: false,
   faqs: []
 };
+
+export const initialAbout = {
+  isLoading: false,
+  isUpdating: false,
+  about: {}
+};
