@@ -12,7 +12,7 @@
     "prestart": "NODE_ENV=production npm run build:production",
     "test": "jest --config jest.config.json --updateSnapshot --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test-dev": "jest --config=./jest.config.json --updateSnapshot",
-    "setup:hooks": "sh setup_hooks.sh",
+    "setup:hooks": "sh ../setup_hooks.sh",
     "precommit-msg": "echo 'Running pre-commit checks...' && exit 0",
     "lint": "eslint ./src/**/*.js ./src/**/*.jsx"
   },
@@ -47,7 +47,6 @@
     "js-cookie": "^2.2.0",
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.2",
-    "pre-commit": "^1.2.2",
     "prop-types": "^15.6.2",
     "rc-pagination": "^1.16.5",
     "react": "^16.4.1",
