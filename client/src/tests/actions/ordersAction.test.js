@@ -304,41 +304,8 @@ describe('Order actions', () => {
     done();
   });
 
-  it('update order success', async (done) => {
-    moxios.stubRequest(`/${id}`, {
-      status: 200,
-      response: {}
-    });
-    const expectedActions = [
-      {
-        type: FETCH_ORDERS_LOADING,
-        isLoading: true
-      },
-      {
-        type: MENU_IS_LOADING,
-        payload: true,
-      },
-      {
-        type: UPDATE_ORDER_SUCCESS,
-        payload: {}
-      }, {
-        type: FETCH_ORDERS_LOADING,
-        isLoading: false
-      },
-      {
-        type: MENU_IS_LOADING,
-        payload: false,
-      }];
-    const store = mockStore({});
-    await store.dispatch(updateOrder({}, id))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
-    done();
-  });
-
   it('update order failure', async (done) => {
-    moxios.stubRequest(`/${id}`, {
+    moxios.stubRequest(`/orders/${id}`, {
       status: 401,
       response: {}
     });

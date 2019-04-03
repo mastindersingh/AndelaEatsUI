@@ -7,7 +7,7 @@ import ConnectedOrders, { Orders } from '../../../components/Order/Orders';
 import { mockMenu } from '../../helpers/mockOrders';
 
 const props = {
-  userMenus: mockMenu,
+  menus: mockMenu,
   match: {
     url: 'http:abc.css'
   },

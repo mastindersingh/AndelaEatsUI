@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import faqsReducer from './faqsReducer';
 import userReducer from './userReducer';
 import ordersReducer from './ordersReducer';
 import menuReducer from './menuReducer';
@@ -11,6 +12,7 @@ import engagementsReducer from './admin/engagementsReducer';
 import suspendedVendorReducer from './admin/suspendedVendorReducer';
 import adminUserReducer from './admin/adminUserReducer';
 import mealRatingsReducer from './admin/ratingsReducer';
+import aboutReducer from './aboutReducer';
 
 export default combineReducers({
   userReducer,
@@ -24,4 +26,6 @@ export default combineReducers({
   suspendVendors: suspendedVendorReducer,
   user: adminUserReducer,
   allRatings: mealRatingsReducer,
+  faqsReducer,
+  aboutReducer,
 });

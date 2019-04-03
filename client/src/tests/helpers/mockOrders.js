@@ -48,7 +48,8 @@ export const mockMenu = [
           mealPicture: ""
         }
       ]
-    }
+    },
+    menus: []
   }
 ];
 

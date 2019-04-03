@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropType from 'prop-types';
 import moment from 'moment';
@@ -6,23 +6,25 @@ import moment from 'moment';
 import Loader from '../../common/Loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
 import { EngagementCard } from './EngagementCard';
-import DeleteEngagementModal from './DeleteEngagementModal';
+import DeleteModal from '../../common/DeleteModal/DeleteModal';
 import Modal from './Modal';
-import { 
-  fetchEngagements, 
-  fetchVendors, 
+import {
+  fetchEngagements,
+  fetchVendors,
   createEngagement,
   deleteEngagement,
-  editEngagement 
+  editEngagement
 } from '../../../actions/admin/engagementsAction';
 import EmptyContent from '../../common/EmptyContent';
-import { formatDate, isStartgreaterThanEnd } from '../../../helpers/formatMealItems';
-
+import {
+  formatDate,
+  isStartgreaterThanEnd
+} from '../../../helpers/formatMealItems';
 
 /**
  * @class Engagements
- * 
- * 
+ *
+ *
  * @extends {Component}
  */
 export class Engagements extends Component {
@@ -30,9 +32,9 @@ export class Engagements extends Component {
     engagementId: '',
     startDate: moment(),
     endDate: moment().add(7, 'days'),
-    selectedOption: { 
-      value: '', 
-      label: '', 
+    selectedOption: {
+      value: '',
+      label: '',
       vendorId: 0
     },
     datePicker: moment(),
@@ -41,7 +43,7 @@ export class Engagements extends Component {
     modalContent: {},
     modalTitle: '',
     modalButtontext: ''
-  }
+  };
 
   componentDidMount() {
     this.props.fetchEngagements();
@@ -54,25 +56,31 @@ export class Engagements extends Component {
    * @param {object} event
    *
    * @memberof Engagements
-   * 
+   *
    * @returns {void}
    */
   onChange = (data, selectedOption) => {
     this.setState({
       [selectedOption]: data
-    })
-  }
-  
+    });
+  };
+
   /**
    * Handles form submission
-   * 
+   *
    * @memberof Engagements
-   * 
+   *
    * @returns {void}
    */
   handleSubmit = event => {
     event.preventDefault();
-    const { engagementId, selectedOption, startDate, endDate, modalTitle } = this.state;
+    const {
+      engagementId,
+      selectedOption,
+      startDate,
+      endDate,
+      modalTitle
+    } = this.state;
 
     const result = isStartgreaterThanEnd(startDate, endDate);
 
@@ -81,34 +89,34 @@ export class Engagements extends Component {
     }
 
     if (selectedOption) {
-      const engagement= {
+      const engagement = {
         vendorId: selectedOption.vendorId,
         startDate: formatDate(startDate),
         endDate: formatDate(endDate)
-      }
-      if(modalTitle === "ADD ENGAGEMENT") {
-        if(selectedOption.vendorId !== 0){
-          this.props.createEngagement(engagement)
-          .then(() => this.closeModal());
+      };
+      if (modalTitle === 'ADD ENGAGEMENT') {
+        if (selectedOption.vendorId !== 0) {
+          this.props.createEngagement(engagement).then(() => this.closeModal());
         } else {
           toast.error('Vendor name is missing', {
             position: toast.POSITION.TOP_CENTER
           });
         }
       } else {
-        this.props.editEngagement(engagementId, engagement)
-        .then(() => this.closeModal())
+        this.props
+          .editEngagement(engagementId, engagement)
+          .then(() => this.closeModal());
       }
     }
-  }
+  };
 
-   /**
-   * 
+  /**
+   *
    * @method showAddModal
    *
-   * 
+   *
    * @memberof Engagements
-   * 
+   *
    * @returns {void}
    */
   showAddModal = () => {
@@ -116,21 +124,21 @@ export class Engagements extends Component {
       displayModal: true,
       modalTitle: 'ADD ENGAGEMENT',
       modalButtontext: 'Add Engagement'
-    })
-  }
+    });
+  };
 
   /**
-   * 
+   *
    * @method showEditModal
    *
    * @param {object} engagement
-   * 
+   *
    * @memberof Engagements
-   * 
+   *
    * @returns {void}
    */
   showEditModal = engagement => {
-    const {id, vendor } = engagement;
+    const { id, vendor } = engagement;
     this.setState({
       engagementId: id,
       selectedOption: {
@@ -139,97 +147,100 @@ export class Engagements extends Component {
         vendorId: vendor.id
       },
       displayModal: true,
-      modalTitle: "EDIT ENGAGEMENT",
-      modalButtontext: "Update"
+      modalTitle: 'EDIT ENGAGEMENT',
+      modalButtontext: 'Update'
     });
-  }
+  };
 
-   /**
-   * 
+  /**
+   *
    * @method deleteVendor
-   * 
+   *
    * @param {Object} vendorId
-   * 
+   *
    * @memberof vendors
-   * 
+   *
    * @returns {void}
    */
   deleteEngagement = engagementId => {
-    this.props.deleteEngagement(engagementId)
-      .then(() => this.closeModal());
-  }
+    this.props.deleteEngagement(engagementId).then(() => this.closeModal());
+  };
 
   /**
-   * 
+   *
    * @method showDeleteModal
    *
    * @param {object} engagement
-   * 
+   *
    * @memberof Engagements
-   * 
+   *
    * @returns {void}
    */
-  showDeleteModal = (engagement) => {
+  showDeleteModal = engagement => {
     this.setState({
       displayDeleteModal: true,
       modalContent: engagement
     });
-  }
+  };
 
   /**
-   * 
+   *
    * @method closeModal
-   * 
+   *
    * @memberof Engagements
-   * 
+   *
    * @returns {void}
    */
   closeModal = () => {
     this.setState({
       displayModal: false,
       displayDeleteModal: false
-    })
-  }
+    });
+  };
 
   handleDisplayNoEdit = engagement => {
-    const verifyDateRange = moment(engagement.endDate).isAfter(moment().toDate());
-    if (!verifyDateRange){
+    const verifyDateRange = moment(engagement.endDate).isAfter(
+      moment().toDate()
+    );
+    if (!verifyDateRange) {
       toast.error('Past Engagement cannot be edited');
     }
-  }
+  };
 
   renderEngagements = engagements => {
     return engagements.map((engagement, key) => (
-      <EngagementCard 
+      <EngagementCard
         key={key}
         engagement={engagement}
         showDeleteModal={this.showDeleteModal}
         showEditModal={this.showEditModal}
         handleNoEdit={this.handleDisplayNoEdit}
       />
-    ))
+    ));
   };
 
   render() {
     const { isLoading, engagements, vendors, isDeleting } = this.props;
-    const vendorsResult = vendors.map(result => (
-      { value: result.name, label: result.name, vendorId: result.id }
-    ));
+    const vendorsResult = vendors.map(result => ({
+      value: result.name,
+      label: result.name,
+      vendorId: result.id
+    }));
 
     const {
       startDate,
-      endDate, 
+      endDate,
       selectedOption,
       displayModal,
       displayDeleteModal,
       modalContent,
-      modalTitle, 
+      modalTitle,
       modalButtontext
     } = this.state;
-    
+
     return (
       <Fragment>
-        { isLoading && <Loader /> }
+        {isLoading && <Loader />}
         <div className={`${isLoading && 'blurred'} table-wrapper`}>
           <div className="vendors-header">
             <h3 className="vendor-menu">Vendors Engagement</h3>
@@ -242,41 +253,42 @@ export class Engagements extends Component {
               Add Engagements
             </button>
           </div>
-          
-          { engagements.length > 0 && (
-          <div className="table-header custom-row">
-            <div className="custom-col-4">Name</div>
-            <div className="custom-col-3">Start Date</div>
-            <div className="custom-col-3">End Date</div>
-            <div className="custom-col-2">Options</div>
-          </div>)}
-      
-          { engagements.length > 0 && this.renderEngagements(engagements)}
 
-          { !isLoading && !engagements.length && (
-            <EmptyContent message= "No engagement has been added yet" />
+          {engagements.length > 0 && (
+            <div className="table-header custom-row">
+              <div className="custom-col-4">Name</div>
+              <div className="custom-col-3">Start Date</div>
+              <div className="custom-col-3">End Date</div>
+              <div className="custom-col-2">Options</div>
+            </div>
           )}
-          
+
+          {engagements.length > 0 && this.renderEngagements(engagements)}
+
+          {!isLoading && !engagements.length && (
+            <EmptyContent message="No engagement has been added yet" />
+          )}
         </div>
         <ToastContainer />
-        <Modal 
-            startDate={startDate}
-            endDate={endDate}
-            onChange={this.onChange} 
-            handleSubmit={this.handleSubmit}
-            selectedOption={selectedOption}
-            vendorsResult={vendorsResult}
-            displayModal={displayModal}
-            closeModal={this.closeModal}
-            modalTitle={modalTitle}
-            modalButtontext={modalButtontext}
+        <Modal
+          startDate={startDate}
+          endDate={endDate}
+          onChange={this.onChange}
+          handleSubmit={this.handleSubmit}
+          selectedOption={selectedOption}
+          vendorsResult={vendorsResult}
+          displayModal={displayModal}
+          closeModal={this.closeModal}
+          modalTitle={modalTitle}
+          modalButtontext={modalButtontext}
         />
-        <DeleteEngagementModal
-            isDeleting={isDeleting}
-            deleteEngagement={this.deleteEngagement}
-            displayDeleteModal={displayDeleteModal}
-            closeModal={this.closeModal}
-            modalContent={modalContent}
+        <DeleteModal
+          isDeleting={isDeleting}
+          deleteItem={this.deleteEngagement}
+          displayDeleteModal={displayDeleteModal}
+          closeModal={this.closeModal}
+          modalContent={modalContent}
+          item="Engagement"
         />
       </Fragment>
     );
@@ -298,12 +310,12 @@ Engagements.propTypes = {
 };
 
 export default connect(
-  mapStateToProps, 
-  { 
-    fetchEngagements, 
-    fetchVendors, 
+  mapStateToProps,
+  {
+    fetchEngagements,
+    fetchVendors,
     createEngagement,
     deleteEngagement,
-    editEngagement 
+    editEngagement
   }
 )(Engagements);

@@ -13,7 +13,7 @@ const props = {
   selectedMealId: "Beans",
   handleOptionChange: jest.fn()
 };
-/* 
+/*
 global jest 
 expect 
 */

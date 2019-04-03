@@ -1,21 +1,23 @@
 .side-nav {
-	height: 100%;
-	width: 120px;
-	background-color: #F4F8F9;
-	box-shadow: inset -1px 0 0 0 #DCDCDC;
+  height: 100%;
+  width: 120px;
+  background-color: #f4f8f9;
+  box-shadow: inset -1px 0 0 0 #dcdcdc;
   position: fixed;
+  overflow: scroll;
 }
 .side-nav-item-wrapper {
-	width: 110px;
-  background-color: #F4F8F9;
+  width: 110px;
+  background-color: #f4f8f9;
   margin: 0;
   padding: 0;
   list-style-position: inside;
   list-style-type: none;
+  padding: 20px 0;
 }
 
 .side-nav-item {
-	height: 150px;
+  height: 150px;
   width: 119px;
   position: relative;
   cursor: pointer;
@@ -25,7 +27,6 @@
   padding-top: 60px;
   color: $color-medium-gray;
   font-weight: 500;
-
 
   &.active {
     background-color: $color-white;
@@ -85,6 +86,32 @@
   }
   &:hover {
     background-image: url('../assets/images/active-delivery-truck.png');
+  }
+}
+
+.about {
+  background-image: url('../assets/images/about.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/about-active.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/about-active.png');
+  }
+}
+
+.faq {
+  background-image: url('../assets/images/faqs.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  &.active {
+    background-image: url('../assets/images/faqs-active.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/faqs-active.png');
   }
 }
 
@@ -169,6 +196,7 @@
 .main-container {
   margin-left: 150px;
   width: calc(100% - 150px);
+  margin-top: 80px;
 
   .section {
     width: 90%;
@@ -180,4 +208,3 @@
 .push-down {
   padding-top: 80px;
 }
-
