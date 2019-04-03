@@ -57,6 +57,8 @@ function addEnvFile() {
 
   [[ $CIRCLE_BRANCH == "master" ]] && BASE_CONFIG+=$PRODUCTION_CONFIG || BASE_CONFIG+=$STAGING_CONFIG
 
+  echo $BASE_CONFIG
+  
   if [ ! -f "$ENV_FILE" ]; then
     echo -e $BASE_CONFIG >> ${ROOT_DIRECTORY}/client/.env
     success "Environment file has been created successfully"
