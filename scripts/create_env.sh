@@ -59,6 +59,7 @@ function addEnvFile() {
 
   echo $CIRCLE_BRANCH
   echo $BASE_CONFIG
+  echo "<<<<<<<<<<<<<<<<"
 
   if [ ! -f "$ENV_FILE" ]; then
     echo -e $BASE_CONFIG >> ${ROOT_DIRECTORY}/client/.env
