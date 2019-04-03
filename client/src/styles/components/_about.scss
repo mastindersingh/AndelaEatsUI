@@ -49,18 +49,19 @@
   color: $color-blue;
 }
 
-ol {
+.content ol {
   max-width: 350px;
   counter-reset: my-awesome-counter;
   list-style: none;
   padding-left: 60px;
 }
-ol li {
+
+.content ol li {
   margin: 0 0 0.5rem 0;
   counter-increment: my-awesome-counter;
   position: relative;
 }
-ol li::before {
+.content ol li::before {
   content: counter(my-awesome-counter);
   color: $color-white;
   font-size: 1.5rem;
