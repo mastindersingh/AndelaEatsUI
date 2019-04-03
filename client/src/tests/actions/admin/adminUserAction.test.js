@@ -15,7 +15,9 @@ import {
   FETCH_USER_PERMISION_SUCCESS,
   DELETE_USER_ROLE_SUCCESS,
   DELETE_USER_PERMISION_SUCCESS,
-  ADD_USER_PERMISION_SUCCESS
+  ADD_USER_PERMISION_SUCCESS,
+  GET_TAPPED_USERS_SUCCESS,
+  GET_TAPPED_USERS_FAILURE
 } from '../../../actions/actionTypes';
 
 import {
@@ -29,10 +31,11 @@ import {
   getRolePermisions,
   deleteUserPermision,
   deleteUserRole,
-  createUserPermision
+  createUserPermision,
+  getTappedUsers
 } from '../../../actions/admin/adminUserAction';
 import {
-  adminUsers, roles, permisions, roleId, RolePermisions, permisionData 
+  adminUsers, roles, permisions, roleId, RolePermisions, permisionData, tappedUsers
 } from '../../__mocks__/mockAdminUsers';
 
 describe('Get User Role Action', () => {
@@ -282,7 +285,7 @@ describe('Get User Role Action', () => {
         { payload: false, type: IS_FETCHING_ROLE_PERMISION },
       ];
       const store = mockStore({});
-      await store 
+      await store
         .dispatch(getRolePermisions(roleId))
         .then(() => {
           expect(store.getActions()).toEqual(expectedAction);
@@ -320,6 +323,54 @@ describe('Get User Role Action', () => {
       const store = mockStore({});
       await store
         .dispatch(createUserPermision(permisionData))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+      done();
+    });
+  });
+
+  describe('Tapped Users', () => {
+    beforeEach(() => moxios.install());
+    afterEach(() => moxios.uninstall());
+
+    it('Gets tapped users sucessfully', async (done) => {
+      moxios.stubRequest('reports/taps/daily', {
+        status: 200,
+        response: tappedUsers.data
+      });
+
+      const expectedActions = [
+        {
+          type: GET_TAPPED_USERS_SUCCESS,
+          payload: tappedUsers.data.payload
+        }
+      ];
+
+      const store = mockStore({});
+      await store
+        .dispatch(getTappedUsers())
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+      done();
+    });
+
+    it('Gets tapped users failure', async (done) => {
+      moxios.stubRequest('reports/taps/daily', {
+        status: 404,
+      });
+
+      const expectedActions = [
+        {
+          type: GET_TAPPED_USERS_FAILURE,
+          payload: undefined
+        }
+      ];
+      const store = mockStore({});
+
+      await store
+        .dispatch(getTappedUsers())
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
         });

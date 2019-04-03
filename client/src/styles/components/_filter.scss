@@ -1,0 +1,68 @@
+.filter {
+    margin-left: auto;
+    position: relative;
+
+    .button {
+      height: 37px;
+      width: 107px;
+      border: 1px solid $color-blue;
+      border-radius: 2px;
+      background-color: $color-white;
+      color: $color-blue;
+      font-size: 18px;
+      line-height: 18px;
+      cursor: pointer;
+
+      &.grayed {
+        border-color: $color-light-grey;
+        background-color: $color-light-grey;
+        color: $color-medium-gray;
+
+        i { -webkit-text-stroke-color: $color-medium-gray; }
+      }
+
+      &.active {
+        background-color: $color-blue;
+        color: $color-white;
+      }
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      padding: 20px;
+      margin: 5px auto;
+      right: 0px;
+      border-radius: 3px;
+      background-color: $color-white;
+      box-shadow: 0 2px 10px 0 $color-dark-gray;
+      z-index: 5;
+
+      &.active {
+        display: block;
+      }
+    }
+
+    .submit-btn {
+      height: 36px;
+      width: 160px;
+      background-color: $color-blue;
+      color: $color-white;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+
+    .actions {
+      display: flex;
+      color: $color-blue;
+      font-size: 14px;
+      line-height: 18px;
+
+        .action-item {
+          cursor: pointer;
+          &:last-child {
+            margin-left: auto;
+          }
+        }
+    }
+}

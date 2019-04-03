@@ -1,0 +1,36 @@
+.tabbed-users{
+    font-weight: 700;
+    color: $color-dark-gray;
+    font-size: 21px;
+    line-height: 27px;
+
+    span:nth-child(2) {
+        color: $color-blue;
+    }
+
+    .heading-style {
+        font-weight: 600;
+        font-size: 1.3125rem;
+        color: $color-blue;
+    }
+    .filter-hearder{
+        display: flex;
+
+    }
+    .date-picker {
+        display: block;
+        margin: 15px 0px;
+        color: $color-dark-gray;
+        font-size: 14px;
+    }
+
+    .graph{
+        margin-top: 5%;
+        position: relative;
+        width: 90%;
+        height: auto;
+        background-color:white;
+        padding:30px;
+
+    }
+}
