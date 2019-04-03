@@ -15,7 +15,9 @@ import {
   FETCH_USER_PERMISION_SUCCESS,
   IS_FETCHING_ROLE_PERMISION,
   IS_FETCHING_ROLES,
-  FETCH_ALL_PERMISIONS
+  FETCH_ALL_PERMISIONS,
+  GET_TAPPED_USERS_SUCCESS,
+  GET_TAPPED_USERS_FAILURE
 } from "../actionTypes";
 import token from '../../helpers/jwtDecode';
 import { toastSuccess, toastError } from '../../helpers/toast';
@@ -199,3 +201,26 @@ export const createUserPermision = (permissionData) => dispatch => axios.post(`r
     error = error.response ? error.response.data.msg : 'Not created, Please Contact Admin';
     toastError(error);
   });
+
+export const getTappedUsersSucess = (tabbedUsers) => ({
+  type: GET_TAPPED_USERS_SUCCESS,
+  payload: tabbedUsers
+});
+
+export const getTappedUsersFailure = (error) => ({
+  type: GET_TAPPED_USERS_FAILURE,
+  payload: error,
+});
+
+export const getTappedUsers = (date = null) => (dispatch) => {
+  const dateRange = date;
+  const url = dateRange ? `reports/taps/daily/?dateRange=${dateRange.endDate}:${dateRange.startDate}` : 'reports/taps/daily';
+
+  return axios.get(url)
+    .then(response => {
+      dispatch(getTappedUsersSucess(response.data.payload));
+    })
+    .catch((error) => {
+      dispatch(getTappedUsersFailure(error.response.data));
+    });
+};
