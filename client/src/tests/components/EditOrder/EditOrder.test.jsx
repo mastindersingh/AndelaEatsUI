@@ -1,8 +1,11 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import ConnectedEditOrder, { EditOrder } from '../../../components/EditOrder/EditOrder';
+import { mealItems } from '../../__mocks__/mockMealItems';
+import Loader from '../../../components/common/Loader/Loader';
+import { MockData } from '../../__mocks__/mockMenuListData'
 
 /* 
 global jest 
@@ -13,6 +16,7 @@ const mockStore = configureMockStore(middlewares);
 
 let mountedComponent;
 const props = {
+  menus: MockData.payload.menuList,
   match: {
     params: { id: 1 },
     url: '/orders/edit/000023"'
@@ -23,29 +27,20 @@ const props = {
       protein: "Cake"
     }
   },
-  menu: {
-    date: "2018-07-19",
-    id: 2001,
-    meal: {
-      main: [{
-        id: 1,
-        meal: {}
-      }],
-      firstAccompaniment: [{
-        id: 1,
-        meal: {}
-      }],
-      secondAccompaniment: [{
-        id: 1,
-        meal: {}
-      }]
-    }
+  meal: {
+    id: 1,
+    datebookedFor: "Tue, 12 Mar 2019 00:00:00 GMT",
+    channel: 'web',
+    mealPeriod: 'lunch',
+    mealItems,
   },
+  mealSelected: {},
   history: { 
     push: () => jest.fn()
   },
   editOrder: () => Promise.resolve(),
   updateOrder: () => Promise.resolve(),
+  fetchMenu: () => Promise.resolve(),
   
 };
 
@@ -70,76 +65,27 @@ describe('Component: Orders', () => {
     expect(getComponent()).toMatchSnapshot();
   });
 
+  it('shows loader', () => {
+   const wrapper = getComponent();
+   wrapper.setProps({
+     isLoading:true,
+     meal: null
+   });
+   expect(wrapper.find(Loader).length).toEqual(1);
+  });
+
+  // it('displays modal on click', () => {
+  //   const wrapper = getComponent();
+  //   expect(wrapper.instance().state.showModal).toBeFalsy();
+  //   wrapper.find('.submit-order').simulate('click');
+  //   expect(wrapper.instance().state.showModal).toBeTruthy();
+  // })
+
   describe('Class Methods test:: Call', () => {
     it('componentDidMount()', () => {
       const spy = jest.spyOn(EditOrder.prototype, 'componentDidMount');
       getComponent().instance().componentDidMount();
       expect(spy).toHaveBeenCalled();
-    });
-
-    it('componentWillReceiveProps()', () => {
-      const newState = {
-        main: "1",
-        firstAccompaniment: "2", 
-        secondAccompaniment: "3"
-      };
-      const nextProps = {
-        order: {
-          orderData: {
-            main: "1",
-            firstAccompaniment: "2", 
-            secondAccompaniment: "3"
-          }
-        }
-      }
-      const spy = jest.spyOn(EditOrder.prototype, 'componentWillReceiveProps');
-      const wrapper = getComponent().instance();
-      wrapper.componentWillReceiveProps(nextProps);
-
-      expect(spy).toHaveBeenCalled();
-      expect(wrapper.state).toEqual(newState);
-    });
-
-    const event = {
-      target: {
-        name: "searchParam",
-        value: "Rice Beans"
-      },
-      preventDefault: () => jest.fn()
-    };
-
-    it('handleOptionChange()', () => {
-      const wrapper = getComponent().instance();
-
-      const spy = jest.spyOn(wrapper, 'handleOptionChange');
-      wrapper.handleOptionChange(event);
-      expect(spy).toHaveBeenCalled();
-      expect(wrapper.state.searchParam).toBe(event.target.value);
-    });
-
-    it('handleFormSubmit', () => {
-      const wrapper = getComponent().instance();
-
-      const spy = jest.spyOn(wrapper, 'handleFormSubmit');
-      wrapper.handleFormSubmit(event);
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('isDisabled', () => {
-      const wrapper = getComponent().instance();
-
-      const spy = jest.spyOn(wrapper, 'isDisabled');
-      wrapper.isDisabled();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should handle redirect', () => {
-      const historySpy = jest.spyOn(props.history, 'push');
-      // const history = { push: jest.fn() }
-
-      getComponent().find('.reset-order').simulate('click');
-
-      expect(historySpy).toHaveBeenCalled();
     });
   });
 });
@@ -149,8 +95,9 @@ describe('Connected EditOrder component', () => {
   it('component successfully rendered', () => {
     const store = mockStore({
       orders: {
-        menu: {}
-      }
+        menu: {},
+      },
+      upcomingMenus: {menus: [{menus: []}]}
     });
     const wrapper = shallow(<ConnectedEditOrder store={store} />);
     expect(wrapper.length).toBe(1);

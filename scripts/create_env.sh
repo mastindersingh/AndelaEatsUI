@@ -55,7 +55,11 @@ function addEnvFile() {
   warning "Adding .env file to Andela Easts root project directory"
   echo ">>>>>>>>>>>>>>>>>"
 
-  [[ $CIRCLE_BRANCH == "master" ]] && BASE_CONFIG+=$PRODUCTION_CONFIG || BASE_CONFIG+=$STAGING_CONFIG
+  [[ "${CIRCLE_BRANCH}" == "master" ]] && BASE_CONFIG+=$PRODUCTION_CONFIG || BASE_CONFIG+=$STAGING_CONFIG
+
+  echo $CIRCLE_BRANCH
+  echo $BASE_CONFIG
+  echo "<<<<<<<<<<<<<<<<"
 
   if [ ! -f "$ENV_FILE" ]; then
     echo -e $BASE_CONFIG >> ${ROOT_DIRECTORY}/client/.env

@@ -27,7 +27,7 @@
       flex-direction: column;
       flex-flow: row wrap;
       margin: px-to-rem(10px) 0 px-to-rem(30px);
-  
+
       .close-icon {
         flex: 1 0 0;
         margin-top: 2px;
@@ -37,16 +37,19 @@
         border: none;
         color: $color-light-blue;
       }
-  
-      .header-title{
+
+      .header-title {
         flex: 1 0 0;
         font-size: px-to-rem(20px);
         font-weight: 600;
         color: $color-blue;
         font-family: $font-family-opensans;
+        &--error {
+          color: red;
+        }
       }
     }
-  
+
     .modal-footer {
       display: flex;
       flex-flow: row wrap;
@@ -57,7 +60,7 @@
         @include buttons(
           $color-blue,
           $color-white,
-          px-to-rem(10px) px-to-rem(18px) px-to-rem(7px), 
+          px-to-rem(10px) px-to-rem(18px) px-to-rem(7px),
           px-to-rem(16px),
           1px solid $color-blue
         );
@@ -75,6 +78,11 @@
         &.fill {
           color: $color-white;
           background-color: $color-blue;
+          transition: all 0.5s ease-out;
+          &--delete:hover {
+            background: $color-red;
+            border-color: $color-red;
+          }
         }
 
         &.upper {

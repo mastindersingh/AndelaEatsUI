@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import DeleteMenuModal
   from '../../../../components/Admin/Menus/DeleteMenuModal';
 
@@ -16,11 +16,18 @@ const props = {
   deleting: false
 };
 
-const wrapper = mount(<DeleteMenuModal {...props} />);
+const wrapper = shallow(<DeleteMenuModal {...props} />);
 
 describe('Admin::DeleteModal Component', () => {
   it('should render correctly', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it('should call deleteMenu', () => {
+    wrapper.setProps({
+      display:true,
+    }) 
+    wrapper.find('#delete-meal').simulate('click');
+    expect(wrapper.find('.modal-content')).toBeTruthy()
+  });
 });

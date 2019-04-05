@@ -46,7 +46,7 @@ export default (state = orders, action) => {
     case UPDATE_ORDER_SUCCESS:
       return {
         ...state,
-        order: action.payload
+        orders: state.orders.map(order => (order.id === action.payload.id) ? action.payload : order)
       };
     case GET_ORDER_SUCCESS:
       return {

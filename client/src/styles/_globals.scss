@@ -1,14 +1,18 @@
-
 * {
   box-sizing: border-box;
 }
 
-html, body, #app, .main-wrapper, .wrapper {
+html,
+body,
+#app,
+.main-wrapper,
+.wrapper {
   height: 100%;
+  padding: 10px 0;
 }
 
 body {
-  background:$color-ghostwhite;
+  background: $color-ghostwhite;
   margin: 0;
   color: #000000;
   font-family: DINPro, sans-serif;
@@ -51,7 +55,7 @@ body {
 .no-content {
   height: 100%;
   text-align: center;
-  font-family: "DINPro";
+  font-family: 'DINPro';
   color: $color-medium-grey;
 }
 
@@ -147,7 +151,7 @@ body {
     color: $color-white;
     background: $color-blue;
     margin-bottom: 10px;
-    box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   }
 
   .ct-body {
@@ -156,7 +160,7 @@ body {
       border-radius: 2px;
       padding: 6px 0;
       margin-bottom: 10px;
-      box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
       .ct-wrap {
         display: flex;
@@ -167,12 +171,12 @@ body {
         font-size: 14px;
         font-family: $font-family-opensans;
         font-weight: 300;
-        color: #333E44;
+        color: #333e44;
       }
 
       &:hover {
         background: $color-light-grey;
-        transition: all .5s ease-out;
+        transition: all 0.5s ease-out;
       }
     }
   }
