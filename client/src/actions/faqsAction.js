@@ -25,12 +25,10 @@ export const fetchFaqsSuccess = faqs => ({
   payload: faqs
 });
 
-export const fetchFaqsFailure = error => {
-  return {
-    type: FETCH_FAQS_FAILURE,
-    payload: error
-  };
-};
+export const fetchFaqsFailure = error => ({
+  type: FETCH_FAQS_FAILURE,
+  payload: error
+});
 
 export const fetchFaqs = () => dispatch => {
   dispatch(fetchFaqsLoading(true));
@@ -133,12 +131,10 @@ export const updateFaqLoading = isUpdating => ({
   payload: isUpdating
 });
 
-export const updateFaqSuccess = faq => {
-  return {
-    type: UPDATE_FAQ_SUCCESS,
-    payload: faq
-  };
-};
+export const updateFaqSuccess = faq => ({
+  type: UPDATE_FAQ_SUCCESS,
+  payload: faq
+});
 
 export const updateFaqFailure = error => ({
   type: UPDATE_FAQ_FAILURE,

@@ -83,6 +83,7 @@
             "MethodDefinition": false,
             "ClassDeclaration": true
         }
-    }] 
+      }],
+      "template-curly-spacing": ["error", "always"]
     }
   }
