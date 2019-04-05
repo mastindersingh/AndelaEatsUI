@@ -16,6 +16,12 @@
     "precommit-msg": "echo 'Running pre-commit checks...' && exit 0",
     "lint": "eslint ./src/**/*.js ./src/**/*.jsx"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run setup:hooks",
+      "pre-push": "npm run lint && npm run test"
+    }
+  },
   "pre-commit": {
     "run": [
       "setup:hooks",
