@@ -13,13 +13,13 @@ import ExportOrders from './Admin/OrderHistory/ExportOrders';
 import Meals from './Admin/Meals/Index';
 import Engagements from './Admin/Engagements/Index';
 import Ratings from './Admin/Ratings/Index';
-import Users from './Admin/Users/Users';
 import Dashboard from './Dashboard/Dashboard';
 import About from './About/About';
 import Faqs from './Faqs/Faqs';
 import Menus from './Admin/Menus/Index';
 import Vendors from './Admin/Vendors/Vendors';
 import SuspendedVendor from './Admin/SuspendedVendors/Index';
+import UserTabs from './Admin/Tabs/Users';
 
 export const NotFound = () => (
   <h1>Page Not Found</h1>
@@ -52,7 +52,7 @@ const Root = () => (
           <Route exact path="/admin/meals" component={Meals} />
           <Route exact path="/admin/engagements" component={Engagements} />
           <Route exact path="/admin/ratings" component={Ratings} />
-          <Route exact path="/admin/users" component={Users} />
+          <Route exact path="/admin/users" component={UserTabs} />
           <Route component={NotFound} />
         </Switch>
       </SideNav>

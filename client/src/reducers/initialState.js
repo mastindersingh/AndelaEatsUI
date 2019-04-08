@@ -2,6 +2,8 @@ export default {
   isLoading: false,
   activeUser: {},
   menus: [],
+  loading_permisions: false,
+  loading_roles: false
 };
 
 export const initialMenus = {
@@ -121,7 +123,14 @@ export const initialUser = {
   adminUsers: [],
   email: '',
   message: '',
-  loading: false
+  loading: false,
+  roles: [],
+  permisions: [],
+  error: {
+    status: false,
+    message: null
+  },
+  all_permisions: []
 };
 
 export const initialMealRatings = {
