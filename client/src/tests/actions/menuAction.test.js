@@ -59,6 +59,7 @@ describe('Menu actions', () => {
       });
     done();
   });
+
   it('should fetch users orders', async (done) => {
     const startDate = '2018-11-18';
     const endDate = '2018-12-12';
@@ -92,6 +93,7 @@ describe('Menu actions', () => {
       });
     done();
   });
+
   it('should handle order success', async (done) => {
     moxios.stubRequest(`/orders/`, {
       status: 200,
@@ -123,6 +125,7 @@ describe('Menu actions', () => {
       });
     done();
   });
+
   it('should handle order failure', async (done) => {
     moxios.stubRequest(`/orders/`, {
       status: 400,
@@ -140,6 +143,7 @@ describe('Menu actions', () => {
       });
     done();
   });
+
   it('should select meal', async (done) => {
     const payload = { prop: '', value: '' };
     const expectedActions = [{
@@ -151,6 +155,7 @@ describe('Menu actions', () => {
     expect(store.getActions()).toEqual(expectedActions);
     done();
   });
+
   it('should reset menu', async (done) => {
     const expectedActions = [{
       type: RESET_MENU
