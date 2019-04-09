@@ -22,14 +22,6 @@
       "pre-push": "npm run lint && npm run test-dev"
     }
   },
-  "pre-commit": {
-    "run": [
-      "setup:hooks",
-      "precommit-msg",
-      "test",
-      "lint"
-    ]
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
