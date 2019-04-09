@@ -34,7 +34,7 @@ export const addAdminUser = (message, type) => ({
   };
 
   export const getAllAdminUsers = () => dispatch => {
-    
+
     return axios.get('/users/admin')
       .then((response) => {
         dispatch(fetchAdminUsers(response.data.payload.AdminUsers));

@@ -80,7 +80,7 @@ export class About extends Component {
         isLoading={this.props.isLoading}
       />
     );
-
+    
     return (
       <div>
         <ToastContainer />

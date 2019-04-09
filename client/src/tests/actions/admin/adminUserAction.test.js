@@ -2,12 +2,16 @@
 import moxios from 'moxios';
 
 import {
-  GET_ADMIN_USER
+  GET_ADMIN_USER,
+  ADD_ADMIN_USER_SUCCESS,
+  ADD_ADMIN_USER_FAILURE
 } from '../../../actions/actionTypes';
 
 import {
   userID,
-  getAdminUser
+  getAdminUser,
+  addAdminUser,
+  createAdminUser
 } from '../../../actions/admin/adminUserAction';
 
 
@@ -16,7 +20,7 @@ describe('Get User Role Action', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    it('fetch user role success', async (done) => {
+    it('shoould successfully fetch user role', async (done) => {
       moxios.stubRequest(`/roles/user/${userID}`, {
         status: 200,
         response: {
@@ -43,5 +47,38 @@ describe('Get User Role Action', () => {
         });
       done();
     });
+
+    it('should successfully create an admin user', () => {
+      const payload = { payload };
+      const expectedAction = { type: ADD_ADMIN_USER_SUCCESS, message: 'payload' };
+      expect(addAdminUser('payload', ADD_ADMIN_USER_SUCCESS)).toEqual({ ...expectedAction });
+    });
+
+    it('should fail to create create an admin user', async (done) => {
+      moxios.stubRequest(`/roles/user`, {
+        status: 400,
+        response: {
+          payload: {
+            users: []
+          }
+        }
+      });
+
+      const expectedActions = [
+
+        {
+         type: ADD_ADMIN_USER_FAILURE,
+         payload: []
+       },
+ 
+      ];
+     const store = mockStore({});
+     await store.dispatch(createAdminUser({ emailAddress: 'admin.user@andela.com', roleId: 1 }))
+       .then(() => {
+         expect(store.getActions()[0].type).toEqual(ADD_ADMIN_USER_FAILURE);
+       });
+     done();
+   });
+  
   });
 });
