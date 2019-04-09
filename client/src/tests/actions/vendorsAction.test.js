@@ -26,7 +26,6 @@ import {
   update
 } from '../__mocks__/mockNewVendor';
 import vendors from '../__mocks__/mockVendors';
-import { Vendors } from '../../components/Admin/Vendors/Vendors';
 
 describe('Vendors Action', () => {
   describe('Fecth Vendors', () => {

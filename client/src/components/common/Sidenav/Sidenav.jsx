@@ -37,17 +37,15 @@ class SideNav extends Component {
           <div className="side-nav">
             {!this.checkAdmin() && (
               <ul className="side-nav-item-wrapper">
-                <Link to="/ordermeal">
-                  <li
-                    className={`side-nav-item home
-                  ${homeActive('ordermeal') && 'active'}`}
-                  >
+                  <Link to="/ordermeal">
+                      <li className={`side-nav-item home
+                      ${homeActive('ordermeal') && 'active'}`}
+                    >
                     <span>Home</span>
                   </li>
                 </Link>
                 <Link to="/orders">
-                  <li
-                    className={`side-nav-item order
+                  <li className={`side-nav-item order
                     ${homeActive('orders') && 'active'}`}
                   >
                     <span>Orders</span>
@@ -72,6 +70,13 @@ class SideNav extends Component {
             )}
             {this.checkAdmin() && (
               <ul className="side-nav-item-wrapper">
+                <Link to="/admin/dashboard">
+                  <li className={`side-nav-item dashboard
+                  ${homeActive('dashboard') && "active"}`}
+                  >
+                    <span>Dashboard</span>
+                  </li>
+                </Link>
                 <Link to="/admin/orders">
                   <li
                     className={`side-nav-item order
