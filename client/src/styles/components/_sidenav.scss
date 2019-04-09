@@ -75,6 +75,20 @@
   }
 }
 
+.dashboard{
+  background-image: url('../assets/images/dashboard-icon.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+
+  &.active {
+    background-image: url('../assets/images/dashboard-active.png');
+  }
+  &:hover {
+    background-image: url('../assets/images/dashboard-active.png');
+  }
+}
+
 .order {
   background-image: url('../assets/images/delivery-truck.png');
   background-repeat: no-repeat;
