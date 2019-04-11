@@ -8,7 +8,7 @@
 
 # From npm package
 #   Name: husky
-#   Directory: client/node_modules/husky
+#   Directory: /client/node_modules/husky
 #   Homepage: https://github.com/typicode/husky#readme
 
 scriptPath="client/node_modules/husky/run.js"

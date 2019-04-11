@@ -126,6 +126,7 @@ export const fetchMenu = (startDate, endDate) => dispatch => {
     })
     .catch(error => {
       if (error.response.status === 400) {
+        // eslint-disable-next-line max-len
         document.cookie = "jwt-token=; expires=Tue, 20 Nov 2018 13:21:57 GMT; Path=/; Domain=.andela.com";
       }
       dispatch(fetchMenuFailure(error));
@@ -156,6 +157,7 @@ export const fetchUserOrders = (startDate, endDate) => (dispatch) => {
       dispatch(setOrdersLoading(false));
     }).catch((error) => {
       if (error.response.status === 400) {
+        // eslint-disable-next-line max-len
         document.cookie = "jwt-token=; expires=Tue, 20 Nov 2018 13:21:57 GMT; Path=/; Domain=.andela.com";
       }
       dispatch(setOrdersFailure(error));
