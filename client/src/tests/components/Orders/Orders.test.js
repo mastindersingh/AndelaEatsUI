@@ -39,9 +39,9 @@ jest.mock('../../../helpers/mealsHelper', () => ({
   endDate: () => new Date()
 }));
 
-/* 
-global jest 
-expect 
+/*
+global jest
+expect
 */
 describe('Orders Component', () => {
   const wrapper = shallow(
@@ -67,6 +67,21 @@ describe('Orders Component', () => {
       const spy = jest.spyOn(toast, 'success');
       wrapper.instance().showToast();
       expect(spy).toHaveBeenCalled();
+    });
+
+    it('changes menuListId state', () => {
+      wrapper.instance().selectMenuListId(3);
+      expect(wrapper.instance().state.menuListId).toEqual(3);
+    });
+
+    it('changes selectedMenu state', () => {
+      wrapper.instance().setSelectedMenu(3);
+      expect(wrapper.instance().state.selectedMenu).toEqual(3);
+    });
+    
+    it('calls resetMenu', () => {
+      wrapper.find('li').simulate('click')
+      expect(props.resetMenu).toBeCalled();
     });
 
     it('calls render method of Route', () => {

@@ -75,13 +75,11 @@ export class Users extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    userEmail: state.user.email,
-    message: state.user.message,
-    adminUsers: state.user.adminUsers
-  };
-}
+const mapStateToProps = state => ({
+  userEmail: state.user.email,
+  message: state.user.message,
+  adminUsers: state.user.adminUsers
+});
 
 Users.propTypes = {
   createAdminUser: PropTypes.func.isRequired,

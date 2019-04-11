@@ -16,7 +16,7 @@ import DeleteMealModal from './DeleteMealModal';
 import EmptyContent from '../../common/EmptyContent';
 
 /**
- * 
+ *
  * @description Meals component visible only to admin
  *
  * @class Meals
@@ -40,14 +40,14 @@ export class Meals extends Component {
   }
 
   /**
-   * 
+   *
    * @method toggleAddModal
-   * 
+   *
    * @param {boolean} mealDetails
    * @param {boolean} edit
-   * 
+   *
    * @memberof Meals
-   * 
+   *
    * @returns {void}
    */
   toggleAddModal = (mealDetails, edit = false) => {
@@ -61,13 +61,13 @@ export class Meals extends Component {
   }
 
   /**
-   * 
+   *
    * @method showDeleteModal
-   * 
+   *
    * @param {object} mealDetails
-   * 
+   *
    * @memberof Meals
-   * 
+   *
    * @returns {void}
    */
   showDeleteModal = (mealDetails) => {
@@ -78,13 +78,13 @@ export class Meals extends Component {
   }
 
   /**
-   * 
+   *
    * @method deleteMealItem
-   * 
+   *
    * @param {object} mealItemId
-   * 
+   *
    * @memberof Meals
-   * 
+   *
    * @returns {void}
    */
   deleteMealItem = (mealItemId) => {
@@ -93,11 +93,11 @@ export class Meals extends Component {
   }
 
   /**
-   * 
+   *
    * @method closeModal
-   * 
+   *
    * @memberof Meals
-   * 
+   *
    * @returns {void}
    */
   closeModal = () => {
@@ -108,13 +108,13 @@ export class Meals extends Component {
 
   /**
    *
-   * 
+   *
    * @description handle page change
    *
    * @param { Number } page
-   * 
+   *
    * @memberof Meals
-   * 
+   *
    * @returns { String }
    */
   pageChange = (page) => {
@@ -151,7 +151,7 @@ export class Meals extends Component {
     const {
       displayDeleteModal, modalContent, mealDetails, pageSize
     } = this.state;
-  
+
     return (
       <Fragment>
         <ToastContainer />
@@ -174,7 +174,7 @@ export class Meals extends Component {
               </button>
             </div>
           </header>
-          
+
           <main>
             <div>
               { meals.map((meal) => this.renderMeal(meal)) }
@@ -209,18 +209,13 @@ export class Meals extends Component {
   }
 }
 
-const mapStateToProps = ({ mealItems }) => {
-  const meals = [...mealItems.meals];
-  meals.reverse();
-
-  return ({
-    meals,
+const mapStateToProps = ({ mealItems }) =>( {
+    meals: [...mealItems.meals].reverse(),
     pagination: mealItems.pagination,
     isLoading: mealItems.isLoading,
     displayMealModal: mealItems.mealModal.show,
     isDeleting: mealItems.isDeleting
-  });
-}
+});
 
 const mapDispatchToProps = {
   fetchMealItems,

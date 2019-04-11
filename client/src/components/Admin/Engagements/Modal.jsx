@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
   func, number, string, array, bool, object, oneOfType
 } from 'prop-types';
 import Select from 'react-select';
@@ -8,19 +8,19 @@ import DatePicker from 'react-datepicker';
 
 const Modal = ({
   startDate,
-  endDate, 
+  endDate,
   onChange,
   handleSubmit,
   selectedOption,
   vendorsResult,
-  displayModal, 
-  modalTitle, 
-  modalButtontext, 
-  closeModal 
+  displayModal,
+  modalTitle,
+  modalButtontext,
+  closeModal
 }) => (
-  <div 
+  <div
     className="modal"
-    id="add-vendor-modal" 
+    id="add-vendor-modal"
     style={displayModal ? { display: 'block' } : { display: 'none' }}
   >
     <div className="modal-content">
@@ -54,14 +54,16 @@ const Modal = ({
               <DatePicker
                 selected={startDate}
                 onChange={(data) => onChange(data, "startDate")}
+                name="start-date"
               />
             </label>
           </div>
           <div className="form-field-set">
             <label htmlFor="endDate">End Date
-              <DatePicker 
+              <DatePicker
                 selected={endDate}
                 onChange={(data) => onChange(data, "endDate")}
+                name="end-date"
               />
             </label>
           </div>
@@ -69,12 +71,12 @@ const Modal = ({
             <div className="button-container">
               <button
                 type="button"
-                className="grayed" 
+                className="grayed"
                 onClick={closeModal}
               >
                     Cancel
               </button>
-              <button 
+              <button
                 type="submit"
               >
                 {modalButtontext}
