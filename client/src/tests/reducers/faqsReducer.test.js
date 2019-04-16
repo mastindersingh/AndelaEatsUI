@@ -77,7 +77,7 @@ describe('Faqs Reducer', () => {
       };
 
       const newState = faqsReducer(initialFaqs, action);
-      expect(newState.isCreating).toEqual(true);
+      expect(newState.isLoading).toEqual(true);
     });
 
     it('should set isCreating state to false when request is resolved', () => {
@@ -87,7 +87,7 @@ describe('Faqs Reducer', () => {
       };
 
       const newState = faqsReducer(initialFaqs, action);
-      expect(newState.isCreating).toEqual(false);
+      expect(newState.isLoading).toEqual(false);
     });
   });
 
@@ -122,7 +122,7 @@ describe('Faqs Reducer', () => {
         payload: true
       };
       const newState = faqsReducer(initialFaqs, action);
-      expect(newState.isDeleting).toEqual(true);
+      expect(newState.isLoading).toEqual(true);
     });
 
     it('should set isDeleting state to false when request is resolved', () => {
@@ -131,7 +131,7 @@ describe('Faqs Reducer', () => {
         payload: false
       };
       const newState = faqsReducer(initialFaqs, action);
-      expect(newState.isDeleting).toEqual(false);
+      expect(newState.isLoading).toEqual(false);
     });
   });
 
@@ -165,7 +165,7 @@ describe('Faqs Reducer', () => {
         payload: true
       };
       const newState = faqsReducer(initialFaqs, action);
-      expect(newState.isUpdating).toEqual(true);
+      expect(newState.isLoading).toEqual(true);
     });
 
     it('should set isUpdating state to false when request is resolved', () => {
@@ -174,7 +174,7 @@ describe('Faqs Reducer', () => {
         payload: false
       };
       const newState = faqsReducer(initialFaqs, action);
-      expect(newState.isUpdating).toEqual(false);
+      expect(newState.isLoading).toEqual(false);
     });
   });
 

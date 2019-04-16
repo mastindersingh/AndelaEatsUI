@@ -231,6 +231,7 @@
           select {
             @include field-select();
             margin-top: 8px;
+            border: 1px solid red;
           }
         }
       }

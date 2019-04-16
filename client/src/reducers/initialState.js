@@ -150,7 +150,13 @@ export const initialFaqs = {
 export const initialAbout = {
   isLoading: false,
   isUpdating: false,
-  about: {},
+  about: {}
+};
+
+export const initialUsers = {
+  users: [],
+  loading: false,
+  roles: []
 };
 export const initialTappedUsers = {
   data: [],

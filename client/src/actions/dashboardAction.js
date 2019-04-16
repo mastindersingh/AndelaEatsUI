@@ -69,7 +69,8 @@ const fetchVendorPerformance = () => dispatch => {
       dispatch(fetchVendorName(vendorName));
       dispatch(fetchConsideredDates(getKeyValues(payload, 'date')));
       dispatch(fetchCollectedOrders(getKeyValues(payload, 'collectedOrders')));
-      dispatch(fetchUnCollectedOrders(getKeyValues(payload, 'uncollectedOrders')));
+      dispatch(fetchUnCollectedOrders(getKeyValues(payload, 
+        'uncollectedOrders')));
       dispatch(fetchCanceledOrders(getKeyValues(payload, 'cancelledOrders')));
       dispatch(fetchVendorRatings(getKeyValues(payload, 'averageRating')));
       dispatch(fetchPerformanceLoading(false));

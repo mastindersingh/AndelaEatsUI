@@ -29,7 +29,7 @@
     cursor: pointer;
 }
 
-.assign-role {
+.button-right {
   background-color: $color-blue;
   color: $color-white;
   padding: 8px 20px;
@@ -48,9 +48,63 @@
     background-color: $color-white;
     color: $color-blue;
   }
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .text-margin {
   margin-right: 10px;
 }
-
+.users-container {
+  .button-right {
+    float: right;
+  }
+  .top {
+    padding-top: 3rem;
+  }
+}
+.user-container {
+  width: 60%;
+  margin: 10px auto;
+  .user-info {
+    padding: 0.5rem 1rem;
+    display: flex;
+    box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+    justify-content: space-between;
+    .wrapper {
+      display: flex;
+      align-items: center;
+      img {
+        width: 50px;
+        padding-right: 0.5rem;
+      }
+      .user-role {
+        color: #fff;
+        background: #3498db;
+        padding: 2px;
+        border-radius: 2px;
+        text-transform: uppercase;
+        margin: 0;
+        font-size: 0.65rem;
+      }
+      p {
+        margin: 0;
+      }
+    }
+    .icons {
+      align-self: center;
+      .fas {
+        padding-left: 0.8rem;
+        cursor: pointer;
+        color: #3359DF;
+      }
+    }
+    .fa-trash:hover {
+      color: red;
+    }
+    .fa-edit:hover {
+      color: #ffaf30;
+    }
+  }
+}

@@ -38,7 +38,15 @@ import {
   adminUsers, roles, permisions, roleId, RolePermisions, permisionData, tappedUsers
 } from '../../__mocks__/mockAdminUsers';
 
+export const users = [
+  { firstName: 'fred', lastName: 'yiga', id: 1 },
+  { firstName: 'micheal', lastName: 'jackson', id: 2 },
+  { firstName: 'peter', lastName: 'pan', id: 3 }
+];
+
 describe('Get User Role Action', () => {
+  beforeEach(() => moxios.install());
+  afterEach(() => moxios.uninstall());
   describe('Fetch User Role', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
@@ -166,7 +174,12 @@ describe('Get User Role Action', () => {
 
       ];
       const store = mockStore({});
-      await store.dispatch(createAdminUser({ emailAddress: 'admin.user@andela.com', roleId: 1 }))
+      await store
+        .dispatch(createAdminUser(
+          { 
+            emailAddress: 'admin.user@andela.com', 
+            roleId: 1 
+          }))
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
         });
