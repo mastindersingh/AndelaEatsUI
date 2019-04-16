@@ -1,5 +1,5 @@
-#add-meal-modal {
-  .modal-content {
+#add-modal{
+  .modal-content{
     width: 95%;
     max-width: px-to-rem(486px);
     top: 14%;
@@ -111,6 +111,14 @@
         input {
           @include field-input();
           margin-top: 2px;
+        }
+        select {
+          all: unset;
+          @include field-input();
+          background: white url(http://andelaeats-dev.andela.com:3000/assets/images/down-arrow.png) no-repeat;
+          background-size: 20px 20px;
+          background-position: 98% 50%;
+          width: 95%;
         }
       }
     }

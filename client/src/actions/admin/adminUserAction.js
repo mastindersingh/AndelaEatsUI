@@ -1,4 +1,8 @@
 import axios from "axios";
+import { toast } from 'react-toastify';
+import { toastSuccess, toastError } from '../../helpers/toast';
+import token from '../../helpers/jwtDecode';
+
 import {
   GET_ADMIN_USER,
   GET_ALL_ADMIN_USERS,
@@ -17,10 +21,23 @@ import {
   IS_FETCHING_ROLES,
   FETCH_ALL_PERMISIONS,
   GET_TAPPED_USERS_SUCCESS,
-  GET_TAPPED_USERS_FAILURE
+  GET_TAPPED_USERS_FAILURE,
+  FETCH_USERS_FAILURE,
+  FETCH_USERS_LOADING,
+  FETCH_USERS_SUCCESS,
+  CREATE_USER_FAILURE,
+  CREATE_USER_LOADING,
+  CREATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_LOADING,
+  UPDATE_USER_SUCCESS,
+  DELETE_USER_FAILURE,
+  DELETE_USER_LOADING,
+  DELETE_USER_SUCCESS,
+  FETCH_USER_ROLES_FAILURE,
+  FETCH_USER_ROLES_SUCCESS,
+  FETCH_USER_ROLES_LOADING
 } from "../actionTypes";
-import token from '../../helpers/jwtDecode';
-import { toastSuccess, toastError } from '../../helpers/toast';
 
 export const userID = token().id;
 
@@ -32,6 +49,15 @@ export const setAdminUser = role => ({
 export const fetchAdminUsers = adminUsers => ({
   type: GET_ALL_ADMIN_USERS,
   payload: adminUsers
+});
+export const fetchUsersFailure = () => ({
+  type: FETCH_USERS_FAILURE
+});
+
+
+export const deleteUserFailure = (error) => ({
+  type: DELETE_USER_FAILURE,
+  error
 });
 const isFetchingAdmin = (payload) => ({
   type: IS_FETCHING_ADMIN_USERS,
@@ -68,6 +94,87 @@ export const addAdminUser = (message, type) => ({
   message
 });
 
+export const deleteUserLoading = () => ({
+  type: DELETE_USER_LOADING
+});
+export const deleteUserSuccess = (id) => ({
+  type: DELETE_USER_SUCCESS,
+  id
+});
+
+export const deleteUser = userId => dispatch => {
+  dispatch(deleteUserLoading());
+  return axios.delete(`/users/${userId}/`).then(response => {
+    dispatch(deleteUserSuccess(userId));
+    toastSuccess(response.data.payload.msg);
+  })
+    .catch(err => dispatch(deleteUserFailure(err)));
+};
+export const updateUserFailure = (error) => ({
+  type: UPDATE_USER_FAILURE,
+  error
+});
+
+export const updateUserLoading = () => ({
+  type: UPDATE_USER_LOADING
+});
+
+export const updateUsersuccess = (user) => ({
+  type: UPDATE_USER_SUCCESS,
+  user
+});
+
+export const updateUser = (user) => dispatch => {
+  dispatch(updateUserLoading());
+  return axios.put(`/users/${user.id}`, user).then(response => {
+    dispatch(updateUsersuccess(response.data.payload.user));
+    toastSuccess('User Updated');
+  }).catch(err => {
+    dispatch(updateUserFailure(err));
+  });
+};
+export const fetchUsersLoading = () => ({
+  type: FETCH_USERS_LOADING
+});
+
+export const fetchUsersSuccess = (users) => ({
+  type: FETCH_USERS_SUCCESS,
+  users
+});
+
+export const fetchUsers = () => dispatch => {
+  dispatch(fetchUsersLoading());
+  return axios.get('/users/').then(response => {
+    dispatch(fetchUsersSuccess(response.data.payload.users));
+  })
+    .catch(error => {
+      dispatch(fetchUsersFailure());
+    });
+};
+
+export const createUserFailure = () => ({
+  type: CREATE_USER_FAILURE
+});
+
+export const createUserLoading = () => ({
+  type: CREATE_USER_LOADING
+});
+
+export const createUserSuccess = (user) => ({
+  type: CREATE_USER_SUCCESS,
+  user
+});
+
+export const createUser = (user) => dispatch => {
+  dispatch(createUserLoading());
+  return axios.post('/users/', user)
+    .then(response => {
+      dispatch(createUserSuccess(response.data.payload.user));
+      toast.success(response.data.msg);
+    })
+    .catch(() => dispatch(createUserFailure()));
+};
+
 export const getAdminUser = () => dispatch => axios.get(`/roles/user/${userID}`)
   .then((response) => {
     dispatch(setAdminUser(response.data.payload.user_role[0].roleId));
@@ -80,9 +187,8 @@ export const getAllAdminUsers = () => dispatch => {
       dispatch(fetchAdminUsers(response.data.payload.adminUsers));
       dispatch(isFetchingAdmin(false));
     })
-    .catch(error => {
-      dispatch(isFetchingAdmin(false));
-    });
+    .catch(() => dispatch(isFetchingAdmin(false))
+    );
 };
 
 export const getRolePermisions = roleId => dispatch => {
@@ -117,6 +223,8 @@ export const createAdminUser = (userData) => dispatch => axios.post(`/roles/user
   })
   .catch((error) => {
     error = error.response ? error.response.data.msg : 'Invalid Email Address entered!';
+    error = error.response 
+      ? error.response.data.msg : 'Invalid Email Address entered!';
     toastError(error);
     dispatch(addAdminUser(error, ADD_ADMIN_USER_FAILURE));
   });
@@ -223,4 +331,25 @@ export const getTappedUsers = (date = null) => (dispatch) => {
     .catch((error) => {
       dispatch(getTappedUsersFailure(error.response.data));
     });
+};
+export const fetchUserRolesSuccess = (roles) => ({
+  type: FETCH_USER_ROLES_SUCCESS,
+  roles
+});
+
+export const fetchUserRolesLoading = () => ({
+  type: FETCH_USER_ROLES_LOADING
+});
+
+export const fetchUserRolesFailure = (error) => ({
+  type: FETCH_USER_ROLES_FAILURE,
+  error
+});
+
+export const fetchUserRoles = () => dispatch => {
+  dispatch(fetchUserRolesLoading());
+  return axios.get('/roles/')
+    .then((response) => {
+      dispatch(fetchUserRolesSuccess(response.data.payload.roles));
+    }).catch(err => dispatch(fetchUserRolesFailure(err.response.data.msg)));
 };

@@ -50,7 +50,6 @@ const setup = (edit) => {
 };
 
 let wrapper = setup(false);
-
 describe('MealModal Component', () => {
   const mealSessionObject = {
     name: 'Lunch',

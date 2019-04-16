@@ -8,6 +8,7 @@ import FaqModal from './FaqModal';
 import DeleteModal from '../common/DeleteModal/DeleteModal';
 import Loader from '../common/Loader/Loader';
 import EmptyContent from '../common/EmptyContent';
+import inputValidation from '../../helpers/inputValidation';
 
 import {
   fetchFaqs,
@@ -16,51 +17,137 @@ import {
   deleteFaq
 } from '../../actions/faqsAction';
 
+
+const initialFaq = {
+  question: '',
+  answer: ''
+};
 /**
- * @class Faqs
- *
- * @extends {Component}
+ * Class representing Faqs
+ * 
+ * @extends Component
  */
 export class Faqs extends Component {
   state = {
-    selectedFaq: null,
     showModal: false,
-    showDeleteModal: false
+    showDeleteModal: false,
+    errors: {},
+    faq: initialFaq
   };
 
   componentDidMount() {
     this.props.fetchFaqs();
   }
 
-  showFaqModal = faq => {
+  /**
+   *
+   *
+   * @description handle onChage event
+   *
+   * @param { Object } event
+   *
+   * @returns { undefined }
+   */
+  onChange = event => {
+    const { name, value } = event.target;
+    const oldFaq = { ...this.state.faq };
+    oldFaq[name] = value;
     this.setState(prevState => ({
-      showModal: !prevState.showModal,
-      selectedFaq: faq
+      faq: oldFaq,
+      errors: {
+        ...prevState.errors,
+        [name]: ''
+      }
     }));
   };
+
+  /**
+   * 
+   * @method faqFormIsValid
+   * 
+   * @memberof Users
+   * 
+   * @param {object} event
+   * 
+   * @returns {void}
+   */
+  faqFormIsValid = () => {
+    const errorObject = {
+      question: this.state.faq.question,
+      answer: this.state.faq.answer
+    };
+    const err = inputValidation(errorObject);
+    if (!err.isEmpty) {
+      this.setState({ errors: err.errors });
+      return false;
+    }
+    return true;
+  }
+
+
+  showFaqModal = (faq = initialFaq) => {
+    this.setState(prevState => ({
+      showModal: !prevState.showModal,
+      faq,
+      errors: {}
+    }));
+  };
+
+  closeModal = () => {
+    this.setState(prevState => ({
+      showModal: !prevState.showModal,
+      faq: initialFaq
+    }));
+  }
 
   displayDeleteModal = faq => {
     this.setState(prevState => ({
       showDeleteModal: !prevState.showDeleteModal,
-      selectedFaq: faq
+      faq
     }));
   };
 
   deleteFaqFunc = faq => {
-    this.props.deleteFaq(faq).then(() => this.displayDeleteModal(null));
+    this.props.deleteFaq(faq).then(() => this.displayDeleteModal(faq));
+  };
+
+  /**
+   *
+   * @description handle onSubmit event
+   *
+   * @param { Object } event
+   *
+   * @returns { undefined }
+   */
+  onSubmit = event => {
+    event.preventDefault();
+
+    if (!this.faqFormIsValid()) return;
+
+    const { faq } = this.state;
+
+    if (faq.id) {
+      this.props
+        .updateFaq(faq.id, faq)
+        .then(() => this.showFaqModal(null));
+    } else {
+      this.props
+        .createFaq({ ...faq, category: 'user_faq' })
+        .then(() => this.showFaqModal(null));
+    }
   };
 
   render() {
+    const { faq: faqItem, showModal, errors } = this.state;
     const { 
       faqs,
       isLoading, 
       isAdmin,
-      isCreating
     } = this.props;
     const header = (
       <div>
         {isAdmin ? (
-          <span className="add-right" onClick={() => this.showFaqModal(null)}>
+          <span className="add-right" onClick={() => this.showFaqModal()}>
             Add Faq
           </span>
         ) : null}
@@ -70,15 +157,16 @@ export class Faqs extends Component {
 
     const faqModal = (
       <FaqModal
-        show={this.state.showModal}
-        error={this.state.error}
-        faq={this.state.selectedFaq}
+        show={showModal}
+        errors={errors}
+        faq={faqItem}
         handleModal={this.showFaqModal}
-        isCreating={this.props.isCreating}
-        isUpdating={this.props.isUpdating}
         createFaq={this.props.createFaq}
         updateFaq={this.props.updateFaq}
         isLoading={this.props.isLoading}
+        handleChange={this.onChange}
+        handleSubmit={this.onSubmit}
+        hideModal={this.closeModal}
       />
     );
 
@@ -88,8 +176,8 @@ export class Faqs extends Component {
         displayDeleteModal={this.state.showDeleteModal}
         item="FAQ"
         deleteItem={this.deleteFaqFunc}
-        modalContent={this.state.selectedFaq}
-        isDeleting={this.props.isDeleting}
+        modalContent={this.state.faq}
+        isDeleting={this.props.isLoading}
       />
     );
     let faqItems = faqs.map(faq => (
@@ -110,7 +198,7 @@ export class Faqs extends Component {
       <div>
         <ToastContainer />
         {header}
-        {(isLoading || isCreating) && <Loader />}
+        {isLoading && <Loader />}
         {faqModal}
         {faqDeleteModal}
         {faqItems}
@@ -128,11 +216,8 @@ Faqs.propTypes = {
   ),
   isLoading: PropTypes.bool,
   deleteFaq: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool,
   fetchFaqs: PropTypes.func,
-  isDeleting: PropTypes.bool,
   isAdmin: PropTypes.number,
-  isUpdating: PropTypes.bool,
   createFaq: PropTypes.func.isRequired,
   updateFaq: PropTypes.func.isRequired
 };
@@ -140,9 +225,6 @@ Faqs.propTypes = {
 export const mapStateToProps = ({ faqsReducer, user }) => ({
   faqs: faqsReducer.faqs,
   isLoading: faqsReducer.isLoading,
-  isCreating: faqsReducer.isCreating,
-  isUpdating: faqsReducer.isUpdating,
-  isDeleting: faqsReducer.isDeleting,
   isAdmin: user.role
 });
 

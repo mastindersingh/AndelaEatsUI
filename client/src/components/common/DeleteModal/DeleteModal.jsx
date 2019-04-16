@@ -10,6 +10,7 @@ const DeleteModal = ({
   modalContent,
   item
 }) => (
+
   <div
     className="modal"
     id="delete-vendor-modal"

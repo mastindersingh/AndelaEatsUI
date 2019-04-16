@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { initialUser } from "../../../reducers/initialState";
 import adminUserReducer from "../../../reducers/admin/adminUserReducer";
 import { roles, newRole, newPermision } from '../../__mocks__/mockRoles';
