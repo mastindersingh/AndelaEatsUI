@@ -74,6 +74,13 @@ export const initialMealItems = {
   }
 };
 
+export const initialMealSessions = {
+  mealSessionModal: {
+    show: false,
+    edit: false
+  }
+};
+
 export const initialAdminMenus = {
   isLoading: false,
   isDeleting: false,

@@ -1,5 +1,5 @@
-#add-meal-modal{
-  .modal-content{
+#add-meal-modal {
+  .modal-content {
     width: 95%;
     max-width: px-to-rem(486px);
     top: 14%;
@@ -17,7 +17,9 @@
         font-size: 15px;
         font-weight: 100;
 
-        a { text-decoration: underline;}
+        a {
+          text-decoration: underline;
+        }
       }
 
       .err-invalid {
@@ -39,7 +41,7 @@
         .control {
           margin-top: 13%;
           text-align: center;
-          
+
           button {
             @include circled-btn(
               50px,
@@ -48,7 +50,7 @@
               px-to-rem(22px)
             );
           }
-          
+
           span {
             display: block;
             text-align: center;
@@ -99,13 +101,13 @@
       .form-field-set {
         display: block;
         margin-bottom: 20px;
-        
+
         label {
           @include field-label();
           font-size: 16px;
-          color: #333E44;
+          color: #333e44;
         }
-    
+
         input {
           @include field-input();
           margin-top: 2px;
@@ -136,9 +138,7 @@
       margin: 0 0 px-to-rem(30px) 0;
 
       .title {
-        @include title-text(
-          px-to-rem(6px) 0 0
-        );
+        @include title-text(px-to-rem(6px) 0 0);
         color: $color-blue;
         padding: 0px;
       }
@@ -164,7 +164,7 @@
         margin-left: 24px;
       }
     }
-  
+
     div {
       display: block;
 
@@ -180,22 +180,23 @@
         margin: 0 2% px-to-rem(30px) 0;
         height: px-to-rem(265px);
         border-radius: px-to-rem(2px);
-        transition: box-shadow .2s;
+        transition: box-shadow 0.2s;
         background: white;
 
         &:hover {
-          box-shadow: px-to-rem(3px) px-to-rem(3px) px-to-rem(5px) $color-light-grey;
+          box-shadow: px-to-rem(3px) px-to-rem(3px) px-to-rem(5px)
+            $color-light-grey;
         }
 
         .image {
           display: block;
           width: 100%;
           height: px-to-rem(130px);
-          background-repeat: no-repeat; 
-          background-size: cover; 
+          background-repeat: no-repeat;
+          background-size: cover;
         }
 
-        .label-container{
+        .label-container {
           display: block;
           position: relative;
 
@@ -224,7 +225,7 @@
             color: #272727;
             font-weight: 100;
             margin-bottom: px-to-rem(15px);
-            padding-bottom: px-to-rem(30px); 
+            padding-bottom: px-to-rem(30px);
             border-bottom: px-to-rem(2px) solid $color-blue;
           }
 
@@ -283,9 +284,14 @@
   }
 }
 
+.meal-sessions-menu {
+  width: 70%;
+  margin: auto;
+}
+
 /* Delete Meal */
 #delete-meal-modal {
-  .modal-content{
+  .modal-content {
     width: 95%;
     max-width: px-to-rem(420px);
   }
