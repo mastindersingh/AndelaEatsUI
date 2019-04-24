@@ -105,7 +105,7 @@
         label {
           @include field-label();
           font-size: 16px;
-          color: #333e44;
+          color: $color-dark-gray;
         }
 
         input {

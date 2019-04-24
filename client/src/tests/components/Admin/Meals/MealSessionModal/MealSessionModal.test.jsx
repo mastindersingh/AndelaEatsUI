@@ -9,6 +9,8 @@ import moment from 'moment';
 import configureMockStore from 'redux-mock-store';
 import MealSessionModal from '../../../../../components/Admin/Meals/MealSessionModal/MealSessionModal'; /* eslint-disable-line */
 
+import AddMealSessionFields from '../../../../../components/Admin/Meals/MealSessionModal/AddMealSessionFields'; /* eslint-disable-line */
+
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
@@ -22,20 +24,20 @@ const setup = (edit) => {
       name: 'Lunch',
       date: moment(),
       startTime: moment(),
-      endTime: moment()
-    }
+      endTime: moment(),
+    },
   };
 
   const store = mockStore({
     mealSessions: {
       isLoading: false,
       meals: [],
-    
+
       mealSessionModal: {
         show: false,
-        edit: false
-      }
-    }
+        edit,
+      },
+    },
   });
 
   const wrapper = mount(
@@ -48,6 +50,18 @@ const setup = (edit) => {
 };
 
 let wrapper = setup(false);
+
+// const testing = wrapper
+//   .children()
+//   .children()
+//   .children()
+//   .children()
+//   .children()
+//   .children()
+//   .find('form')
+//   .children();
+
+// console.log('TESTING__T__:', testing.get(0).find(''));
 
 describe('MealModal Component', () => {
   const mealSessionObject = {
@@ -70,28 +84,54 @@ describe('MealModal Component', () => {
     const event = {
       target: {
         name: 'name',
-        value: name
-      }
+        value: name,
+      },
     };
-    const spy = jest.spyOn(wrapper.children().children().props(), 'onChange');
+    const spy = jest.spyOn(
+      wrapper
+        .children()
+        .children()
+        .props(),
+      'onChange'
+    );
     wrapper.find('[name="name"]').simulate('change', event);
-   
+
     expect(spy).toHaveBeenCalledWith(name, 'name');
   });
 
-
   it('should call closeModal', () => {
-    const spy = jest.spyOn(wrapper
-      .children()
-      .children()
-      .children()
-      .props(), 'toggleAddEditModal');
+    const spy = jest.spyOn(
+      wrapper
+        .children()
+        .children()
+        .children()
+        .props(),
+      'toggleAddEditModal'
+    );
 
     wrapper
       .children()
-      .children().children()
+      .children()
+      .children()
       .find('.close-icon', '.btn-no-style')
       .simulate('click');
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('shoudl call the onsubmit method', () => {
+    const spy = jest.spyOn(
+      wrapper
+        .children()
+        .children()
+        .children()
+        .props(),
+      'toggleAddEditModal'
+    );
+
+    const fakeEvent = { preventDefault: () => {} };
+
+    wrapper.find('#add-meal-form').simulate('submit', fakeEvent);
 
     expect(spy).toHaveBeenCalled();
   });

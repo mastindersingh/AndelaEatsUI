@@ -5,22 +5,14 @@ import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 
 const AddMealSessionFields = (props) => {
-
   const {
-    state: {
-      date,
-      name,
-      startTime,
-      endTime
-    },
+    state: { date, name, startTime, endTime },
     errors,
-    onChange
+    onChange,
   } = props;
-
 
   return (
     <Fragment>
-
       <div className="two-col-wrap">
         <div className="column">
           <div className="form-field-set">
@@ -29,14 +21,14 @@ const AddMealSessionFields = (props) => {
               <span
                 className="err-invalid"
                 style={{
-                  display: errors.includes('name')
-                    ? 'inline-block'
-                    : 'none'
+                  display: errors.includes('name') ? 'inline-block' : 'none',
                 }}
-              > * Invalid
+              >
+                {' '}
+                * Invalid
               </span>
             </label>
-            
+
             <div className="date-input">
               <DatePicker
                 selected={date}
@@ -53,24 +45,22 @@ const AddMealSessionFields = (props) => {
               <span
                 className="err-invalid"
                 style={{
-                  display: errors.includes('desc')
-                    ? 'inline-block'
-                    : 'none'
+                  display: errors.includes('desc') ? 'inline-block' : 'none',
                 }}
-              > * Invalid
+              >
+                {' '}
+                * Invalid
               </span>
             </label>
-            
+
             <input
               name="name"
               type="text"
               value={name}
               onChange={(e) => onChange(e.target.value, 'name')}
             />
-            
           </div>
         </div>
-
       </div>
 
       <div className="two-col-wrap">
@@ -81,11 +71,11 @@ const AddMealSessionFields = (props) => {
               <span
                 className="err-invalid"
                 style={{
-                  display: errors.includes('name')
-                    ? 'inline-block'
-                    : 'none'
+                  display: errors.includes('name') ? 'inline-block' : 'none',
                 }}
-              > * Invalid
+              >
+                {' '}
+                * Invalid
               </span>
             </label>
 
@@ -101,7 +91,6 @@ const AddMealSessionFields = (props) => {
                 timeCaption="Time"
               />
             </div>
-
           </div>
         </div>
 
@@ -112,11 +101,11 @@ const AddMealSessionFields = (props) => {
               <span
                 className="err-invalid"
                 style={{
-                  display: errors.includes('name')
-                    ? 'inline-block'
-                    : 'none'
+                  display: errors.includes('name') ? 'inline-block' : 'none',
                 }}
-              > * Invalid
+              >
+                {' '}
+                * Invalid
               </span>
             </label>
 
@@ -134,10 +123,7 @@ const AddMealSessionFields = (props) => {
             </div>
           </div>
         </div>
-
       </div>
-
-
     </Fragment>
   );
 };
@@ -147,10 +133,10 @@ AddMealSessionFields.propTypes = {
     date: PropTypes.object.isRequired,
     name: PropTypes.string,
     startTime: PropTypes.object.isRequired,
-    endTime: PropTypes.object.isRequired
+    endTime: PropTypes.object.isRequired,
   }),
   errors: PropTypes.arrayOf(PropTypes.string),
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default AddMealSessionFields;

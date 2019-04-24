@@ -4,57 +4,56 @@ import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Tabs from '../../common/Tab/Index';
-import MealSession from './mealSession';
+import MealSession from './MealSession';
 import { mealSessions } from '../../../fixtures/mealSessions';
 import MealSessionModal from './MealSessionModal/MealSessionModal';
 import {
   showMealSessionModal,
-  hideMealSessionModal
+  hideMealSessionModal,
 } from '../../../actions/admin/mealSessionsAction';
 
-
 /**
- * 
+ *
  * @description Meal session component visible only to admin
  *
  * @class Session
  *
  * @extends Component
  */
-class Session extends Component {
+export class Session extends Component {
   state = {
     mealSessionDetails: {
       name: '',
       date: moment(),
       startTime: moment(),
-      endTime: moment()
+      endTime: moment(),
     },
-
   };
 
   /**
    *
    * @description handle onChage event
-   * 
+   *
    * @params { Object } eventValue, name
-   * 
+   *
    * @returns { undefined }
    */
   /* eslint-disable */
   onChange = (eventValue, name) => {
     this.setState({
       mealSessionDetails: {
-        ...this.state.mealSessionDetails, [name]: eventValue
-      }
+        ...this.state.mealSessionDetails,
+        [name]: eventValue,
+      },
     });
   };
-  
+
   /**
    *
    * @description handle onChage event
-   * 
+   *
    * @params { Object } mealSessionDetails, edit
-   * 
+   *
    * @returns { undefined }
    */
   toggleAddEditModal = (mealSessionDetails, edit = false) => {
@@ -74,8 +73,8 @@ class Session extends Component {
           name: '',
           date: moment(),
           startTime: moment(),
-          endTime: moment()
-        }
+          endTime: moment(),
+        },
       });
     }
   };
@@ -87,7 +86,6 @@ class Session extends Component {
 
     return (
       <div id="admin-meals">
-
         <MealSessionModal
           toggleAddEditModal={this.toggleAddEditModal}
           show={displayMealSessionModal}
@@ -97,18 +95,18 @@ class Session extends Component {
 
         <header>
           <div>
-            <br /><span className="title pull-left">Meal Sessions</span>
+            <br />
+            <span className="title pull-left">Meal Sessions</span>
             <button
               className="pull-right"
               type="button"
               onClick={() => this.toggleAddEditModal()}
             >
-                  Add meal session
+              Add meal session
             </button>
           </div>
         </header>
 
-        
         <Fragment>
           <div className="table-header">
             <div className="custom-col-4">Name</div>
@@ -119,35 +117,34 @@ class Session extends Component {
           </div>
         </Fragment>
 
-        {
-            mealSessions.payload.mealSessions.map(mealSession => (
-              <MealSession
-                key={mealSession.id}
-                session={mealSession}
-                toggleAddEditModal={this.toggleAddEditModal}
-              />
-            ))
-          }
+        {mealSessions.payload.mealSessions.map((mealSession) => (
+          <MealSession
+            key={mealSession.id}
+            session={mealSession}
+            toggleAddEditModal={this.toggleAddEditModal}
+          />
+        ))}
       </div>
     );
   }
 }
 
-
-const mapStateToProps = state => ({
-  displayMealSessionModal: state.mealSessions.mealSessionModal.show
+const mapStateToProps = (state) => ({
+  displayMealSessionModal: state.mealSessions.mealSessionModal.show,
 });
 
 const mapDispatchToProps = {
   showMealSessionModal,
-  hideMealSessionModal
+  hideMealSessionModal,
 };
 
 Session.propTypes = {
   displayMealSessionModal: PropTypes.bool.isRequired,
   showMealSessionModal: PropTypes.func.isRequired,
-  hideMealSessionModal: PropTypes.func.isRequired
+  hideMealSessionModal: PropTypes.func.isRequired,
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Session);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Session);

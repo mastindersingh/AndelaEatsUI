@@ -1,7 +1,7 @@
 export default {
   isLoading: false,
   activeUser: {},
-  menus: []
+  menus: [],
 };
 
 export const initialMenus = {
@@ -12,7 +12,7 @@ export const initialMenus = {
   mainMeal: '',
   message: '',
   selectedMeal: '',
-  orderedMenus: []
+  orderedMenus: [],
 };
 
 export const initialVendorsPerformance = {
@@ -28,7 +28,7 @@ export const initialVendorsPerformance = {
 
 export const orders = {
   isLoading: false,
-  error: "",
+  error: '',
   totalRecords: 0,
   currentPage: 1,
   meals: [],
@@ -38,8 +38,8 @@ export const orders = {
     meal: {
       main: [],
       firstAccompaniment: [],
-      secondAccompaniment: []
-    }
+      secondAccompaniment: [],
+    },
   },
   isDeleting: false,
   rating: 0,
@@ -56,7 +56,7 @@ export const initialVendors = {
 export const mealOrders = {
   isLoading: false,
   orders: [],
-  currentPage: ''
+  currentPage: '',
 };
 
 export const initialMealItems = {
@@ -70,15 +70,15 @@ export const initialMealItems = {
     edit: false,
     addBtnDisabled: false,
     errors: [],
-    isLoading: false
-  }
+    isLoading: false,
+  },
 };
 
 export const initialMealSessions = {
   mealSessionModal: {
     show: false,
-    edit: false
-  }
+    edit: false,
+  },
 };
 
 export const initialAdminMenus = {
@@ -95,8 +95,8 @@ export const initialAdminMenus = {
   meta: null,
   error: {
     status: false,
-    message: null
-  }
+    message: null,
+  },
 };
 
 export const initialEngagements = {
@@ -108,7 +108,7 @@ export const initialEngagements = {
   upComingEngagements: {
     engagements: [],
   },
-  vendors: []
+  vendors: [],
 };
 
 export const initialSuspendedVendors = {
@@ -134,11 +134,11 @@ export const initialFaqs = {
   isCreating: false,
   isDeleting: false,
   isUpdating: false,
-  faqs: []
+  faqs: [],
 };
 
 export const initialAbout = {
   isLoading: false,
   isUpdating: false,
-  about: {}
+  about: {},
 };

@@ -12,7 +12,7 @@ import engagementsReducer from './admin/engagementsReducer';
 import suspendedVendorReducer from './admin/suspendedVendorReducer';
 import adminUserReducer from './admin/adminUserReducer';
 import mealRatingsReducer from './admin/ratingsReducer';
-import dashBoardReducer from "./dashboardReducer";
+import dashBoardReducer from './dashboardReducer';
 import mealSessionsReducer from './admin/mealSessionsReducer';
 import aboutReducer from './aboutReducer';
 
@@ -31,5 +31,5 @@ export default combineReducers({
   allRatings: mealRatingsReducer,
   faqsReducer,
   aboutReducer,
-  vendorPerformance: dashBoardReducer
+  vendorPerformance: dashBoardReducer,
 });

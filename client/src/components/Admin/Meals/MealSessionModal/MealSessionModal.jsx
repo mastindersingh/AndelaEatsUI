@@ -23,9 +23,9 @@ class MealSessionModal extends Component {
    *
    *
    * @description handle onSubmit event
-   * 
+   *
    * @param { Object } event
-   * 
+   *
    * @returns { undefined }
    */
   onSubmit = (event) => {
@@ -36,7 +36,7 @@ class MealSessionModal extends Component {
 
   closeModal = () => {
     this.props.toggleAddEditModal(null, false);
-  }
+  };
 
   render() {
     const {
@@ -44,15 +44,9 @@ class MealSessionModal extends Component {
       edit,
       isLoading,
       addBtnDisabled,
-      mealSessionDetails: {
-        name,
-        date,
-        startTime,
-        endTime
-      },
-      onChange
+      mealSessionDetails: { name, date, startTime, endTime },
+      onChange,
     } = this.props;
-
 
     return (
       <div
@@ -60,7 +54,6 @@ class MealSessionModal extends Component {
         id="menu-modal"
         style={show ? { display: 'block' } : { display: 'none' }}
       >
-      
         <div className="modal-content">
           <div className="modal-header">
             <div className="header-title">
@@ -79,18 +72,17 @@ class MealSessionModal extends Component {
           </div>
 
           <form id="add-meal-form" onSubmit={this.onSubmit}>
-
             <AddMealSessionFields
               state={{
                 date,
                 name,
                 startTime,
-                endTime
+                endTime,
               }}
               errors={[]}
               onChange={onChange}
               mealSessionTypes={[]}
-            /> 
+            />
 
             <div className="modal-footer">
               <div>
@@ -107,10 +99,7 @@ class MealSessionModal extends Component {
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                disabled={addBtnDisabled}
-              >
+              <button type="submit" disabled={addBtnDisabled}>
                 {edit ? 'Update' : 'Add'} meal session
               </button>
             </div>
@@ -121,30 +110,31 @@ class MealSessionModal extends Component {
   }
 }
 
-
 MealSessionModal.propTypes = {
   mealSessionDetails: PropTypes.shape({
     name: PropTypes.string.isRequired,
     date: PropTypes.object.isRequired,
     startTime: PropTypes.object.isRequired,
-    endTime: PropTypes.object.isRequired
+    endTime: PropTypes.object.isRequired,
   }),
   show: PropTypes.bool.isRequired,
   edit: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   toggleAddEditModal: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
-  addBtnDisabled: PropTypes.bool
+  addBtnDisabled: PropTypes.bool,
 };
 
 MealSessionModal.defaultProps = {
   isLoading: false,
-  addBtnDisabled: false
+  addBtnDisabled: false,
 };
 
-
 const mapStateToProps = ({ mealSessions }) => ({
-  edit: mealSessions.mealSessionModal.edit
+  edit: mealSessions.mealSessionModal.edit,
 });
 
-export default connect(mapStateToProps, null)(MealSessionModal);
+export default connect(
+  mapStateToProps,
+  null
+)(MealSessionModal);
