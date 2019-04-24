@@ -5,14 +5,14 @@
 The Andela Eats client side implementation
 
 # Description
-The Andela Eats is the software automation of the current feeding system so as to make it scalable through enabling access to all Andelans without Andela having to incur extra cost. The solution will also serve as a central place where all meal information is stored both for andelans and vendors. Vendors can manage meals and view feedback. Andelans can conveniently pre-order meals without the fear that a particular favourite meal is finished. 
+The Andela Eats is the software automation of the current feeding system so as to make it scalable through enabling access to all Andelans without Andela having to incur extra cost. The solution will also serve as a central place where all meal information is stored both for Andelans and vendors. Vendors can manage meals and view feedback. Andelans can conveniently pre-order meals without the fear that a particular favorite meal is finished.
 
 
 ## Technology Stack
  + React: `A JavaScript library for building user interface`
- + Redux: `A predictable state container for Javascript apps`
+ + Redux: `A predictable state container for JavaScript apps`
  + Node: `An open-source, cross-platform JavaScript run-time environment for executing JavaScript code server-side.`
- + NPM: `A package manager for Javascrip`
+ + NPM: `A package manager for JavaScript`
 
 ### Getting Started
 Here is how to get a copy of the project up and running on your local machine for development and testing purposes.
@@ -28,7 +28,7 @@ Here is how to get a copy of the project up and running on your local machine fo
 * After successfully cloning the project:
 `cd AndelaEatsUI/client`
 
-* To Install dependecies.
+* To Install dependencies.
 `npm install`
 
 * You will require to create an alias for andelaeats-dev.andela.com in your /etc/hosts which you can access by running this command
@@ -39,7 +39,7 @@ Here is how to get a copy of the project up and running on your local machine fo
 *  Setup your .env variables (ask the other team members for the keys). An example is available in the env.example file.
 
 ### Starting the app
-* To start the app locally run the following commands 
+* To start the app locally run the following commands
 `npm run build` followed by `npm run dev`
 
 ## Testing
