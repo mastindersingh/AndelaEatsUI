@@ -1,8 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import thunk from 'redux-thunk';
-import configureMockStore from 'redux-mock-store';
-import ConnectedNavBar, { Navbar } from '../../../components/common/Navbar/Navbar'; //eslint-disable-line
+import { Navbar } from '../../../components/common/Navbar/Navbar'; //eslint-disable-line
 
 const props = {
   activeUser: {
@@ -33,7 +31,16 @@ describe('NotCollectedAction Component', () => {
 
   describe('Class methods test', () => {
     it('componentDidUpdate method', () => {
-      const prevProp = { ...props, activeUser: { name: 'Bamboo HR', userRole: { role: 1 } } };
+      const prevProp = { ...props, activeUser: { name: 'Bamboo HR', userRole: { role: 0 } } };
+
+      wrapper = shallow(<Navbar {...props} />);
+      wrapper.instance().componentDidUpdate(prevProp);
+      expect(wrapper.instance().state.activeUser).toBe(props.activeUser);
+    });
+
+    it('should change userRole if the user role changes', () => {
+      const prevProp = { ...props, activeUser: { name: 'Larrystone Yakov', picture: '' }, userRole: { role: 1 } };
+
       wrapper = shallow(<Navbar {...props} />);
       wrapper.instance().componentDidUpdate(prevProp);
       expect(wrapper.instance().state.activeUser).toBe(props.activeUser);

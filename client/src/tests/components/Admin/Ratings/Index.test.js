@@ -27,4 +27,23 @@ describe('Ratings Component', () => {
     wrapper.instance().handleFilterModal();
     wrapper.instance().handleFilterSubmit();
   });
+
+  it('expects should call handle filters', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'handleFilterSubmit');
+    wrapper.setState({
+      end: "2018-12-20"
+
+    });
+    wrapper.instance().handleFilterSubmit();
+    expect(spy).toBeCalled();
+  });
+
+  it('should clear filter', () => {
+    wrapper.setState({
+      isOpen: true,
+      end: "1/2/2019",
+    });
+    wrapper.find('.action-item').first().simulate('click');
+    expect(wrapper.instance().state.end).toEqual('');
+  });
 });

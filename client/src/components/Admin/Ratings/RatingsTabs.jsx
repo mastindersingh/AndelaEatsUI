@@ -5,7 +5,7 @@ import ReactStars from "react-stars";
 import Tabs from "../../common/Tab/Index";
 import EmptyContent from "../../common/EmptyContent";
 
-const ratingsTabs = props => {
+const RatingsTabs = props => {
   return (
     <div>
       {props.userRatings.length > 0 ? (
@@ -62,4 +62,4 @@ const ratingsTabs = props => {
   );
 };
 
-export default ratingsTabs;
+export default RatingsTabs;

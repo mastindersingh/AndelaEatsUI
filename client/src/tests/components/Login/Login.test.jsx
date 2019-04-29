@@ -3,9 +3,9 @@ import { shallow } from 'enzyme';
 import Login from '../../../components/Login/Login';
 
 jest.mock("../../../helpers/checkLogin");
-/* 
-global jest 
-expect 
+/*
+global jest
+expect
 */
 describe('Login Component', () => {
   const wrapper = shallow(<Login />);
@@ -16,5 +16,10 @@ describe('Login Component', () => {
 
   it('renders a div', () => {
     expect(wrapper.find('Redirect').length).toBe(0);
+  });
+
+  it('should change selectedOption ', () => {
+    wrapper.instance().handleChange('Lagos');
+    expect(wrapper.instance().state.selectedOption).toBe('Lagos');
   });
 });

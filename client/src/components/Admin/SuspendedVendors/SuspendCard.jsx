@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 
 /**
  * @function SuspendCard
- * 
+ *
  * @param {object} { props }
- * 
+ *
  * @returns {JSX}
  */
-export const SuspendCard = ({ 
+export const SuspendCard = ({
   vendor: {
-    name, address, tel, contactPerson 
-  }, showUnSuspendModal, vendor 
+    name, address, tel, contactPerson
+  }, showUnSuspendModal, vendor
 }) => (
   <div className="table-body">
     <div className="table-row">
@@ -27,6 +27,7 @@ export const SuspendCard = ({
           <span
             className="edit edit--color"
             onClick={() => showUnSuspendModal(vendor)}
+            name={"suspended-card"}
           >
             Reinstate
           </span>
