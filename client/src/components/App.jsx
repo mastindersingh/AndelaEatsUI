@@ -12,14 +12,14 @@ import AdminOrderHistory from './Admin/OrderHistory/Index';
 import ExportOrders from './Admin/OrderHistory/ExportOrders';
 import Meals from './Admin/Meals/Index';
 import Engagements from './Admin/Engagements/Index';
-import VendorsTab from './Admin/Tabs/Vendors';
-import MenusAndMealsTab from './Admin/Tabs/MenusAndMeals';
 import Ratings from './Admin/Ratings/Index';
 import Users from './Admin/Users/Users';
 import Dashboard from './Dashboard/Dashboard';
 import About from './About/About';
 import Faqs from './Faqs/Faqs';
-
+import Menus from './Admin/Menus/Index';
+import Vendors from './Admin/Vendors/Vendors';
+import SuspendedVendor from './Admin/SuspendedVendors/Index';
 
 export const NotFound = () => (
   <h1>Page Not Found</h1>
@@ -39,8 +39,9 @@ const Root = () => (
           <Route exact path="/orders/edit/:id" component={EditOrder} />
           <Route exact path="/admin/orders" component={AdminOrderHistory} />
           <Route exact path="/admin/orders/export" component={ExportOrders} />
-          <Route exact path="/admin/vendors" component={VendorsTab} />
-          <Route exact path="/admin/menus" component={MenusAndMealsTab} />
+          <Route exact path="/admin/vendors" component={Vendors} />
+          <Route exact path="/admin/suspended-vendors" component={SuspendedVendor} />
+          <Route exact path="/admin/menus" component={Menus} />
           <Route exact path="/admin/meals" component={Meals} />
           <Route exact path="/admin/engagements" component={Engagements} />
           <Route exact path="/admin/ratings" component={Ratings} />

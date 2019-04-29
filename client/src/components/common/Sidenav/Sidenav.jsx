@@ -13,7 +13,24 @@ import { isAuthorized, isAdmin } from '../../../helpers/authorization';
  * @extends {Component}
  */
 class SideNav extends Component {
+  state = {
+    hideSubMenu:true,
+    hideSubVendor:true
+  }
+
   checkAdmin = () => this.props.location.pathname.includes('admin');
+
+  toggleSubMenu = () => {
+      this.setState(prevState=>({
+        hideSubMenu: !prevState.hideSubMenu
+      }))
+    }
+
+    toggleSubVendor = () => {
+      this.setState(prevState=>({
+        hideSubVendor: !prevState.hideSubVendor
+      }))
+    }
 
   render() {
     const {
@@ -85,25 +102,59 @@ class SideNav extends Component {
                     <span>Orders</span>
                   </li>
                 </Link>
-
-                <Link to="/admin/menus">
+                <li
+                  className={`side-nav-item menus ${!this.state.hideSubMenu && 'active'}`}
+                  name="manage-menu"
+                  onClick={this.toggleSubMenu}
+                >
+                  <span  >Manage Menus</span>
+                </li>
+                <div hidden={this.state.hideSubMenu}>
+                <Link to="/admin/menus" >
                   <li
-                    className={`side-nav-item menus
-                      ${homeActive('admin/menus') && 'active'}`}
+                    className={`sub-menu-item  ${homeActive('admin/menus') && 'active'}`}
                   >
                     <span>Menus</span>
                   </li>
                 </Link>
-
-                <Link to="/admin/vendors">
+                <Link to="/admin/meals" >
                   <li
-                    className={`side-nav-item vendors
-                    ${homeActive('admin/vendors') && 'active'}`}
+                    className={`sub-menu-item ${homeActive('admin/meals') && 'active'}`}
+                  >
+                    <span>Meals</span>
+                  </li>
+                </Link>
+                </div>
+                <li
+                  className={`side-nav-item vendors ${!this.state.hideSubVendor && 'active'}`}
+                  name = "vendor-manger"
+                  onClick={this.toggleSubVendor}
+                >
+                  <span> Manage Vendors</span>
+                </li>
+                <div hidden={this.state.hideSubVendor}>
+                <Link to="/admin/vendors" >
+                  <li
+                    className={`sub-menu-item  ${homeActive('admin/vendors') && 'active'}`}
                   >
                     <span>Vendors</span>
                   </li>
                 </Link>
-
+                <Link to="/admin/engagements" >
+                  <li
+                    className={`sub-menu-item ${homeActive('admin/engagements') && 'active'}`}
+                  >
+                    <span>Engagements</span>
+                  </li>
+                </Link>
+                <Link to="/admin/suspended-vendors" >
+                  <li
+                    className={`sub-menu-item ${homeActive('admin/suspended-vendors') && 'active'}`}
+                  >
+                    <span>Suspended Vendors</span>
+                  </li>
+                </Link>
+                </div>
                 <Link to="/admin/ratings">
                   <li
                     className={`side-nav-item ratings
@@ -112,7 +163,6 @@ class SideNav extends Component {
                     <span>Ratings</span>
                   </li>
                 </Link>
-
                 <Link to="/admin/users">
                   <li
                     className={`side-nav-item users

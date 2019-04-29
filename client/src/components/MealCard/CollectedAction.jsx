@@ -24,6 +24,7 @@ const CollectedAction = ({ rating, meal, showRatingModal }) => (
           className="button rate-button"
           tabIndex="0"
           role="button"
+          name="rate-meal"
           onClick={() => showRatingModal(meal)}
         >RATE
         </a>
