@@ -25,6 +25,13 @@ export const NotFound = () => (
   <h1>Page Not Found</h1>
 );
 
+/**
+ * !Todo
+ * <ToastContainer /> should be declared here
+ * there are too many instances of it.
+ * just below <SideNav /> would be a good place to declare it.
+*/
+
 const Root = () => (
   <Router>
     <Switch>

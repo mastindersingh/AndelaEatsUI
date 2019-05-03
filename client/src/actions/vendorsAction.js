@@ -12,7 +12,8 @@ import {
   SUSPEND_VENDOR_LOADING,
   UPDATE_VENDOR_SUCCESS,
   UPDATE_VENDOR_FAILURE,
-  UPDATE_VENDOR_LOADING
+  UPDATE_VENDOR_LOADING,
+  RATE_VENDOR_STATUS
 } from './actionTypes';
 
 
@@ -144,6 +145,11 @@ export const updateVendorFailure = error => ({
   payload: error
 });
 
+export const rateVendorStatus = payload => ({
+  type: RATE_VENDOR_STATUS,
+  payload
+});
+
 
 export const updateVendor = (id, vendorDetails) => dispatch => {
   dispatch(updateVendorLoading(true));
@@ -167,5 +173,26 @@ export const updateVendor = (id, vendorDetails) => dispatch => {
       toastError(error.response.data.message);
       dispatch(updateVendorFailure(error));
       dispatch(updateVendorLoading(false));
+    });
+};
+
+
+export const rateVendor = (vendorDetails) => dispatch => {
+  dispatch(rateVendorStatus(true));
+  const url = `/ratings/`;
+  const options = {
+    method: 'POST',
+    data: vendorDetails,
+    url
+  };
+  return axios(options)
+    .then((res) => {
+      const { msg: message, payload: { vendor } } = res.data;
+      dispatch(rateVendorStatus(false));
+      toastSuccess('Vendor Rated!');
+    })
+    .catch((error) => {
+      toastError(error.response.data.message);
+      dispatch(rateVendorStatus(false));
     });
 };

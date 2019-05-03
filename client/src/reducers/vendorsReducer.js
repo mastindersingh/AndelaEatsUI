@@ -10,7 +10,8 @@ import {
   SUSPEND_VENDOR_LOADING,
   UPDATE_VENDOR_SUCCESS,
   UPDATE_VENDOR_FAILURE,
-  UPDATE_VENDOR_LOADING
+  UPDATE_VENDOR_LOADING,
+  RATE_VENDOR_STATUS
 } from '../actions/actionTypes';
 import filter from '../helpers/filter';
 import findIndex from '../helpers/findindex';
@@ -22,6 +23,7 @@ let index;
 const vendorsReducer = (state = initialVendors, action) => {
   switch (action.type) {
     case FETCH_VENDORS_LOADING:
+    case RATE_VENDOR_STATUS:
       return { ...state, isLoading: action.payload };
     case FETCH_VENDORS_SUCCESS:
       return { ...state, vendors: action.payload };
@@ -42,7 +44,7 @@ const vendorsReducer = (state = initialVendors, action) => {
         ...state,
         vendors: [
           ...state.vendors.slice(0, index),
-          action.payload, 
+          action.payload,
           ...state.vendors.slice(index + 1)
         ]
       };

@@ -1,12 +1,16 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import {
   func, shape, arrayOf, bool, any
 } from 'prop-types';
+import { ToastContainer } from "react-toastify";
 
 import { formatMenuItemDate } from '../../../helpers/menusHelper';
 import Loader from "../../common/Loader/Loader";
 import EmptyContent from '../../common/EmptyContent';
+import VendorRatingModal from './VendorRatingModal';
+import { rateVendor } from '../../../actions/vendorsAction';
 
 
 /**
@@ -18,6 +22,13 @@ import EmptyContent from '../../common/EmptyContent';
  * @extends Component
  */
 export class MenuTable extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: false,
+    };
+  }
+
   /**
    *
    * @description render side and protein listing
@@ -32,11 +43,11 @@ export class MenuTable extends Component {
   renderProteinSideItems = (itemsAvailable, optionsCanPick) => (
     <div className="custom-col-6 clearfix">
       <span className="side-pick-count">
-        { optionsCanPick }
+        {optionsCanPick}
       </span>
-      { this.commaJoinComplementryItems(itemsAvailable.map(item => ({
+      {this.commaJoinComplementryItems(itemsAvailable.map(item => ({
         value: item.id, label: item.name
-      }))) }
+      })))}
     </div>
   );
 
@@ -84,25 +95,25 @@ export class MenuTable extends Component {
         <div key={id} className="ct-row">
           <div className="ct-wrap">
             <div className="custom-col-5">
-              { formatMenuItemDate(date) }
+              {formatMenuItemDate(date)}
             </div>
             <div className="custom-col-5">
               {menuVendor ? menuVendor.vendor.name : '---------'}
             </div>
             <div className="custom-col-4">{mainMeal.name}</div>
-            { this.renderProteinSideItems(
+            {this.renderProteinSideItems(
               proteinItems,
               allowedProtein
             )}
 
-            { this.renderProteinSideItems(
+            {this.renderProteinSideItems(
               sideItems,
               allowedSide
             )}
 
             {!this.props.preview ? (
               <div className="custom-col-5 option">
-                <div  onClick={() => this.props.showAddModal(menuItem, true)}>
+                <div onClick={() => this.props.showAddModal(menuItem, true)}>
                   <span className="edit-menu">Edit</span>
                 </div>
 
@@ -117,41 +128,80 @@ export class MenuTable extends Component {
     });
   }
 
-  renderMenuBody = () => (
-    <React.Fragment>
-      {this.props.preview
-        ? <h3 className="card-header">Available Menus</h3>
-        : null}
-      <div className="custom-table">
-        {this.props.menus.menuList.length
-          ? (
-            <React.Fragment>
-              <div className="ct-header">
-                <div className="custom-col-5">Date</div>
-                <div className="custom-col-5">Vendor</div>
-                <div className="custom-col-4">Main Meal</div>
-                <div className="custom-col-6">Protein</div>
-                <div className="custom-col-6">Side</div>
-                { !this.props.preview
-                  ? <div className="custom-col-5">Options</div>
-                  : null}
-              </div>
-              <div className="ct-body">{this.renderRows()}</div>
-            </React.Fragment>) : <EmptyContent message="No menus within the seleted date range" />}
-      </div>
-    </React.Fragment>
-  )
+  /**
+   * @method toggleVendorRatingModal
+   *
+   * @memberOf MenuTable
+   *
+   * @return {void}
+   */
+  toggleVendorRatingModal = () => {
+    this.setState((prevState) => ({ show: !prevState.show }));
+  }
 
+  renderMenuBody = () => {
+    const { isFetching } = this.props;
+    const isDisabled = isFetching ? 'btn-disabled' : '';
+    const buttonText = isFetching ? 'Rating Vendor...' : 'rate vendor';
+    return (
+      <React.Fragment>
+        {this.props.preview
+          && (
+            <div className="vendors-header">
+              <h3 className="vendor-menu menu-header">Available Menus</h3>
+              <button
+                type="button"
+                name="rateVendor"
+                disabled={isFetching}
+                className={`engagement-button rate-vendor-button ${isDisabled}`}
+                onClick={this.toggleVendorRatingModal}
+              >
+                {buttonText}
+              </button>
+            </div>
+          )
+        }
+        <div className="custom-table">
+          {this.props.menus.menuList.length
+            ? (
+              <React.Fragment>
+                <div className="ct-header">
+                  <div className="custom-col-5">Date</div>
+                  <div className="custom-col-5">Vendor</div>
+                  <div className="custom-col-4">Main Meal</div>
+                  <div className="custom-col-6">Protein</div>
+                  <div className="custom-col-6">Side</div>
+                  {!this.props.preview
+                    ? <div className="custom-col-5">Options</div>
+                    : null}
+                </div>
+                <div className="ct-body">{this.renderRows()}</div>
+              </React.Fragment>
+            ) : <EmptyContent message="No menus within the seleted date range" />}
+        </div>
+      </React.Fragment>
+    );
+  }
 
-  render() { 
+  render() {
     const { isLoading } = this.props.menus;
     return (
-      <div className="menu-table-row">
-        { isLoading
-          ? <Loader />
-          : this.renderMenuBody()
-        }
-      </div>
+      <React.Fragment>
+        <ToastContainer />
+        <VendorRatingModal
+          rateVendor={this.props.rateVendor}
+          engagements={this.props.engagements}
+          displayModal={this.state.show}
+          closeModal={this.toggleVendorRatingModal}
+        />
+        <div className="menu-table-row">
+          {isLoading
+            ? <Loader />
+            : this.renderMenuBody()
+          }
+        </div>
+      </React.Fragment>
+
     );
   }
 }
@@ -167,10 +217,14 @@ MenuTable.propTypes = {
   preview: bool,
   showAddModal: func,
   showDeleteModal: func,
+  engagements: arrayOf(shape({})),
+  rateVendor: func,
+  isFetching: bool,
 };
 
 export const mapStateToProps = (state) => ({
-  engagements: state.allEngagements.engagements.engagements
-})
+  engagements: state.allEngagements.engagements.engagements,
+  isFetching: state.allVendors.isLoading
+});
 
-export default connect(mapStateToProps)(MenuTable);
+export default connect(mapStateToProps, { rateVendor })(MenuTable);
