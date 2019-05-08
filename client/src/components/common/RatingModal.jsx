@@ -1,18 +1,20 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
-import { func, array, bool } from 'prop-types';
+import {
+  func, array, bool, string
+} from 'prop-types';
 import Select from 'react-select';
 import ReactStars from 'react-stars';
-import { formatDateToISOString } from '../../../helpers/dateFormatter';
+import { formatDateToISOString } from '../../helpers/dateFormatter';
 
 
 /**
  *
  *
- * @class VendorRatingModal
+ * @class RatingModal
  * @extends {Component}
  */
-class VendorRatingModal extends Component {
+class RatingModal extends Component {
   static initialState = () => ({
     selected: null,
     comment: '',
@@ -22,62 +24,20 @@ class VendorRatingModal extends Component {
 
   constructor(props) {
     super(props);
-    this.state = VendorRatingModal.initialState();
+    this.state = RatingModal.initialState();
   }
 
   /**
    *
    * @method handleCloseModal
    *
-   * @memberOf VendorRatingModal
+   * @memberOf RatingModal
    *
    * @returns {void}
    */
   handleCloseModal = () => {
-    this.setState(VendorRatingModal.initialState());
+    this.setState(RatingModal.initialState());
     this.props.closeModal();
-  }
-
-  /**
-   *
-   * @method generateVendors
-   *
-   * @memberOf VendorRatingModal
-   *
-   * @returns {Array<T>}
-   */
-  generateVendors = () => {
-    const { engagements } = this.props;
-    let vendor = [];
-    if (engagements && engagements.length) {
-      vendor = engagements.map((item) => {
-        const serviceDate = formatDateToISOString(item.startDate);
-        return (
-          {
-            label: item.vendor.name,
-            value: item.vendor.id,
-            engagementId: item.id,
-            serviceDate
-          }
-        );
-      });
-    }
-    return vendor;
-  }
-
-  /**
- *
- * @method handleChange
- *
- * @param {Object} selected
- *
- * @memberOf VendorRatingModal
- *
- * @returns {void}
- */
-  handleChange = (selected) => {
-    this.removeErrorIcon('vendor');
-    this.setState({ selected });
   }
 
   /**
@@ -86,7 +46,7 @@ class VendorRatingModal extends Component {
  *
  * @param {number} rating
  *
- * @memberOf VendorRatingModal
+ * @memberOf RatingModal
  *
  * @returns {void}
  */
@@ -101,7 +61,7 @@ class VendorRatingModal extends Component {
  *
  * @param {object} event
  *
- * @memberOf VendorRatingModal
+ * @memberOf RatingModal
  *
  * @returns {void}
  */
@@ -116,7 +76,7 @@ class VendorRatingModal extends Component {
  *
  * @param {string} error
  *
- * @memberOf VendorRatingModal
+ * @memberOf RatingModal
  *
  * @returns {void}
  */
@@ -130,7 +90,7 @@ class VendorRatingModal extends Component {
  *
  * @param {string} error
  *
- * @memberOf VendorRatingModal
+ * @memberOf RatingModal
  *
  * @returns {void}
  */
@@ -146,26 +106,17 @@ class VendorRatingModal extends Component {
  *
  * @param {object} event
  *
- * @memberOf VendorRatingModal
+ * @memberOf RatingModal
  *
  * @returns {void}
  */
   handleForm = (event) => {
     event.preventDefault();
-    const { selected, comment, rating } = this.state;
-    if (!selected) return this.handleError('vendor');
+    const { comment, rating } = this.state;
     if (!rating) return this.handleError('rating');
     if (!comment) return this.handleError('comment');
-    const { value, engagementId, serviceDate } = selected;
-    const data = {
-      engagementId,
-      comment,
-      rating,
-      serviceDate,
-      vendorId: selected.value,
-      channel: "web"
-    };
-    this.props.rateVendor(data);
+    const data = { rating, comment };
+    this.props.handleSubmit(data);
     this.handleCloseModal();
   }
 
@@ -173,13 +124,13 @@ class VendorRatingModal extends Component {
    *
    *
    *
-   * @memberOf VendorRatingModal
+   * @memberOf RatingModal
    *
    * @returns {React.Node}
    */
   renderModalHeader = () => (
     <div className="modal-header">
-      <div className="header-title">Rate Vendors</div>
+      <div className="header-title">{this.props.modalTitle}</div>
       <div className="modal-close-button">
         <button
           type="button"
@@ -198,36 +149,7 @@ class VendorRatingModal extends Component {
  *
  *
  *
- * @memberOf VendorRatingModal
- *
- * @returns {React.Node}
- */
-  renderSelect = () => {
-    const { selected, error } = this.state;
-    return (
-      <div className="form-field-single">
-        <Select
-          onChange={this.handleChange}
-          value={selected}
-          options={this.generateVendors()}
-          placeholder="Select a vendor"
-        />
-        {error === 'vendor' && (
-          <i
-            className="fa fa-exclamation-circle text-error"
-            aria-hidden="true"
-            title="required"
-          />
-        )}
-      </div>
-    );
-  }
-
-  /**
- *
- *
- *
- * @memberOf VendorRatingModal
+ * @memberOf RatingModal
  *
  * @returns {React.Node}
  */
@@ -259,7 +181,7 @@ class VendorRatingModal extends Component {
  *
  *
  *
- * @memberOf VendorRatingModal
+ * @memberOf RatingModal
  *
  * @returns {React.Node}
  */
@@ -276,7 +198,15 @@ class VendorRatingModal extends Component {
           name="comment"
           maxLength="200"
         />
-        {error === 'comment' && <small>Required</small>}
+        {error === 'comment' && (
+          <i
+            className="fa fa-exclamation-circle text-red"
+            aria-hidden="true"
+            title="required"
+          >
+            &nbsp;Required
+          </i>
+        )}
       </div>
     );
   }
@@ -285,7 +215,7 @@ class VendorRatingModal extends Component {
  *
  *
  *
- * @memberOf VendorRatingModal
+ * @memberOf RatingModal
  *
  * @returns {React.Node}
  */
@@ -311,8 +241,7 @@ class VendorRatingModal extends Component {
         <div className="modal-content">
           {this.renderModalHeader()}
           <div className="modal-body">
-            <form onSubmit={this.handleForm}>
-              {this.renderSelect()}
+            <form onSubmit={this.handleForm} id="rating-form">
               {this.renderStars()}
               {this.renderTextArea()}
               {this.renderFooter()}
@@ -324,11 +253,11 @@ class VendorRatingModal extends Component {
   }
 }
 
-VendorRatingModal.propTypes = {
+RatingModal.propTypes = {
   closeModal: func,
-  engagements: array,
-  rateVendor: func,
+  handleSubmit: func,
   displayModal: bool,
+  modalTitle: string
 };
 
-export default VendorRatingModal;
+export default RatingModal;

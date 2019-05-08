@@ -11,7 +11,7 @@ import moment from 'moment';
 
 import MealCard from '../MealCard/MealCard';
 import Modal from '../MealCard/Modal';
-import RatingModal from '../MealCard/RatingModal';
+import RatingModal from '../common/RatingModal';
 
 import Loader from '../common/Loader/Loader';
 import EmptyContent from '../common/EmptyContent';
@@ -27,7 +27,7 @@ import {
 } from '../../actions/ordersAction';
 
 import { validateDate } from '../../helpers/dateFormatter';
-import { fetchMenus } from '../../actions/admin/menuItemsAction';
+import { fetchMenus, fetchVendorEngagements } from '../../actions/admin/menuItemsAction';
 
 
 /**
@@ -57,7 +57,7 @@ export class Orders extends Component {
       startDate: moment(),
       endDate: moment().add(3, 'days'),
     };
-    
+
 
     this.onChange = this.onChange.bind(this);
     this.clearForm = this.clearForm.bind(this);
@@ -76,7 +76,6 @@ export class Orders extends Component {
    */
   componentDidMount() {
     const { start, end } = this.state;
-   
     const startDate = format(start, 'YYYY-MM-DD');
     const endDate = format(end, 'YYYY-MM-DD');
 
@@ -87,7 +86,7 @@ export class Orders extends Component {
     this.props.fetchMenus(menuStartDate, menuEndDate);
   }
 
-  
+
 
   /**
    * Handles input fields text changes
@@ -274,18 +273,6 @@ export class Orders extends Component {
     }))
   }
 
-  /**
-   * Change ratings stars
-   *
-   * @memberof Orders
-   * @returns {void}
-   */
-  ratingChanged = newRating => {
-    this.setState({
-      newRating
-    })
-  }
-
 
   /**
    * Submit ratings
@@ -294,12 +281,11 @@ export class Orders extends Component {
    *
    * @returns {void}
    */
-  handleRatingSubmit = event => {
-    event.preventDefault();
-    const { newRating, textArea, modalContent } = this.state;
-    const {menuList} = this.props.menu;   
+  handleRatingSubmit = ({ rating, comment }) => {
+    const { modalContent } = this.state;
+    const {menuList} = this.props.menu;
     const engagement = menuList.filter(menu => menu.id == modalContent.menuId);
-    let vendorEngagementId, mainMealId;
+    let vendorEngagementId, mainMealId = 0;
     const serviceDate = format(modalContent.dateBookedFor, 'YYYY-MM-DD')
     if (engagement[0]){
       vendorEngagementId= engagement[0].vendorEngagementId;
@@ -308,34 +294,30 @@ export class Orders extends Component {
 
     const ratingDetails = {
       channel: "web",
-      comment: textArea,
-      rating: newRating,
+      comment,
+      rating,
       orderId: modalContent.id,
-      engagementId:vendorEngagementId,
+      engagementId: vendorEngagementId,
       mainMealId,
       serviceDate
-      
-    }
-    if ( newRating && textArea ) {
-      this.props.createRating(ratingDetails)
-        .then(() => {
-          toast.success('Your Feedback has been noted');
-          this.hideModal()
-        });
-    } else {
-      if (newRating && !textArea) {
-        document.getElementsByClassName("validate-rating")[1].style.display = 'block';
-        document.getElementsByClassName("comment-textarea")[0].style.border = '1px solid red';
-      } else if (!newRating && textArea) {
-        document.getElementsByClassName("validate-rating")[0].style.display = 'block';
-        } else {
-          document.getElementsByClassName("validate-rating")[0].style.display = 'block';
-          document.getElementsByClassName("validate-rating")[1].style.display = 'block';
-          document.getElementsByClassName("comment-textarea")[0].style.border = '1px solid red';
-        }
+    };
+
+    this.props.createRating(ratingDetails);
+  }
+
+    /**
+   * Generate title for Rating modal
+   *
+   * @memberof Orders
+   * @returns {string}
+   */
+  generateTitle = () => {
+    const { modalContent } = this.state;
+    if (modalContent) {
+      return `Rate Meal for ${format(modalContent.dateBookedFor, 'dddd, Do MMMM YYYY')}`;
     }
   }
- 
+
   /**
    *
    * This is React render method that render the UI on the dom
@@ -446,12 +428,8 @@ export class Orders extends Component {
           />
           <RatingModal
             displayModal={showRatingModal}
-            hideModal={this.hideModal}
-            modalContent={modalContent}
-            ratingChanged={this.ratingChanged}
-            newRating={newRating}
-            textArea={textArea}
-            onChange={this.onChange}
+            closeModal={this.hideModal}
+            modalTitle={this.generateTitle()}
             handleSubmit={this.handleRatingSubmit}
           />
           {

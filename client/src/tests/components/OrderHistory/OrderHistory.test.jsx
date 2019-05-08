@@ -1,16 +1,18 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import ReactStars from 'react-stars';
 import OrderHistory, {
   Orders
 } from '../../../components/OrderHistory/OrderHistory';
 import Loader from '../../../components/common/Loader/Loader';
 import orders from '../../__mocks__/mockOrders';
 
-/* 
-global jest 
-expect 
+
+/*
+global jest
+expect
 */
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -188,7 +190,7 @@ describe('Component: Orders', () => {
 
   describe('Modal Interaction', () => {
     const wrapper = getComponent();
-    
+
     it('show Modal', () => {
       const { meals } = props.orders;
       const spy = jest.spyOn(wrapper.instance(), 'showModal');
@@ -211,7 +213,7 @@ describe('Component: Orders', () => {
       getComponent().instance().hideModal();
       expect(spy).toHaveBeenCalled();
       expect(getComponent().instance().state.showModal).toBe(false);
-    });    
+    });
   });
 });
 
@@ -222,5 +224,174 @@ describe('Connected OrderHistory component', () => {
     });
     const wrapper = shallow(<OrderHistory store={store} />);
     expect(wrapper.length).toBe(1);
+  });
+});
+
+jest.mock('../../../components/MealCard/Modal', () => () => (
+  <div id="mockUserCom">
+    mockModal
+  </div>
+));
+
+describe('Test suite for rating an order', () => {
+  it('Should rate a vendor', () => {
+    const newOrders = {
+      isLoading: false,
+      error: "",
+      totalRecords: 0,
+      currentPage: 1,
+      meals: [],
+      isFiltered: false,
+      orders: [
+        {
+          id: 153,
+          isDeleted: false,
+          userId: "myrandomid",
+          dateBookedFor: "Fri, 10 May 2019 00:00:00 GMT",
+          dateBooked: "Wed, 08 May 2019 00:00:00 GMT",
+          channel: "web",
+          mealPeriod: "lunch",
+          orderStatus: "collected",
+          hasRated: false,
+          menuId: 183,
+          locationId: 1,
+          timestamps: {
+            created_at: "2019-05-08",
+            updated_at: "Wed, 08 May 2019 06:10:26 GMT"
+          },
+          mealItems: [
+            {
+              id: 67,
+              meal_type: "side",
+              name: "Afang soup",
+              image: "https://res.cloudinary.com/dunnio1id/image/upload/v1541564567/hqsytk8lcgs9jkz3u0rg.jpg"
+            },
+            {
+              id: 157,
+              meal_type: "protein",
+              name: "Cat fish",
+              image: "/assets/images/default.png"
+            },
+            {
+              id: 153,
+              meal_type: "main",
+              name: "Amala",
+              image: "/assets/images/default.png"
+            }
+          ],
+          user: "Aman Hasnoname",
+          user_rating: null
+        },
+      ],
+      menu: {
+        meal: {
+          main: [],
+          firstAccompaniment: [],
+          secondAccompaniment: []
+        }
+      },
+      isDeleting: false,
+      rating: 0
+    };
+
+    const menu = {
+      isLoading: false,
+      isDeleting: false,
+      isCreating: false,
+      dateOfMeal: null,
+      mealPeriod: "lunch",
+      menuList: [
+        {
+          id: 183,
+          isDeleted: false,
+          date: "Fri, 10 May 2019 00:00:00 GMT",
+          mealPeriod: "lunch",
+          mainMealId: 153,
+          allowedSide: 1,
+          allowedProtein: 1,
+          sideItems: [
+            {
+              id: 67,
+              isDeleted: false,
+              mealType: "side",
+              name: "Afang soup",
+              description: "Afang soup",
+              image: "https://res.cloudinary.com/dunnio1id/image/upload/v1541564567/hqsytk8lcgs9jkz3u0rg.jpg",
+              locationId: 1,
+              timestamps: {
+                created_at: "2018-11-07",
+                updated_at: "Wed, 07 Nov 2018 03:56:28 GMT"
+              }
+            }
+          ],
+          proteinItems: [
+            {
+              id: 157,
+              isDeleted: false,
+              mealType: "protein",
+              name: "Cat fish",
+              description: "Protein",
+              image: "/assets/images/default.png",
+              locationId: 1,
+              timestamps: {
+                created_at: "2019-04-10",
+                updated_at: "Wed, 10 Apr 2019 14:27:19 GMT"
+              }
+            }
+          ],
+          vendorEngagementId: 44,
+          locationId: 1,
+          timestamps: {
+            created_at: "2019-05-08",
+            updated_at: "Wed, 08 May 2019 06:10:26 GMT"
+          },
+          mainMeal: {
+            id: 153,
+            isDeleted: false,
+            mealType: "main",
+            name: "Amala",
+            description: "Swallow",
+            image: "/assets/images/default.png",
+            locationId: 1,
+            timestamps: {
+              created_at: "2019-04-10",
+              updated_at: "Wed, 10 Apr 2019 14:27:19 GMT"
+            }
+          }
+        },
+      ],
+      vendorEngagements: [],
+      mealItems: [],
+      meta: {
+        total_rows: 4,
+        total_pages: 1,
+        current_page: 1,
+        next_page: null,
+        prev_page: null
+      },
+      error: {
+        status: false,
+        message: null
+      },
+      startDateOfSearch: "Wed, 08 May 2019 00:00:00 GMT",
+      endDateOfSearch: "Mon, 13 May 2019 00:00:00 GMT"
+    };
+
+
+    const completeProps = {
+      ...props, orders: newOrders, menu, createRating: jest.fn()
+    };
+    // console.log(newOrders);
+    const wrapper = mount(<Orders {...completeProps} />);
+    const reactStar = wrapper.find(ReactStars);
+    wrapper.find('.rate-button').simulate('click', { preventDefault: jest.fn() });
+    const rate = reactStar.find('span');
+    // an attempt to submit the form without rating
+    wrapper.find('#rating-form').simulate('submit', { preventDefault: jest.fn() });
+    rate.at(1).simulate('click', '');
+    // an attempt to submit the form without comments
+    wrapper.find('#rating-form').simulate('submit', { preventDefault: jest.fn() });
+    wrapper.find('.modal-comment').simulate('change', { target: { value: "Good job!" } });
+    wrapper.find('#rating-form').simulate('submit', { preventDefault: jest.fn() });
   });
 });

@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 import { formatMenuItemDate } from '../../../helpers/menusHelper';
 import Loader from "../../common/Loader/Loader";
 import EmptyContent from '../../common/EmptyContent';
-import VendorRatingModal from './VendorRatingModal';
+import RatingModal from '../../common/RatingModal';
 import { rateVendor } from '../../../actions/vendorsAction';
 
 
@@ -129,13 +129,13 @@ export class MenuTable extends Component {
   }
 
   /**
-   * @method toggleVendorRatingModal
+   * @method toggleRatingModal
    *
    * @memberOf MenuTable
    *
    * @return {void}
    */
-  toggleVendorRatingModal = () => {
+  toggleRatingModal = () => {
     this.setState((prevState) => ({ show: !prevState.show }));
   }
 
@@ -154,7 +154,7 @@ export class MenuTable extends Component {
                 name="rateVendor"
                 disabled={isFetching}
                 className={`engagement-button rate-vendor-button ${isDisabled}`}
-                onClick={this.toggleVendorRatingModal}
+                onClick={this.toggleRatingModal}
               >
                 {buttonText}
               </button>
@@ -177,10 +177,15 @@ export class MenuTable extends Component {
                 </div>
                 <div className="ct-body">{this.renderRows()}</div>
               </React.Fragment>
-            ) : <EmptyContent message="No menus within the seleted date range" />}
+            ) : <EmptyContent message="No menus within the selected date range" />}
         </div>
       </React.Fragment>
     );
+  }
+
+  // ! Todo: rate the immediate past vendor
+  rateVendor = ({ comment, rating }) => {
+    console.log('rating vendor...', comment, rating);
   }
 
   render() {
@@ -188,11 +193,11 @@ export class MenuTable extends Component {
     return (
       <React.Fragment>
         <ToastContainer />
-        <VendorRatingModal
-          rateVendor={this.props.rateVendor}
-          engagements={this.props.engagements}
+        <RatingModal
+          modalTitle="Rate tasty chops"
+          handleSubmit={this.rateVendor}
           displayModal={this.state.show}
-          closeModal={this.toggleVendorRatingModal}
+          closeModal={this.toggleRatingModal}
         />
         <div className="menu-table-row">
           {isLoading
@@ -218,7 +223,7 @@ MenuTable.propTypes = {
   showAddModal: func,
   showDeleteModal: func,
   engagements: arrayOf(shape({})),
-  rateVendor: func,
+  // rateVendor: func,
   isFetching: bool,
 };
 
