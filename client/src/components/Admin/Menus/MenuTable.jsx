@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   func, shape, arrayOf, bool, any
 } from 'prop-types';
+import { format } from "date-fns";
 import { ToastContainer } from "react-toastify";
 
 import { formatMenuItemDate } from '../../../helpers/menusHelper';
@@ -139,9 +140,17 @@ export class MenuTable extends Component {
     this.setState((prevState) => ({ show: !prevState.show }));
   }
 
+  /**
+   * @method renderMenuBody
+   *
+   * @memberOf MenuTable
+   *
+   * @return {React.ReactNode}
+   */
   renderMenuBody = () => {
     const { isFetching } = this.props;
-    const isDisabled = isFetching ? 'btn-disabled' : '';
+    const isPastVendor = this.getPastVendor();
+    const isDisabled = isFetching || !isPastVendor ? 'btn-disabled' : '';
     const buttonText = isFetching ? 'Rating Vendor...' : 'rate vendor';
     return (
       <React.Fragment>
@@ -153,8 +162,9 @@ export class MenuTable extends Component {
                 type="button"
                 name="rateVendor"
                 disabled={isFetching}
+                title={isDisabled ? "Can't rate vendor at the moment" : "Rate former vendor"}
                 className={`engagement-button rate-vendor-button ${isDisabled}`}
-                onClick={this.toggleRatingModal}
+                onClick={isDisabled ? () => {} : this.toggleRatingModal}
               >
                 {buttonText}
               </button>
@@ -183,9 +193,61 @@ export class MenuTable extends Component {
     );
   }
 
-  // ! Todo: rate the immediate past vendor
+  /**
+   * @method getPastVendor
+   *
+   * @memberOf MenuTable
+   *
+   * @return {Object | null}
+   */
+  getPastVendor = () => {
+    const { engagements } = this.props;
+    let vendor = null;
+    if (engagements && engagements.length > 1) {
+      const len = engagements.length;
+      vendor = this.props.engagements.sort((a, b) => a.id - b.id)[len - 2];
+    }
+    return vendor;
+  }
+
+  /**
+   * @method rateVendor
+   *
+   * @memberOf MenuTable
+   *
+   * @return {void}
+   */
   rateVendor = ({ comment, rating }) => {
-    console.log('rating vendor...', comment, rating);
+    /* !Todo - a better way of getting the immediate past
+     * vendor from the server should be implemented to
+     * make this feature more robust
+     */
+    const { id, vendorId, endDate } = this.getPastVendor();
+    const serviceDate = format(endDate, 'YYYY-MM-DD');
+    const vendorDetails = {
+      comment,
+      rating,
+      engagementId: id,
+      vendorId,
+      serviceDate,
+      channel: 'web'
+    };
+    this.props.rateVendor(vendorDetails);
+  }
+
+  /**
+   * Generate title for RatingModal component
+   * @method generateTitle
+   *
+   * @memberOf MenuTable
+   *
+   * @return {string}
+   */
+  generateTitle = () => {
+    const pastVendor = this.getPastVendor();
+    if (pastVendor) {
+      return `Rate ${pastVendor.vendor.name}`;
+    }
   }
 
   render() {
@@ -194,7 +256,7 @@ export class MenuTable extends Component {
       <React.Fragment>
         <ToastContainer />
         <RatingModal
-          modalTitle="Rate tasty chops"
+          modalTitle={this.generateTitle()}
           handleSubmit={this.rateVendor}
           displayModal={this.state.show}
           closeModal={this.toggleRatingModal}
@@ -223,7 +285,7 @@ MenuTable.propTypes = {
   showAddModal: func,
   showDeleteModal: func,
   engagements: arrayOf(shape({})),
-  // rateVendor: func,
+  rateVendor: func,
   isFetching: bool,
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import ReactStars from 'react-stars';
 import { MenuTable,mapStateToProps } from '../../../../components/Admin/Menus/MenuTable';
 import menuList from '../../../__mocks__/mockMenuList';
 import engagements from '../../../__mocks__/mockEngagements';
@@ -9,9 +10,11 @@ describe('Menu Table Component', () => {
     let wrapper;
     beforeEach(() => {
         const props = {
+            engagements,
             menus: {menuList},
             showAddModal: jest.fn(),
             showDeleteModal: jest.fn(),
+            rateVendor: jest.fn()
         }
         wrapper = mount(<MenuTable {...props} />);
     })
@@ -58,6 +61,18 @@ describe('Menu Table Component', () => {
       wrapper.setProps({ preview: true });
       wrapper.find('.rate-vendor-button').simulate('click');
       wrapper.setProps({ isFetching: true });
+  });
+
+  it('should rate a vendor', () => {
+    wrapper.setProps({ preview: true });
+    wrapper.setProps({ isFetching: false });
+    const reactStar = wrapper.find(ReactStars);
+    const rate = reactStar.find('span');
+    rate.at(1).simulate('click', '');
+    wrapper.find('.modal-comment')
+      .simulate('change', { target: { value: "Vendor was organized :/" } });
+    wrapper.find('#rating-form')
+      .simulate('submit', { preventDefault: jest.fn() });
   });
 
 
