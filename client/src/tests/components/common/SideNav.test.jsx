@@ -9,19 +9,22 @@ const props = {
   }
 };
 
-jest.mock('../../../helpers/authorization', () => ({ isAuthorized: jest.fn(() => true) }));
-jest.mock('../../../helpers/authorization', () => ({ isAdmin: jest.fn(() => true) }));
-jest.mock('../../../helpers/authorization', () => ({ isAuthorized: jest.fn(() => false) }));
-
+let mockAuthorization;
+jest.mock('../../../helpers/authorization', () => ({
+  isAuthorized: () => mockAuthorization,
+  isAdmin: () => true,
+}));
 
 let wrapper;
 
-/* 
-global jest 
-expect 
+/*
+global jest
+expect
 */
 describe('NotCollectedAction Component', () => {
+  mockAuthorization = true;
   it('should render successfully', () => {
+
     wrapper = shallow(<SideNav {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
@@ -29,5 +32,21 @@ describe('NotCollectedAction Component', () => {
   it('should check for admin routes', () => {
     wrapper = shallow(<SideNav {...props} />);
     wrapper.instance().checkAdmin();
+  });
+
+  it('should change hideSubMenu state ', () => {
+    wrapper.instance().toggleSubMenu();
+    expect(wrapper.instance().state.hideSubMenu).toBe(false);
+  });
+
+  it('should change hideSubBVendor state ', () => {
+    wrapper.instance().toggleSubVendor();
+    expect(wrapper.instance().state.hideSubVendor).toBe(false);
+  });
+
+  it('should redirect to login if not authorized ', () => {
+    mockAuthorization = false;
+    wrapper = shallow(<SideNav {...props} />);
+    expect(wrapper.find('Redirect').length).toEqual(1);
   });
 });
