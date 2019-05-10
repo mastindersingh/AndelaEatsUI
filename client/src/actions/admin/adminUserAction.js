@@ -1,11 +1,12 @@
+import axios from "axios";
 import {
   GET_ADMIN_USER,
   GET_ALL_ADMIN_USERS,
   ADD_ADMIN_USER_SUCCESS,
-  ADD_ADMIN_USER_FAILURE
+  ADD_ADMIN_USER_FAILURE,
+  IS_FETCHING_ADMIN_USERS
 } from "../actionTypes";
 import token from '../../helpers/jwtDecode';
-import axios from "axios";
 import { toastSuccess, toastError } from '../../helpers/toast';
 
 
@@ -19,7 +20,12 @@ export const setAdminUser = role => ({
 export const fetchAdminUsers = adminUsers => ({
     type: GET_ALL_ADMIN_USERS,
     payload: adminUsers
-  });
+});
+
+const isFetchingAdmin = (payload) => ({
+  type: IS_FETCHING_ADMIN_USERS,
+  payload
+});
 
 export const addAdminUser = (message, type) => ({
     type,
@@ -33,13 +39,17 @@ export const addAdminUser = (message, type) => ({
       });
   };
 
-  export const getAllAdminUsers = () => dispatch => {
-
-    return axios.get('/users/admin')
-      .then((response) => {
-        dispatch(fetchAdminUsers(response.data.payload.AdminUsers));
-      });
-  };
+export const getAllAdminUsers = () => dispatch => {
+  dispatch(isFetchingAdmin(true));
+  return axios.get('/users/admin')
+    .then((response) => {
+      dispatch(fetchAdminUsers(response.data.payload.adminUsers));
+      dispatch(isFetchingAdmin(false));
+    })
+    .catch(error => {
+      dispatch(isFetchingAdmin(false));
+    });
+};
 
   export const createAdminUser = (userData) => dispatch => {
     return axios.post(`/roles/user`, userData)
