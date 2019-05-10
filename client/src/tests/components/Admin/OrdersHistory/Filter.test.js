@@ -49,7 +49,7 @@ describe('Filter Component', () => {
       { target: { name: "start-date", value: "1" } });
     wrapper.find('input[name="end-date"]').simulate('change',
       { target: { name: "end-date", value: "1" } });
-      
+
     expect(props.fetchOrders).toBeCalled();
   });
 });
