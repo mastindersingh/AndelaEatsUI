@@ -5,7 +5,8 @@ import {
   ADD_ADMIN_USER_FAILURE,
   ADD_ADMIN_USER_SUCCESS,
   GET_ADMIN_USER,
-  GET_ALL_ADMIN_USERS
+  GET_ALL_ADMIN_USERS,
+  IS_FETCHING_ADMIN_USERS
 } from "../../../actions/actionTypes";
 
 describe('Admin User Reducer',()=>{
@@ -45,4 +46,12 @@ describe('Admin User Reducer',()=>{
     expect(newState.error).toEqual(action.message);
   });
 
+  it('should show loading status', () => {
+    const action = {
+      type: IS_FETCHING_ADMIN_USERS,
+      payload: true
+    };
+    const newState = adminUserReducer(initialUser, action);
+    expect(newState.loading).toEqual(action.payload);
+  });
 });

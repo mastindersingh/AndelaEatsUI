@@ -113,7 +113,8 @@ export const initialUser = {
   role: 0,
   adminUsers: [],
   email: '',
-  message: ''
+  message: '',
+  loading: false
 };
 
 export const initialMealRatings = {

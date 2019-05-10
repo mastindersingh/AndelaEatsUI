@@ -5,7 +5,8 @@ import {
   GET_ADMIN_USER,
   ADD_ADMIN_USER_SUCCESS,
   ADD_ADMIN_USER_FAILURE,
-  GET_ALL_ADMIN_USERS
+  GET_ALL_ADMIN_USERS,
+  IS_FETCHING_ADMIN_USERS
 } from '../../../actions/actionTypes';
 
 import {
@@ -90,10 +91,32 @@ describe('Get User Role Action', () => {
       });
 
       const expectedAction = [
+        { payload: true, type: IS_FETCHING_ADMIN_USERS },
         {
           type: GET_ALL_ADMIN_USERS,
-          payload: adminUsers.payload.AdminUsers
-        }
+          payload: adminUsers.payload.adminUsers
+        },
+        { payload: false, type: IS_FETCHING_ADMIN_USERS },
+      ];
+
+      const store = mockStore({});
+      await store
+        .dispatch(getAllAdminUsers())
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+      done();
+    });
+
+    it('should fail to fetch all admins', async (done) => {
+      moxios.stubRequest(`/users/admin`, {
+        status: 400,
+        response: {}
+      });
+
+      const expectedAction = [
+        { payload: true, type: IS_FETCHING_ADMIN_USERS },
+        { payload: false, type: IS_FETCHING_ADMIN_USERS },
       ];
 
       const store = mockStore({});
