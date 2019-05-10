@@ -1,12 +1,12 @@
 export const adminUsers = {
   msg: "string",
   payload: {
-    AdminUsers: [
+    adminUsers: [
       {
-        Id: "string",
-        Email: "string",
-        Name: "string",
-        Roles: [
+        id: "string",
+        email: "string",
+        name: "string",
+        roles: [
           {
             id: 0,
             name: "string"
@@ -15,4 +15,4 @@ export const adminUsers = {
       }
     ]
   }
-}
+};
