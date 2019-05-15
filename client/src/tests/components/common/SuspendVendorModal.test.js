@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
 import { mount } from 'enzyme';
-import SuspendVendorModal from '../../../../components/Admin/Vendors/SuspendVendorModal';
+import SuspendVendorModal from '../../../components/Admin/Vendors/SuspendVendorModal';
 
 const setup = (status) => {
   const props = {

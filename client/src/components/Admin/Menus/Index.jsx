@@ -47,7 +47,7 @@ export class Menus extends Component {
     startDate: moment(),
     endDate: moment().add(1, 'days'),
     editMenu: false,
-  })
+  });
 
   constructor(props) {
     super(props);
@@ -57,25 +57,25 @@ export class Menus extends Component {
   /**
    * @description update menus
    * Can be removed in favor of loading menus from DB
-   *
-   * @memberof Menus
+   * 
+   * @memberOf Menus
    *
    * @returns { undefined }
    */
   componentDidMount() {
     this.props.fetchUpcomingEngagements();
     this.props.fetchMealItems();
+    this.props.fetchVendorEngagements();
     this.props.fetchMenus(formatDate(
-      this.state.startDate), formatDate(this.state.endDate)).then(() => {
-      this.props.fetchVendorEngagements();
-    });
+      this.state.startDate), formatDate(this.state.endDate)
+    );
   }
 
   /**
    * @description fetch menu given date range
    *
-   * @memberof Menus
-   *
+   * @memberOf Menus
+   * 
    * @returns { undefined }
    */
   handleViewMenu = () => {
@@ -86,13 +86,13 @@ export class Menus extends Component {
       return toast.error(result);
     }
     this.props.fetchMenus(formatDate(startDate), formatDate(endDate));
-  }
+  };
 
   /**
    * @description handles date range change
-   *
-   * @memberof Menus
-   *
+   * 
+   * @memberOf Menus
+   * 
    * @param { Object } selectOption
    * @param { Object } name
    * @returns { undefined }
@@ -101,13 +101,13 @@ export class Menus extends Component {
     this.setState({
       [name]: selectOption
     });
-  }
+  };
 
   /**
-   *
+   * 
    * @method showAddModal
-   *
-   * @memberof Menus
+   * 
+   * @memberOf Menus
    *
    * @param {Object} menu
    * @param {boolean} edit
@@ -122,14 +122,14 @@ export class Menus extends Component {
       menuDetails: menu,
       editMenu: edit,
     }));
-  }
+  };
 
   /**
    *
    * @method showDeleteModal
-   *
-   * @memberof Menus
-   *
+   * 
+   * @memberOf Menus
+   * 
    * @param {object} menuDetails
    *
    * @returns {void}
@@ -139,44 +139,42 @@ export class Menus extends Component {
       displayDeleteModal: true,
       menuDetails
     });
-  }
+  };
 
   /**
-   *
+   * 
    * @method deleteMenu
    *
    * @param {number} menuId
-   *
-   * @memberof Menu
-   *
+   * 
+   * @memberOf Menu
+   * 
    * @returns {void}
    */
   deleteMenu = (menuId) => {
     this.props.deleteMenuItem(menuId)
       .then(() => this.closeModal());
-  }
+  };
 
   /**
-   *
+   * 
    * @method closeModal
-   *
-   * @param {object} vendor
-   *
-   * @memberof Menu
+   * 
+   * @memberOf Menu
    *
    * @returns {void}
    */
   closeModal = () => {
     this.setState(Menus.initialState());
-  }
+  };
 
   /**
    * Handles form submission
-   *
+   * 
    * @param {object} menu
    *
-   * @memberof Menu
-   *
+   * @memberOf Menu
+   * 
    * @returns {void}
    */
   handleSubmit = (menu) => {
@@ -192,30 +190,29 @@ export class Menus extends Component {
           this.closeModal();
         });
     }
-  }
+  };
 
   /**
    *
    *
    * @description render menus section
    *
-   * @memberof Menus
-   *
-   * @returns { JSX }
+   * @memberOf Menus
+   * 
+   * @returns JSX
    */
   renderMenus = () => {
     const {
       error,
       menuList,
       isDeleting,
-
       mealItems,
       isCreating
     } = this.props.menus;
     const {
       displayModal,
       modalTitle,
-      modalButtontext,
+      modalButtontext: modalButtonText,
       displayDeleteModal,
       menuDetails,
       startDate,
@@ -227,7 +224,7 @@ export class Menus extends Component {
         { error.status
           ? (
             <div className="no-content">
-              Error occured while loading menus :-(
+              Error occurred while loading menus :-(
             </div>
           )
           : (
@@ -280,7 +277,7 @@ export class Menus extends Component {
               <MenuModal
                 closeModal={this.closeModal}
                 modalTitle={modalTitle}
-                modalButtontext={modalButtontext}
+                modalButtonText={modalButtonText}
                 displayModal={displayModal}
                 vendorEngagements={this.props.upComingEngagements}
                 handleSubmit={this.handleSubmit}
@@ -301,7 +298,7 @@ export class Menus extends Component {
         }
       </div>
     );
-  }
+  };
 
   render() {
 

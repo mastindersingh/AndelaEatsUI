@@ -10,13 +10,13 @@ import {
   createVendor,
   updateVendor
 } from '../../../actions/vendorsAction';
-import Modal from "./Modal";
 import SuspendVendorModal from "./SuspendVendorModal";
 import inputValidation from '../../../helpers/inputValidation';
 import EmptyContent from '../../common/EmptyContent';
+import Modal from "../../common/Modal";
+import Input from '../../common/FormInputs';
 
 /**
- *
  *
  * @class Vendors
  * @extends {Component}
@@ -33,12 +33,13 @@ export class Vendors extends Component {
     displaySuspendModal: false,
     modalContent: {},
     modalTitle: '',
-    modalButtontext: ''
+    modalButtonText: ''
   });
 
   constructor(props) {
     super(props);
     this.state = Vendors.initialState();
+    this.onChange.bind(this);
   }
   
   componentDidMount() {
@@ -50,7 +51,7 @@ export class Vendors extends Component {
    *
    * @param {object} event
    *
-   * @memberof AddVendorModal
+   * @memberOf Modal
    * 
    * @returns {void}
    */
@@ -59,24 +60,23 @@ export class Vendors extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
-  }
+  };
 
   /**
    * 
    * @method showAddModal
    *
-   * 
-   * @memberof Vendors
+   * @memberOf Vendors
    * 
    * @returns {void}
    */
   showAddModal = () => {
     this.setState({
       modalTitle: "ADD VENDOR",
-      modalButtontext: "Add Vendor",
+      modalButtonText: "Add Vendor",
       displayModal: true
     });
-  }
+  };
 
   /**
    * 
@@ -84,17 +84,17 @@ export class Vendors extends Component {
    *
    * @param {object} vendor
    * 
-   * @memberof Vendors
+   * @member of Vendors
    * 
    * @returns {void}
    */
   showEditModal = (vendor) => {
     const {
       id, name, address, contactPerson, tel 
-    } = vendor
+    } = vendor;
     this.setState({
       modalTitle: "EDIT VENDOR",
-      modalButtontext: "Update",
+      modalButtonText: "Update",
       id,
       name,
       address,
@@ -102,15 +102,13 @@ export class Vendors extends Component {
       tel,
       displayModal: true,
     });
-  }
+  };
 
 
   /**
    * Handles form submission
-   * 
-   * @param {object} vendorDetails
-   * 
-   * @memberof Vendor
+   *
+   * @memberOf Vendors
    * 
    * @returns {void}
    */
@@ -130,13 +128,14 @@ export class Vendors extends Component {
       this.props.updateVendor(id, vendor)
         .then(() => this.closeModal());
     }
-  }
+  };
+
   /**
    * Handles form validation
    * 
    * @param {object} event
    * 
-   * @memberof AddVendorModal
+   * @memberOf Modal
    * 
    * @returns {void}
    */
@@ -148,22 +147,20 @@ export class Vendors extends Component {
     } else {
       this.setState({ errors: err.errors });
     }
-  }
+  };
 
   /**
    *  Clears errors Input field onFocus
    * 
    * @member clearErrors
    * 
-   * @param {void} void
-   * 
-   * @memberof AddVendorModal
+   * @memberOf Modal
    * 
    * @returns {void}
    */
   clearErrors = () => {
     this.setState({ errors: {} });
-  }
+  };
   
   /**
    * 
@@ -171,14 +168,14 @@ export class Vendors extends Component {
    * 
    * @param {Object} vendorId
    * 
-   * @memberof vendors
+   * @memberOf vendors
    * 
    * @returns {void}
    */
   suspendVendor = (vendorId) => {
     this.props.suspendVendor(vendorId)
       .then(() => this.closeModal());
-  }
+  };
 
   /**
    * 
@@ -186,7 +183,7 @@ export class Vendors extends Component {
    *
    * @param {object} vendor
    * 
-   * @memberof Vendors
+   * @memberOf Vendors
    * 
    * @returns {void}
    */
@@ -195,31 +192,28 @@ export class Vendors extends Component {
       displaySuspendModal: true,
       modalContent: vendor
     });
-  }
+  };
 
   /**
    * 
    * @method closeModal
    *
-   * @param {object} vendor
-   * 
-   * @memberof Vendors
+   * @memberOf Vendors
    * 
    * @returns {void}
    */
   closeModal = () => {
     this.setState(Vendors.initialState());
-  }
+  };
 
-  
   /**
    * @method renderVendor
    *
-   * @memberof Vendors
+   * @memberOf Vendors
    *
    * @param {object} vendor
    *
-   * @returns {JSX}
+   * @returns JSX
    */
   renderVendor = (vendor) => {
     const rating = Math.ceil(Math.random() * 5);
@@ -232,7 +226,49 @@ export class Vendors extends Component {
         showEditModal={this.showEditModal}
       />
     );
-  }
+  };
+
+  renderVendorInputs = () => (
+    <div>
+      
+      <Input 
+        id='name'
+        value={this.state.name}
+        name='name'
+        onChangeHandler={this.onChange}
+        label='Name'
+        onFocus={this.clearErrors}
+        error={this.state.errors.name ? this.state.errors.name : ""}
+        />
+      <Input 
+        id='address'
+        onChangeHandler={this.onChange}
+        label='Address'
+        error={this.state.errors.address ? this.state.errors.address : ""}
+        onFocus={this.clearErrors}
+        value={this.state.address}
+        name='address'
+        />
+      <Input 
+        error={this.state.errors.tel ? this.state.errors.tel : ""}
+        name='tel'
+        id='tel'
+        value={this.state.tel}
+        label='Phone'
+        onChangeHandler={this.onChange}
+        onFocus={this.clearErrors}
+        />
+      <Input 
+        onFocus={this.clearErrors}  
+        id='contactPerson'
+        error={this.state.errors.contactPerson ? this.state.errors.contactPerson : ""}
+        label='Contact Person'
+        onChangeHandler={this.onChange}
+        name='contactPerson'
+        value={this.state.contactPerson}
+        />
+    </div>
+  );
 
   render() {
     const {
@@ -246,13 +282,8 @@ export class Vendors extends Component {
       displayModal,
       displaySuspendModal,
       modalContent,
-      name, 
-      address, 
-      tel, 
-      contactPerson,
-      errors,
       modalTitle,
-      modalButtontext
+      modalButtonText
     } = this.state;
 
     return (
@@ -289,20 +320,14 @@ export class Vendors extends Component {
         </div>
         <ToastContainer />
         <Modal
-          displayModal={displayModal}
-          closeModal={this.closeModal}
           isCreating={isCreating}
           isUpdating={isUpdating}
-          handleSubmit={this.handleSubmit}
-          onChange={this.onChange}
-          name={name}
-          address={address}
-          tel={tel}
-          contactPerson={contactPerson}
+          children={this.renderVendorInputs()}
+          closeModal={this.closeModal}
+          displayModal={displayModal}
           formValidation={this.formValidation}
-          errors={errors}
+          modalButtonText={modalButtonText}
           modalTitle={modalTitle}
-          modalButtontext={modalButtontext}
         />
         <SuspendVendorModal
           suspendVendor={this.suspendVendor}
@@ -323,7 +348,6 @@ const mapStateToProps = ({ allVendors }) => ({
   isUpdating: allVendors.isUpdating,
   vendors: allVendors.vendors
 });
-   
 
 Vendors.propTypes = {
   suspendVendor: PropTypes.func,
