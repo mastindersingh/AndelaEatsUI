@@ -52,15 +52,21 @@ export const showMealModalAction = (show, edit) => ({
   payload: { show, edit }
 });
 
-export const setAddMealErrors = errors => dispatch => dispatch({
+export const setAddMealErrors = errors => ({
   type: SET_ADD_MEAL_ERRORS,
   payload: errors
+});
+
+export const addMealItemFailure = error => ({
+  type: EDIT_MEAL_ITEM_FAILURE,
+  payload: error
 });
 
 export const setAddMealLoading = loading => ({
   type: SET_ADD_MEAL_LOADING,
   payload: loading
 });
+
 
 export const addMealItemSuccess = mealItem => ({
   type: ADD_MEAL_ITEM_SUCCESS,
@@ -89,7 +95,9 @@ export const addMealItem = formData => dispatch => {
             dispatch(showMealModalAction(false, false));
             dispatch(setAddMealLoading(false));
           })
-          .catch((error) => {
+          .catch((err) => {
+            toastError("Meal name already exists, please try another.");
+            dispatch(addMealItemFailure(err));
             dispatch(setAddMealLoading(false));
           })
       );
@@ -148,10 +156,11 @@ export const editMealItemSuccess = (mealItemId, mealItem) => ({
 export const editMealItem = (mealItemId, formData) => dispatch => {
   dispatch(editMealItemLoading(true));
   return mealImageUpload(formData.file, formData.dataurl, (error, url) => {
-    if (error) { throw error; } else {
+    if (error) { 
+      throw error; 
+    } else {
       const { file, dataurl, ...rest } = formData;
       const reqdata = { ...rest, image: url };
-
       return (
         axios.patch(`/meal-items/${mealItemId}`, reqdata)
           .then(response => {
@@ -162,7 +171,7 @@ export const editMealItem = (mealItemId, formData) => dispatch => {
             dispatch(editMealItemLoading(false));
           })
           .catch(err => {
-            toastError("Meal item update failed");
+            toastError("Meal item update failed. Please try another meal name");
             dispatch(editMealItemFailure(err));
             dispatch(editMealItemLoading(false));
           })
