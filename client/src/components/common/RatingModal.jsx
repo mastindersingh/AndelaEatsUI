@@ -5,8 +5,6 @@ import {
 } from 'prop-types';
 import ReactStars from 'react-stars';
 import Loader from './Loader/Loader';
-
-
 /**
  *
  *
@@ -101,6 +99,7 @@ class RatingModal extends Component {
 
   /**
  *
+ * 
  * @method handleForm
  *
  * @param {object} event
@@ -116,6 +115,7 @@ class RatingModal extends Component {
     if (!comment) return this.handleError('comment');
     const data = { rating, comment };
     this.props.handleSubmit(data);
+    this.setState(RatingModal.initialState());
   }
 
   /**

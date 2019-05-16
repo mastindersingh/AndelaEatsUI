@@ -120,7 +120,7 @@ describe('Get User Role Action', () => {
       moxios.stubRequest(`/users/admin`, {
         status: 200,
         response: {
-          payload: { adminUsers: adminUsers.payload.adminUsers }
+          payload: adminUsers.payload
         }
       });
 
@@ -145,9 +145,7 @@ describe('Get User Role Action', () => {
     it('should fail to fetch all admins', async (done) => {
       moxios.stubRequest(`/users/admin`, {
         status: 400,
-        response: {
-          
-        }
+        response: {}
       });
 
       const expectedAction = [

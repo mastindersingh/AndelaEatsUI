@@ -47,7 +47,7 @@
         background-color: $color-green;
       }
       &.cancelled {
-        background: #333;
+        background: $color-dark-gray;
       }
     }
   }

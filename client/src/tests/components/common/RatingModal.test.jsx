@@ -4,7 +4,7 @@ import RatingModal from '../../../components/common/RatingModal';
 import Loader from '../../../components/common/Loader/Loader';
 
 const props = {
-  displayModal: true,
+  displayModal: false,
   modalContent: {
     dateBookedFor: '10-05-2019'
   },
@@ -25,11 +25,6 @@ beforeEach(() => {
   wrapper = mount(<RatingModal {...props} />);
 });
 describe('Modal Component', () => {
-  it('should render atleast once', () => {
-    expect(wrapper).toMatchSnapshot();
-    expect(wrapper.length).toEqual(1);
-  });
-
   it('should shows loader', () => {
     wrapper.setProps({
       isLoading: true

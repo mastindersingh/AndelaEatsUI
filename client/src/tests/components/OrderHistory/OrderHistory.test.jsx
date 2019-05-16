@@ -1,6 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 import { shallow, mount } from 'enzyme';
 import ReactStars from 'react-stars';
 import OrderHistory, {
@@ -108,10 +109,10 @@ let props = {
     url: '/orders'
   },
   pastMenus: [{
- date:
+    date:
     "2019-05-08",
-menus: menuList
- }],
+    menus: menuList
+  }],
   orders: {
     isLoading: false,
     meals: [{
@@ -329,6 +330,15 @@ jest.mock('../../../components/MealCard/Modal', () => () => (
 
 describe('Test suite for rating an order', () => {
   it('Should rate a vendor', () => {
+    const store = mockStore({
+      allRatings: {
+        ratingList: [{
+          overallRating: 4, mainMeal: 'Caribbean pasta', date: '2019-08-05'
+        }]
+        
+      },
+      userReducer: {}
+    });
     const newOrders = {
       isLoading: false,
       error: "",
@@ -389,9 +399,15 @@ describe('Test suite for rating an order', () => {
     };
 
     const completeProps = {
-      ...props, orders: newOrders, menu, createRating: jest.fn(() => Promise.resolve())
+      ...props, 
+      orders: newOrders, 
+      menu, 
+      createRating: jest.fn(() => Promise.resolve()),
+      store: mockStore
     };
-    const wrapper = mount(<Orders {...completeProps} />);
+    const wrapper = mount(<Provider store={store}><Orders {...completeProps} /></Provider>);
+    wrapper.setProps({ store });
+
     const reactStar = wrapper.find(ReactStars);
     wrapper
       .find('.rate-button').simulate('click', { preventDefault: jest.fn() });

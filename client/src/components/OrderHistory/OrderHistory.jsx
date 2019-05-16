@@ -45,7 +45,7 @@ export class Orders extends Component {
     this.state = {
       isOpen: false,
       searchParam: '',
-      start: addDays(new Date, -7),
+      start: subDays(new Date, 7),
       end: addDays(new Date(), 7),
       showModal: false,
       modalContent: null,
@@ -54,8 +54,8 @@ export class Orders extends Component {
       newRating: 0,
       modalTitle: '',
       editOrder: false,
-      startDate: format(subDays(new Date(), 8), 'YYYY-MM-DD'),
-      endDate: format(subDays(new Date(), 1), 'YYYY-MM-DD'),
+      startDate: format(subDays(new Date(), 20), 'YYYY-MM-DD'),
+      endDate: format(new Date(), 'YYYY-MM-DD'),
       isRatingMeal: false
     };
 
@@ -76,9 +76,7 @@ export class Orders extends Component {
    * @returns {*} null
    */
   componentDidMount() {
-    const { start, end } = this.state;
-    const { startDate, endDate } = this.state;
-  
+    const { start, end , endDate, startDate} = this.state;
     const OrdersStartDate = format(start, 'YYYY-MM-DD');
     const OrdersEndDate = format(end, 'YYYY-MM-DD');
 
@@ -298,7 +296,7 @@ export class Orders extends Component {
     const engagement = menuList.filter(menu => menu.id == modalContent.menuId);
     let vendorEngagementId = modalContent.vendorEngagementId || 0;
     let mainMealId = modalContent.mealItems.filter(meal => meal.mealType === 'main')[0].id
-    const serviceDate = format(modalContent.dateBookedFor, 'YYYY-MM-DD')
+    const serviceDate = format(modalContent.dateBookedFor, 'YYYY-MM-DD');
     if (engagement.length > 0){
       vendorEngagementId= engagement[0].vendorEngagementId;
       mainMealId =engagement[0].mainMealId
@@ -316,6 +314,7 @@ export class Orders extends Component {
     this.props.createRating(ratingDetails)
     .then(() => {
       this.hideModal();
+      location.reload();
     });
   }
 
@@ -342,8 +341,8 @@ export class Orders extends Component {
   render() {
     const meals = this.props.pastMenus
       .reduce((accu, curr) => [...accu, ...curr.menus], [])
-      .map((meal, index) => ({
-        id: index,
+      .map((meal) => ({
+        id: 0,
         mealItems: [...meal.sideItems, ...meal.proteinItems, meal.mainMeal],
         orderStatus: 'N/A',
         dateBookedFor: meal.date,
@@ -352,7 +351,7 @@ export class Orders extends Component {
         menuId: meal.id,
         vendorEngagementId: meal.vendorEngagementId
       }));
-    const { match: { url }, orders } = this.props;
+    const { orders } = this.props;
     const mealsToRate = orders.orders && orders.orders.length > 0 ? orders.orders : meals
     const {
       isOpen,
@@ -361,7 +360,8 @@ export class Orders extends Component {
       end,
       showRatingModal,
       modalTitle,
-      isRatingMeal
+      isRatingMeal,
+      modalContent
     } = this.state;
     const loading = (orders.isLoading || this.props.isLoading) && !isRatingMeal;
     return (
@@ -369,7 +369,7 @@ export class Orders extends Component {
         {loading && <Loader />}
         <div className={`order-history ${loading && !isRatingMeal && 'blurred'}`}>
           <div className="title">
-            <span>{!isRatingMeal?  'Order History': 'Past Meals'}</span>
+            <span>{isRatingMeal && !orders.isFiltered ? 'Past Meals':  'Order History' }</span>
             <ToastContainer />
             {orders.isFiltered && <span>&nbsp;(filtered)</span>}
             <div className="filter">
@@ -445,7 +445,7 @@ export class Orders extends Component {
             displayModal={this.state.showModal}
             closeModal={this.hideModal}
             deleteOrder={this.deleteOrder}
-            modalContent={this.state.modalContent}
+            modalContent={modalContent}
             modalTitle={modalTitle}
             tapOrder={this.tapOrder}
             editOrder={this.editOrder}
@@ -464,9 +464,9 @@ export class Orders extends Component {
                 <Fragment>
                   <div className="container">
                     {
-                      mealsToRate.map((meal) => (
+                      mealsToRate.map((meal, index) => (
                         <MealCard
-                          key={meal.id}
+                          key={index}
                           meal={meal}
                           showModal={this.showModal}
                           showRatingModal={this.showRatingModal}
