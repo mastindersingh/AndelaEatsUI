@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import '../../styles/components/_dashboard.scss';
 import { Bar, Line } from 'react-chartjs-2';
 import { connect } from "react-redux";
-import fetchVendorPerformance from "../../actions/dashboardAction";
 import PropTypes from "prop-types";
+import fetchVendorPerformance from "../../actions/dashboardAction";
 import Loader from "../common/Loader/Loader";
 
-class Dashboard extends Component {
+export class Dashboard extends Component {
+  componentDidMount(){
+    this.props.fetchVendorPerformance();
+  }
 
-  generateBarGraphData =({datesConsidered, collectedOrders, uncollectedOrders, cancelledOrders})=>{
-    return {
+  generateBarGraphData =({
+ datesConsidered, collectedOrders, uncollectedOrders, cancelledOrders
+ }) => ({
       labels: datesConsidered,
       datasets: [
         {
@@ -43,11 +47,9 @@ class Dashboard extends Component {
           data: cancelledOrders,
         },
       ],
-    };
-  };
+    });
 
-  generateLineGraphData =({datesConsidered, vendorRatings})=>{
-    return {
+  generateLineGraphData =({ datesConsidered, vendorRatings }) => ({
       labels:datesConsidered,
       datasets:[
         {
@@ -72,25 +74,24 @@ class Dashboard extends Component {
           data: vendorRatings
         }
       ]
-    };
+    });
 
-  };
+  renderGraph = ({ type, data, vendorName }) => {
 
-  renderGraph =({type,data,vendorName})=>{
     return (
       <div className="charts-container">
-      <div className="chart-card">
+        <div className="chart-card">
         <div className="chart-header">
           <p>{vendorName}</p>
         </div>
         <div className="chart-content">
-          {type==='bar'?
-            <Bar data={data} legend={{position:'bottom'}} height={100}/> :
-            <Line data={data} legend={{position:'bottom'}} height={100} />
+          {type === 'bar' ?
+            <Bar data={data} legend={{ position: 'bottom' }} height={100} />
+            : <Line data={data} legend={{ position: 'bottom' }} height={100} />
           }
         </div>
       </div>
-    </div>
+      </div>
     );
   };
 
@@ -102,16 +103,20 @@ class Dashboard extends Component {
       cancelledOrders,
       vendorName,
       vendorRatings,
-      isLoading} = this.props;
-    const barGraphData = this.generateBarGraphData({datesConsidered,collectedOrders,uncollectedOrders,cancelledOrders});
-    const lineGraphData= this.generateLineGraphData({datesConsidered, vendorRatings});
+      isLoading
+} = this.props;
+    const barGraphData = this.generateBarGraphData({
+datesConsidered, collectedOrders, uncollectedOrders, cancelledOrders
+});
+    const lineGraphData = this.generateLineGraphData({ datesConsidered, vendorRatings });
+
     return (
-      <div className>
-        {isLoading ? <Loader />:
+      <div>
+        {isLoading ? <Loader /> :
           (
             <div>
-              {this.renderGraph({type:'bar',data:barGraphData,vendorName})}
-              {this.renderGraph({type:'line',data:lineGraphData,vendorName:vendorName+ "'s Ratings"})}
+              {this.renderGraph({ type: 'bar', data: barGraphData, vendorName })}
+              {this.renderGraph({ type: 'line', data: lineGraphData, vendorName: `${vendorName }'s Ratings` })}
             </div>
           )}
       </div>
@@ -120,10 +125,10 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  collectedOrders:  PropTypes.array,
-  uncollectedOrders:  PropTypes.array,
-  cancelledOrders:  PropTypes.array,
-  datesConsidered:  PropTypes.array,
+  collectedOrders: PropTypes.array,
+  uncollectedOrders: PropTypes.array,
+  cancelledOrders: PropTypes.array,
+  datesConsidered: PropTypes.array,
   vendorName: PropTypes.string,
   isLoading: PropTypes.bool,
   vendorRatings: PropTypes.array,
@@ -139,4 +144,4 @@ const mapStateToProps = state => ({
   vendorRatings: state.vendorPerformance.vendorRatings,
 });
 
-export default connect(mapStateToProps, fetchVendorPerformance)(Dashboard);
+export default connect(mapStateToProps, { fetchVendorPerformance })(Dashboard);

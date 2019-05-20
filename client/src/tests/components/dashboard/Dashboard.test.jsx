@@ -1,9 +1,7 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
-import { createStore } from 'redux';
 import Adapter from 'enzyme-adapter-react-16';
-import Dashboard from "../../../components/Dashboard/Dashboard";
-import rootReducer from "../../../reducers/rootReducer";
+import { Dashboard } from "../../../components/Dashboard/Dashboard";
 
 Enzyme.configure({ adapter: new Adapter() });
 const props = {
@@ -11,23 +9,26 @@ const props = {
   uncollectedOrders: [1, 3, 1],
   cancelledOrders: [1, 0, 0],
   datesConsidered: ["Wed Mar 13 2019", "Thu Mar 14 2019", "Fri Mar 15 2019"],
-  isLoading: true,
+  isLoading: false,
+  fetchVendorPerformance: jest.fn()
 };
 
 let component;
 
-const store = createStore(rootReducer, ['Use Redux']);
-/* 
-global jest 
-expect 
+/*
+global jest
+expect
 */
 
 describe('Dashboard Component', () => {
-  beforeEach(() => {
-    component = mount(<Dashboard store={store} {...props} />);
+  component = mount(<Dashboard {...props} />);
+
+  it('renders properly', () => {
+    expect(component).toMatchSnapshot();
   });
 
-  it('should have charts-container div', () => {
-    expect(component.find('.loader-container')).toHaveLength(1);
+  it('should have line  and bar graph', () => {
+    expect(component.find('Line')).toHaveLength(1);
+    expect(component.find('Bar')).toHaveLength(1);
   });
 });
