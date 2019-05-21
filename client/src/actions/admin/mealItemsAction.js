@@ -156,8 +156,8 @@ export const editMealItemSuccess = (mealItemId, mealItem) => ({
 export const editMealItem = (mealItemId, formData) => dispatch => {
   dispatch(editMealItemLoading(true));
   return mealImageUpload(formData.file, formData.dataurl, (error, url) => {
-    if (error) { 
-      throw error; 
+    if (error) {
+      throw error;
     } else {
       const { file, dataurl, ...rest } = formData;
       const reqdata = { ...rest, image: url };
@@ -171,11 +171,11 @@ export const editMealItem = (mealItemId, formData) => dispatch => {
             dispatch(editMealItemLoading(false));
           })
           .catch(err => {
-            toastError("Meal item update failed. Please try another meal name");
+            toastError(err.response.data.msg);
             dispatch(editMealItemFailure(err));
             dispatch(editMealItemLoading(false));
           })
       );
     }
-  }); 
+  });
 };

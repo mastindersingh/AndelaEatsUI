@@ -74,7 +74,7 @@ describe('Admin::Meal Items Action', () => {
       moxios.stubRequest(`/meal-items/?page=1`, {
         status: 401,
       });
-  
+
       const expectedActions = [
         {
           type: FETCH_MEAL_ITEMS_LOADING,
@@ -89,9 +89,9 @@ describe('Admin::Meal Items Action', () => {
           payload: false,
         }
       ];
-  
+
       const store = mockStore({});
-  
+
       await store
         .dispatch(fetchMealItems())
         .then(() => {
@@ -189,12 +189,12 @@ describe('Admin::Meal Items Action', () => {
         });
       done();
     });
-  
+
     it('delete meal item failure', async (done) => {
       moxios.stubRequest(`/meal-items/${mealItems[0].id}`, {
         status: 401,
       });
-  
+
       const expectedActions = [
         {
           type: DELETE_MEAL_ITEM_LOADING,
@@ -209,9 +209,9 @@ describe('Admin::Meal Items Action', () => {
           payload: false,
         }
       ];
-  
+
       const store = mockStore({});
-  
+
       await store
         .dispatch(deleteMealItem(mealItems[0].id))
         .then(() => {
@@ -292,9 +292,12 @@ describe('Admin::Meal Items Action', () => {
       const store = mockStore({});
 
       moxios.stubRequest(`/meal-items/${mealItems[0].id}`, {
-        status: 500
+        status: 500,
+        response: {
+          msg: 'error'
+        }
       });
-      
+
       await store.dispatch(editMealItem(mealItems[0].id, formData))
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
