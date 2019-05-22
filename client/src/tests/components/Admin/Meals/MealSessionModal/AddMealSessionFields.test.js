@@ -60,13 +60,6 @@ describe('MealModal Component', () => {
     expect(wrapper.length).toEqual(1);
   });
   it('should not call the fn onChange on the AddMealSessionFields props immediately', () => {
-    console.log(
-      'WRAPPER__:',
-      wrapper
-        .find('DatePicker')
-        .at(0)
-        .debug()
-    );
     const spy = jest.spyOn(
       wrapper.children().instance().props.children.props,
       'onChange'
