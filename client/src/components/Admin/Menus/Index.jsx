@@ -57,7 +57,7 @@ export class Menus extends Component {
   /**
    * @description update menus
    * Can be removed in favor of loading menus from DB
-   * 
+   *
    * @memberof Menus
    *
    * @returns { undefined }
@@ -65,17 +65,17 @@ export class Menus extends Component {
   componentDidMount() {
     this.props.fetchUpcomingEngagements();
     this.props.fetchMealItems();
-    this.props.fetchVendorEngagements();
     this.props.fetchMenus(formatDate(
-      this.state.startDate), formatDate(this.state.endDate)
-    );
+      this.state.startDate), formatDate(this.state.endDate)).then(() => {
+      this.props.fetchVendorEngagements();
+    });
   }
 
   /**
    * @description fetch menu given date range
    *
    * @memberof Menus
-   * 
+   *
    * @returns { undefined }
    */
   handleViewMenu = () => {
@@ -90,9 +90,9 @@ export class Menus extends Component {
 
   /**
    * @description handles date range change
-   * 
+   *
    * @memberof Menus
-   * 
+   *
    * @param { Object } selectOption
    * @param { Object } name
    * @returns { undefined }
@@ -104,9 +104,9 @@ export class Menus extends Component {
   }
 
   /**
-   * 
+   *
    * @method showAddModal
-   * 
+   *
    * @memberof Menus
    *
    * @param {Object} menu
@@ -127,9 +127,9 @@ export class Menus extends Component {
   /**
    *
    * @method showDeleteModal
-   * 
+   *
    * @memberof Menus
-   * 
+   *
    * @param {object} menuDetails
    *
    * @returns {void}
@@ -142,13 +142,13 @@ export class Menus extends Component {
   }
 
   /**
-   * 
+   *
    * @method deleteMenu
    *
    * @param {number} menuId
-   * 
+   *
    * @memberof Menu
-   * 
+   *
    * @returns {void}
    */
   deleteMenu = (menuId) => {
@@ -157,13 +157,13 @@ export class Menus extends Component {
   }
 
   /**
-   * 
+   *
    * @method closeModal
    *
    * @param {object} vendor
-   * 
+   *
    * @memberof Menu
-   * 
+   *
    * @returns {void}
    */
   closeModal = () => {
@@ -172,11 +172,11 @@ export class Menus extends Component {
 
   /**
    * Handles form submission
-   * 
+   *
    * @param {object} menu
    *
    * @memberof Menu
-   * 
+   *
    * @returns {void}
    */
   handleSubmit = (menu) => {
@@ -200,7 +200,7 @@ export class Menus extends Component {
    * @description render menus section
    *
    * @memberof Menus
-   * 
+   *
    * @returns { JSX }
    */
   renderMenus = () => {
@@ -208,7 +208,7 @@ export class Menus extends Component {
       error,
       menuList,
       isDeleting,
- 
+
       mealItems,
       isCreating
     } = this.props.menus;
