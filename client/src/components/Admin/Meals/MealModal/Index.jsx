@@ -6,11 +6,14 @@ import ImageView from './ImageView';
 import AddMealFields from './AddMealFields';
 
 import {
-  validateAddMealImage, generateFormData
+  validateAddMealImage,
+  generateFormData,
 } from '../../../../helpers/mealsHelper';
 
 import {
-  addMealItem, setAddMealErrors, editMealItem
+  addMealItem,
+  setAddMealErrors,
+  editMealItem,
 } from '../../../../actions/admin/mealItemsAction';
 
 import defaultImage from '../../../../assets/images/default.png';
@@ -27,26 +30,21 @@ class MealModal extends Component {
     image: {
       file: null,
       dataurl: defaultImage,
-      error: null
+      error: null,
     },
 
     name: '',
     type: '',
-    desc: '',
   };
 
   constructor(props) {
     super(props);
     this.imageInput = createRef();
-  
-    this.mealTypes = [
-      'Main',
-      'Side',
-      'Protein'
-    ];
+
+    this.mealTypes = ['Main', 'Side', 'Protein'];
 
     this.state = {
-      ...MealModal.initalState
+      ...MealModal.initalState,
     };
   }
 
@@ -61,9 +59,9 @@ class MealModal extends Component {
    *
    *
    * @description handle onChage event
-   * 
+   *
    * @param { Object } event
-   * 
+   *
    * @returns { undefined }
    */
   onChange = (event) => {
@@ -74,25 +72,22 @@ class MealModal extends Component {
     if (errors.length > 0) {
       this.props.setAddMealErrors([]);
     }
-  }
+  };
 
   /**
    *
    *
    * @description handle onSubmit event
-   * 
+   *
    * @param { Object } event
-   * 
+   *
    * @returns { undefined }
    */
   onSubmit = (event) => {
     const { edit, mealDetails } = this.props;
 
     event.preventDefault();
-    const formData = generateFormData(
-      this.state,
-      this.mealTypes
-    );
+    const formData = generateFormData(this.state, this.mealTypes);
 
     if (Array.isArray(formData)) {
       this.props.setAddMealErrors(formData);
@@ -100,21 +95,21 @@ class MealModal extends Component {
       if (edit) {
         const mealData = {
           ...formData,
-          mealName: (this.props.mealDetails.name === formData.mealName)
-            ? '' : formData.mealName
+          mealName:
+            this.props.mealDetails.name === formData.mealName
+              ? ''
+              : formData.mealName,
         };
 
         return this.props.editMealItem(mealDetails.id, mealData);
       }
       this.props.addMealItem(formData);
     }
-  }
+  };
 
   static getDerivedStateFromProps({ mealDetails, edit }, { type }) {
     if (edit && !type) {
-      const {
-        id, name, image, mealType, description
-      } = mealDetails;
+      const { id, name, image, mealType } = mealDetails;
 
       return {
         id,
@@ -122,10 +117,9 @@ class MealModal extends Component {
         image: {
           dataurl: image,
           file: null,
-          error: null
+          error: null,
         },
-        desc: description,
-        type: mealType
+        type: mealType,
       };
     }
 
@@ -136,25 +130,25 @@ class MealModal extends Component {
     this.props.setAddMealErrors([]);
 
     this.setState({
-      ...MealModal.initalState
+      ...MealModal.initalState,
     });
 
     if (this.imageInput.current) {
       this.imageInput.current.value = '';
     }
-  }
+  };
 
   closeModal = () => {
     this.clearModal();
     this.props.toggleAddModal(null, false);
-  }
+  };
 
   openFileDialog = () => {
     const { current: element } = this.imageInput;
     if (!element) return;
 
     element.click();
-  }
+  };
 
   previewImage = () => {
     const { current: element } = this.imageInput;
@@ -169,8 +163,8 @@ class MealModal extends Component {
           image: {
             file: image,
             dataurl: reader.result,
-            error: null
-          }
+            error: null,
+          },
         });
       };
       reader.readAsDataURL(image);
@@ -179,30 +173,27 @@ class MealModal extends Component {
         image: {
           file: null,
           dataurl: null,
-          error: status
-        }
+          error: status,
+        },
       });
     }
-  }
+  };
 
   render() {
+    const { show, edit, errors, isLoading, addBtnDisabled } = this.props;
+
     const {
-      show,
-      edit,
-      errors,
-      isLoading,
-      addBtnDisabled,
-    } = this.props;
-    
-    const {
-      name, type, desc, image: { dataurl }
+      name,
+      type,
+      image: { dataurl },
     } = this.state;
 
     let { error } = this.state.image;
 
-    error = (error === null && errors.includes('image'))
-      ? 'No image has been selected'
-      : error;
+    error =
+      error === null && errors.includes('image')
+        ? 'No image has been selected'
+        : error;
 
     return (
       <div
@@ -212,7 +203,9 @@ class MealModal extends Component {
       >
         <div className="modal-content">
           <div className="modal-header">
-            <div className="header-title">{edit ? 'EDIT' : 'ADD'} MEAL ITEM</div>
+            <div className="header-title">
+              {edit ? 'EDIT' : 'ADD'} MEAL ITEM
+            </div>
             <div>
               <button
                 tabIndex={0}
@@ -236,10 +229,7 @@ class MealModal extends Component {
             <main>
               <div>
                 Upload meal thumbnail. &nbsp;
-                <Link
-                  to="#"
-                  onClick={this.openFileDialog}
-                >
+                <Link to="#" onClick={this.openFileDialog}>
                   Select from computer
                 </Link>
               </div>
@@ -253,7 +243,6 @@ class MealModal extends Component {
               <AddMealFields
                 state={{
                   name,
-                  desc,
                   type,
                 }}
                 errors={errors}
@@ -277,10 +266,7 @@ class MealModal extends Component {
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                disabled={addBtnDisabled}
-              >
+              <button type="submit" disabled={addBtnDisabled}>
                 {edit ? 'Update' : 'Add'} meal item
               </button>
             </div>
@@ -301,7 +287,7 @@ MealModal.propTypes = {
   addBtnDisabled: PropTypes.bool,
   setAddMealErrors: PropTypes.func.isRequired,
   mealDetails: PropTypes.shape({
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
   }),
   editMealItem: PropTypes.func,
 };
@@ -313,8 +299,11 @@ const mapStateToProps = ({ mealItems: { mealModal } }) => ({
   edit: mealModal.edit,
 });
 
-export default connect(mapStateToProps, {
-  addMealItem,
-  setAddMealErrors,
-  editMealItem
-})(MealModal);
+export default connect(
+  mapStateToProps,
+  {
+    addMealItem,
+    setAddMealErrors,
+    editMealItem,
+  }
+)(MealModal);

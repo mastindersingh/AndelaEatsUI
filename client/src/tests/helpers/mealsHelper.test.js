@@ -3,8 +3,8 @@ import {
   endDate,
   canOrderMeal,
   generateFormData,
-  findUpdatedIndex
-} from "../../helpers/mealsHelper";
+  findUpdatedIndex,
+} from '../../helpers/mealsHelper';
 
 /* 
 global jest 
@@ -15,11 +15,10 @@ const today = new Date();
 const mealDetails = {
   name: 'Ugeli',
   type: 'side',
-  image: { 
+  image: {
     file: new File([''], 'filename.jpg', { type: 'image/jpg' }),
-    dataurl: 'data://path/to/image'
+    dataurl: 'data://path/to/image',
   },
-  desc: 'Description for meals'
 };
 
 const types = ['Side', 'Main', 'Soup', 'Protein'];
@@ -32,8 +31,7 @@ test('canOrderMeal method', () => {
   expect(canOrderMeal(menu.date)).toBe(false);
 
   const newDate = {
-    date: new Date(today.getFullYear(),
-      today.getMonth(), today.getDate() + 4)
+    date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 4),
   };
   const timLeft = (newDate - today) / 3600 / 1000;
   expect(canOrderMeal(newDate)).toBe(true);
@@ -44,7 +42,6 @@ test('returns an object of meal details', () => {
   const result = generateFormData(newMealDetails, types);
   expect(result.mealName).toBe(mealDetails.name);
   expect(result.mealType).toBe(mealDetails.type.toLowerCase());
-  expect(result.description).toBe(mealDetails.desc);
 });
 
 test('returns array of image string error', () => {
