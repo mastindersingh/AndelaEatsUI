@@ -51,18 +51,6 @@ const setup = (edit) => {
 
 let wrapper = setup(false);
 
-// const testing = wrapper
-//   .children()
-//   .children()
-//   .children()
-//   .children()
-//   .children()
-//   .children()
-//   .find('form')
-//   .children();
-
-// console.log('TESTING__T__:', testing.get(0).find(''));
-
 describe('MealModal Component', () => {
   const mealSessionObject = {
     name: 'Lunch',

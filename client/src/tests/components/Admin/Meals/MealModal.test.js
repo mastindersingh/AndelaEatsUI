@@ -51,7 +51,6 @@ describe('MealModal Component', () => {
 
   const mealObject = {
     name: 'Ugeli',
-    desc: 'Nice Meal',
     type: 'Side',
     image: {
       file: imageFile,
@@ -68,7 +67,6 @@ describe('MealModal Component', () => {
 
   it('should call the onChange method', () => {
     const name = 'Ugeli';
-    const desc = 'Meal Description';
 
     const event = {
       target: {
@@ -79,11 +77,6 @@ describe('MealModal Component', () => {
 
     wrapper.find('[name="name"]').simulate('change', event);
     expect(mealModal.state.name).toBe(name);
-
-    event.target.name = 'desc';
-    event.target.value = desc;
-    wrapper.find('[name="desc"]').simulate('change', event);
-    expect(mealModal.state.desc).toBe(desc);
   });
 
   it('call previewImage with invalid image', () => {
@@ -148,7 +141,6 @@ describe('MealModal Component', () => {
     mealModal.closeModal();
     expect(mealModal.state.name).toBe('');
     expect(mealModal.state.type).toBe('');
-    expect(mealModal.state.desc).toBe('');
   });
 
   it('should derive state from props if edit is true', () => {
