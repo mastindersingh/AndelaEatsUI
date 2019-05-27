@@ -141,7 +141,6 @@ class MenuModal extends Component {
     }
   }
 
-  
   /**
    * 
    * @method handleCloseModal
@@ -179,7 +178,6 @@ class MenuModal extends Component {
 
     const engagements = formatDropdown(vendorEngagements);
     const formatedMealItems = formatMealItems(mealItems);
-
     return (
       <Fragment>
         <div 

@@ -95,14 +95,18 @@ const mapStateToProps = state => ({
   userEmail: state.user.email,
   message: state.user.message,
   adminUsers: state.user.adminUsers,
-  loading: state.user.loading
+  loading: state.user.isloading
 });
 
 Users.propTypes = {
   createAdminUser: PropTypes.func.isRequired,
   getAllAdminUsers: PropTypes.func.isRequired,
   adminUsers: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
+};
+
+Users.defaultProps = {
+  loading: false,
 };
 
 export default connect(mapStateToProps, { createAdminUser, getAllAdminUsers })(Users);
