@@ -2,12 +2,12 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropType from 'prop-types';
 import moment from 'moment';
-
 import Loader from '../../common/Loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
 import { EngagementCard } from './EngagementCard';
 import DeleteModal from '../../common/DeleteModal/DeleteModal';
-import Modal from './Modal';
+import Modal from '../../common/Modal';
+
 import {
   fetchEngagements,
   fetchVendors,
@@ -20,11 +20,10 @@ import {
   formatDate,
   isStartgreaterThanEnd
 } from '../../../helpers/formatMealItems';
+import Input from '../../common/FormInputs';
 
 /**
  * @class Engagements
- *
- *
  * @extends {Component}
  */
 export class Engagements extends Component {
@@ -42,7 +41,7 @@ export class Engagements extends Component {
     displayDeleteModal: false,
     modalContent: {},
     modalTitle: '',
-    modalButtontext: ''
+    modalButtonText: ''
   };
 
   componentDidMount() {
@@ -53,7 +52,7 @@ export class Engagements extends Component {
   /**
    * Handles input fields text changes
    *
-   * @param {object} event
+   * @params data, selectedOption
    *
    * @memberof Engagements
    *
@@ -123,7 +122,7 @@ export class Engagements extends Component {
     this.setState({
       displayModal: true,
       modalTitle: 'ADD ENGAGEMENT',
-      modalButtontext: 'Add Engagement'
+      modalButtonText: 'Add Engagement'
     });
   };
 
@@ -148,7 +147,7 @@ export class Engagements extends Component {
       },
       displayModal: true,
       modalTitle: 'EDIT ENGAGEMENT',
-      modalButtontext: 'Update'
+      modalButtonText: 'Update'
     });
   };
 
@@ -219,6 +218,37 @@ export class Engagements extends Component {
     ));
   };
 
+  renderModalInputs = (vendorsResult) => (
+      <div>
+        <Input 
+          type='select'
+          id='vendorId'
+          label='Vendor'
+          value={this.state.selectedOption}
+          onChangeHandler={(data) => this.onChange(data, "selectedOption")}
+          options={vendorsResult}
+          isRequired
+        />
+        <Input 
+          type='date-picker'
+          id='startDate'
+          label='Start Date'
+          value={this.state.startDate}
+          onChangeHandler={(data) => this.onChange(data, "startDate")}
+          name='start-date'
+        />
+
+        <Input 
+          id='endDate'
+          label='End Date'
+          name='end-date'
+          type='date-picker'
+          value={this.state.endDate}
+          onChangeHandler={(data) => this.onChange(data, "endDate")}
+        />
+      </div>
+  );
+
   render() {
     const { isLoading, engagements, vendors, isDeleting } = this.props;
     const vendorsResult = vendors.map(result => ({
@@ -235,7 +265,7 @@ export class Engagements extends Component {
       displayDeleteModal,
       modalContent,
       modalTitle,
-      modalButtontext
+      modalButtonText
     } = this.state;
 
     return (
@@ -270,18 +300,16 @@ export class Engagements extends Component {
           )}
         </div>
         <ToastContainer />
+        
         <Modal
-          startDate={startDate}
-          endDate={endDate}
-          onChange={this.onChange}
-          handleSubmit={this.handleSubmit}
-          selectedOption={selectedOption}
-          vendorsResult={vendorsResult}
-          displayModal={displayModal}
+          modalButtonText={modalButtonText}
+          formValidation={this.handleSubmit}
           closeModal={this.closeModal}
           modalTitle={modalTitle}
-          modalButtontext={modalButtontext}
+          displayModal={displayModal}
+          children={this.renderModalInputs(vendorsResult)}
         />
+
         <DeleteModal
           isDeleting={isDeleting}
           deleteItem={this.deleteEngagement}

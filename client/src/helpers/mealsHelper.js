@@ -17,8 +17,7 @@ export const canOrderMeal = (day) => {
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
-export const validateDate = (menu, endDate) =>
-  new Date(menu.date) <= endDate && new Date(menu.date) >= today;
+export const validateDate = (menu, endDate) => new Date(menu.date) <= endDate && new Date(menu.date) >= today;
 
 export const validateAddMealImage = (image) => {
   const exts = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -59,18 +58,16 @@ export const generateFormData = (mealDetails, types) => {
   return errors.length
     ? errors
     : {
-        mealName: title(name),
-        mealType: type.toLowerCase(),
-        file,
-        dataurl,
-      };
+      mealName: title(name),
+      mealType: type.toLowerCase(),
+      file,
+      dataurl,
+    };
 };
 
-export const endDate = () =>
-  new Date(today.getFullYear(), today.getMonth(), today.getDate() + 10);
+export const endDate = () => new Date(today.getFullYear(), today.getMonth(), today.getDate() + 10);
 
-export const findUpdatedIndex = (prevState, updatedId) =>
-  prevState.findIndex((item) => item.id === updatedId);
+export const findUpdatedIndex = (prevState, updatedId) => prevState.findIndex((item) => item.id === updatedId);
 
 export const setMealImage = (image) => (!image ? defMealImage : image);
 

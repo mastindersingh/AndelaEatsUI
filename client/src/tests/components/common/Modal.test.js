@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
 import { shallow } from 'enzyme';
-import Modal from '../../../../components/Admin/Vendors/Modal';
-
+import Modal from '../../../components/common/Modal';
 
 const setup = (
   vendorName, 
@@ -24,7 +23,6 @@ const setup = (
     isCreating: false,
     isUpdating: false,
     formValidation: jest.fn(),
-    clearErrors: jest.fn(),
     modalTitle,
     modalButtontext
   };

@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import { mount } from 'enzyme';
-import { VendorCard } from '../../../../components/Admin/Vendors/VendorCard';
-import vendors from '../../../__mocks__/mockVendors';
+import { VendorCard } from '../../../components/Admin/Vendors/VendorCard';
+import vendors from '../../__mocks__/mockVendors';
 
-jest.mock('../../../../helpers/dateFormatter.js');
+jest.mock('../../../helpers/dateFormatter.js');
 
 const props = {
   vendor: vendors[0],

@@ -14,7 +14,7 @@ import { adminAllowed } from '../../../tests/__mocks__/mockMenuItems';
 
 /**
  * 
- * @class MenuMadal
+ * @class MenuModal
  * @extends Component
  */
 class MenuModal extends Component {
@@ -27,7 +27,7 @@ class MenuModal extends Component {
     vendorEngagementId: '',
     errors: {},
     collectionDate: moment()
-  })
+  });
 
   constructor(props) {
     super(props);
@@ -67,7 +67,7 @@ class MenuModal extends Component {
    *
    * @method onChange
    *
-   * @memberof MenuModal
+   * @memberOf MenuModal
    * 
    * @param {object} selectOption
    * @param {object} name
@@ -83,13 +83,13 @@ class MenuModal extends Component {
     this.setState({
       [name]: selectOption
     });
-  }
+  };
 
   /**
    * 
    * @method checkAllowedSelection
    * 
-   * @memberof MenuModal
+   * @memberOf MenuModal
    * 
    * @returns {void}
    */
@@ -125,7 +125,7 @@ class MenuModal extends Component {
    * 
    * @method formValidation
    * 
-   * @memberof MenuModal
+   * @memberOf MenuModal
    * 
    * @param {object} event
    * 
@@ -139,27 +139,25 @@ class MenuModal extends Component {
     } else {
       this.setState({ errors: err.errors });
     }
-  }
+  };
 
   /**
    * 
    * @method handleCloseModal
    * 
-   * @memberof MenuModal
+   * @memberOf MenuModal
    * 
-   * @param { Object } event
-   * 
-   * @returns { Void }
+   * @returns Void
    */
   handleCloseModal = () => {
     this.setState(MenuModal.initialState());
     this.props.closeModal();
-  }
+  };
 
   render() {
     const {
       modalTitle,
-      modalButtontext,
+      modalButtonText,
       displayModal,
       vendorEngagements,
       mealItems,
@@ -323,7 +321,7 @@ class MenuModal extends Component {
                         <button
                           type="submit"
                         >
-                          {modalButtontext}
+                          {modalButtonText}
                         </button>
                       </div>
                     )}
@@ -340,7 +338,7 @@ class MenuModal extends Component {
 MenuModal.propTypes = {
   closeModal: func,
   modalTitle: string,
-  modalButtontext: string,
+  modalButtonText: string,
   displayModal: bool,
   isCreating: bool,
   handleSubmit: func,
