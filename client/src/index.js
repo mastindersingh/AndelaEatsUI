@@ -17,6 +17,8 @@ import "./assets/images/favicon.ico";
 // set the application baseUrl
 axios.defaults.baseURL = process.env.API_BASE_URL;
 
+console.log('env variable ====> ', process.env.API_BASE_URL);
+
 const store = configureStore();
 if (window.Raven) {
   // eslint-disable-next-line

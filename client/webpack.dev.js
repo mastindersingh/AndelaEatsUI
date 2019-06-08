@@ -9,7 +9,7 @@ module.exports = merge(webpackCommonConfig, {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.EnvironmentPlugin({ NODE_ENV: 'development' })
+    new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
   ],
   devtool: 'source-map',
   devServer: {

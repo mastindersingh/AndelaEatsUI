@@ -64,12 +64,20 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.API_BASE_URL': JSON.stringify(process.env.API_BASE_URL),
+      'process.env.CLOUDINARY_API_KEY': JSON.stringify(process.env.CLOUDINARY_API_KEY),
+      'process.env.CLOUDINARY_CLOUD_NAME': JSON.stringify(process.env.CLOUDINARY_CLOUD_NAME),
+      'process.env.CLOUDINARY_URL': JSON.stringify(process.env.CLOUDINARY_URL),
+      'process.env.SENTRY_URL': JSON.stringify(process.env.SENTRY_URL),
+      'process.env.ANDELA_API_URL': JSON.stringify(process.env.ANDELA_API_URL),
+      'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
+    }),
     new HtmlWebpackPlugin({
       template: `${__dirname}/src/index.html`,
       inject: 'body',
       favicon: 'src/assets/images/favicon.ico',
     }),
     new ExtractTextPlugin("css/bundle.css"),
-    new DotEnv()
   ],
 };
