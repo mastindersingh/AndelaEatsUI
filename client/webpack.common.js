@@ -64,12 +64,12 @@ module.exports = {
     ]
   },
   plugins: [
+    new DotEnv(),
     new HtmlWebpackPlugin({
       template: `${__dirname}/src/index.html`,
       inject: 'body',
       favicon: 'src/assets/images/favicon.ico',
     }),
     new ExtractTextPlugin("css/bundle.css"),
-    new DotEnv()
-  ],
+  ]
 };
