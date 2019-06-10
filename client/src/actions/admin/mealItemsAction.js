@@ -32,10 +32,10 @@ export const fetchMealItemsSuccess = (mealItems, pagination) => ({
   payload: { pagination, mealItems },
 });
 
-export const fetchMealItems = (page = 1) => (dispatch) => {
+export const fetchMealItems = () => (dispatch) => {
   dispatch(fectchMealItemsLoading(true));
   return axios
-    .get(`/meal-items/?page=${page}`)
+    .get(`/meal-items`)
     .then((response) => {
       const { meta: pagination, mealItems } = response.data.payload;
       dispatch(fetchMealItemsSuccess(mealItems, pagination));
@@ -72,7 +72,8 @@ export const addMealItemSuccess = (mealItem) => ({
   payload: mealItem,
 });
 
-export const showMealModal = (show, edit) => (dispatch) => dispatch(showMealModalAction(show, edit));
+export const showMealModal = (show, edit) => (dispatch) =>
+  dispatch(showMealModalAction(show, edit));
 
 export const addMealItem = (formData) => (dispatch) => {
   dispatch(setAddMealLoading(true));
@@ -158,21 +159,20 @@ export const editMealItem = (mealItemId, formData) => (dispatch) => {
     } else {
       const { file, dataurl, ...rest } = formData;
       const reqdata = { ...rest, image: url };
-      return (
-        axios.patch(`/meal-items/${mealItemId}`, reqdata)
-          .then(response => {
-            const { mealItem } = response.data.payload;
-            toastSuccess("Meal item updated successfully");
-            dispatch(editMealItemSuccess(mealItemId, mealItem));
-            dispatch(showMealModalAction(false, false));
-            dispatch(editMealItemLoading(false));
-          })
-          .catch(err => {
-            toastError(err.response.data.msg);
-            dispatch(editMealItemFailure(err));
-            dispatch(editMealItemLoading(false));
-          })
-      );
+      return axios
+        .patch(`/meal-items/${mealItemId}`, reqdata)
+        .then((response) => {
+          const { mealItem } = response.data.payload;
+          toastSuccess('Meal item updated successfully');
+          dispatch(editMealItemSuccess(mealItemId, mealItem));
+          dispatch(showMealModalAction(false, false));
+          dispatch(editMealItemLoading(false));
+        })
+        .catch((err) => {
+          toastError(err.response.data.msg);
+          dispatch(editMealItemFailure(err));
+          dispatch(editMealItemLoading(false));
+        });
     }
   });
 };
