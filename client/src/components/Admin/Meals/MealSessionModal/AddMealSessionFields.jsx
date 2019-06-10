@@ -55,6 +55,7 @@ const AddMealSessionFields = (props) => {
 
             <input
               name="name"
+              className="meal-session-name"
               type="text"
               value={name}
               onChange={(e) => onChange(e.target.value, 'name')}

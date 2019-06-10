@@ -11,6 +11,7 @@ import EditOrder from './EditOrder/EditOrder';
 import AdminOrderHistory from './Admin/OrderHistory/Index';
 import ExportOrders from './Admin/OrderHistory/ExportOrders';
 import Meals from './Admin/Meals/Index';
+import MealSessions from './Admin/Meals/Sessions';
 import Engagements from './Admin/Engagements/Index';
 import Ratings from './Admin/Ratings/Index';
 import Dashboard from './Dashboard/Dashboard';
@@ -21,16 +22,14 @@ import Vendors from './Admin/Vendors/Vendors';
 import SuspendedVendor from './Admin/SuspendedVendors/Index';
 import UserTabs from './Admin/Tabs/Users';
 
-export const NotFound = () => (
-  <h1>Page Not Found</h1>
-);
+export const NotFound = () => <h1>Page Not Found</h1>;
 
 /**
  * !Todo
  * <ToastContainer /> should be declared here
  * there are too many instances of it.
  * just below <SideNav /> would be a good place to declare it.
-*/
+ */
 
 const Root = () => (
   <Router>
@@ -47,9 +46,14 @@ const Root = () => (
           <Route exact path="/admin/orders" component={AdminOrderHistory} />
           <Route exact path="/admin/orders/export" component={ExportOrders} />
           <Route exact path="/admin/vendors" component={Vendors} />
-          <Route exact path="/admin/suspended-vendors" component={SuspendedVendor} />
+          <Route
+            exact
+            path="/admin/suspended-vendors"
+            component={SuspendedVendor}
+          />
           <Route exact path="/admin/menus" component={Menus} />
           <Route exact path="/admin/meals" component={Meals} />
+          <Route exact path="/admin/sessions" component={MealSessions} />
           <Route exact path="/admin/engagements" component={Engagements} />
           <Route exact path="/admin/ratings" component={Ratings} />
           <Route exact path="/admin/users" component={UserTabs} />
