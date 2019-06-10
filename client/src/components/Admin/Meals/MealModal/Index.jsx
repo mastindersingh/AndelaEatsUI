@@ -14,6 +14,7 @@ import {
   addMealItem,
   setAddMealErrors,
   editMealItem,
+  checkMealExistence,
 } from '../../../../actions/admin/mealItemsAction';
 
 /**
@@ -65,6 +66,7 @@ class MealModal extends Component {
   onChange = (event) => {
     const { errors } = this.props;
     const { name, value } = event.target;
+    this.props.checkMealExistence(value);
     this.setState({ [name]: value });
 
     if (errors.length > 0) {
@@ -181,7 +183,13 @@ class MealModal extends Component {
 
   render() {
     const {
-      show, edit, errors, isLoading, addBtnDisabled 
+      show,
+      edit,
+      errors,
+      isLoading,
+      loadingMealExistence,
+      addBtnDisabled,
+      mealExists,
     } = this.props;
 
     const {
@@ -249,6 +257,8 @@ class MealModal extends Component {
                 errors={errors}
                 onChange={this.onChange}
                 mealTypes={this.mealTypes}
+                mealExists={mealExists}
+                loadingMealExistence={loadingMealExistence}
               />
             </main>
 
@@ -285,16 +295,21 @@ MealModal.propTypes = {
   addMealItem: PropTypes.func.isRequired,
   errors: PropTypes.arrayOf(PropTypes.string),
   isLoading: PropTypes.bool,
+  loadingMealExistence: PropTypes.bool,
+  mealExists: PropTypes.oneOf([null, true, false]),
   addBtnDisabled: PropTypes.bool,
   setAddMealErrors: PropTypes.func.isRequired,
+  checkMealExistence: PropTypes.func.isRequired,
   mealDetails: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }),
   editMealItem: PropTypes.func,
 };
 
-const mapStateToProps = ({ mealItems: { mealModal } }) => ({
+const mapStateToProps = ({ mealItems, mealItems: { mealModal } }) => ({
   isLoading: mealModal.isLoading,
+  mealExists: mealItems.mealExists,
+  loadingMealExistence: mealItems.loadingMealExistence,
   addBtnDisabled: mealModal.addBtnDisabled,
   errors: mealModal.errors,
   edit: mealModal.edit,
@@ -306,5 +321,6 @@ export default connect(
     addMealItem,
     setAddMealErrors,
     editMealItem,
+    checkMealExistence,
   }
 )(MealModal);

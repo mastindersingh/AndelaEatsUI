@@ -79,6 +79,18 @@
             margin-top: 8px;
           }
         }
+        .meal-exists-notification {
+          font-weight: bolder;
+        }
+        .meal-exists {
+          color: $color-red;
+        }
+        .meal-no-exists {
+          color: $color-green;
+        }
+        .checking-meal-existence {
+          color: $color-blue;
+        }
       }
     }
 

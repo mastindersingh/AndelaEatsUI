@@ -14,6 +14,7 @@ import {
   EDIT_MEAL_ITEM_FAILURE,
   EDIT_MEAL_ITEM_SUCCESS,
   EDIT_MEAL_ITEM_LOADING,
+  MEAL_EXISTS_RESULT,
 } from '../actionTypes';
 import { mealImageUpload } from '../../helpers/mealsHelper';
 
@@ -72,7 +73,8 @@ export const addMealItemSuccess = (mealItem) => ({
   payload: mealItem,
 });
 
-export const showMealModal = (show, edit) => (dispatch) => dispatch(showMealModalAction(show, edit));
+export const showMealModal = (show, edit) => (dispatch) =>
+  dispatch(showMealModalAction(show, edit));
 
 export const addMealItem = (formData) => (dispatch) => {
   dispatch(setAddMealLoading(true));
@@ -157,9 +159,9 @@ export const editMealItem = (mealItemId, formData) => (dispatch) => {
       throw error;
     } else {
       const { file, dataurl, ...rest } = formData;
-      const reqData = { ...rest, image: url };
+      const reqdata = { ...rest, image: url };
       return axios
-        .patch(`/meal-items/${mealItemId}`, reqData)
+        .patch(`/meal-items/${mealItemId}`, reqdata)
         .then((response) => {
           const { mealItem } = response.data.payload;
           toastSuccess('Meal item updated successfully');
@@ -174,4 +176,44 @@ export const editMealItem = (mealItemId, formData) => (dispatch) => {
         });
     }
   });
+};
+
+export const checkMealExistence = (mealItemName) => (dispatch) => {
+  const capitalizedMealName =
+    mealItemName.charAt(0).toUpperCase() + mealItemName.slice(1);
+  console.log('>> capitalised', capitalizedMealName);
+  console.log('>>meal', mealItemName.trim().length);
+  if (mealItemName.trim().length === 0) {
+    dispatch({
+      type: MEAL_EXISTS_RESULT,
+      payload: { loadingMealExistence: false, mealExists: null },
+    });
+    return;
+  }
+
+  dispatch({
+    type: MEAL_EXISTS_RESULT,
+    payload: { loadingMealExistence: true, mealExists: null },
+  });
+
+  return axios
+    .get(`/meal-items?name=${capitalizedMealName}`)
+    .then((response) => {
+      dispatch({
+        type: MEAL_EXISTS_RESULT,
+
+        payload: {
+          loadingMealExistence: false,
+
+          mealExists: Boolean(response.data.payload.mealItems.length),
+        },
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: MEAL_EXISTS_RESULT,
+
+        payload: { loadingMealExistence: false, mealExists: null },
+      });
+    });
 };

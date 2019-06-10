@@ -10,7 +10,10 @@ const AddMealFields = (props) => {
     errors,
     onChange,
     mealTypes,
+    mealExists,
+    loadingMealExistence,
   } = props;
+
   return (
     <Fragment>
       <div className="two-col-wrap">
@@ -29,6 +32,27 @@ const AddMealFields = (props) => {
               </span>
             </label>
             <input type="text" name="name" value={name} onChange={onChange} />
+            {/*eslint-disable no-nested-ternary, operator-linebreak, indent, spaced-comment*/}
+            {!loadingMealExistence &&
+            mealExists === null ? null : loadingMealExistence ? (
+              <div style={{ display: 'flex', paddingTop: '10px' }}>
+                <div
+                  className="loader-wheel"
+                  style={{ marginRight: '1rem', display: 'inline-block' }}
+                />
+                <div className="checking-meal-existence">
+                  checking for meal...
+                </div>
+              </div>
+            ) : (
+              <div
+                className={`meal-exists-notification ${
+                  mealExists ? 'meal-exists' : 'meal-no-exists'
+                }`}
+              >
+                {mealExists ? 'Meal already exists' : 'Meal doesn\'t exist'}
+              </div>
+            )}
           </div>
         </div>
 
@@ -69,6 +93,8 @@ AddMealFields.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func,
   mealTypes: PropTypes.arrayOf(PropTypes.string),
+  loadingMealExistence: PropTypes.bool,
+  mealExists: PropTypes.oneOf([null, true, false]),
 };
 
 export default AddMealFields;
