@@ -289,6 +289,13 @@
   margin: auto;
 }
 
+.meal-session-name{
+  width:82%;
+  font-size: 1.5rem;
+}
+.meal-session-name:focus{
+  outline:0;
+};
 /* Delete Meal */
 #delete-meal-modal {
   .modal-content {
