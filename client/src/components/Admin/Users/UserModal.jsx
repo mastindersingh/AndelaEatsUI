@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../../common/Modal/Modal';
+import Modal from '../../common/Modal';
 import Loader from '../../common/Loader/Loader';
-import Input from '../../common/Input/Input';
+import Input from '../../common/FormInputs';
 import SelectBox from '../../common/SelectBox/SelectBox';
 
 const userModal = (
@@ -17,31 +17,34 @@ const userModal = (
   return (
     <Fragment>
       <Modal 
-        show={showModal} 
-        hideModal={hideModal} 
-        handleSubmit={handleSubmit} 
+        displayModal={showModal} 
+        closeModal={hideModal} 
+        formValidation={handleSubmit} 
         content={user}
         loading={loading}
-        item="USER"
+        modalButtonText={!user.id ? 'ADD USER' : 'UPDATE USER'}
+        modalTitle={!user.id ? 'Add User' : 'Edit User'}
       >
-        {loading && <Loader />}
-        <main>
+        <Fragment>
           <Input
             id="firstName"
             name="firstName"
             value={user && user.firstName}
-            onChange={onChange}
-            errorName={errors && errors.firstName}
-            inputName="First Name"
+            onChangeHandler={onChange}
+            error={errors && errors.firstName}
+            label="First Name"
+            type="text"
           />
           <Input
             id="lastName"
             name="lastName"
             value={user && user.lastName}
-            onChange={onChange}
-            errorName={errors && errors.lastName}
-            inputName="Last Name"
+            onChangeHandler={onChange}
+            error={errors && errors.lastName}
+            label="Last Name"
+            type="text"
           />
+        
           <div className="form-field-set">
             <SelectBox 
               label="Role" 
@@ -51,7 +54,7 @@ const userModal = (
               type="roleId"
             />
           </div>
-        </main>
+        </Fragment>
       </Modal>
     </Fragment>
   );

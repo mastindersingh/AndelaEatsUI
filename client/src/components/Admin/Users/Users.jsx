@@ -7,7 +7,12 @@ import DeleteModal from '../../common/DeleteModal/DeleteModal';
 import Loader from '../../common/Loader/Loader';
 import UserCard from './UserCard';
 import UserModal from './UserModal';
-import { fetchUsers, createUser, updateUser, deleteUser, fetchUserRoles }
+import { 
+  fetchUsers, 
+  createUser, 
+  updateUser, 
+  deleteUser, 
+  fetchUserRoles }
   from '../../../actions/admin/adminUserAction';
 import inputValidation from '../../../helpers/inputValidation';
 import EmptyContent from '../../common/EmptyContent';
@@ -89,7 +94,7 @@ export class Users extends Component {
    *
    * @returns { undefined }
    */
-  onSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault();
     const { user } = this.state;
     const userData = {
@@ -117,7 +122,7 @@ export class Users extends Component {
       this.displayDeleteModal(this.state.user)
     })
   }
-  displayDeleteModal = user => {
+  displayDeleteModal = (user=initialUser)=> {
     this.setState(prevState => ({
       showDeleteModal: !prevState.showDeleteModal,
       user

@@ -96,11 +96,10 @@ export class Faqs extends Component {
   closeModal = () => {
     this.setState(prevState => ({
       showModal: !prevState.showModal,
-      faq: initialFaq
     }));
   }
 
-  displayDeleteModal = faq => {
+  displayDeleteModal = (faq = initialFaq) => {
     this.setState(prevState => ({
       showDeleteModal: !prevState.showDeleteModal,
       faq
@@ -129,11 +128,11 @@ export class Faqs extends Component {
     if (faq.id) {
       this.props
         .updateFaq(faq.id, faq)
-        .then(() => this.showFaqModal(null));
+        .then(() => this.showFaqModal());
     } else {
       this.props
         .createFaq({ ...faq, category: 'user_faq' })
-        .then(() => this.showFaqModal(null));
+        .then(() => this.showFaqModal());
     }
   };
 

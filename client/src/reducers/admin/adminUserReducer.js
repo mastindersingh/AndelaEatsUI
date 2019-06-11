@@ -26,7 +26,7 @@ const adminUserReducer = (state = initialUser, action) => {
     case GET_ALL_ADMIN_USERS:
       return {
         ...state,
-        adminUsers: action.payload ? action.payload : []
+        adminUsers: action.payload 
       };
     case ADD_ADMIN_USER_SUCCESS:
       return {

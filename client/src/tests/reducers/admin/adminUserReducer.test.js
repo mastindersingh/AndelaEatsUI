@@ -15,7 +15,11 @@ import {
   EDIT_USER_ROLE_SUCCESS,
   DELETE_USER_ROLE_SUCCESS,
   DELETE_USER_PERMISION_SUCCESS,
-  ADD_USER_PERMISION_SUCCESS
+  ADD_USER_PERMISION_SUCCESS,
+  FETCH_USER_PERMISION_SUCCESS,
+  FETCH_ALL_PERMISIONS,
+  IS_FETCHING_ROLE_PERMISION,
+  IS_FETCHING_ROLES
 } from "../../../actions/actionTypes";
 
 describe('Admin User Reducer', () => {
@@ -96,11 +100,18 @@ describe('Admin User Reducer', () => {
   it('should set state of roles when editing a role', () => {
     const action = {
       type: EDIT_USER_ROLE_SUCCESS,
-      payload: [],
+      payload: { id: 1, name: 'Admin' },
     };
     
-    const newState = adminUserReducer(initialUser, action);
-    expect(newState.roles).toEqual([]);
+    const newState = adminUserReducer(
+      {
+        ...initialUser,
+        roles: [
+          { id: 1, name: 'admin' }, { id: 2, name: 'admin' }
+        ] 
+      },
+      action);
+    expect(newState.roles[0].name).toEqual('Admin');
   });
 
   it('should return the previous state', () => {
@@ -128,5 +139,41 @@ describe('Admin User Reducer', () => {
     };
     const newState = adminUserReducer(initialUser, action);
     expect(newState.permisions).toEqual([{}]);
+  });
+
+  it('should fetch user permissions', () => {
+    const action = {
+      type: FETCH_USER_PERMISION_SUCCESS,
+      payload: [{ id: 1 }],
+    };
+    const newState = adminUserReducer(initialUser, action);
+    expect(newState.permisions.length).toEqual(1);
+  });
+
+  it('should fetch all permissions', () => {
+    const action = {
+      type: FETCH_ALL_PERMISIONS,
+      payload: [{ id: 1 }],
+    };
+    const newState = adminUserReducer(initialUser, action);
+    expect(newState.all_permisions.length).toEqual(1);
+  });
+
+  it('should set IS_FETCHING_ROLE_PERMISION', () => {
+    const action = {
+      type: IS_FETCHING_ROLE_PERMISION,
+      payload: true,
+    };
+    const newState = adminUserReducer(initialUser, action);
+    expect(newState.loading_permisions).toEqual(true);
+  });
+
+  it('should set IS_FETCHING_ROLES', () => {
+    const action = {
+      type: IS_FETCHING_ROLES,
+      payload: true,
+    };
+    const newState = adminUserReducer(initialUser, action);
+    expect(newState.loading_roles).toEqual(true);
   });
 });

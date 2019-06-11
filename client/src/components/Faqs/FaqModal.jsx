@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Loader from '../common/Loader/Loader';
-import Modal from '../common/Modal/Modal';
-import Input from '../common/Input/Input';
+import Modal from '../common/Modal';
+import Input from '../common/FormInputs';
 
 const faqModal = ({ 
   show, 
@@ -13,31 +13,31 @@ const faqModal = ({
   hideModal
 }) => (
   <Modal 
-    item="Faq" 
-    show={show} 
-    loading={isLoading} 
-    hideModal={hideModal}
-    handleSubmit={handleSubmit}
-    content={faq}
+    modalButtonText={!faq.id ? "Add Faq" : 'Update Faq'}
+    modalTitle={!faq.id ? 'Add Faq' : 'Edit Faq'}
+    displayModal={show}
+    isCreating={isLoading}
+    isUpdating={isLoading} 
+    closeModal={hideModal}
+    formValidation={handleSubmit}
   >
-    {isLoading && <Loader />}
     <main>
       <Input
         id="question"
         name="question"
         value={(faq && faq.question)}
-        onChange={handleChange}
-        errorName={errors && errors.question}
-        inputName="Question"
+        onChangeHandler={handleChange}
+        error={errors && errors.question}
+        label="Question"
       />
 
       <Input
         id="answer"
         name="answer"
         value={(faq && faq.answer)}
-        onChange={handleChange}
-        errorName={errors && errors.answer}
-        inputName="Answer"
+        onChangeHandler={handleChange}
+        error={errors && errors.answer}
+        label="Answer"
       />
     </main>
   </Modal>

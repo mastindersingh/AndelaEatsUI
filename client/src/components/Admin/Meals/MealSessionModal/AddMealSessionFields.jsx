@@ -6,7 +6,9 @@ import DatePicker from 'react-datepicker';
 
 const AddMealSessionFields = (props) => {
   const {
-    state: { date, name, startTime, endTime },
+    state: {
+ date, name, startTime, endTime 
+},
     errors,
     onChange,
   } = props;
@@ -19,7 +21,7 @@ const AddMealSessionFields = (props) => {
             <label htmlFor="name">
               Date
               <span
-                className="err-invalid"
+                className="form-error"
                 style={{
                   display: errors.includes('name') ? 'inline-block' : 'none',
                 }}
@@ -43,7 +45,7 @@ const AddMealSessionFields = (props) => {
             <label htmlFor="name">
               Meal Session Name
               <span
-                className="err-invalid"
+                className="form-error"
                 style={{
                   display: errors.includes('desc') ? 'inline-block' : 'none',
                 }}
@@ -70,7 +72,7 @@ const AddMealSessionFields = (props) => {
             <label htmlFor="name">
               Start time
               <span
-                className="err-invalid"
+                className="form-error"
                 style={{
                   display: errors.includes('name') ? 'inline-block' : 'none',
                 }}
@@ -100,7 +102,7 @@ const AddMealSessionFields = (props) => {
             <label htmlFor="name">
               End time
               <span
-                className="err-invalid"
+                className="form-error"
                 style={{
                   display: errors.includes('name') ? 'inline-block' : 'none',
                 }}

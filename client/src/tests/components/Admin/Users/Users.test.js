@@ -16,6 +16,7 @@ const props = {
   createUser: jest.fn(() => Promise.resolve()),
   updateUser: jest.fn(() => Promise.resolve()),
   deleteUser: jest.fn(() => Promise.resolve()),
+  fetchUserRoles: jest.fn(() => Promise.resolve()),
   loading: false,
   roles: [{ id: 1, name: "admin" }]
 };
@@ -49,7 +50,7 @@ describe('Users Component', () => {
     wrapper
       .find('#lastName').at(1)
       .simulate('change', { target: { name: 'lastName', value: 'Yiga' } });
-    wrapper.find('.submit').simulate('click');
+    wrapper.find('form').simulate('submit');
     expect(props.createUser).toBeCalled();
   });
 
@@ -60,10 +61,10 @@ describe('Users Component', () => {
         id: 1,
         lastName: 'Fred',
         firstName: 'Yiga',
-        userTypeId: 1
+        userRoles: props.users[0].userRoles
       }
     });
-    wrapper.find('.submit').simulate('click');
+    wrapper.find('form').simulate('submit');
     expect(props.updateUser).toBeCalled();
   });
 
@@ -77,7 +78,7 @@ describe('Users Component', () => {
     wrapper
       .find('#firstName').at(1)
       .simulate('change', { target: { name: 'firstName', value: 'Fred' } });
-    wrapper.find('.submit').simulate('click');
+    wrapper.find('form').simulate('submit');
     expect(wrapper.instance().state.errors.lastName).toBeTruthy();
   });
 
