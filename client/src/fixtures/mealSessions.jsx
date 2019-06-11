@@ -29,9 +29,9 @@ export const mealSessions = {
         },
       },
       {
-        locationId: 1,
+        locationId: 2,
         name: 'Supper',
-        id: 1,
+        id: 2,
         isDelete: true,
         date: '2019-04-02',
         startTime: '06:00pm',
