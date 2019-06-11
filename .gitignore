@@ -16,3 +16,4 @@ coverage/
 pre-commit.old
 
 .env
+yarn.lock
