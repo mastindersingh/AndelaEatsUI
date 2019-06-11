@@ -1,7 +1,7 @@
 #admin-menus {
   display: block;
   overflow: hidden;
-  
+
   .no-content {
     margin-top: 50px;
   }
@@ -110,6 +110,92 @@
   }
 }
 
+.btn-disabled {
+  background-color: $color-gray !important;
+  border-color: $color-gray !important;
+}
+
+.ratings-modal {
+
+  small {
+    color: $color-red;
+    vertical-align: top;
+  }
+
+  .text-error {
+    color: $color-red;
+    position: absolute;
+    right: -1.5rem;
+    top: .7rem;
+  }
+
+  .form-field-single {
+    position: relative;
+  }
+
+  .modal-content {
+    padding: 3rem 2.5rem;
+    position: relative;
+    width: 21rem;
+
+    .modal-header {
+      margin-bottom: .4rem;
+    }
+
+    .header-title {
+      font-size: 1rem;
+    }
+
+    .modal-footer {
+      justify-content: flex-start;
+      margin-top: 1rem;
+    }
+
+    .bc-grey {
+      border-color: $color-light-gray;
+    }
+
+    .bc-red {
+      border-color: $color-red;
+    }
+
+    .modal-comment {
+      border-radius: 5px;
+      font-size: 1rem;
+      height: 5rem;
+      width: 100%;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .modal-ratings {
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+
+    .text-error {
+      right: 3.5rem;
+    }
+  }
+
+  .modal-close-button {
+    position: absolute;
+    right: .5rem;
+    top: 1rem;
+
+    .close-btn {
+      font-size: 1rem;
+    }
+
+    .btn-no-style {
+      border: 0;
+      color: $color-blue;
+    }
+  }
+}
+
 /* Menu Modal */
 #menu-modal {
   .modal-header {
@@ -132,7 +218,7 @@
 
         .select-width {
           width: 45%;
-          
+
           label {
             @include field-label();
             font-size: 16px;
@@ -167,7 +253,7 @@
             font-size: 16px;
             color: #333E44;
             margin-top: 2px;
-  
+
             span {
               display: inline-block;
               color: red;
@@ -182,7 +268,7 @@
       width: 60%;
     }
   }
-  
+
   @media only screen and (min-width: 641px) and (max-width: 1007px) {
     .modal-content {
       width: 50%;
@@ -267,4 +353,8 @@
   text-align: center;
   padding-top: 1px;
   margin-right: 10px;
+}
+
+.rate-vendor-button {
+  text-transform: capitalize;
 }

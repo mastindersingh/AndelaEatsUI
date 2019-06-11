@@ -1,16 +1,14 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import { mount } from 'enzyme';
-
 import { Engagements } from '../../../../components/Admin/Engagements/Index';
 import engagements from '../../../__mocks__/mockEngagements';
 
-
 const setup = () => {
   const state = {
-    selectedOption: { 
-      value: '', 
-      label: '', 
+    selectedOption: {
+      value: '',
+      label: '',
       vendorId: 0
     },
   };
@@ -25,7 +23,7 @@ const setup = () => {
     deleteEngagement: jest.fn().mockImplementation(() => Promise.resolve()),
     editEngagement: jest.fn().mockImplementation(() => Promise.resolve())
   };
-  
+
   return mount(<Engagements {...state} {...props} />);
 };
 
@@ -68,19 +66,21 @@ describe('Engagements Component', () => {
   });
 
   it('should call handleSubmit and editEngagement method', () => {
-    const handleSubmitSpy = jest.spyOn(wrapper.instance(), 'handleSubmit');
+    const spy = jest.spyOn(wrapper.instance(), 'handleSubmit');
     const event = { preventDefault: jest.fn() };
+
+    wrapper.setState({ modalTitle: "EDIT ENGAGEMENT" })
     wrapper.instance().handleSubmit(event);
-    expect(handleSubmitSpy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
-  
+
   it('should call onChange method', () => {
-    const onChangeSpy = jest.spyOn(wrapper.instance(), 'onChange');    
+    const onChangeSpy = jest.spyOn(wrapper.instance(), 'onChange');
     wrapper.instance().onChange(3, "selectedOption");
     expect(onChangeSpy).toHaveBeenCalled();
   });
-  
+
   it('should call deleteEngagement method', () => {
     const deleteEngagementSpy = jest.spyOn(wrapper.instance(), 'deleteEngagement');
     wrapper.instance().deleteEngagement();
@@ -98,5 +98,12 @@ describe('Engagements Component', () => {
     const showEditModalSpy = jest.spyOn(wrapper.instance(), 'showEditModal');
     wrapper.instance().showEditModal(engagements[0]);
     expect(showEditModalSpy).toHaveBeenCalled();
+  });
+
+  it('should call handleDisplayNoEdit method', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'handleDisplayNoEdit');
+
+    wrapper.instance().handleDisplayNoEdit("2018-12-20");
+    expect(spy).toBeCalled();
   });
 });

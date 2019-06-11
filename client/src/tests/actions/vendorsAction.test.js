@@ -12,13 +12,15 @@ import {
   SUSPEND_VENDOR_LOADING,
   UPDATE_VENDOR_SUCCESS,
   UPDATE_VENDOR_FAILURE,
-  UPDATE_VENDOR_LOADING
+  UPDATE_VENDOR_LOADING,
+  RATE_VENDOR_STATUS
 } from '../../actions/actionTypes';
 import {
   fetchVendors,
   createVendor,
   suspendVendor,
-  updateVendor
+  updateVendor,
+  rateVendor
 } from '../../actions/vendorsAction';
 import {
   newVendor,
@@ -28,7 +30,7 @@ import {
 import vendors from '../__mocks__/mockVendors';
 
 describe('Vendors Action', () => {
-  describe('Fecth Vendors', () => {
+  describe('Fetch Vendors', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
@@ -231,7 +233,7 @@ describe('Vendors Action', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    it('update vendor success', async (done) => {  
+    it('update vendor success', async (done) => {
       moxios.stubRequest(`/vendors/${createdVendor.id}`, {
         status: 200,
         response: {
@@ -286,6 +288,64 @@ describe('Vendors Action', () => {
       const store = mockStore({});
       await store
         .dispatch(updateVendor(update.id, update.vendor))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+      done();
+    });
+  });
+
+  describe('Rate Vendors', () => {
+    beforeEach(() => moxios.install());
+    afterEach(() => moxios.uninstall());
+    const data = {
+      engagementId: 1,
+      comment: 'good job',
+      rating: 5,
+      serviceDate: '2019-01-01',
+      vendorId: 23,
+      channel: "web"
+    };
+
+    const expectedActions = [
+      {
+        type: RATE_VENDOR_STATUS,
+        payload: true,
+      },
+      {
+        type: RATE_VENDOR_STATUS,
+        payload: false,
+      }
+    ];
+
+    it('should rate a vendor successfully', async (done) => {
+      moxios.stubRequest(`/ratings/`, {
+        status: 200,
+        response: {
+          payload: {
+            vendors: vendors[0]
+          }
+        }
+      });
+
+      const store = mockStore({});
+      await store
+        .dispatch(rateVendor(data))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+      done();
+    });
+
+    it('should fail to rate a vendor successfully', async (done) => {
+      moxios.stubRequest(`/ratings/`, {
+        status: 401,
+        response: {}
+      });
+
+      const store = mockStore({});
+      await store
+        .dispatch(rateVendor(data))
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
         });

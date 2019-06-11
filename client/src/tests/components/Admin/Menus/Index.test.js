@@ -2,12 +2,16 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Menus, mapStateToProps } from '../../../../components/Admin/Menus/Index';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import {
+  Menus,
+  mapStateToProps
+} from '../../../../components/Admin/Menus/Index';
 import menu from '../../../__mocks__/mockMenuList';
 import engagement from '../../../__mocks__/mockEngagements';
 import Loader from '../../../../components/common/Loader/Loader';
-import moment from 'moment';
-import DatePicker from 'react-datepicker';
+
 
 const menusState = {
   error: {
@@ -32,7 +36,7 @@ describe('Admin: Menu Component', () => {
 
   const props = {
     menus: { ...menusState },
-    fetchMenus: jest.fn(),
+    fetchMenus: jest.fn(() => Promise.resolve()),
     fetchVendorEngagements: jest.fn(),
     fetchMealItems: jest.fn(),
     createMenu: jest.fn(() => Promise.resolve()),
@@ -45,7 +49,7 @@ describe('Admin: Menu Component', () => {
 
   beforeEach(() => {
     wrapper = shallow(
-      <Menus {...props} />)
+      <Menus {...props} />);
   });
 
   afterEach(() => {
@@ -81,7 +85,7 @@ describe('Admin: Menu Component', () => {
 
   it('should call showAddModal method when editing a menu', () => {
     expect(wrapper.instance().state.displayModal).toBeFalsy();
-    wrapper.find('#add-menu').simulate('click'); 
+    wrapper.find('#add-menu').simulate('click');
     expect(wrapper.instance().state.displayModal).toBeTruthy();
   });
 
@@ -117,9 +121,9 @@ describe('Admin: Menu Component', () => {
   });
 
   it('should call deleteMenu on clicking delete', () => {
-    const spy = jest.spyOn(wrapper.instance(), 'showDeleteModal')
+    const spy = jest.spyOn(wrapper.instance(), 'showDeleteModal');
     wrapper.instance().showDeleteModal({});
-    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should show error if endDate is greater than startDate', () => {
@@ -128,12 +132,12 @@ describe('Admin: Menu Component', () => {
       startDate: moment().add(1, 'days'),
     });
     wrapper.find('#view-menu').simulate('click');
-    expect(wrapper.find('.Toastify__toast--error')).toBeTruthy()
-  })
+    expect(wrapper.find('.Toastify__toast--error')).toBeTruthy();
+  });
 
   it('changes date', () => {
     wrapper.find(DatePicker).at(0).simulate('change', '2019-02-03');
-    expect(wrapper.instance().state.startDate).toEqual('2019-02-03')
+    expect(wrapper.instance().state.startDate).toEqual('2019-02-03');
     wrapper.find(DatePicker).at(1).simulate('change');
   });
 
@@ -146,10 +150,10 @@ describe('Admin: Menu Component', () => {
     it('mapStateToProps', () => {
       const initialState = {
         menus: menu,
-        allEngagements: {upComingEngagements: {engagements: engagement}}
-      }
+        allEngagements: { upComingEngagements: { engagements: engagement } }
+      };
 
-      expect(mapStateToProps(initialState).menus).toEqual(menu)
+      expect(mapStateToProps(initialState).menus).toEqual(menu);
     });
-  })
+  });
 });

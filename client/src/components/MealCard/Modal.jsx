@@ -39,9 +39,10 @@ const Modal = ({
                     type="button"
                     className="fill upper delete-order"
                     onClick={() => tapOrder(modalContent)}
+                    name="collect-order"
                   >
                     Collect
-                  </button>) : 
+                  </button>) :
                     (
                       <button
                       type="button"

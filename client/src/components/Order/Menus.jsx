@@ -70,7 +70,7 @@ export class Menus extends Component {
       acc2: nextProps.mealSelected.secondAccompaniment
     }
     const date = !nextProps.edit ? nextProps.match.params.date : nextProps.date
-    
+
       if(this.state.menuDate !== date){
         newState.menuDate = date
         newState.menuId = ""
@@ -130,7 +130,7 @@ export class Menus extends Component {
       />
     </React.Fragment>
   )
-  render() {  
+  render() {
     const {
       menu: { id },
       match,
@@ -194,12 +194,10 @@ export class Menus extends Component {
   }
 }
 
-function mapStateToProps({ orders: { isLoading, menu } }) {
-  return {
-    menu,
-    isLoading
-  };
-}
+const mapStateToProps = ({ orders: { isLoading, menu } }) => ({
+  menu,
+  isLoading
+});
 
 Menus.propTypes = {
   match: PropType.object,

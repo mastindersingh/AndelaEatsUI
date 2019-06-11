@@ -43,7 +43,7 @@ describe('Admin:Meals Component', () => {
   it('should call toggleAddModal with empty meals', () => {
     mealsInstance.toggleAddModal();
   });
-  
+
   it('should call toggleAddModal with meals', () => {
     wrapper = setup(false, mealItems);
     mealsInstance.toggleAddModal();
@@ -53,7 +53,7 @@ describe('Admin:Meals Component', () => {
     wrapper = setup(true, mealItems);
     mealsInstance.toggleAddModal();
   });
-  
+
   it('should call closeModal method', () => {
     const closeModalSpy = jest
       .spyOn(wrapper.instance(), 'closeModal');
@@ -72,6 +72,12 @@ describe('Admin:Meals Component', () => {
     const deleteMealItemSpy = jest.spyOn(wrapper.instance(), 'deleteMealItem');
     wrapper.instance().deleteMealItem(modalContent.id);
     expect(deleteMealItemSpy).toHaveBeenCalled();
+  });
+
+  it('should call pageChange method', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'pageChange');
+    wrapper.instance().pageChange(2);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should call toggleModal onClick of Add Meal button', () => {

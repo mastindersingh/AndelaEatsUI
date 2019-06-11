@@ -19,7 +19,7 @@ import {
   fetchMealItems,
   deleteMealItem,
   addMealItem,
-  editMealItem
+  editMealItem,
 } from '../../../actions/admin/mealItemsAction';
 import { mealItems, pagination } from '../../__mocks__/mockMealItems';
 
@@ -27,7 +27,7 @@ describe('Admin::Meal Items Action', () => {
   const formData = {
     name: 'Ugeli',
     type: 'side',
-    image: new File([''], 'filename', { type: 'image/png' })
+    image: new File([''], 'filename', { type: 'image/png' }),
   };
 
   describe('Fetch meal Items', () => {
@@ -35,14 +35,14 @@ describe('Admin::Meal Items Action', () => {
     afterEach(() => moxios.uninstall());
 
     it('fetch meal items success', async (done) => {
-      moxios.stubRequest(`/meal-items/?page=1`, {
+      moxios.stubRequest(`/meal-items`, {
         status: 200,
         response: {
           payload: {
             mealItems,
-            meta: pagination
-          }
-        }
+            meta: pagination,
+          },
+        },
       });
 
       const expectedActions = [
@@ -52,29 +52,27 @@ describe('Admin::Meal Items Action', () => {
         },
         {
           type: FETCH_MEAL_ITEMS_SUCCESS,
-          payload: { mealItems, pagination }
+          payload: { mealItems, pagination },
         },
         {
           type: FETCH_MEAL_ITEMS_LOADING,
           payload: false,
-        }
+        },
       ];
 
       const store = mockStore({});
 
-      await store
-        .dispatch(fetchMealItems())
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(fetchMealItems()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
 
     it('fetch meal items failure', async (done) => {
-      moxios.stubRequest(`/meal-items/?page=1`, {
+      moxios.stubRequest(`/meal-items`, {
         status: 401,
       });
-  
+
       const expectedActions = [
         {
           type: FETCH_MEAL_ITEMS_LOADING,
@@ -87,16 +85,14 @@ describe('Admin::Meal Items Action', () => {
         {
           type: FETCH_MEAL_ITEMS_LOADING,
           payload: false,
-        }
+        },
       ];
-  
+
       const store = mockStore({});
-  
-      await store
-        .dispatch(fetchMealItems())
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+
+      await store.dispatch(fetchMealItems()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
   });
@@ -110,11 +106,11 @@ describe('Admin::Meal Items Action', () => {
     const expectedActions = [
       {
         type: SET_ADD_MEAL_LOADING,
-        payload: true
+        payload: true,
       },
       {
         type: SET_ADD_MEAL_LOADING,
-        payload: false
+        payload: false,
       },
     ];
 
@@ -124,33 +120,31 @@ describe('Admin::Meal Items Action', () => {
         response: {
           payload: {
             mealItem: {
-              ...mealItems[0]
-            }
-          }
-        }
+              ...mealItems[0],
+            },
+          },
+        },
       });
 
       const newExpectedActions = [
         expectedActions[0],
         {
           type: ADD_MEAL_ITEM_SUCCESS,
-          payload: { ...mealItems[0] }
+          payload: { ...mealItems[0] },
         },
         {
           type: SHOW_MEAL_MODAL,
           payload: {
             edit: false,
-            show: false
-          }
+            show: false,
+          },
         },
         expectedActions[1],
       ];
 
-      await store
-        .dispatch(addMealItem(formData))
-        .then(() => {
-          expect(store.getActions()).toEqual(newExpectedActions);
-        });
+      await store.dispatch(addMealItem(formData)).then(() => {
+        expect(store.getActions()).toEqual(newExpectedActions);
+      });
       done();
     });
   });
@@ -162,7 +156,7 @@ describe('Admin::Meal Items Action', () => {
     it('delete meal items success', async (done) => {
       moxios.stubRequest(`/meal-items/${mealItems[0].id}`, {
         status: 200,
-        response: {}
+        response: {},
       });
 
       const expectedActions = [
@@ -172,29 +166,27 @@ describe('Admin::Meal Items Action', () => {
         },
         {
           type: DELETE_MEAL_ITEM_SUCCESS,
-          payload: mealItems[0].id
+          payload: mealItems[0].id,
         },
         {
           type: DELETE_MEAL_ITEM_LOADING,
           payload: false,
-        }
+        },
       ];
 
       const store = mockStore({});
 
-      await store
-        .dispatch(deleteMealItem(mealItems[0].id))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(deleteMealItem(mealItems[0].id)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
-  
+
     it('delete meal item failure', async (done) => {
       moxios.stubRequest(`/meal-items/${mealItems[0].id}`, {
         status: 401,
       });
-  
+
       const expectedActions = [
         {
           type: DELETE_MEAL_ITEM_LOADING,
@@ -207,16 +199,14 @@ describe('Admin::Meal Items Action', () => {
         {
           type: DELETE_MEAL_ITEM_LOADING,
           payload: false,
-        }
+        },
       ];
-  
+
       const store = mockStore({});
-  
-      await store
-        .dispatch(deleteMealItem(mealItems[0].id))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+
+      await store.dispatch(deleteMealItem(mealItems[0].id)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
   });
@@ -235,41 +225,40 @@ describe('Admin::Meal Items Action', () => {
           type: EDIT_MEAL_ITEM_SUCCESS,
           payload: {
             mealItemId: 1,
-            mealItem: { ...mealItems[0] }
-          }
+            mealItem: { ...mealItems[0] },
+          },
         },
         {
           type: SHOW_MEAL_MODAL,
           payload: {
             show: false,
             edit: false,
-          }
+          },
         },
         {
           type: EDIT_MEAL_ITEM_LOADING,
           payload: false,
-        }
+        },
       ];
 
       const store = mockStore({
         mealItems: {
-          meals: mealItems
-        }
+          meals: mealItems,
+        },
       });
 
       moxios.stubRequest(`/meal-items/${mealItems[0].id}`, {
         status: 200,
         response: {
           payload: {
-            mealItem: mealItems[0]
-          }
-        }
+            mealItem: mealItems[0],
+          },
+        },
       });
 
-      await store.dispatch(editMealItem(mealItems[0].id, formData))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+      await store.dispatch(editMealItem(mealItems[0].id, formData)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
 
@@ -281,24 +270,26 @@ describe('Admin::Meal Items Action', () => {
         },
         {
           type: EDIT_MEAL_ITEM_FAILURE,
-          payload: new Error('Request failed with status code 500')
+          payload: new Error('Request failed with status code 500'),
         },
         {
           type: EDIT_MEAL_ITEM_LOADING,
           payload: false,
-        }
+        },
       ];
 
       const store = mockStore({});
 
       moxios.stubRequest(`/meal-items/${mealItems[0].id}`, {
-        status: 500
+        status: 500,
+        response: {
+          msg: 'error',
+        },
       });
-      
-      await store.dispatch(editMealItem(mealItems[0].id, formData))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
+
+      await store.dispatch(editMealItem(mealItems[0].id, formData)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
   });

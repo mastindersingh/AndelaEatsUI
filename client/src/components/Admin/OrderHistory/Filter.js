@@ -16,7 +16,7 @@ export class Filter extends Component {
     const { start, end } = this.state;
     const { fetchOrders, currentPage } = this.props;
     const dates = validateDate(start, end);
- 
+
     if(dates) {
       fetchOrders(currentPage, dates.startDate, dates.endDate)
        this.setState({
@@ -25,7 +25,7 @@ export class Filter extends Component {
          end: ''
        })
      }
-   
+
    }
 
   /**
@@ -63,6 +63,7 @@ export class Filter extends Component {
                 <DatePicker
                   onChange={(date) => this.setState({ start: date })}
                   value={start}
+                  name={'start-date'}
                 />
               </label>
             </div>
@@ -71,6 +72,7 @@ export class Filter extends Component {
                 <DatePicker
                   onChange={(date) => this.setState({ end: date })}
                   value={end}
+                  name={'end-date'}
                 />
               </label>
             </div>

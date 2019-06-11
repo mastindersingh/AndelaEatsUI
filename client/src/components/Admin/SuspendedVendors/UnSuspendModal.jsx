@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
   func, number, string, array, bool, object, oneOfType
 } from 'prop-types';
 
@@ -9,12 +9,12 @@ const UnSuspendModal = ({
   displayUnsuspendModal,
   modalContent
 }) => (
-  <div 
-    className="modal" 
+  <div
+    className="modal"
     id="delete-vendor-modal"
     style={(displayUnsuspendModal) ? { display: 'block' } : { display: 'none' }}
   >
-    { displayUnsuspendModal 
+    { displayUnsuspendModal
       ? (
         <div className="modal-content">
           <div className="modal-header">
@@ -24,17 +24,18 @@ const UnSuspendModal = ({
           <span className="warning">Are you sure you want to reinstate?</span>
           <div className="modal-footer">
             <div className="">
-              <button 
-                className="grayed upper" 
+              <button
+                className="grayed upper"
                 type="button"
                 onClick={closeModal}
               >
                 Cancel
               </button>
               <button
-                className="fill upper delete-vendor" 
-                type="button" 
+                className="fill upper delete-vendor"
+                type="button"
                 tabIndex={0}
+                name="unsuspended-card"
                 onClick={() => unsuspendVendor(modalContent.id)}
               >
                 Reinstate

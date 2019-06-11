@@ -111,12 +111,10 @@ export class Navbar extends Component {
  * @param {state} state
  * @returns {object} user
  */
-function mapStateToProps(state) {
-  return {
-    activeUser: state.userReducer,
-    userRole: state.user.role,
-  };
-}
+const mapStateToProps = state => ({
+  activeUser: state.userReducer,
+  userRole: state.user.role,
+});
 
 Navbar.propTypes = {
   getAdminUser: PropTypes.func.isRequired,

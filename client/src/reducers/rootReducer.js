@@ -12,7 +12,8 @@ import engagementsReducer from './admin/engagementsReducer';
 import suspendedVendorReducer from './admin/suspendedVendorReducer';
 import adminUserReducer from './admin/adminUserReducer';
 import mealRatingsReducer from './admin/ratingsReducer';
-import dashBoardReducer from "./dashboardReducer";
+import dashBoardReducer from './dashboardReducer';
+import mealSessionsReducer from './admin/mealSessionsReducer';
 import aboutReducer from './aboutReducer';
 
 export default combineReducers({
@@ -22,6 +23,7 @@ export default combineReducers({
   allVendors: vendorsReducer,
   mealOrders: mealOrdersReducer,
   mealItems: mealItemsReducer,
+  mealSessions: mealSessionsReducer,
   menus: adminMenusReducer,
   allEngagements: engagementsReducer,
   suspendVendors: suspendedVendorReducer,
@@ -29,5 +31,5 @@ export default combineReducers({
   allRatings: mealRatingsReducer,
   faqsReducer,
   aboutReducer,
-  vendorPerformance: dashBoardReducer
+  vendorPerformance: dashBoardReducer,
 });

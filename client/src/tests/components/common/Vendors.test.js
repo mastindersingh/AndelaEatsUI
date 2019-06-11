@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
 import { mount } from 'enzyme';
-import { Vendors } from '../../../../components/Admin/Vendors/Vendors';
-import vendors from '../../../__mocks__/mockVendors';
+import { Vendors } from '../../../components/Admin/Vendors/Vendors';
+import vendors from '../../__mocks__/mockVendors';
 
 const modalContent = {
   contactPerson: "Chibueze",
