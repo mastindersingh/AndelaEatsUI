@@ -25,6 +25,7 @@ const setup = (isLoading, isCreating, isUpdating, isSuspending) => {
     createVendor: jest.fn().mockImplementation(() => Promise.resolve()),
     suspendVendor: jest.fn().mockImplementation(() => Promise.resolve()),
     updateVendor: jest.fn().mockImplementation(() => Promise.resolve()),
+    fetchUserRoles: jest.fn(() => Promise.resolve()),
   };
 
   return mount(<Vendors {...props} />);

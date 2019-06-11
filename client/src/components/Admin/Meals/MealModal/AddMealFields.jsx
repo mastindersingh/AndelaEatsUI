@@ -19,7 +19,7 @@ const AddMealFields = (props) => {
             <label htmlFor="name">
               Name
               <span
-                className="err-invalid"
+                className="form-error"
                 style={{
                   display: errors.includes('name') ? 'inline-block' : 'none',
                 }}
@@ -37,7 +37,7 @@ const AddMealFields = (props) => {
             <label htmlFor="type">
               Meal type
               <span
-                className="err-invalid"
+                className="form-error"
                 style={{
                   display: errors.includes('type') ? 'inline-block' : 'none',
                 }}

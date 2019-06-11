@@ -59,6 +59,7 @@ export const deleteUserFailure = (error) => ({
   type: DELETE_USER_FAILURE,
   error
 });
+
 const isFetchingAdmin = (payload) => ({
   type: IS_FETCHING_ADMIN_USERS,
   payload
@@ -108,7 +109,7 @@ export const deleteUser = userId => dispatch => {
     dispatch(deleteUserSuccess(userId));
     toastSuccess(response.data.payload.msg);
   })
-    .catch(err => dispatch(deleteUserFailure(err)));
+    .catch(err => dispatch(deleteUserFailure()));
 };
 export const updateUserFailure = (error) => ({
   type: UPDATE_USER_FAILURE,
@@ -130,7 +131,7 @@ export const updateUser = (user) => dispatch => {
     dispatch(updateUsersuccess(response.data.payload.user));
     toastSuccess('User Updated');
   }).catch(err => {
-    dispatch(updateUserFailure(err));
+    dispatch(updateUserFailure(err.response.data.msg));
   });
 };
 export const fetchUsersLoading = () => ({
@@ -148,6 +149,7 @@ export const fetchUsers = () => dispatch => {
     dispatch(fetchUsersSuccess(response.data.payload.users));
   })
     .catch(error => {
+      toastError('An error occurred when fetching users');
       dispatch(fetchUsersFailure());
     });
 };
@@ -217,14 +219,12 @@ export const getAllPermisions = (adminId) => dispatch => {
 
 export const createAdminUser = (userData) => dispatch => axios.post(`/roles/user`, userData)
   .then((response) => {
-    const { msg, payload } = response.data;
+    const { msg } = response.data;
     toastSuccess("User role changed to Admin successfully");
     dispatch(addAdminUser(msg, ADD_ADMIN_USER_SUCCESS));
   })
   .catch((error) => {
-    error = error.response ? error.response.data.msg : 'Invalid Email Address entered!';
-    error = error.response 
-      ? error.response.data.msg : 'Invalid Email Address entered!';
+    error = error.response.data.msg;
     toastError(error);
     dispatch(addAdminUser(error, ADD_ADMIN_USER_FAILURE));
   });
@@ -303,6 +303,7 @@ export const deleteUserPermision = (permisionId) => dispatch => axios.delete(`ro
 export const createUserPermision = (permissionData) => dispatch => axios.post(`roles/permissions`, permissionData)
   .then((response) => {
     const responseData = response ? response.data.msg : 'Not created, Please Contact Admin';
+
     toastSuccess(responseData);
     dispatch(createUserPermisionSuccess(responseData, ADD_USER_PERMISION_SUCCESS));
   }).catch((error) => {

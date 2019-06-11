@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Loader from '../Loader/Loader';
+import Button from '../Button/Button';
 
 const DeleteModal = ({
   closeModal,
@@ -25,26 +26,22 @@ const DeleteModal = ({
         <span className="warning">This cannot be undone</span>
         {isDeleting && <Loader />}
         <div className="modal-footer">
-          <div className="">
-            <button
-              className="grayed upper"
-              type="button"
-              disabled={isDeleting}
-              onClick={() => closeModal(null)}
+          <Fragment>
+            <Button
+              classes="grayed upper"
+              loading={isDeleting}
+              onClickHandler={() => closeModal()}
               name="close-btn"
-            >
-              Cancel
-            </button>
-            <button
+              btnText="Cancel"
+            />
+
+            <Button
               className="fill--delete upper delete-vendor"
-              type="button"
-              tabIndex={0}
-              disabled={isDeleting}
-              onClick={() => deleteItem(modalContent.id)}
-            >
-              Delete
-            </button>
-          </div>
+              loading={isDeleting}
+              onClickHandler={() => deleteItem(modalContent.id)}
+              btnText="Delete"
+            />
+          </Fragment>
         </div>
       </div>
     ) : null}

@@ -80,9 +80,9 @@ describe('FaqItem Component', () => {
     wrapper.setState({
       faq: { id: 1, question: '', answer: 'answer' }
     });
+    
     const instance = wrapper.instance();
-    wrapper.find('button[type="submit"]').at(1)
-      .simulate('click', { preventDefault: jest.fn() });
+    wrapper.find('form').simulate('submit');
     expect(instance.state.errors.question).toEqual('*required');
   });
 
@@ -105,11 +105,11 @@ describe('FaqItem Component', () => {
       target: { name: 'answer', value: 'answer' }
     });
 
-    wrapper.find('button[type="submit"]').at(1)
-      .simulate('click', { preventDefault: jest.fn() });
+    wrapper.find('form').simulate('submit');
   });
 
   it('handles editing a question', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'onSubmit');
     wrapper.setState({
       faq: { id: 1, question: 'questionaire', answer: 'answer' }
     });
@@ -120,9 +120,8 @@ describe('FaqItem Component', () => {
     wrapper.find('#answer').at(1).simulate('change', {
       target: { name: 'answer', value: 'answer' }
     });
-
-    wrapper.find('button[type="submit"]').at(1)
-      .simulate('click', { preventDefault: jest.fn() });
+    wrapper.find('form').simulate('submit');
+    expect(spy).toHaveBeenCalled();
   });
 
   it('calls handleModal on clicking close icon', () => {

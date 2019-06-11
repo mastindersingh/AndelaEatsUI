@@ -3,11 +3,13 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
 import Loader from '../../common/Loader/Loader';
 
 // Actions
-import { createAdminUser, getAllAdminUsers } from '../../../actions/admin/adminUserAction';
+import {
+  createAdminUser, 
+  getAllAdminUsers 
+} from '../../../actions/admin/adminUserAction';
 import EmptyContent from "../../common/EmptyContent";
 
 
@@ -91,7 +93,7 @@ export class Users extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   userEmail: state.user.email,
   message: state.user.message,
   adminUsers: state.user.adminUsers,
@@ -109,4 +111,5 @@ Users.defaultProps = {
   loading: false,
 };
 
-export default connect(mapStateToProps, { createAdminUser, getAllAdminUsers })(Users);
+export default
+connect(mapStateToProps, { createAdminUser, getAllAdminUsers })(Users);

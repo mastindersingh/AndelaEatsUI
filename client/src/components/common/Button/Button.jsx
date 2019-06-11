@@ -1,23 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-/* eslint-disable */
-const button = ({ func, children, classes, type ='button', loading=false }) => (
+const Button = ({
+  onClickHandler, type = 'button', classes, loading = false, btnText,
+  tabIndex = 0, name
+}) => (
+  // eslint-disable-next-line
   <button
-    tabIndex={0}
     type={type}
     className={`${classes}`}
-    onClick={func}
+    onClick={onClickHandler}
     disabled={loading}
-  >
-    {children}
+    tabIndex={tabIndex}
+    name={name}
+  >{btnText}
   </button>
 );
 
 
-button.propTypes = {
-  func: PropTypes.func.isRequired,
+Button.propTypes = {
+  onClickHandler: PropTypes.func,
   classes: PropTypes.string,
   type: PropTypes.string,
-}
-export default button;
+  loading: PropTypes.bool,
+  btnText: PropTypes.string.isRequired,
+  tabIndex: PropTypes.number,
+  name: PropTypes.string
+};
+export default Button;

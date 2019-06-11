@@ -8,7 +8,11 @@ import {
   UPDATE_USER_FAILURE,
   UPDATE_USER_LOADING,
   UPDATE_USER_SUCCESS,
-  DELETE_USER_SUCCESS
+  DELETE_USER_SUCCESS,
+  FETCH_USER_ROLES_SUCCESS,
+  FETCH_USER_ROLES_FAILURE,
+  FETCH_USER_ROLES_LOADING
+
 } from '../../actions/actionTypes';
 import usersReducer from '../../reducers/admin/usersReducer';
 import { users } from '../actions/admin/adminUserAction.test';
@@ -117,5 +121,32 @@ describe('Users Reducer', () => {
 
     const newState = usersReducer(initialState, action);
     expect(newState.users).toEqual([]);
+  });
+
+  describe('Users Roles', () => {
+    it('should fetch user roles success', () => {
+      const action = {
+        type: FETCH_USER_ROLES_SUCCESS,
+        roles: [{ id: 1 }]
+      };
+      const newState = usersReducer(initialState, action);
+      expect(newState.roles.length).toEqual(1);
+    });
+
+    it('should fetch user roles failure', () => {
+      const action = {
+        type: FETCH_USER_ROLES_FAILURE,
+      };
+      const newState = usersReducer(initialState, action);
+      expect(newState.roles.length).toEqual(0);
+    });
+    
+    it('should fetch user roles loading', () => {
+      const action = {
+        type: FETCH_USER_ROLES_LOADING,
+      };
+      const newState = usersReducer(initialState, action);
+      expect(newState.loading).toEqual(true);
+    });
   });
 });
