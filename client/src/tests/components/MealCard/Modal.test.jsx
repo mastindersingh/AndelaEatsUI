@@ -13,7 +13,8 @@ const props = {
     { image: "image1", name: "Meal1"},
     { image: "image1", name: "Meal1"}
     ]
-  }
+  },
+  tapOrder: jest.fn(),
 };
 /*
 global jest
@@ -29,5 +30,14 @@ describe('Modal Component', () => {
 
   it('should open modal and delete order', () => {
     wrapper.find('.delete-order').simulate('click');
+  });
+
+  it('should open collect order model', () => {
+    wrapper.setProps({
+      modalTitle: "Collect Order"
+    });
+
+    wrapper.find('button[name="collect-order"]').simulate('click');
+    expect(props.tapOrder).toBeCalled()
   });
 });

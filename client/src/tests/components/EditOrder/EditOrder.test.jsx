@@ -7,9 +7,9 @@ import { mealItems } from '../../__mocks__/mockMealItems';
 import Loader from '../../../components/common/Loader/Loader';
 import { MockData } from '../../__mocks__/mockMenuListData'
 
-/* 
-global jest 
-expect 
+/*
+global jest
+expect
 */
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -35,13 +35,13 @@ const props = {
     mealItems,
   },
   mealSelected: {},
-  history: { 
+  history: {
     push: () => jest.fn()
   },
   editOrder: () => Promise.resolve(),
   updateOrder: () => Promise.resolve(),
   fetchMenu: () => Promise.resolve(),
-  
+
 };
 
 /**
@@ -66,20 +66,31 @@ describe('Component: Orders', () => {
   });
 
   it('shows loader', () => {
-   const wrapper = getComponent();
-   wrapper.setProps({
-     isLoading:true,
-     meal: null
-   });
-   expect(wrapper.find(Loader).length).toEqual(1);
+    const wrapper = getComponent();
+    wrapper.setProps({
+      isLoading:true,
+      meal: null
+    });
+    expect(wrapper.find(Loader).length).toEqual(1);
   });
 
-  // it('displays modal on click', () => {
-  //   const wrapper = getComponent();
-  //   expect(wrapper.instance().state.showModal).toBeFalsy();
-  //   wrapper.find('.submit-order').simulate('click');
-  //   expect(wrapper.instance().state.showModal).toBeTruthy();
-  // })
+  it('should change menuListId state when selectMenuListId is called ', () => {
+    const wrapper = getComponent();
+    const spy = jest.spyOn(wrapper.instance(), 'selectMenuListId');
+
+    wrapper.instance().selectMenuListId('1');
+    expect(spy).toHaveBeenCalled();
+    expect(wrapper.instance().state.menuListId).toEqual("1")
+  });
+
+  it('should change selectedMenu state when setSelectedMenu is called ', () => {
+    const wrapper = getComponent();
+    const spy = jest.spyOn(wrapper.instance(), 'setSelectedMenu');
+
+    wrapper.instance().setSelectedMenu('1');
+    expect(spy).toHaveBeenCalled();
+    expect(wrapper.instance().state.selectedMenu).toEqual("1")
+  });
 
   describe('Class Methods test:: Call', () => {
     it('componentDidMount()', () => {
@@ -90,14 +101,13 @@ describe('Component: Orders', () => {
   });
 });
 
-
 describe('Connected EditOrder component', () => {
   it('component successfully rendered', () => {
     const store = mockStore({
       orders: {
         menu: {},
       },
-      upcomingMenus: {menus: [{menus: []}]}
+      upcomingMenus: { menus: [{ menus: [] }] }
     });
     const wrapper = shallow(<ConnectedEditOrder store={store} />);
     expect(wrapper.length).toBe(1);

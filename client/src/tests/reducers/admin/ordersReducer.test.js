@@ -2,7 +2,8 @@
 import {
   FETCH_MEAL_ORDERS_LOADING,
   FETCH_MEAL_ORDERS_SUCCESS,
-  FETCH_MEAL_ORDERS_FAILURE
+  FETCH_MEAL_ORDERS_FAILURE,
+  PAGINATION_CHANGE
 } from '../../../actions/actionTypes';
 import { mealOrders } from '../../../reducers/initialState';
 import ordersReducer from '../../../reducers/admin/ordersReducer';
@@ -51,6 +52,18 @@ describe('Admin::Orders Reducer', () => {
     it('should return the previous state of mealOrders in the store', () => {
       const action = {
         type: FETCH_MEAL_ORDERS_FAILURE,
+        payload: {},
+      };
+
+      const newState = ordersReducer(mealOrders, action);
+      expect(newState.orders).toEqual([]);
+    });
+  });
+
+  describe('PAGINATION_CHANGE', () => {
+    it('should return the currentPage', () => {
+      const action = {
+        type: PAGINATION_CHANGE,
         payload: {},
       };
 

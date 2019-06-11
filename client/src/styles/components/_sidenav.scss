@@ -1,32 +1,32 @@
 .side-nav {
   height: 100%;
-  width: 120px;
+  width: 150px;
   background-color: #f4f8f9;
   box-shadow: inset -1px 0 0 0 #dcdcdc;
   position: fixed;
   overflow: scroll;
 }
 .side-nav-item-wrapper {
-  width: 110px;
+  width: 99.5%;
   background-color: #f4f8f9;
-  margin: 0;
+  margin-top: 0;
   padding: 0;
   list-style-position: inside;
   list-style-type: none;
-  padding: 20px 0;
 }
 
 .side-nav-item {
-  height: 150px;
-  width: 119px;
+  height: 50px;
+  width: 100%;
   position: relative;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 60px;
+  padding-top: 10px;
   color: $color-medium-gray;
   font-weight: 500;
+  font-size: 14px;
 
   &.active {
     background-color: $color-white;
@@ -35,7 +35,7 @@
   }
 
   &.active::before {
-    border-width: 10px;
+    border-width: 8px;
     border-right-color: $color-blue;
     border-bottom-color: $color-blue;
     color: $color-dark-gray;
@@ -47,9 +47,35 @@
     color: $color-dark-gray;
   }
   &:hover::after {
-    border-width: 10px;
+    border-width: 8px;
     border-right-color: $color-blue;
     border-bottom-color: $color-blue;
+  }
+}
+
+.sub-menu-item {
+  height: 30px;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+  padding-left: 30px;
+  color: $color-medium-gray;
+  font-weight: 600;
+  font-size: 12px;
+
+  &.active {
+    background-color: $color-green-light;
+    cursor: pointer;
+    color: $color-dark-gray;
+  }
+
+  &:hover {
+    background-color: $color-green-light;;
+    cursor: pointer;
+    color: $color-dark-gray;
   }
 }
 
@@ -57,7 +83,7 @@
 .side-nav-item::after {
   content: '';
   position: absolute;
-  top: 87.05%;
+  top: 68.0%;
   right: 0;
   border-color: transparent;
   border-style: solid;
@@ -66,8 +92,10 @@
 .home {
   background-image: url('../assets/images/home-icon@2x.png');
   background-repeat: no-repeat;
-  background-size: 30px;
-  background-position: center;
+  background-size: 21px;
+  background-position: left;
+  background-position-x: 8%;
+  padding-left: 15px;
   &.active {
     background-image: url('../assets/images/active-home-icon@2x.png');
   }
@@ -79,8 +107,10 @@
 .dashboard{
   background-image: url('../assets/images/dashboard-icon.png');
   background-repeat: no-repeat;
-  background-size: 30px;
-  background-position: center;
+  background-size: 23px;
+  padding-left: 30px;
+  background-position: left;
+  background-position-x: 8%;
 
   &.active {
     background-image: url('../assets/images/dashboard-active.png');
@@ -93,8 +123,10 @@
 .order {
   background-image: url('../assets/images/delivery-truck.png');
   background-repeat: no-repeat;
-  background-size: 30px;
-  background-position: center;
+  background-size: 23px;
+  background-position: left;
+  padding-left: 20px;
+  background-position-x: 8%;
   &.active {
     background-image: url('../assets/images/active-delivery-truck.png');
   }
@@ -106,8 +138,10 @@
 .about {
   background-image: url('../assets/images/about.png');
   background-repeat: no-repeat;
-  background-size: 30px;
-  background-position: center;
+  background-size: 22px;
+  background-position: left;
+  padding-left: 20px;
+  background-position-x: 8%;
   &.active {
     background-image: url('../assets/images/about-active.png');
   }
@@ -119,8 +153,10 @@
 .faq {
   background-image: url('../assets/images/faqs.png');
   background-repeat: no-repeat;
-  background-size: 30px;
-  background-position: center;
+  background-size: 23px;
+  background-position: left;
+  padding-left: 20px;
+  background-position-x: 8%;
   &.active {
     background-image: url('../assets/images/faqs-active.png');
   }
@@ -132,8 +168,10 @@
 .vendors {
   background-image: url('../assets/images/vendor.svg');
   background-repeat: no-repeat;
-  background-size: 30px;
-  background-position: center;
+  background-size: 23px;
+  background-position: left;
+  padding-left: 30px;
+  background-position-x: 8%;
   &.active {
     background-image: url('../assets/images/active-vendor.svg');
   }
@@ -145,8 +183,10 @@
 .ratings {
   background-image: url('../assets/images/rating.png');
   background-repeat: no-repeat;
-  background-size: 30px;
-  background-position: center;
+  background-size: 23px;
+  background-position: left;
+  padding-left: 20px;
+  background-position-x: 8%;
   &.active {
     background-image: url('../assets/images/rating.png');
   }
@@ -158,8 +198,10 @@
 .users {
   background-image: url('../assets/images/add-user.png');
   background-repeat: no-repeat;
-  background-size: 30px;
-  background-position: center;
+  background-size: 23px;
+  background-position: left;
+  padding-left: 20px;
+  background-position-x: 8%;
   &.active {
     background-image: url('../assets/images/add-user-active.png');
   }
@@ -172,7 +214,9 @@
   background-image: url('../assets/images/handshake.png');
   background-repeat: no-repeat;
   background-size: 30px;
-  background-position: center;
+  background-position: left;
+  padding-left: 20px;
+  background-position-x: 8%;
   &.active {
     background-image: url('../assets/images/handshake.png');
   }
@@ -185,7 +229,8 @@
   background-image: url('../assets/images/meals.svg');
   background-repeat: no-repeat;
   background-size: 40px;
-  background-position: center;
+  background-position: left;
+  padding-left: 20px;
   &.active {
     background-image: url('../assets/images/active-meals.svg');
   }
@@ -197,8 +242,10 @@
 .menus {
   background-image: url('../assets/images/menus.svg');
   background-repeat: no-repeat;
-  background-size: 33px;
-  background-position: center;
+  background-size: 19px;
+  background-position: left;
+  background-position-x: 8%;
+  padding-left: 20px;
   &.active {
     background-image: url('../assets/images/active-menus.svg');
   }

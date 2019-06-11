@@ -160,7 +160,7 @@ export class Orders extends Component {
     const { selectedMenu, menuListId } = this.state;
     
     return (
-      <div className="wrapper">
+      <div>
         {isLoading ? (
           <Loader />
         ) : (

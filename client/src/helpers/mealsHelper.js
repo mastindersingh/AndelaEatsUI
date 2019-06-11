@@ -10,24 +10,17 @@ export const canOrderMeal = (day) => {
 
   if (dueTime < timeLeft && timeLeft < 184) {
     return true;
-  } 
+  }
   return false;
 };
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
-export const validateDate = (menu, endDate) => (
-  new Date(menu.date) <= endDate
-  && new Date(menu.date) >= today
-);
+export const validateDate = (menu, endDate) => new Date(menu.date) <= endDate && new Date(menu.date) >= today;
 
 export const validateAddMealImage = (image) => {
-  const exts = [
-    'image/jpg',
-    'image/jpeg',
-    'image/png'
-  ];
+  const exts = ['image/jpg', 'image/jpeg', 'image/png'];
 
   if (!(image instanceof File) || !exts.includes(image.type)) {
     return 'Image should be in JPEG or PNG format';
@@ -41,7 +34,9 @@ const validateInputFields = (mealDetails) => {
 
   Object.entries(mealDetails).forEach(([key, value]) => {
     if (key === 'image' || key === 'type') return [];
-    if (!value.toString().trim().length) { errors.push(key); }
+    if (!value.toString().trim().length) {
+      errors.push(key);
+    }
   });
 
   return errors;
@@ -49,41 +44,38 @@ const validateInputFields = (mealDetails) => {
 
 export const generateFormData = (mealDetails, types) => {
   const {
-    name, desc, type, image: { file, dataurl }
+    name,
+    type,
+    image: { file, dataurl },
   } = mealDetails;
-  
+
   const errors = [
     ...validateInputFields(mealDetails),
     ...(!dataurl ? ['image'] : []),
-    ...(!lowerCaseArray(types).includes(type) ? ['type'] : [])
+    ...(!lowerCaseArray(types).includes(type) ? ['type'] : []),
   ];
 
-  return errors.length ? errors
+  return errors.length
+    ? errors
     : {
       mealName: title(name),
       mealType: type.toLowerCase(),
-      description: title(desc),
       file,
-      dataurl
+      dataurl,
     };
 };
 
-export const endDate = () => new Date(today.getFullYear(), 
-  today.getMonth(), today.getDate() + 10);
+export const endDate = () => new Date(today.getFullYear(), today.getMonth(), today.getDate() + 10);
 
-export const findUpdatedIndex = (prevState, updatedId) => (
-  prevState.findIndex(item => item.id === updatedId)
-);
+export const findUpdatedIndex = (prevState, updatedId) => prevState.findIndex((item) => item.id === updatedId);
 
-export const setMealImage = (image) => (
-  !image ? defMealImage : image
-);
+export const setMealImage = (image) => (!image ? defMealImage : image);
 
 export const mealImageUpload = (file, dataurl, callback) => {
   if (file instanceof File) {
     return upload(dataurl)
-      .then(payload => callback(null, payload.secure_url))
-      .catch(error => callback(error, null));
+      .then((payload) => callback(null, payload.secure_url))
+      .catch((error) => callback(error, null));
   }
 
   return callback(null, dataurl);

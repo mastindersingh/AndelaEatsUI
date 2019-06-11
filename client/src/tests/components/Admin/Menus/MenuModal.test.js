@@ -4,7 +4,6 @@ import { mount } from 'enzyme';
 import MenuModal from '../../../../components/Admin/Menus/MenuModal';
 import { mockMenuItem, menu } from '../../../__mocks__/mockMenuItems';
 import vendorEngagements from '../../../__mocks__/mockEngagements';
-import Select from 'react-select';
 
 describe('MenuModal Component', () => {
   const setup = () => {

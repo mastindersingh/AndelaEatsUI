@@ -30,6 +30,7 @@ const DeleteModal = ({
               type="button"
               disabled={isDeleting}
               onClick={() => closeModal(null)}
+              name="close-btn"
             >
               Cancel
             </button>

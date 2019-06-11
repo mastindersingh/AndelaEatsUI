@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactStars from 'react-stars';
 import PropTypes from 'prop-types';
-import dateFormatter from '../../../helpers/dateFormatter';
-
 
 /**
  * @function VendorCard

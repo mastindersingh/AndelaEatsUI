@@ -9,7 +9,11 @@ import {
   updateOrderSuccess,
   getOrderByDate,
   userID,
-  collectOrder
+  collectOrder,
+  createRatingLoading,
+  createRatingSuccess,
+  createRatingFailure,
+  createRating
 } from '../../actions/ordersAction';
 
 import {
@@ -26,7 +30,10 @@ import {
   MENU_IS_LOADING,
   COLLECT_ORDER_LOADING,
   COLLECT_ORDER_SUCCESS,
-  COLLECT_ORDER_FAILURE
+  COLLECT_ORDER_FAILURE,
+  CREATE_MENU_RATING_LOADING,
+  CREATE_MENU_RATING_SUCCESS,
+  CREATE_MENU_RATING_FAILURE
 } from '../../actions/actionTypes';
 
 const id = '123';
@@ -42,7 +49,7 @@ describe('Order actions', () => {
 
   const startDate = '2018-11-21';
   const endDate = '2018-12-02';
-  const orderDetails = {}
+  const orderDetails = {};
 
   it('fetch past orders success', async (done) => {
     moxios.stubRequest(`/orders/user/${userID}/${startDate}/${endDate}`, {
@@ -60,7 +67,7 @@ describe('Order actions', () => {
       },
       {
         type: FETCH_ORDERS_SUCCESS,
-        orders: { orders:[], currentPage: 1 }
+        orders: { orders: [], currentPage: 1 }
       }, {
         type: FETCH_ORDERS_LOADING,
         isLoading: false
@@ -379,5 +386,86 @@ describe('Order actions', () => {
         expect(store.getActions()).toEqual(expectedActions);
       });
     done();
+  });
+
+  it('should create a rating successfully', async (done) => {
+    moxios.stubRequest(`/ratings/order/`, {
+      status: 200,
+      response: {
+        payload: {
+          ratings: []
+        }
+      }
+    });
+    const expectedActions = [
+      {
+        type: CREATE_MENU_RATING_LOADING,
+        payload: true
+      },
+      {
+        type: CREATE_MENU_RATING_SUCCESS,
+      }, {
+        type: CREATE_MENU_RATING_LOADING,
+        payload: false
+      }];
+    const ratingDetails = {
+      channel: "web",
+      comment: 'textArea',
+      rating: 5,
+      orderId: 1,
+      engagementId: 12,
+      mainMealId: 13,
+      serviceDate: '20 Nov 2018'
+    };
+    const store = mockStore({});
+    await store.dispatch(createRating(ratingDetails))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    done();
+  });
+
+   it('should fail to rate incase of an error', async (done) => {
+    moxios.stubRequest(`/ratings/order/`, {
+      status: 400,
+      response: {
+        payload: {
+          error: 'an error has occurred'
+        }
+      }
+    });
+    const ratingDetails = {
+      channel: "web",
+      comment: 'textArea',
+      rating: 5,
+      orderId: 1,
+      engagementId: 12,
+      mainMealId: 13,
+      serviceDate: '20 Nov 2018'
+    };
+    const store = mockStore({});
+    await store.dispatch(createRating(ratingDetails))
+      .then(() => {
+        expect(store.getActions()[1].type).toEqual(CREATE_MENU_RATING_FAILURE);
+      });
+    done();
+  });
+
+   it('should call the createRatingLoading action', () => {
+    const payload = { payload: 'failed to fetch' };
+    const expectedAction = { type: CREATE_MENU_RATING_LOADING, payload };
+    expect(createRatingLoading(payload)).toEqual({ ...expectedAction });
+  });
+
+   it('should create a rating successfully', () => {
+    const payload = { payload: '5 stars' };
+    const expectedAction = { type: CREATE_MENU_RATING_SUCCESS, payload };
+    expect(createRatingSuccess(payload)).toEqual({ ...expectedAction });
+  });
+
+   it('should fail to create a rating incase of an error', () => {
+    const payload = { payload: 'An error' };
+    const expectedAction = { type: CREATE_MENU_RATING_FAILURE, payload };
+    expect(createRatingFailure(payload)).toEqual({ ...expectedAction });
   });
 });

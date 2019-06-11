@@ -57,7 +57,7 @@ describe('Admin Orders Action', () => {
 
     it('fetch orders failure', async (done) => {
       moxios.stubRequest(`/orders/?page=${currentPage}&per_page=15`, {
-        status: 401,
+        status: 400,
         response: {
           payload: {
             orders: []
@@ -72,7 +72,7 @@ describe('Admin Orders Action', () => {
         },
         {
           type: FETCH_MEAL_ORDERS_FAILURE,
-          payload: new Error('Request failed with status code 401'),
+          payload: new Error('Request failed with status code 400'),
         },
         {
           type: FETCH_MEAL_ORDERS_LOADING,
@@ -88,7 +88,5 @@ describe('Admin Orders Action', () => {
         });
       done();
     });
-
-
-  })
-})
+  });
+});

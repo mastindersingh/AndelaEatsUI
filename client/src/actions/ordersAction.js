@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
+import axios from 'axios';
 import { toastSuccess, toastError } from '../helpers/toast';
 
-import axios from 'axios';
 import {
   FETCH_ORDERS_LOADING,
   FETCH_ORDERS_SUCCESS,
@@ -97,7 +97,9 @@ export const fetchOrders = (
 };
 
 export const filterOrders = order => dispatch => {
-  const { searchParam, startDate, endDate, page = 1 } = order;
+  const {
+    searchParam, startDate, endDate, page = 1 
+  } = order;
 
   dispatch(setOrdersLoading(true));
   return axios
@@ -202,7 +204,7 @@ export const createRating = ratingDetails => dispatch => {
   return axios(options)
     .then((response) => {
       const { msg: message, payload: { rating } } = response.data;
-      dispatch(createRatingSuccess(rating ));
+      dispatch(createRatingSuccess(rating));
       dispatch(createRatingLoading(false));
     })
     .catch(error => {

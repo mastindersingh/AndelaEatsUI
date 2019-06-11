@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "******************************installing hooks***********************************************"
-cd ./.git/
+cd ../.git/
 rm -rf hooks
-ln -s ../hooks
+ln -s ../client/hooks
 echo "***************************installation successful*******************************************"

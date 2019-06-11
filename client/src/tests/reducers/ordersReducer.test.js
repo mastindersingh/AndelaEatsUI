@@ -8,12 +8,15 @@ import {
   DELETE_ORDER_SUCCESS,
   EDIT_ORDER_SUCCESS,
   UPDATE_ORDER_SUCCESS,
-  GET_ORDER_SUCCESS
+  GET_ORDER_SUCCESS,
+  DELETE_ORDER_FAILURE,
+  CREATE_MENU_RATING_SUCCESS,
+  DELETE_ORDER_LOADING
 } from "../../actions/actionTypes";
 
-/* 
-global jest 
-expect 
+/*
+global jest
+expect
 */
 describe('Past Orders Reducer', () => {
   describe('FETCH_ORDERS_* action group', () => {
@@ -63,13 +66,14 @@ describe('Past Orders Reducer', () => {
     it('_SUCCESS :: should update successfully', () => {
       const action = {
         type: UPDATE_ORDER_SUCCESS,
-        id: 123
+        payload: { id: 123 }
       };
-      const newState = ordersReducer(orders, action);
+      const newState = ordersReducer({
+        ...orders, orders: [{ id: "123" }]
+      }, action);
       expect(newState.currentPage).toEqual(1);
     });
   });
-
 
   describe('DELETE', () => {
     it('_SUCCESS :: should delete successfully', () => {
@@ -77,12 +81,27 @@ describe('Past Orders Reducer', () => {
         type: DELETE_ORDER_SUCCESS,
         id: 123
       };
-      const newState = ordersReducer({
-        ...orders, orders: []
-      }, action);
+      const newState = ordersReducer({ ...orders, orders: [{ id: 12 }] }, action);
       expect(newState.currentPage).toEqual(1);
       expect(newState.totalRecords).toEqual(-1);
-      expect(newState.orders).toEqual([]);
+      expect(newState.orders[0].id).toEqual(12);
+    });
+
+    it('DELETE_ORDER_FAILURE :: should return initial state', () => {
+      const action = {
+        type: DELETE_ORDER_FAILURE,
+        payload: "an error occured"
+      };
+      const newState = ordersReducer(orders, action);
+      expect(newState).toEqual(orders);
+    });
+    it('DELETE_ORDER_LOADING :: should change isDeleting state', () => {
+      const action = {
+        type: DELETE_ORDER_LOADING,
+        payload: true
+      };
+      const newState = ordersReducer(orders, action);
+      expect(newState.isDeleting).toEqual(action.payload);
     });
   });
 
@@ -122,5 +141,21 @@ describe('Past Orders Reducer', () => {
     };
     const newState = ordersReducer(undefined, action);
     expect(newState).toEqual(orders);
+  });
+
+  describe('CREATE_MENU_RATING_SUCCESS action', () => {
+    it('should create rating successfully', () => {
+      const action = {
+        type: CREATE_MENU_RATING_SUCCESS,
+        payload: {
+          typeId: 201,
+          rating: 2
+
+        }
+      };
+      const newState = ordersReducer({ ...orders, orders: [{ id: 201 }] }, action);
+
+      expect(newState.orders[0].user_rating).toEqual(action.payload.rating);
+    });
   });
 });

@@ -9,6 +9,7 @@ const formatMealItems = (mealItems = []) => {
     } else if (mealItem.mealType === 'side') {
       Output.side.push({ value: mealItem.id, label: mealItem.name });
     }
+    return null;
   });
 
   return Output;
@@ -16,10 +17,7 @@ const formatMealItems = (mealItems = []) => {
 
 export const getIds = (mealItem) => {
   const ids = [];
-  mealItem.map(id => {
-    ids.push(id.value);
-  });
-
+  mealItem.map(id => ids.push(id.value));
   return ids;
 };
 
@@ -29,6 +27,7 @@ export const formatDate = (date) => (
 
 export const isStartgreaterThanEnd = (startDate, endDate) => {
   if (startDate.diff(endDate, 'days') > -1) {
+    // eslint-disable-next-line max-len
     return "Start date must be greater than end date. Use a minimum range of 2 days.";
   }
 };

@@ -8,7 +8,7 @@ import {
   FETCH_VENDOR_PERFORMANCE_DATES, FETCH_VENDOR_NAME, FETCH_VENDOR_RATINGS,
 } from "../actions/actionTypes";
 
-const dashBoardReducer  = (state=initialVendorsPerformance, action)=>{
+const dashBoardReducer = (state = initialVendorsPerformance, action) => {
   switch (action.type) {
     case VENDOR_PERFORMANCE_LOADING:
       return {

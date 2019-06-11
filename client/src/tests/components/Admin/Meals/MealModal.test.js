@@ -2,7 +2,7 @@
 /* eslint-disable import/no-named-as-default */
 
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { BrowserRouter } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
@@ -18,21 +18,21 @@ const setup = (edit) => {
     edit,
     toggleAddModal: jest.fn(),
     editMealItem: jest.fn(),
-    mealDetails: { ...mealItems[0] }
+    mealDetails: { ...mealItems[0] },
   };
 
   const store = mockStore({
     mealItems: {
       isLoading: false,
       meals: [],
-    
+
       mealModal: {
         show: false,
         addBtnDisabled: false,
         errors: ['name'],
-        isLoading: false
-      }
-    }
+        isLoading: false,
+      },
+    },
   });
 
   const wrapper = mount(
@@ -47,18 +47,14 @@ const setup = (edit) => {
 let wrapper = setup(false);
 
 describe('MealModal Component', () => {
-  const imageFile = new File(
-    [''], 'filename.jpg',
-    { type: 'image/jpeg' }
-  );
+  const imageFile = new File([''], 'filename.jpg', { type: 'image/jpeg' });
 
   const mealObject = {
     name: 'Ugeli',
-    desc: 'Nice Meal',
     type: 'Side',
     image: {
-      file: imageFile
-    }
+      file: imageFile,
+    },
   };
 
   const mealModalWrap = wrapper.find('MealModal');
@@ -71,31 +67,23 @@ describe('MealModal Component', () => {
 
   it('should call the onChange method', () => {
     const name = 'Ugeli';
-    const desc = 'Meal Description';
 
     const event = {
       target: {
         name: 'name',
-        value: name
-      }
+        value: name,
+      },
     };
-    
+
     wrapper.find('[name="name"]').simulate('change', event);
     expect(mealModal.state.name).toBe(name);
-
-    event.target.name = 'desc';
-    event.target.value = desc;    
-    wrapper.find('[name="desc"]').simulate('change', event);
-    expect(mealModal.state.desc).toBe(desc);
   });
 
   it('call previewImage with invalid image', () => {
     mealModal.imageInput = {
       current: {
-        files: [
-          new File([''], 'filename.jpg', { type: "image/gif" })
-        ]
-      }
+        files: [new File([''], 'filename.jpg', { type: 'image/gif' })],
+      },
     };
 
     mealModal.previewImage();
@@ -105,7 +93,7 @@ describe('MealModal Component', () => {
   it('should call previewImage with valid image', () => {
     global.FileReader = class MockFileReader {
       constructor() {
-        this.result = "data:url/to/image";
+        this.result = 'data:url/to/image';
 
         this.readAsDataURL = () => {
           this.onload();
@@ -114,8 +102,8 @@ describe('MealModal Component', () => {
     };
     mealModal.imageInput = {
       current: {
-        files: [imageFile]
-      }
+        files: [imageFile],
+      },
     };
 
     mealModal.previewImage();
@@ -125,8 +113,8 @@ describe('MealModal Component', () => {
   it('should call openFileDialog', () => {
     mealModal.imageInput = {
       current: {
-        click: jest.fn()
-      }
+        click: jest.fn(),
+      },
     };
 
     const spy = jest.spyOn(mealModal.imageInput.current, 'click');
@@ -153,7 +141,6 @@ describe('MealModal Component', () => {
     mealModal.closeModal();
     expect(mealModal.state.name).toBe('');
     expect(mealModal.state.type).toBe('');
-    expect(mealModal.state.desc).toBe('');
   });
 
   it('should derive state from props if edit is true', () => {

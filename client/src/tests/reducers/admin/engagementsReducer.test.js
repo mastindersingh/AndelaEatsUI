@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import { 
-  FETCH_VENDOR_ENGAGEMENT_LOADING, 
-  FETCH_VENDOR_ENGAGEMENT_SUCCESS, 
+import {
+  FETCH_VENDOR_ENGAGEMENT_LOADING,
+  FETCH_VENDOR_ENGAGEMENT_SUCCESS,
   FETCH_VENDOR_ENGAGEMENT_FAILURE,
   CREATE_VENDOR_ENGAGEMENT_LOADING,
   CREATE_VENDOR_ENGAGEMENT_SUCCESS,
@@ -11,7 +11,9 @@ import {
   DELETE_VENDOR_ENGAGEMENT_FAILURE,
   EDIT_VENDOR_ENGAGEMENT_LOADING,
   EDIT_VENDOR_ENGAGEMENT_SUCCESS,
-  EDIT_VENDOR_ENGAGEMENT_FAILURE
+  EDIT_VENDOR_ENGAGEMENT_FAILURE,
+  FETCH_VENDORS_SUCCESS,
+  FETCH_UPCOMING_VENDOR_ENGAGEMENTS_SUCCESS
 } from '../../../actions/actionTypes';
 
 import { initialEngagements } from '../../../reducers/initialState';
@@ -34,7 +36,7 @@ describe('Engagement Reducer', () => {
       const newState = engagementReducer(initialEngagements, action);
       expect(newState.isLoading).toEqual(true);
     });
-    
+
     describe('FETCH_ENGAGEMENT_SUCCESS', () => {
       it('should update the allEngagements state in the store', () => {
         const action = {
@@ -91,6 +93,26 @@ describe('Engagement Reducer', () => {
 
       const newState = engagementReducer(initialEngagements, action);
       expect(newState.engagements).toEqual([newEngagement]);
+    });
+    
+    it('FETCH_VENDORS_SUCCESS', () => {
+      const action = {
+        type: FETCH_VENDORS_SUCCESS,
+        payload: [],
+      };
+
+      const newState = engagementReducer(initialEngagements, action);
+      expect(newState.vendors).toEqual([]);
+    });
+
+    it('FETCH_UPCOMING_VENDOR_ENGAGEMENTS_SUCCESS', () => {
+      const action = {
+        type: FETCH_UPCOMING_VENDOR_ENGAGEMENTS_SUCCESS,
+        payload: {},
+      };
+
+      const newState = engagementReducer(initialEngagements, action);
+      expect(newState.upComingEngagements).toEqual({});
     });
   });
 
@@ -159,7 +181,7 @@ describe('Engagement Reducer', () => {
       const newState = engagementReducer(initialEngagements, action);
       expect(newState.isUpdating).toEqual(true);
     });
-    
+
     it('should set isUpdating state to false when request is resolved', () => {
       const action = {
         type: EDIT_VENDOR_ENGAGEMENT_LOADING,
