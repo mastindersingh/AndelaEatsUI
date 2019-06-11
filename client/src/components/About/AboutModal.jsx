@@ -173,6 +173,7 @@ class AboutModal extends Component {
   }
 }
 
+// setting the types
 AboutModal.propTypes = {
   about: PropTypes.shape({
     id: PropTypes.number,
