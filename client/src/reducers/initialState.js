@@ -133,6 +133,7 @@ export const initialUser = {
   all_permisions: []
 };
 
+
 export const initialMealRatings = {
   isLoading: false,
   ratingList: [],
@@ -150,4 +151,8 @@ export const initialAbout = {
   isLoading: false,
   isUpdating: false,
   about: {},
+};
+export const initialTappedUsers = {
+  data: [],
+  error: '',
 };
