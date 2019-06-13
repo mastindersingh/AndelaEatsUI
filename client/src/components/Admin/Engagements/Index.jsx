@@ -258,9 +258,6 @@ export class Engagements extends Component {
     }));
 
     const {
-      startDate,
-      endDate,
-      selectedOption,
       displayModal,
       displayDeleteModal,
       modalContent,
@@ -270,7 +267,7 @@ export class Engagements extends Component {
 
     return (
       <Fragment>
-        {isLoading && <Loader />}
+        {isLoading  && <Loader />}
         <div className={`${isLoading && 'blurred'} table-wrapper`}>
           <div className="vendors-header">
             <h3 className="vendor-menu">Vendors Engagement</h3>
@@ -308,6 +305,7 @@ export class Engagements extends Component {
           modalTitle={modalTitle}
           displayModal={displayModal}
           children={this.renderModalInputs(vendorsResult)}
+          
         />
 
         <DeleteModal

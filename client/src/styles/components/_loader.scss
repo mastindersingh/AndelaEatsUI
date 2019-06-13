@@ -2,7 +2,7 @@
   position: absolute;
   width: 50px;
   height: 50px;
-  z-index: 4;
+  z-index: 901;
   top: 50%;
   left: 50%;
 
@@ -15,6 +15,8 @@
     border-left-color: transparent;
     border-right-color: transparent;
     animation: spin 950ms infinite linear;
+    position: fixed;
+    top: 50%;
   }
 }
 

@@ -27,9 +27,9 @@ const engagementsReducer = (state = initialEngagements, action) => {
     case FETCH_VENDOR_ENGAGEMENT_LOADING:
       return { ...state, isLoading: action.payload };
     case FETCH_VENDOR_ENGAGEMENT_SUCCESS:
-      return { ...state, engagements: action.payload };
+      return { ...state, engagements: action.payload, };
     case FETCH_VENDORS_SUCCESS:
-      return { ...state, vendors: action.payload };
+      return { ...state, vendors: action.payload, };
     case FETCH_UPCOMING_VENDOR_ENGAGEMENTS_SUCCESS:
       return {
         ...state,
@@ -49,7 +49,7 @@ const engagementsReducer = (state = initialEngagements, action) => {
         engagements: filter(state.engagements, action.payload)
       };
     case EDIT_VENDOR_ENGAGEMENT_LOADING:
-      return { ...state, isUpdating: action.payload };
+      return { ...state, isLoading: action.payload, isUpdating: action.payload };
     case EDIT_VENDOR_ENGAGEMENT_SUCCESS:
       index = findIndex(state.engagements, action.payload.id);
       
@@ -59,7 +59,8 @@ const engagementsReducer = (state = initialEngagements, action) => {
           ...state.engagements.slice(0, index),
           action.payload, 
           ...state.engagements.slice(index + 1)
-        ]
+        ],
+        isLoading: action.payload,
       };
     case FETCH_VENDOR_ENGAGEMENT_FAILURE:
     case FETCH_VENDORS_FAILURE:

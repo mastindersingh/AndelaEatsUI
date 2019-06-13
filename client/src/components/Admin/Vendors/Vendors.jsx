@@ -320,8 +320,7 @@ export class Vendors extends Component {
         </div>
         <ToastContainer />
         <Modal
-          isCreating={isCreating}
-          isUpdating={isUpdating}
+         loading={isCreating || isUpdating }
           children={this.renderVendorInputs()}
           closeModal={this.closeModal}
           displayModal={displayModal}

@@ -14,7 +14,8 @@ describe('renders UserRole', () => {
     getAllUserRoles: jest.fn().mockImplementation(() => Promise.resolve()),
     getRolePermisions: jest.fn().mockImplementation(() => Promise.resolve()),
     getAllPermisions: jest.fn().mockImplementation(() => Promise.resolve()),
-    roles: []
+    roles: [],
+    fetchUserRoles: jest.fn(() => Promise.resolve()),
   };
 
   const state = {

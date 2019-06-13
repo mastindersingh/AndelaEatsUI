@@ -160,59 +160,10 @@
   }
 }
 
-
 /* Delete Vendor */
 #delete-vendor-modal {
   .modal-content{
     width: 95%;
     max-width: px-to-rem(420px);
-  }
-}
-
-/* Add Vendor */
-#add-vendor-modal {
-  .modal-header {
-    .close-icon {
-      margin-top: 5px;
-    }
-  }
-
-  .modal-content{
-    width: 95%;
-    max-width: px-to-rem(420px);
-    top: 14%;
-    
-    .form-field-set {
-      display: block;
-      margin-bottom: 20px;
-      
-      label {
-        @include field-label();
-        font-size: 16px;
-        color: #333E44;
-  
-        input {
-          @include field-input();
-          margin-top: 2px;
-        }
-      }
-    }
-
-    .form-error {
-      color: red;
-      font-size: 12px;
-    }
-  }
-
-  @media only screen and (max-width: 640px) {
-    .modal-content {
-      width: 60%;
-    }
-  }
-  
-  @media only screen and (min-width: 641px) and (max-width: 1007px) {
-    .modal-content {
-      width: 50%;
-    }
   }
 }

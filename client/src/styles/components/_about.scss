@@ -141,15 +141,8 @@
   .modal-content{
     width: 95%;
     max-width: px-to-rem(800px);
-    top: 14%;
     margin-bottom: 50px;
     font-family: $font-family-opensans;
-
-    .modal-header {
-      .close-icon {
-        margin-top: 4px;
-      }
-    }
 
     main {
       div:nth-child(1) {
@@ -159,7 +152,7 @@
         a { text-decoration: underline;}
       }
 
-      .err-invalid {
+      .form-error {
         display: inline-block;
         font-size: 12px;
         color: $color-red;
@@ -231,6 +224,7 @@
           select {
             @include field-select();
             margin-top: 8px;
+            border: 1px solid red;
           }
         }
       }

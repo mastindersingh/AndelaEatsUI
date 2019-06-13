@@ -26,11 +26,11 @@ const faqsReducer = (state = initialFaqs, action) => {
     case FETCH_FAQS_SUCCESS:
       return { ...state, faqs: action.payload };
     case CREATE_FAQ_LOADING:
-      return { ...state, isCreating: action.payload };
+      return { ...state, isLoading: action.payload };
     case CREATE_FAQ_SUCCESS:
       return { ...state, faqs: state.faqs.concat(action.payload) };
     case DELETE_FAQ_LOADING:
-      return { ...state, isDeleting: action.payload };
+      return { ...state, isLoading: action.payload };
     case DELETE_FAQ_SUCCESS:
       return {
         ...state,
@@ -44,7 +44,7 @@ const faqsReducer = (state = initialFaqs, action) => {
         )
       };
     case UPDATE_FAQ_LOADING:
-      return { ...state, isUpdating: action.payload };
+      return { ...state, isLoading: action.payload };
     case FETCH_FAQS_FAILURE:
     case CREATE_FAQ_FAILURE:
     case DELETE_FAQ_FAILURE:
