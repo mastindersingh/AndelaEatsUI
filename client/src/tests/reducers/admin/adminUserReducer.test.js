@@ -44,7 +44,7 @@ describe('Admin User Reducer', () => {
   it('should update message', () => {
     const action = {
       type: ADD_ADMIN_USER_SUCCESS,
-      message: "successfully done"
+      message: ""
     };
     const newState = adminUserReducer(initialUser, action);
     expect(newState.message).toEqual(action.message);

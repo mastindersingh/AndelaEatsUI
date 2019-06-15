@@ -31,7 +31,7 @@ const adminUserReducer = (state = initialUser, action) => {
     case ADD_ADMIN_USER_SUCCESS:
       return {
         ...state,
-        message: action.message
+        adminUsers: [action.payload, ...state.adminUsers],
       };
     case ADD_ADMIN_USER_FAILURE:
       return {
