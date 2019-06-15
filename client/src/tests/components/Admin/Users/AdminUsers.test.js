@@ -8,7 +8,7 @@ const props = {
   adminUsers: [{ name: 'miriam', email: "mim@gmail.com" }],
   message: "",
   userEmail: "",
-  createAdminUser: jest.fn(),
+  createAdminUser: jest.fn().mockImplementation(() => Promise.resolve()),
   getAllAdminUsers: jest.fn(),
   loading: false
 };
@@ -41,7 +41,6 @@ describe('Users Component', () => {
           },
         }
       },
-      preventDefault: jest.fn(),
     };
 
     wrapper.update();
@@ -51,6 +50,12 @@ describe('Users Component', () => {
 
     expect(props.createAdminUser).toBeCalled();
   });
+
+  it('should change email address', () => {
+    wrapper.instance().onChange({ target: { name: 'emailAdress', value: 'welike.amos@gmail.com' } });
+    expect(wrapper.instance().state.emailAdress).toEqual('welike.amos@gmail.com');
+  });
+
   describe('mapStateToProps', () => {
     it('should map Users to state', () => {
       const initialState = {

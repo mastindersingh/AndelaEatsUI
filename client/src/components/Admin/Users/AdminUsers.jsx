@@ -21,6 +21,10 @@ import EmptyContent from "../../common/EmptyContent";
  * @extends {Component}
  */
 export class Users extends Component {
+  state = {
+    emailAddress: '',
+  };
+
   componentDidMount() {
     this.props.getAllAdminUsers();
   }
@@ -33,22 +37,40 @@ export class Users extends Component {
    * @memberOf Users
    */
   handleSubmit = (event) => {
-    event.preventDefault();
     const userData = {
-      emailAddress: event.target.elements.userEmail.value,
+      emailAddress: this.state,
       roleId: 1
     };
-    this.props.createAdminUser(userData);
+    this.props.createAdminUser(userData).then(() => { this.setState({ emailAddress: '', }); });
   }
+
+  /**
+   *
+   * @param {event} event
+   *
+   * @returns {void}
+   * @memberOf Users
+   */
+  onChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
 
   render() {
     const { adminUsers, loading } = this.props;
+    const { emailAddress } = this.state;
     return (
       <div>
         <span className="heading-style">Assign Admin role to a user</span>
         <form className="parent-div" onSubmit={this.handleSubmit}>
           <label htmlFor="userEmail">Email</label>
-          <input className="user-form" type="text" id="userEmail" name="userEmail" />
+          <input
+            id="userEmail"
+            className="user-form"
+            name="emailAddress"
+            onChange={this.onChange}
+            value={emailAddress}
+          />
           <button type="submit" className="assign-role button-right">
             Assign Admin Role
           </button>
