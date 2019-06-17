@@ -77,15 +77,13 @@ export const fetchVendorsFailure = error => ({
   payload: error
 });
 
-export const fetchVendors = () => dispatch => {
-  return axios.get(`/vendors/`)
-    .then((res) => {
-      dispatch(fetchVendorsSuccess(res.data.payload.vendors));
-    })
-    .catch((error) => {
-      dispatch(fetchVendorsFailure(error));
-    });
-};
+export const fetchVendors = () => dispatch => axios.get(`/vendors/`)
+  .then((res) => {
+    dispatch(fetchVendorsSuccess(res.data.payload.vendors));
+  })
+  .catch((error) => {
+    dispatch(fetchVendorsFailure(error));
+  });
 
 export const createEngagementsLoading = isLoading => ({
   type: CREATE_VENDOR_ENGAGEMENT_LOADING,
@@ -116,7 +114,7 @@ export const createEngagement = engagementDetails => dispatch => {
   return axios(options)
     .then(response => {
       const { msg: message, payload: { engagement } } = response.data;
-      toastSuccess(message);
+      toastSuccess('New engagement added successfully');
       dispatch(createEngagementsSuccess(engagement));
       dispatch(createEngagementsLoading(false));
     })
@@ -149,7 +147,7 @@ export const deleteEngagement = (engagementId) => dispatch => {
 
   return axios.delete(`/engagements/${engagementId}`)
     .then((res) => {
-      toastSuccess(res.data.msg);
+      toastSuccess('Engagement deleted successfully');
       dispatch(deleteEngagementsSuccess(engagementId));
       dispatch(deleteEngagementsLoading(false));
     })
@@ -189,8 +187,8 @@ export const editEngagement = (engagementId, engagementDetails) => dispatch => {
 
   return axios(options)
     .then(response => {
-      const { msg: message, payload: { engagement } } = response.data;
-      toastSuccess(message);
+      const { payload: { engagement } } = response.data;
+      toastSuccess('Engagement edited successfully');
       dispatch(editEngagementsSuccess(engagement));
       dispatch(editEngagementsLoading(false));
     })
