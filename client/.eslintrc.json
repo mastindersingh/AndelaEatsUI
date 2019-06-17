@@ -31,7 +31,7 @@
     "rules": {
       "max-len": [1, 80, 2],
       "quotes": 0,
-      "no-console": 1,
+      "no-console": 2,
       "no-empty": 0,
       "no-debugger": 1,
       "no-var": 1,

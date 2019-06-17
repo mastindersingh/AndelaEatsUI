@@ -72,8 +72,7 @@ export const addMealItemSuccess = (mealItem) => ({
   payload: mealItem,
 });
 
-export const showMealModal = (show, edit) => (dispatch) =>
-  dispatch(showMealModalAction(show, edit));
+export const showMealModal = (show, edit) => (dispatch) => dispatch(showMealModalAction(show, edit));
 
 export const addMealItem = (formData) => (dispatch) => {
   dispatch(setAddMealLoading(true));
@@ -82,10 +81,10 @@ export const addMealItem = (formData) => (dispatch) => {
     if (error) throw error;
     else {
       const { file, dataurl, ...rest } = formData;
-      const reqdata = { ...rest, image: url };
+      const reqData = { ...rest, image: url };
 
       return axios
-        .post(`/meal-items/`, reqdata)
+        .post(`/meal-items/`, reqData)
         .then((response) => {
           const { mealItem } = response.data.payload;
           toastSuccess('Meal successfully created');
@@ -158,9 +157,9 @@ export const editMealItem = (mealItemId, formData) => (dispatch) => {
       throw error;
     } else {
       const { file, dataurl, ...rest } = formData;
-      const reqdata = { ...rest, image: url };
+      const reqData = { ...rest, image: url };
       return axios
-        .patch(`/meal-items/${mealItemId}`, reqdata)
+        .patch(`/meal-items/${mealItemId}`, reqData)
         .then((response) => {
           const { mealItem } = response.data.payload;
           toastSuccess('Meal item updated successfully');

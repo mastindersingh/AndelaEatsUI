@@ -119,7 +119,7 @@ export const deleteOrder = id => dispatch => {
   return axios
     .delete(`/orders/${id}`)
     .then(response => {
-      toast.success(response.data.msg);
+      toast.success('Order deleted successfully');
       dispatch(deleteOrdersSuccess(id));
       dispatch(deleteOrdersLoading(false));
     })
@@ -151,7 +151,7 @@ export const updateOrder = (data, id) => dispatch => {
     .put(`/orders/${id}`, data)
     .then(response => {
       dispatch(updateOrderSuccess(response.data.payload.order));
-      toast.success(response.data.msg);
+      toast.success('Order updated successfully');
       dispatch(setOrdersLoading(false));
       dispatch(setMenuLoading(false));
     })
@@ -203,7 +203,7 @@ export const createRating = ratingDetails => dispatch => {
 
   return axios(options)
     .then((response) => {
-      const { msg: message, payload: { rating } } = response.data;
+      const { payload: { rating } } = response.data;
       dispatch(createRatingSuccess(rating));
       dispatch(createRatingLoading(false));
     })
@@ -244,7 +244,7 @@ export const collectOrder = orderDetails => dispatch => {
         msg: message,
         payload: { order }
       } = response.data;
-      toastSuccess(message);
+      toastSuccess('Order collected successfully');
       dispatch(collectOrderSuccess(order));
       dispatch(collectOrderLoading(false));
     })
