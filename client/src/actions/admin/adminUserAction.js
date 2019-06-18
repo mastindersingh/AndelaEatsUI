@@ -107,7 +107,7 @@ export const deleteUser = userId => dispatch => {
   dispatch(deleteUserLoading());
   return axios.delete(`/users/${userId}/`).then(response => {
     dispatch(deleteUserSuccess(userId));
-    toastSuccess(response.data.payload.msg);
+    toastSuccess('User deleted successfully');
   })
     .catch(err => dispatch(deleteUserFailure()));
 };
@@ -129,7 +129,7 @@ export const updateUser = (user) => dispatch => {
   dispatch(updateUserLoading());
   return axios.put(`/users/${user.id}`, user).then(response => {
     dispatch(updateUsersuccess(response.data.payload.user));
-    toastSuccess('User Updated');
+    toastSuccess('User updated successfully');
   }).catch(err => {
     dispatch(updateUserFailure(err.response.data.msg));
   });
@@ -172,7 +172,7 @@ export const createUser = (user) => dispatch => {
   return axios.post('/users/', user)
     .then(response => {
       dispatch(createUserSuccess(response.data.payload.user));
-      toast.success(response.data.msg);
+      toast.success('User created successfully');
     })
     .catch(() => dispatch(createUserFailure()));
 };
@@ -267,7 +267,7 @@ export const getAllUserRoles = () => dispatch => {
 export const createUserRole = (roleData) => dispatch => axios.post(`/roles/`, roleData)
   .then((response) => {
     const { payload: { role } } = response.data;
-    toastSuccess("User role has been successfully added ");
+    toastSuccess("User role added successfully");
     dispatch(addUserRole(ADD_USER_ROLE_SUCCESS, role));
   })
   .catch((error) => {
@@ -278,7 +278,7 @@ export const createUserRole = (roleData) => dispatch => axios.post(`/roles/`, ro
 
 export const deleteUserRole = (roleId) => dispatch => axios.delete(`/roles/${roleId}`)
   .then((response) => {
-    toastSuccess(response.data.msg);
+    toastSuccess('User role deleted successfully');
     dispatch(deleteUserRoleSuccess(roleId));
   }).catch((error) => {
     toastError(error.response.data.msg);
@@ -286,7 +286,7 @@ export const deleteUserRole = (roleId) => dispatch => axios.delete(`/roles/${rol
 
 export const editUserRole = (roleId, roleDetail) => dispatch => axios.patch(`/roles/${roleId}`, roleDetail)
   .then((response) => {
-    toastSuccess(response.data.msg);
+    toastSuccess('User role edited successfully');
     dispatch(editUserRoleSuccess(response.data.payload.role));
   }).catch((error) => {
     toastError(error.response.data.msg);
@@ -294,7 +294,7 @@ export const editUserRole = (roleId, roleDetail) => dispatch => axios.patch(`/ro
 
 export const deleteUserPermision = (permisionId) => dispatch => axios.delete(`roles/permissions/${permisionId}`)
   .then((response) => {
-    toastSuccess(response.data.msg);
+    toastSuccess('User permission deleted successfully');
     dispatch(deleteUserPermisionSuccess(permisionId));
   }).catch((error) => {
     toastError(error.response.data.msg);
@@ -304,7 +304,7 @@ export const createUserPermision = (permissionData) => dispatch => axios.post(`r
   .then((response) => {
     const responseData = response ? response.data.msg : 'Not created, Please Contact Admin';
 
-    toastSuccess(responseData);
+    toastSuccess('User permission created successfully');
     dispatch(createUserPermisionSuccess(responseData, ADD_USER_PERMISION_SUCCESS));
   }).catch((error) => {
     error = error.response ? error.response.data.msg : 'Not created, Please Contact Admin';

@@ -70,7 +70,7 @@ export const updateAbout = (aboutDetails) => dispatch => {
         msg: message,
         payload: { data }
       } = res.data;
-      toastSuccess(message);
+      toastSuccess('Content updated successfully');
       dispatch(updateAboutSuccess(data));
       dispatch(updateAboutLoading(false));
     })

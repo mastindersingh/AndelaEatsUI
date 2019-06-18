@@ -67,7 +67,7 @@ export const unsuspendVendor = (vendorId) => dispatch => {
 
   return axios(options)
     .then((res) => {
-      toastSuccess(res.data.msg);
+      toastSuccess('Vendor unsuspended successfully');
       dispatch(unsuspendVendorSuccess(vendorId));
       dispatch(unsuspendVendorLoading(false));
     })

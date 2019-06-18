@@ -48,9 +48,7 @@ export const fetchOrders = (currentPage = '', startDate = '', endDate = '') => d
 };
 
 
-export const handlePaginationChange = currentPage => {
-  return {
-    type: PAGINATION_CHANGE,
-    payload: currentPage
-  }
-}
+export const handlePaginationChange = currentPage => ({
+  type: PAGINATION_CHANGE,
+  payload: currentPage
+});

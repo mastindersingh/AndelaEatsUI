@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { toastSuccess, toastError } from '../../helpers/toast';
 
 import {
   FETCH_MEAL_RATING_LOADING,
