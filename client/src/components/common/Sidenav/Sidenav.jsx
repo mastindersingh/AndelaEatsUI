@@ -63,8 +63,7 @@ class SideNav extends Component {
                   </li>
                 </Link>
                 <Link to="/orders">
-                  <li
-                    className={`side-nav-item order
+                  <li className={`side-nav-item order
                     ${homeActive('orders') && 'active'}`}
                   >
                     <span>Orders</span>
