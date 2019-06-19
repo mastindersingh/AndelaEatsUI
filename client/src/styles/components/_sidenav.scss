@@ -1,10 +1,9 @@
 .side-nav {
   height: 100%;
-  width: 150px;
+  width: 13%;
   background-color: #f4f8f9;
   box-shadow: inset -1px 0 0 0 #dcdcdc;
   position: fixed;
-  overflow: scroll;
 }
 .side-nav-item-wrapper {
   width: 99.5%;
@@ -58,13 +57,11 @@
   width: 100%;
   position: relative;
   cursor: pointer;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
   padding-top: 10px;
-  padding-left: 30px;
   color: $color-medium-gray;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 11px;
 
   &.active {
     background-color: $color-green-light;
