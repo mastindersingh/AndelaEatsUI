@@ -1,11 +1,11 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
+import { wrap } from 'module';
 import ConnectedEditOrder, { EditOrder } from '../../../components/EditOrder/EditOrder';
 import { mealItems } from '../../__mocks__/mockMealItems';
-import Loader from '../../../components/common/Loader/Loader';
-import { MockData } from '../../__mocks__/mockMenuListData'
+import { MockData } from '../../__mocks__/mockMenuListData';
 
 /*
 global jest
@@ -27,13 +27,7 @@ const props = {
       protein: "Cake"
     }
   },
-  meal: {
-    id: 1,
-    datebookedFor: "Tue, 12 Mar 2019 00:00:00 GMT",
-    channel: 'web',
-    mealPeriod: 'lunch',
-    mealItems,
-  },
+  meal: null,
   mealSelected: {},
   history: {
     push: () => jest.fn()
@@ -65,22 +59,22 @@ describe('Component: Orders', () => {
     expect(getComponent()).toMatchSnapshot();
   });
 
-  it('shows loader', () => {
-    const wrapper = getComponent();
-    wrapper.setProps({
-      isLoading:true,
-      meal: null
-    });
-    expect(wrapper.find(Loader).length).toEqual(1);
-  });
-
   it('should change menuListId state when selectMenuListId is called ', () => {
     const wrapper = getComponent();
     const spy = jest.spyOn(wrapper.instance(), 'selectMenuListId');
-
+    wrapper.setProps({
+      meal: {
+        id: 2,
+        datebookedFor: "Wed, 10 Mar 2019 00:00:00 GMT",
+        channel: 'web',
+        mealPeriod: 'dinner',
+        mealItems,
+        menuId: 28
+      },
+    });
     wrapper.instance().selectMenuListId('1');
     expect(spy).toHaveBeenCalled();
-    expect(wrapper.instance().state.menuListId).toEqual("1")
+    expect(wrapper.instance().state.menuListId).toEqual("1");
   });
 
   it('should change selectedMenu state when setSelectedMenu is called ', () => {
@@ -89,15 +83,22 @@ describe('Component: Orders', () => {
 
     wrapper.instance().setSelectedMenu('1');
     expect(spy).toHaveBeenCalled();
-    expect(wrapper.instance().state.selectedMenu).toEqual("1")
+    expect(wrapper.instance().state.selectedMenu).toEqual("1");
   });
 
-  describe('Class Methods test:: Call', () => {
-    it('componentDidMount()', () => {
-      const spy = jest.spyOn(EditOrder.prototype, 'componentDidMount');
-      getComponent().instance().componentDidMount();
-      expect(spy).toHaveBeenCalled();
+  it('should display modal', () => {
+    const wrapper = getComponent();
+    expect(wrapper.instance().state.showModal).toBeFalsy();
+    wrapper.instance().handleModalDisplay();
+    expect(wrapper.instance().state.showModal).toBeTruthy();
+  });
+
+  it('should show loader', () => {
+    const wrapper = getComponent();
+    wrapper.setProps({
+      isLoading: true
     });
+    expect(wrapper.find('.wheel'));
   });
 });
 

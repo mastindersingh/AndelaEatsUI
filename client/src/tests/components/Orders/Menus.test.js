@@ -33,29 +33,21 @@ describe('Menus Component', () => {
       edit: false,
       setSelectedMenu: jest.fn(),
       selectMenuListId: jest.fn()
-    }
+    };
 
-    return mount(<Menus {...props} />)
-  }
+    return mount(<Menus {...props} />);
+  };
 
   wrapper = setup();
   it('should render correctly', () => {
     expect(wrapper).toMatchSnapshot();
-  })
+  });
 
   it('expects the following methods to be defined', () => {
     wrapper.instance().resetMenus();
     wrapper.instance().updateSelection();
     wrapper.instance().hasUserAlreadyBooked();
     wrapper.instance().validateMeals();
-  })
-
-  it('shows loader', () => {
-    wrapper.setProps({
-      isLoading: true,
-      edit: true
-    });
-    expect(wrapper.find(Loader).length).toEqual(1);
   });
 
   it('calls toggleModal', () => {
@@ -64,16 +56,16 @@ describe('Menus Component', () => {
       match: null,
       data: MockData.payload.menuList,
       date: '2018-11-23',
-      order: { mainMeal: 1, acc1: 2, acc2: 3 }
-    })
-    const spy = jest.spyOn(wrapper.instance().props, 'toggleModal')
+      order: { mainMeal: 1, acc1: 2, acc2: 3 },
+      edit: true
+    });
+    const spy = jest.spyOn(wrapper.instance().props, 'toggleModal');
     wrapper.find('.submit-order').simulate('click');
     expect(spy).toHaveBeenCalled();
   });
 
-  it('hshould call updateSelection ', () => {
+  it('should call updateSelection ', () => {
     const spy = jest.spyOn(wrapper.instance(), 'updateSelection');
-
     wrapper.instance().updateSelection("mainMeal", "234", "232");
     wrapper.find('.submit-order').simulate('click');
     expect(spy).toHaveBeenCalled();
@@ -90,8 +82,8 @@ describe('MealOptions componen', () => {
   };
 
   it('should call updateSelection ', () => {
-    wrapper = mount(<MealOptions {...props} />)
-    wrapper.instance().onChange("234", true, "232")
+    wrapper = mount(<MealOptions {...props} />);
+    wrapper.instance().onChange("234", true, "232");
 
     expect(props.updateSelection).toHaveBeenCalled();
   });

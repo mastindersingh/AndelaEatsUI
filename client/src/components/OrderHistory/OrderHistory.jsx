@@ -5,7 +5,7 @@ import Pagination from 'rc-pagination/lib';
 import { connect } from 'react-redux';
 import DatePicker from 'react-date-picker';
 import { format, addDays } from "date-fns";
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment';
 
@@ -27,7 +27,7 @@ import {
 } from '../../actions/ordersAction';
 
 import { validateDate } from '../../helpers/dateFormatter';
-import { fetchMenus, fetchVendorEngagements } from '../../actions/admin/menuItemsAction';
+import { fetchMenus } from '../../actions/admin/menuItemsAction';
 
 
 /**
@@ -326,23 +326,20 @@ export class Orders extends Component {
    * @return { void }
    */
   render() {
-    const { match: { url }, orders } = this.props;
+    const { match: { url }, orders, loading} = this.props;
     const {
       isOpen,
       searchParam,
       start,
       end,
       showRatingModal,
-      modalContent,
-      textArea,
-      newRating,
       modalTitle
     } = this.state;
-
+const load = (orders.isLoading || loading);
     return (
       <Fragment>
-        {orders.isLoading && <Loader />}
-        <div className={`order-history ${orders.isLoading && 'blurred'}`}>
+        {load && <Loader />}
+        <div className={`order-history ${load && 'blurred'}`}>
           <div className="title">
             <span>Order History</span>
             <ToastContainer />
@@ -501,6 +498,7 @@ Orders.defaultProps = {
 const mapStateToProps = state => ({
   orders: state.orders,
   menu: state.menus,
+  loading: state.upcomingMenus.isLoading
 });
 
 const actionCreators = {

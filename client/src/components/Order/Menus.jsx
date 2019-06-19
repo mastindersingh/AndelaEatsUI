@@ -3,7 +3,6 @@ import PropType from "prop-types";
 import { connect } from "react-redux";
 import Meal from "./Meal";
 import MainMeal from "./MainMeal";
-import Loader from "../common/Loader/Loader";
 import { getOrderByDate } from "../../actions/ordersAction";
 import { formatDateToISOString } from "../../helpers/dateFormatter";
 import EmptyContent from '../common/EmptyContent';
@@ -140,16 +139,15 @@ export class Menus extends Component {
       date,
       edit,
       menuId: orderId,
-      order
+      order,
     } = this.props;
     const { mainMeal, menuId, acc1, acc2 } = this.state;
     const menusLists = match ? getMenu(data, match.params.date) : getMenu(data, date);
     const orderMenuId = edit ? orderId : menuId;
     const newList = menusLists && menusLists.menus.filter(menu => menu.id === orderMenuId);
-
     return (
+      
       <div>
-        {isLoading && <Loader />}
         {this.hasUserAlreadyBooked() ?
           <EmptyContent message="Booked" /> :
           (
@@ -194,9 +192,8 @@ export class Menus extends Component {
   }
 }
 
-const mapStateToProps = ({ orders: { isLoading, menu } }) => ({
+const mapStateToProps = ({ orders: { menu } }) => ({
   menu,
-  isLoading
 });
 
 Menus.propTypes = {

@@ -49,6 +49,6 @@ describe('NotCollectedAction Component', () => {
         dateBookedFor: subDays(new Date(), 7),
       }
     })
-   wrapper.find('.rate-button').simulate('click');
+    wrapper.find('.rate-button').simulate('click');
   })
 });

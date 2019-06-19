@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { format, addDays, subDays } from 'date-fns';
+import { format } from 'date-fns';
 import PropType from 'prop-types';
 import Menus from '../Order/Menus';
 
@@ -9,7 +9,6 @@ import {
   selectMeal,
   resetMenu,
 } from '../../actions/menuAction';
-import Loader from '../common/Loader/Loader';
 import ConfirmModal from '../Order/ConfirmOrder';
 
 import { fetchMenu } from '../../actions/menuAction';
@@ -31,25 +30,19 @@ export class EditOrder extends Component {
     menuListId: ''
   };
 
-  componentDidMount() {
-    const menuStartDate = format(subDays(new Date(), 30), 'YYYY-MM-DD');
-    const menuEndDate = format(addDays(new Date(), 5), 'YYYY-MM-DD');
-    this.props.fetchMenu(menuStartDate, menuEndDate).then(() => {
+  componentDidUpdate(prevProps) {
+    if (JSON.stringify(this.props.meal) !== JSON.stringify(prevProps.meal) || 
+      JSON.stringify(this.props.menus) !== JSON.stringify(prevProps.menus)){
+      // date to start fetching menus depending on an order being edited
+      const orderStartDate = format(new Date(), 'YYYY-MM-DD');
+      this.props.fetchMenu(orderStartDate, format(this.props.meal.dateBookedFor, 'YYYY-MM-DD')).then(() => {
       this.handlesetState();
     });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      JSON.stringify(this.props.menus) !== JSON.stringify(prevProps.menus) ||
-      JSON.stringify(this.props.meal) !== JSON.stringify(prevProps.meal)
-    ) {
-      this.handlesetState();
     }
   }
 
   handlesetState = () => {
-    const { menus, meal, mealSelected  } = this.props;
+    const { menus, meal } = this.props;
     const transformedMenus = menus.reduce((accu, curr) => {
       return [...accu, ...curr.menus]
     }, [])
@@ -60,10 +53,9 @@ export class EditOrder extends Component {
           )
         : [];
     const menu =
-      meal !== null
+      meal
         ? transformedMenus.filter(item => item.id === meal.menuId)[0]
-        : { mainMeal: {}, proteinItems: [], sideItems: [] };
-        
+        : { mainMeal: {}, proteinItems: [], sideItems: [], id: '' };
     this.setState({
       menu,
       filteredMenus,
@@ -119,7 +111,6 @@ export class EditOrder extends Component {
     
     return (
       <Fragment>
-        {isLoading && <Loader />}
         <div className={`wrapper ${isLoading && 'blurred'}`}>
           <div className="orders-wrapper">
             <div className="orders-container">
@@ -211,7 +202,7 @@ function mapStateToProps(state) {
     orderedMenus: state.upcomingMenus.orderedMenus,
     order: state.orders.order,
     isLoading: state.orders.isLoading,
-    menus: state.upcomingMenus.menus
+    menus: state.upcomingMenus.menus,
   };
 }
 

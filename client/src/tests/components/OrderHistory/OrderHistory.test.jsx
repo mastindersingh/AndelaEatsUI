@@ -220,7 +220,8 @@ describe('Component: Orders', () => {
 describe('Connected OrderHistory component', () => {
   it('component successfully rendered', () => {
     const store = mockStore({
-      orders: {}
+      orders: {},
+      upcomingMenus: {}
     });
     const wrapper = shallow(<OrderHistory store={store} />);
     expect(wrapper.length).toBe(1);
