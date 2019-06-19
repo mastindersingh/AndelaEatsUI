@@ -76,6 +76,7 @@ export class Dashboard extends Component {
       ]
     });
 
+
   renderGraph = ({ type, data, vendorName }) => {
 
     return (

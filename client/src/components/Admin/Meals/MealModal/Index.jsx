@@ -29,7 +29,7 @@ class MealModal extends Component {
   static initalState = {
     image: {
       file: null,
-      dataurl: defaultImage,
+      dataurl: `${process.env.BASE_URL}/assets/images/default.png`,
       error: null,
     },
 
@@ -198,7 +198,7 @@ class MealModal extends Component {
     return (
       <div
         className="modal"
-        id="add-meal-modal"
+        id="add-modal"
         style={show ? { display: 'block' } : { display: 'none' }}
       >
         <div className="modal-content">

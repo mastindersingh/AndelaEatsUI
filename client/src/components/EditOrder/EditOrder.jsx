@@ -9,7 +9,6 @@ import {
   selectMeal,
   resetMenu,
 } from '../../actions/menuAction';
-// import MealOptions from './MealOptions';
 import Loader from '../common/Loader/Loader';
 import ConfirmModal from '../Order/ConfirmOrder';
 

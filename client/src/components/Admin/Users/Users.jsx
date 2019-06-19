@@ -1,112 +1,193 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
+import { ToastContainer } from 'react-toastify';
+import DeleteModal from '../../common/DeleteModal/DeleteModal';
 import Loader from '../../common/Loader/Loader';
+import UserCard from './UserCard';
+import UserModal from './UserModal';
+import { 
+  fetchUsers, 
+  createUser, 
+  updateUser, 
+  deleteUser, 
+  fetchUserRoles }
+  from '../../../actions/admin/adminUserAction';
+import inputValidation from '../../../helpers/inputValidation';
+import EmptyContent from '../../common/EmptyContent';
 
-// Actions
-import { createAdminUser, getAllAdminUsers } from '../../../actions/admin/adminUserAction';
-import EmptyContent from "../../common/EmptyContent";
-
-
+const initialUser = {
+  firstName: '',
+  lastName: '',
+  roleId: 11
+}
 /**
- *
- *
- *
- * @class Users
- * @extends {Component}
+ * Class representing Users
+ * @extends Component
  */
 export class Users extends Component {
+
+  state = {
+    showDeleteModal: false,
+    showModal: false,
+    errors: null,
+    user: initialUser
+  }
+
   componentDidMount() {
-    this.props.getAllAdminUsers();
+    this.props.fetchUsers()
+    .then(() => this.props.fetchUserRoles())
+  }
+
+   /**
+   *
+   *
+   * @description handle onChage event
+   *
+   * @param { Object } event
+   *
+   * @returns { undefined }
+  */
+ onChange = event => {
+  const { name, value } = event.target;
+  const oldUser = { ...this.state.user };
+  oldUser[name] = value;
+  this.setState(prevState => ({
+    user: oldUser,
+    errors: {
+      ...prevState.errors,
+      [name] : ''
+    },
+  }));
+};
+
+  /**
+   * 
+   * @method formValidation
+   * 
+   * @memberof Users
+   * 
+   * @param {object} event
+   * 
+   * @returns {void}
+   */
+  formValidation = () => {
+    const errorObject = {
+      firstName: this.state.user.firstName,
+      lastName: this.state.user.lastName
+    };
+    const err = inputValidation(errorObject);
+    if (!err.isEmpty) {
+      this.setState({ errors: err.errors });
+      return true;
+    }
+    return false
+    
   }
 
   /**
    *
-   * @param {event} event
+   * @description handle onSubmit event
    *
-   * @returns {void}
-   * @memberOf Users
+   * @param { Object } event
+   *
+   * @returns { undefined }
    */
-  handleSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault();
+    const { user } = this.state;
     const userData = {
-      emailAddress: event.target.elements.userEmail.value,
-      roleId: 1
-    };
-    this.props.createAdminUser(userData);
+      slackId: user.slackId,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      userId: user.userId,
+      roleId: user.roleId,
+      id: user.id
+    }
+    const error = this.formValidation();
+    if (!error) {
+      const method = !user.id ? this.props.createUser : this.props.updateUser;
+      return method(userData).then(() => {
+        this.showModal(user);
+        this.setState({
+          user: user
+        })
+      });
+    }
+  }
+
+  deleteUser = (user) => {
+    this.props.deleteUser(user).then(() => {
+      this.displayDeleteModal(this.state.user)
+    })
+  }
+  displayDeleteModal = (user=initialUser)=> {
+    this.setState(prevState => ({
+      showDeleteModal: !prevState.showDeleteModal,
+      user
+    }));
+  };
+
+  showModal = (user)=> {
+    this.setState(prevState => ({
+      showModal: !prevState.showModal,
+      user,
+      errors: {}
+    }));
+  };
+
+  closeModal = () => {
+    this.setState(prevState => ({
+      showModal: !prevState.showModal,
+      user: initialUser
+    }));
   }
 
   render() {
-    const { adminUsers, loading } = this.props;
+    const { showDeleteModal, showModal, user, errors } = this.state;
+    const {loading, roles, users } = this.props;
     return (
-      <div>
-        <span className="heading-style">Assign Admin role to a user</span>
-        <form className="parent-div" onSubmit={this.handleSubmit}>
-          <label htmlFor="userEmail">Email</label>
-          <input className="user-form" type="text" id="userEmail" name="userEmail" />
-          <button type="submit" className="assign-role">
-            Assign Admin Role
-          </button>
-        </form><br /><br />
-        <span className="heading-style">List of Admin Users</span><br /><br />
-        {
-          loading && (
-            <Loader />
-          )
-        }
-
-        {
-          adminUsers.length > 0 && (
-            <div className="table-header custom-row">
-              <div className="custom-col-5">Name</div>
-              <div className="custom-col-5">Email</div>
-              <div className="custom-col-2">Options</div>
-            </div>
-          )
-        }
-
-        {
-          adminUsers.length > 0 && (
-            adminUsers.map((adminUser) => (
-              <div key={adminUser.email} className="table-body">
-                <div className="table-row">
-                  <div className="custom-row">
-                    <div className="custom-col-5">{adminUser.name}</div>
-                    <div className="custom-col-5">{adminUser.email}</div>
-                    <div className="custom-col-2">
-                      <span className="delete-color">Revoke</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )))
-        }
-        {!loading && adminUsers.length === 0 && <EmptyContent message="No Admin Found" />}
+      <React.Fragment>
         <ToastContainer />
+        { loading &&  <Loader/> } 
+          <DeleteModal
+          closeModal={this.displayDeleteModal}
+          displayDeleteModal={showDeleteModal}
+          item="User"
+          deleteItem={this.deleteUser}
+          modalContent={this.state.user}
+          isDeleting={loading}
+          />
+          <UserModal 
+            onChange={this.onChange} 
+            showModal={showModal} 
+            hideModal={this.closeModal} 
+            user={ user } 
+            handleSubmit={this.onSubmit}
+            errors={errors}
+            loading={loading}
+            roles ={roles}
+          />
+        <div className={`${loading && 'blurred'} users-container`}>
+        <button disabled={loading} onClick={() => this.showModal(user)} type="submit" className="button-right">
+            Add User
+        </button>
+        <div className="top">
+          {users.length ? users.map(user => <UserCard 
+          showModal={this.showModal}
+          key={user.id}
+          user={user} displayDeleteModal={this.displayDeleteModal} 
+          />) : <EmptyContent message="No Users Added Yet!" />}
+        </div>
       </div>
+      </React.Fragment>
     );
   }
 }
-
-const mapStateToProps = state => ({
-  userEmail: state.user.email,
-  message: state.user.message,
-  adminUsers: state.user.adminUsers,
-  loading: state.user.isloading
+export const mapStateToProps = ({ users }) => ({
+  loading: users.loading,
+  users: users.users,
+  roles: users.roles
 });
-
-Users.propTypes = {
-  createAdminUser: PropTypes.func.isRequired,
-  getAllAdminUsers: PropTypes.func.isRequired,
-  adminUsers: PropTypes.array.isRequired,
-  loading: PropTypes.bool,
-};
-
-Users.defaultProps = {
-  loading: false,
-};
-
-export default connect(mapStateToProps, { createAdminUser, getAllAdminUsers })(Users);
+export default connect(mapStateToProps, {fetchUsers, createUser, updateUser, deleteUser, fetchUserRoles})(Users);

@@ -77,7 +77,7 @@ export const createFaq = faqDetails => dispatch => {
         msg: message,
         payload: { faq }
       } = res.data;
-      toastSuccess(message);
+      toastSuccess('FAQ created successfully');
       dispatch(createFaqSuccess(faq));
       dispatch(createFaqLoading(false));
     })
@@ -115,7 +115,7 @@ export const deleteFaq = faqId => dispatch => {
 
   return axios(options)
     .then(res => {
-      toastSuccess(res.data.msg);
+      toastSuccess('FAQ deleted successfully');
       dispatch(deleteFaqSuccess(faqId));
       dispatch(deleteFaqLoading(false));
     })
@@ -157,7 +157,7 @@ export const updateFaq = (id, faqDetails) => dispatch => {
         msg: message,
         payload: { faq }
       } = res.data;
-      toastSuccess(message);
+      toastSuccess('FAQ updated successfully');
       dispatch(updateFaqSuccess(faq));
       dispatch(updateFaqLoading(false));
     })

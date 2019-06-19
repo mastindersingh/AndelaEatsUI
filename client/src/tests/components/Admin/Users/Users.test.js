@@ -1,18 +1,29 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { Users } from '../../../../components/Admin/Users/Users';
+import { Users, mapStateToProps } 
+  from '../../../../components/Admin/Users/Users';
 
 const props = {
-  adminUsers: [{ name: 'miriam', email: "mim@gmail.com" }],
-  message: "",
-  userEmail: "",
-  createAdminUser: jest.fn(),
-  getAllAdminUsers: jest.fn(),
-  loading: false
+  users: [
+    { 
+      name: 'miriam',
+      email: "mim@gmail.com",
+      id: 1, 
+      userRoles: [{ id: 1, name: "admin" }] 
+    }],
+  fetchUsers: jest.fn(() => Promise.resolve()),
+  createUser: jest.fn(() => Promise.resolve()),
+  updateUser: jest.fn(() => Promise.resolve()),
+  deleteUser: jest.fn(() => Promise.resolve()),
+  fetchUserRoles: jest.fn(() => Promise.resolve()),
+  loading: false,
+  roles: [{ id: 1, name: "admin" }]
 };
-
-const wrapper = shallow(<Users {...props} />);
+let wrapper;
+beforeEach(() => {
+  wrapper = mount(<Users {...props} />);
+});
 
 describe('Users Component', () => {
   it('should render correctly', () => {
@@ -26,28 +37,72 @@ describe('Users Component', () => {
   });
 
   it('should render an empty component', () => {
-    const emptyProps = { ...props, adminUsers: [] };
+    const emptyProps = { ...props, users: [] };
     const compWrapper = mount(<Users {...emptyProps} />);
     expect(compWrapper).toMatchSnapshot();
   });
 
-  it('should handle submit', () => {
-    const event = {
-      target: {
-        elements: {
-          userEmail: {
-            value: "miriam@gmail.com"
-          },
-        }
-      },
-      preventDefault: jest.fn(),
-    };
+  it('should call createUser', () => {
+    wrapper.find('.button-right').simulate('click');
+    wrapper
+      .find('#firstName').at(1)
+      .simulate('change', { target: { name: 'firstName', value: 'Fred' } });
+    wrapper
+      .find('#lastName').at(1)
+      .simulate('change', { target: { name: 'lastName', value: 'Yiga' } });
+    wrapper.find('form').simulate('submit');
+    expect(props.createUser).toBeCalled();
+  });
 
-    wrapper.update();
-    wrapper.find('form').simulate('submit',
-      event
-    );
+  it('should call updateUser', () => {
+    wrapper.find('.fa-edit').simulate('click');
+    wrapper.setState({
+      user: {
+        id: 1,
+        lastName: 'Fred',
+        firstName: 'Yiga',
+        userRoles: props.users[0].userRoles
+      }
+    });
+    wrapper.find('form').simulate('submit');
+    expect(props.updateUser).toBeCalled();
+  });
 
-    expect(props.createAdminUser).toBeCalled();
+  it('sets error on an empty field', () => {
+    wrapper.setProps({
+      users: [
+        { ...props.users[0], userRoles: null }
+      ]
+    });
+    wrapper.find('.button-right').simulate('click');
+    wrapper
+      .find('#firstName').at(1)
+      .simulate('change', { target: { name: 'firstName', value: 'Fred' } });
+    wrapper.find('form').simulate('submit');
+    expect(wrapper.instance().state.errors.lastName).toBeTruthy();
+  });
+
+  it('call deleteUser', () => {
+    wrapper.find('.button-right').simulate('click');
+    wrapper.find('.fa-trash').simulate('click');
+    const spy = jest.spyOn(wrapper.instance().props, 'deleteUser');
+    wrapper.find('.delete-vendor').simulate('click');
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('call closes modal', () => {
+    wrapper.find('.button-right').simulate('click');
+    expect(wrapper.instance().state.showModal).toBeTruthy();
+    wrapper.find('.grayed').simulate('click');
+    expect(wrapper.instance().state.showModal).toBeFalsy();
+  });
+  
+  describe('mapStateToProps', () => {
+    it('should map Users to state', () => {
+      const initialState = {
+        users: { users: [] },
+      };
+      expect(mapStateToProps(initialState).users).toEqual([]);
+    });
   });
 });

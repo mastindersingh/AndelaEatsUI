@@ -135,7 +135,7 @@ class AboutModal extends Component {
                 <label htmlFor="details">
                   Details
                   <span
-                    className="err-invalid"
+                    className="form-error"
                     style={{
                       display: errors.details ? 'inline-block' : 'none'
                     }}

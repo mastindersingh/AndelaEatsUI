@@ -73,7 +73,7 @@ describe('Component: Orders', () => {
         ...props.orders,
         isLoading: true,
       }
-    })
+    });
     expect(wrapper.find(Loader).length).toEqual(1);
   });
   it('shows error when failed to load orders', () => {
@@ -83,7 +83,7 @@ describe('Component: Orders', () => {
         ...props.orders,
         error: 'Failed to load'
       }
-    })
+    });
   });
 
   describe('Class Methods test:: Call', () => {
@@ -381,17 +381,22 @@ describe('Test suite for rating an order', () => {
     const completeProps = {
       ...props, orders: newOrders, menu, createRating: jest.fn()
     };
-    // console.log(newOrders);
     const wrapper = mount(<Orders {...completeProps} />);
     const reactStar = wrapper.find(ReactStars);
-    wrapper.find('.rate-button').simulate('click', { preventDefault: jest.fn() });
+    wrapper
+      .find('.rate-button').simulate('click', { preventDefault: jest.fn() });
     const rate = reactStar.find('span');
     // an attempt to submit the form without rating
-    wrapper.find('#rating-form').simulate('submit', { preventDefault: jest.fn() });
+    wrapper
+      .find('#rating-form').simulate('submit', { preventDefault: jest.fn() });
     rate.at(1).simulate('click', '');
     // an attempt to submit the form without comments
-    wrapper.find('#rating-form').simulate('submit', { preventDefault: jest.fn() });
-    wrapper.find('.modal-comment').simulate('change', { target: { value: "Good job!" } });
-    wrapper.find('#rating-form').simulate('submit', { preventDefault: jest.fn() });
+    wrapper
+      .find('#rating-form').simulate('submit', { preventDefault: jest.fn() });
+    wrapper
+      .find('.modal-comment')
+      .simulate('change', { target: { value: "Good job!" } });
+    wrapper
+      .find('#rating-form').simulate('submit', { preventDefault: jest.fn() });
   });
 });

@@ -7,8 +7,8 @@ import rootReducer from '../reducers/rootReducer';
 import { tokenValidator } from '../helpers/tokenValidation';
 
 const initialState = {};
-const middlewares = process.env.NODE_ENV === 'production' 
-  ? [tokenValidator, thunk] 
+const middlewares = process.env.NODE_ENV === 'production'
+  ? [tokenValidator, thunk]
   : [tokenValidator, thunk, reduxImmutableStateInvariant()];
 /**
  * @export
@@ -17,7 +17,7 @@ const middlewares = process.env.NODE_ENV === 'production'
  */
 const configureStore = () => {
   const middleware = process.env.NODE_ENV === 'development'
-    ? composeWithDevTools(applyMiddleware(...middlewares)) 
+    ? composeWithDevTools(applyMiddleware(...middlewares))
     : applyMiddleware(...middlewares);
 
   return createStore(

@@ -15,7 +15,22 @@ import {
   FETCH_USER_PERMISION_SUCCESS,
   DELETE_USER_ROLE_SUCCESS,
   DELETE_USER_PERMISION_SUCCESS,
-  ADD_USER_PERMISION_SUCCESS
+  ADD_USER_PERMISION_SUCCESS,
+  GET_TAPPED_USERS_SUCCESS,
+  GET_TAPPED_USERS_FAILURE,
+  FETCH_USERS_FAILURE,
+  FETCH_USERS_LOADING, 
+  FETCH_USERS_SUCCESS,
+  CREATE_USER_FAILURE,
+  CREATE_USER_LOADING,
+  CREATE_USER_SUCCESS,
+  DELETE_USER_FAILURE,
+  DELETE_USER_LOADING,
+  DELETE_USER_SUCCESS,
+  UPDATE_ABOUT_FAILURE,
+  UPDATE_USER_LOADING,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE
 } from '../../../actions/actionTypes';
 
 import {
@@ -29,12 +44,22 @@ import {
   getRolePermisions,
   deleteUserPermision,
   deleteUserRole,
-  createUserPermision
+  createUserPermision,
+  getTappedUsers,
+  fetchUsers,
+  createUser,
+  deleteUser,
+  updateUser
 } from '../../../actions/admin/adminUserAction';
 import {
-  adminUsers, roles, permisions, roleId, RolePermisions, permisionData 
+  adminUsers, roles, permisions, roleId, RolePermisions, permisionData, tappedUsers
 } from '../../__mocks__/mockAdminUsers';
 
+export const users = [
+  { firstName: 'fred', lastName: 'yiga', id: 1 },
+  { firstName: 'micheal', lastName: 'jackson', id: 2 },
+  { firstName: 'peter', lastName: 'pan', id: 3 }
+];
 describe('Get User Role Action', () => {
   describe('Fetch User Role', () => {
     beforeEach(() => moxios.install());
@@ -73,22 +98,13 @@ describe('Get User Role Action', () => {
       moxios.stubRequest(`/roles/user`, {
         status: 400,
         response: {
-          payload: {
-            users: []
-          }
+          error: new Error('Invalid Email Address entered!')
         }
       });
-
-      const expectedActions = [
-
-        {
-          type: ADD_ADMIN_USER_FAILURE,
-          payload: []
-        },
-
-      ];
       const store = mockStore({});
-      await store.dispatch(createAdminUser({ emailAddress: 'admin.user@andela.com', roleId: 1 }))
+
+      await store
+        .dispatch(createAdminUser({ emailAddress: 'admin.user@andela.com', roleId: 1 }))
         .then(() => {
           expect(store.getActions()[0].type).toEqual(ADD_ADMIN_USER_FAILURE);
         });
@@ -197,6 +213,26 @@ describe('Get User Role Action', () => {
       done();
     });
 
+    it('it should fetch all user roles failure', async (done) => {
+      moxios.stubRequest(`/roles/`, {
+        status: 400,
+        response: {
+          payload: { }
+        }
+      });
+      const expectedAction = [
+        { payload: true, type: IS_FETCHING_ROLES },
+       
+        { payload: false, type: IS_FETCHING_ROLES },
+      ];
+      const store = mockStore({});
+      await store.dispatch(getAllUserRoles())
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+      done();
+    });
+
     it('it should create a user roles', async (done) => {
       moxios.stubRequest(`/roles/`, {
         status: 201,
@@ -282,6 +318,27 @@ describe('Get User Role Action', () => {
         { payload: false, type: IS_FETCHING_ROLE_PERMISION },
       ];
       const store = mockStore({});
+      await store
+        .dispatch(getRolePermisions(roleId))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+      done();
+    });
+
+    it('should fetch permisions for a specific role failure', async (done) => {
+      moxios.stubRequest(`roles/${roleId}/permissions`, {
+        status: 400,
+        response: {
+          payload: {}
+        }
+      });
+      const expectedAction = [
+        { payload: true, type: IS_FETCHING_ROLE_PERMISION },
+      
+        { payload: false, type: IS_FETCHING_ROLE_PERMISION },
+      ];
+      const store = mockStore({});
       await store 
         .dispatch(getRolePermisions(roleId))
         .then(() => {
@@ -323,6 +380,214 @@ describe('Get User Role Action', () => {
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
         });
+      done();
+    });
+  });
+
+  describe('Tapped Users', () => {
+    beforeEach(() => moxios.install());
+    afterEach(() => moxios.uninstall());
+
+    it('Gets tapped users sucessfully', async (done) => {
+      moxios.stubRequest('reports/taps/daily', {
+        status: 200,
+        response: tappedUsers.data
+      });
+
+      const expectedActions = [
+        {
+          type: GET_TAPPED_USERS_SUCCESS,
+          payload: tappedUsers.data.payload
+        }
+      ];
+
+      const store = mockStore({});
+      await store
+        .dispatch(getTappedUsers())
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+      done();
+    });
+
+    it('Gets tapped users failure', async (done) => {
+      moxios.stubRequest('reports/taps/daily', {
+        status: 404,
+      });
+
+      const expectedActions = [
+        {
+          type: GET_TAPPED_USERS_FAILURE,
+          payload: undefined
+        }
+      ];
+      const store = mockStore({});
+
+      await store
+        .dispatch(getTappedUsers())
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+      done();
+    });
+  });
+  describe('Regular Users', () => {
+    beforeEach(() => {
+      beforeEach(() => moxios.install());
+      afterEach(() => moxios.uninstall());
+    }); 
+    it('should fetch users failure', async (done) => {
+      moxios.stubFailure('/users/', {
+        status: 400,
+        response: {
+          error: new Error('Failed to fetch users')
+        }
+      });
+      const expectedActions = [
+        { type: FETCH_USERS_LOADING },
+        { type: FETCH_USERS_FAILURE }
+      ];
+      const store = mockStore({});
+      await store.dispatch(fetchUsers()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+      done();
+    });
+
+    it('should fetch users success', async (done) => {
+      moxios.stubRequest('/users/', {
+        status: 201,
+        response: {
+          payload: {
+            users
+          }
+        }
+      });
+      const expectedActions = [
+        { type: FETCH_USERS_LOADING },
+        { type: FETCH_USERS_SUCCESS, users }
+      ];
+      const store = mockStore({});
+      await store.dispatch(fetchUsers()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+      done();
+    });
+
+    it('should create users success', async (done) => {
+      moxios.stubRequest('/users/', {
+        status: 200,
+        response: {
+          payload: {
+            user: users[0]
+          }
+        }
+      });
+      const expectedActions = [
+        { type: CREATE_USER_LOADING },
+        { type: CREATE_USER_SUCCESS, user: users[0] }
+      ];
+      const store = mockStore({});
+      await store.dispatch(createUser({})).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+      done();
+    });
+
+    it('should create user failure', async (done) => {
+      moxios.stubRequest('/users/', {
+        status: 400,
+        response: {
+          error: new Error('Failed to fetch users')
+        }
+      });
+      const expectedActions = [
+        { type: CREATE_USER_LOADING },
+        { type: CREATE_USER_FAILURE }
+      ];
+      const store = mockStore({});
+      await store.dispatch(createUser({})).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+      done();
+    });
+
+    it('should create delete success', async (done) => {
+      moxios.stubRequest(`/users/1/`, {
+        status: 200,
+        response: {
+          payload: {
+            msg: 'OK'
+          }
+        }
+      });
+      const expectedActions = [
+        { type: DELETE_USER_LOADING },
+        { type: DELETE_USER_SUCCESS, id: 1 }
+      ];
+      const store = mockStore({});
+      await store.dispatch(deleteUser(1)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+      done();
+    });
+
+    it('should create delete failure', async (done) => {
+      moxios.stubRequest(`/users/1/`, {
+        status: 400,
+        response: {
+          error: new Error('Failed')
+        }
+      });
+      const expectedActions = [
+        { type: DELETE_USER_LOADING },
+        { type: DELETE_USER_FAILURE }
+      ];
+      const store = mockStore({});
+      await store.dispatch(deleteUser(1)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+      done();
+    });
+    
+    it('should  update success', async (done) => {
+      moxios.stubRequest(`/users/1`, {
+        status: 201,
+        response: {
+          payload: {
+            user: users[0]
+          }
+        }
+      });
+      const expectedActions = [
+        { type: UPDATE_USER_LOADING },
+        { type: UPDATE_USER_SUCCESS, user: users[0] }
+      ];
+      const store = mockStore({});
+      await store.dispatch(updateUser(users[0])).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+      done();
+    });
+
+    it('should  update user failure', async (done) => {
+      moxios.stubRequest(`/users/1`, {
+        status: 400,
+        response: {
+          msg: 'Request failed with status code 400'
+        }
+      });
+      const expectedActions = [
+        { type: UPDATE_USER_LOADING },
+        { 
+          type: UPDATE_USER_FAILURE,
+          error: "Request failed with status code 400", 
+        }
+      ];
+      const store = mockStore({});
+      await store.dispatch(updateUser(users[0])).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
       done();
     });
   });

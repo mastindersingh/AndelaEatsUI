@@ -16,11 +16,11 @@
     background-color: $color-white;
     border-radius: px-to-rem(4px);
     border: none;
-    top: 25%;
-    width: 50%;
     padding: 40px;
     margin: auto;
     border-radius: 4px;
+    max-width: px-to-rem(420px);
+    top: 14%;
 
     .modal-header {
       display: flex;
@@ -39,7 +39,7 @@
       }
 
       .header-title {
-        flex: 1 0 0;
+        flex: 2 0 0;
         font-size: px-to-rem(20px);
         font-weight: 600;
         color: $color-blue;
@@ -55,8 +55,14 @@
       flex-flow: row wrap;
       justify-content: flex-end;
       margin-top: 35px;
+      .button-container {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+      }
 
       button {
+        
         @include buttons(
           $color-blue,
           $color-white,
@@ -90,12 +96,51 @@
           text-transform: uppercase;
         }
       }
+      button:disabled {
+        cursor: not-allowed
+      }
+      
     }
+  }
+  .form-field-set {
+    display: block;
+    margin-bottom: 20px;
+
+    label {
+      @include field-label();
+      font-size: 16px;
+      color: $color-dark-gray;
+    }
+
+    input {
+      @include field-input();
+      margin-top: 2px;
+    }
+    select {
+      all: unset;
+      @include field-input();
+      background: white url(http://andelaeats-dev.andela.com:3000/assets/images/down-arrow.png) no-repeat;
+      background-size: 20px 20px;
+      background-position: 98% 50%;
+      width: 95%;
+    }
+  }
+  .form-error {
+    display: inline-block;
+    font-size: 12px;
+    color: $color-red;
+    margin-left: 8px;
   }
 }
 
-.vendor-name-validation {
-  color: red;
-  margin-top: 5px;
-  display: none;
+@media only screen and (max-width: 640px) {
+  .modal-content {
+    width: 60%;
+  }
+}
+
+@media only screen and (min-width: 641px) and (max-width: 1007px) {
+  .modal-content {
+    width: 50%;
+  }
 }

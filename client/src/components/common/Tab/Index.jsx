@@ -5,8 +5,8 @@ import Tab from './Tab';
 
 /**
  * @class Tabs
- * 
- * 
+ *
+ *
  * @extends {Component}
  */
 class Tabs extends Component {
@@ -25,7 +25,7 @@ class Tabs extends Component {
    * @param {object} tab
    *
    * @memberof Tabs
-   * 
+   *
    * @returns {void}
    */
   onClickTabItem = tab => {
@@ -36,7 +36,7 @@ class Tabs extends Component {
 
   render() {
     const { onClickTabItem, props: { children }, state: { activeTab } } = this;
-  
+
     return (
       <div className="tabs">
         <ol className="tab-list">
@@ -44,7 +44,7 @@ class Tabs extends Component {
             const { label } = child.props;
 
             return (
-              <Tab 
+              <Tab
                 activeTab={activeTab}
                 key={label}
                 label={label}

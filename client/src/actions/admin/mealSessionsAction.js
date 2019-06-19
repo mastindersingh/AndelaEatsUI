@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { toastSuccess, toastError } from '../../helpers/toast';
+
 import {
   SHOW_MEAL_SESSION_MODAL,
   HIDE_MEAL_SESSION_MODAL,
@@ -10,8 +9,7 @@ export const showMealSessionModalAction = (show, edit) => ({
   payload: { show, edit },
 });
 
-export const showMealSessionModal = (show, edit) => (dispatch) =>
-  dispatch(showMealSessionModalAction(show, edit));
+export const showMealSessionModal = (show, edit) => (dispatch) => dispatch(showMealSessionModalAction(show, edit));
 
 export const hideMealSessionModal = () => (dispatch) => {
   dispatch({

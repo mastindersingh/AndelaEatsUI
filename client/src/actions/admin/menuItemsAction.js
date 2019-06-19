@@ -19,8 +19,6 @@ import {
   EDIT_MENU_FAILURE
 } from '../actionTypes';
 
-
-
 export const editMenuSuccess = (menu) => ({
   type: EDIT_MENU_SUCCESS,
   payload: menu,
@@ -55,7 +53,7 @@ export const editMenu = menu => dispatch => {
   return axios.put(`/admin/menus/${menu.id}`, menu)
     .then(response => {
       const { payload } = response.data;
-      toastSuccess('Menu successfully updated');
+      toastSuccess('Menu edited successfully');
       dispatch(editMenuSuccess(payload));
       dispatch(fetchMenusLoading(false));
     })
@@ -100,7 +98,7 @@ export const deleteMenuItem = menuId => dispatch => {
   dispatch(deleteMenuItemLoading(true));
   return axios.delete(`/admin/menus/${menuId}`)
     .then(() => {
-      toastSuccess('Deleted Successfully');
+      toastSuccess('Menu deleted Successfully');
       dispatch(deleteMenuItemSuccess(menuId));
       dispatch(deleteMenuItemLoading(false));
     })
@@ -172,7 +170,7 @@ export const createMenu = (menu) => dispatch => {
   return axios.post(`/admin/menus/`, menu)
     .then((response) => {
       const { msg, payload } = response.data;
-      toastSuccess(msg);
+      toastSuccess('New menu created successfully');
       dispatch(createMenuSuccess(payload));
       dispatch(createMenuLoading(false));
     })

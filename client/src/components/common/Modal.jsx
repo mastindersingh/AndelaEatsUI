@@ -1,71 +1,67 @@
-import React from "react";
-import Loader from "./Loader/Loader";
+import React, { Fragment } from "react";
 import PropTypes from 'prop-types';
+import Loader from "./Loader/Loader";
+import Button from './Button/Button';
 
 const Modal = ({
   closeModal,
-  isUpdating,
   formValidation,
   displayModal,
   modalButtonText,
   children,
   modalTitle,
-  isCreating,
-})=>(
+  loading,
+}) => (
   <div
     className="modal"
     id="add-vendor-modal"
-    style={displayModal ? { display: 'block' } : { display: 'none' }} >
+    style={displayModal ? { display: 'block' } : { display: 'none' }}
+  >
     <div className="modal-content">
       <div className="modal-header">
         <div className="header-title">{modalTitle}</div>
-        <div>
-          <button
-            type="button"
+        <Fragment>
+          <Button
             tabIndex={0}
-            className="close-icon btn-no-style"
-            onClick={closeModal}
-          >
-            X&nbsp;&nbsp;Close
-          </button>
-        </div>
+            classes="close-icon btn-no-style"
+            onClickHandler={closeModal}
+            btnText="X&nbsp;&nbsp;Close"
+            loading={loading}
+          />
+        </Fragment>
       </div>
       <form onSubmit={formValidation}>
-        <div>
-        {children}
-        <div className="modal-footer">
-          { isCreating || isUpdating
-            ? <div className="modal-loader"><Loader /></div>
-            : (
-              <div className="button-container">
-                <button
-                  type="button"
-                  className="grayed"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                >
-                  {modalButtonText}
-                </button>
-              </div>
-            )}
-        </div>
-        </div>
+        <Fragment>
+          {loading && <Loader /> } 
+          {children}
+          <div className="modal-footer">
+            <div className="button-container">
+              <Button
+                type="button"
+                classes="grayed"
+                onClickHandler={closeModal}
+                btnText="Cancel"
+              />
+              <Button
+                btnText={modalButtonText}
+                loading={loading}
+                onClickHandler={formValidation}
+              /> 
+            </div>
+          </div>
+        </Fragment>
       </form>
+    </div>
   </div>
-  </div>);
+);
 
 Modal.propTypes = {
   displayModal: PropTypes.bool.isRequired,
   modalTitle: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
   formValidation: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool,
+  loading: PropTypes.bool,
   children: PropTypes.node.isRequired,
-  isUpdating : PropTypes.bool,
   modalButtonText: PropTypes.string.isRequired,
 };
 

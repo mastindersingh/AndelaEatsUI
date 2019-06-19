@@ -75,8 +75,8 @@ export const createVendor = (vendorDetails) => dispatch => {
 
   return axios(options)
     .then((res) => {
-      const { msg: message, payload: { vendor } } = res.data;
-      toastSuccess(message);
+      const { payload: { vendor } } = res.data;
+      toastSuccess('New vendor created successfully');
       dispatch(createVendorSuccess(vendor));
       dispatch(createVendorLoading(false));
     })
@@ -117,7 +117,7 @@ export const suspendVendor = (vendorId) => dispatch => {
 
   return axios(options)
     .then((res) => {
-      toastSuccess(res.data.msg);
+      toastSuccess('Vendor suspended successfully');
       dispatch(suspendVendorSuccess(vendorId));
       dispatch(suspendVendorLoading(false));
     })
@@ -165,7 +165,7 @@ export const updateVendor = (id, vendorDetails) => dispatch => {
   return axios(options)
     .then((res) => {
       const { msg: message, payload: { vendor } } = res.data;
-      toastSuccess(message);
+      toastSuccess('Vendor updated successfully');
       dispatch(updateVendorSuccess(vendor));
       dispatch(updateVendorLoading(false));
     })
@@ -189,7 +189,7 @@ export const rateVendor = (vendorDetails) => dispatch => {
     .then((res) => {
       const { msg: message, payload: { vendor } } = res.data;
       dispatch(rateVendorStatus(false));
-      toastSuccess('Vendor Rated!');
+      toastSuccess('Vendor Rated successfully');
     })
     .catch((error) => {
       toastError(error.response.data.message);
