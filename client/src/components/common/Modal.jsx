@@ -10,6 +10,7 @@ const Modal = ({
   modalButtonText,
   children,
   modalTitle,
+  editTitle,
   loading,
 }) => (
   <div
@@ -19,7 +20,7 @@ const Modal = ({
   >
     <div className="modal-content">
       <div className="modal-header">
-        <div className="header-title">{modalTitle}</div>
+        <div className="header-title">{modalTitle} &nbsp;{editTitle}</div>
         <Fragment>
           <Button
             tabIndex={0}
@@ -58,11 +59,16 @@ const Modal = ({
 Modal.propTypes = {
   displayModal: PropTypes.bool.isRequired,
   modalTitle: PropTypes.string.isRequired,
+  editTitle: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
   formValidation: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   children: PropTypes.node.isRequired,
   modalButtonText: PropTypes.string.isRequired,
+};
+
+Modal.defaultProps = {
+  editTitle: '',
 };
 
 export default Modal;

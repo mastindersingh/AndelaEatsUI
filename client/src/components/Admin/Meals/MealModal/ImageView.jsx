@@ -7,7 +7,7 @@ import { setMealImage } from '../../../../helpers/mealsHelper';
 const ImageView = (props) => {
   const { openFileDialog, error, dataurl } = props;
   if (!dataurl || dataurl
-    === 'http://andelaeats-dev.andela.com:3000/assets/images/default.png') {
+    === `${process.env.BASE_URL}/assets/images/default.png`) {
     return (
       <div className="image">
         <div className="control">

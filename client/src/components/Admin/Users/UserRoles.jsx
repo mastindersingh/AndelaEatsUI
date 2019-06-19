@@ -16,7 +16,8 @@ import {
   getAllPermisions
 } from '../../../actions/admin/adminUserAction';
 import DeleteModal from '../../common/DeleteModal/DeleteModal';
-import Modal from './Modal';
+import Modal from '../../common/Modal';
+import Input from '../../common/FormInputs';
 import PermissionModal from './PermissionModal';
 
 // eslint-disable-next-line valid-jsdoc
@@ -33,7 +34,7 @@ export class UserRoles extends Component {
     displayPermissionModal: false,
     modalContent: {},
     modalTitle: '',
-    modalButtontext: '',
+    modalButtonText: '',
     // eslint-disable-next-line react/no-unused-state
     name: '',
     selectedOption: {},
@@ -60,7 +61,7 @@ export class UserRoles extends Component {
     this.setState({
       displayModal: true,
       modalTitle: 'ADD USER ROLE',
-      modalButtontext: 'Add ROLE'
+      modalButtonText: 'Add ROLE'
     });
   };
 
@@ -82,6 +83,7 @@ export class UserRoles extends Component {
       roleId: '',
       selectedOption: {},
       title: '',
+      modalButtonText: '',
     });
   };
 
@@ -149,7 +151,7 @@ export class UserRoles extends Component {
     this.setState({
       displayPermissionModal: true,
       modalTitle: 'ADD ROLE PERMISION',
-      modalButtontext: 'ADD',
+      modalButtonText: 'ADD',
       roleId: id,
       permisionName: name,
     });
@@ -243,7 +245,7 @@ export class UserRoles extends Component {
       name,
       displayModal: true,
       modalTitle: 'EDIT',
-      modalButtontext: 'Update',
+      modalButtonText: 'Update',
       title: name,
     });
   };
@@ -289,13 +291,25 @@ export class UserRoles extends Component {
     />
   ));
 
+  renderModalInputs = () => ( 
+    <div>
+      <Input 
+        id="name"
+        label="Name"
+        name="name"
+        value={this.state.name}
+        onChangeHandler={(data) => this.onChange(data, "name")}
+      />
+    </div>
+  );
+
   render() { 
     const { roleId, permision } = this.state;
     const { roles, roleLoading, permisionLoading } = this.props;
     const {
       displayModal,
       modalTitle,
-      modalButtontext,
+      modalButtonText,
       name,
       selectedOption,
       displayDeleteModal,
@@ -340,12 +354,13 @@ export class UserRoles extends Component {
         <Modal
           displayModal={displayModal}
           closeModal={this.closeModal}
-          handleSubmit={this.handleSubmit}
+          formValidation={this.handleSubmit}
           onChange={this.onChange}
           name={name}
           editTitle={title}
           modalTitle={modalTitle}
-          modalButtontext={modalButtontext}
+          modalButtonText={modalButtonText}
+          children={this.renderModalInputs()}
         />
         <DeleteModal
           deleteItem={this.deleteRole}
@@ -360,7 +375,7 @@ export class UserRoles extends Component {
           permision={selectedOption}
           handleChange={this.handleChange}
           modalContent={modalContent}
-          modalButtontext={modalButtontext}
+          modalButtonText={modalButtonText}
           item="Permissions"
           data={permisions}
           deleteItem={this.deletePermision}

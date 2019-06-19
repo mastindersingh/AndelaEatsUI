@@ -10,7 +10,7 @@ const PermissionModal = ({
   permision,
   displayPermissionModal, 
   modalTitle,
-  modalButtontext,
+  modalButtonText,
   data,
   deleteItem,
   handleAddPermision,
@@ -74,7 +74,7 @@ const PermissionModal = ({
               <button 
                 type="submit"
               >
-                {modalButtontext}
+                {modalButtonText}
               </button>
             </div>
           </div>
@@ -93,7 +93,7 @@ PermissionModal.propTypes = {
   permision: PropTypes.object,
   modalTitle: PropTypes.string,
   name: PropTypes.string,
-  modalButtontext: PropTypes.string,
+  modalButtonText: PropTypes.string,
   errors: PropTypes.shape({}),
   data: PropTypes.array,
   allPermisionsData: PropTypes.array,
