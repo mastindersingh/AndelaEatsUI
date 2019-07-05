@@ -65,6 +65,7 @@ export const initialMealItems = {
   isLoading: false,
   isDeleting: false,
   meals: [],
+  filteredMeals: [],
   pagination: null,
   mealExists: null,
   loadingMealExistence: null,

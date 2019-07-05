@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ImageView from '../../../common/ImageView/ImageView';
 import AddMealFields from './AddMealFields';
-
 import {
   validateAddMealImage,
   generateFormData,
 } from '../../../../helpers/mealsHelper';
-
 import {
   addMealItem,
   setAddMealErrors,
@@ -18,8 +16,6 @@ import {
 } from '../../../../actions/admin/mealItemsAction';
 
 /**
- *
- *
  * @class Vendors
  *
  * @extends {Component}
@@ -31,7 +27,6 @@ class MealModal extends Component {
       dataurl: `${process.env.BASE_URL}/assets/images/default.png`,
       error: null,
     },
-
     name: '',
     type: '',
   };
@@ -55,8 +50,6 @@ class MealModal extends Component {
   }
 
   /**
-   *
-   *
    * @description handle onChage event
    *
    * @param { Object } event
@@ -66,17 +59,16 @@ class MealModal extends Component {
   onChange = (event) => {
     const { errors } = this.props;
     const { name, value } = event.target;
-    this.props.checkMealExistence(value);
     this.setState({ [name]: value });
-
+    if (name === 'name' && value.trimLeft().length >= 2) {
+      this.props.checkMealExistence(value);
+    }
     if (errors.length > 0) {
       this.props.setAddMealErrors([]);
     }
   };
 
   /**
-   *
-   *
    * @description handle onSubmit event
    *
    * @param { Object } event
@@ -190,8 +182,8 @@ class MealModal extends Component {
       loadingMealExistence,
       addBtnDisabled,
       mealExists,
+      meals
     } = this.props;
-
     const {
       name,
       type,
@@ -259,6 +251,7 @@ class MealModal extends Component {
                 mealTypes={this.mealTypes}
                 mealExists={mealExists}
                 loadingMealExistence={loadingMealExistence}
+                meals={meals}
               />
             </main>
 
@@ -269,7 +262,6 @@ class MealModal extends Component {
                   style={{ display: isLoading ? 'inline-block' : 'none' }}
                 />
               </div>
-
               <button
                 type="button"
                 className="grayed"
@@ -296,6 +288,7 @@ MealModal.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.string),
   isLoading: PropTypes.bool,
   loadingMealExistence: PropTypes.bool,
+  meals: PropTypes.array,
   mealExists: PropTypes.oneOf([null, true, false]),
   addBtnDisabled: PropTypes.bool,
   setAddMealErrors: PropTypes.func.isRequired,
@@ -309,6 +302,7 @@ MealModal.propTypes = {
 const mapStateToProps = ({ mealItems, mealItems: { mealModal } }) => ({
   isLoading: mealModal.isLoading,
   mealExists: mealItems.mealExists,
+  meals: mealItems.filteredMeals,
   loadingMealExistence: mealItems.loadingMealExistence,
   addBtnDisabled: mealModal.addBtnDisabled,
   errors: mealModal.errors,

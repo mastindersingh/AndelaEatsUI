@@ -98,6 +98,7 @@ const mealItemsReducer = (state = initialMealItems, action) => {
         ...state,
         loadingMealExistence: action.payload.loadingMealExistence,
         mealExists: action.payload.mealExists,
+        filteredMeals: action.payload.filteredMeals,
       };
     case EDIT_MEAL_ITEM_FAILURE:
       return state;

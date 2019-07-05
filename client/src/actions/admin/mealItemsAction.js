@@ -28,6 +28,15 @@ export const fetchMealItemsFailure = (error) => ({
   payload: error,
 });
 
+export const mealItemExistence = (response) => ({
+  type: MEAL_EXISTS_RESULT,
+  payload: {
+    loadingMealExistence: false,
+    mealExists: Boolean(response.data.payload.mealItems.length),
+    filteredMeals: response.data.payload.mealItems
+  },
+});
+
 export const fetchMealItemsSuccess = (mealItems, pagination) => ({
   type: FETCH_MEAL_ITEMS_SUCCESS,
   payload: { pagination, mealItems },
@@ -73,8 +82,7 @@ export const addMealItemSuccess = (mealItem) => ({
   payload: mealItem,
 });
 
-export const showMealModal = (show, edit) => (dispatch) =>
-  dispatch(showMealModalAction(show, edit));
+export const showMealModal = (show, edit) => (dispatch) => dispatch(showMealModalAction(show, edit));
 
 export const addMealItem = (formData) => (dispatch) => {
   dispatch(setAddMealLoading(true));
@@ -179,41 +187,27 @@ export const editMealItem = (mealItemId, formData) => (dispatch) => {
 };
 
 export const checkMealExistence = (mealItemName) => (dispatch) => {
-  const capitalizedMealName =
-    mealItemName.charAt(0).toUpperCase() + mealItemName.slice(1);
-  console.log('>> capitalised', capitalizedMealName);
-  console.log('>>meal', mealItemName.trim().length);
-  if (mealItemName.trim().length === 0) {
-    dispatch({
-      type: MEAL_EXISTS_RESULT,
-      payload: { loadingMealExistence: false, mealExists: null },
-    });
-    return;
+  const capitalizedMealName = mealItemName.charAt(0).toUpperCase() + mealItemName.slice(1);
+  let payload;
+  if (mealItemName.trim().length === 0) { 
+    payload = { loadingMealExistence: false, mealExists: null, mealItems: [] };
   }
+  payload = { loadingMealExistence: true, mealExists: null, mealItems: [] };
 
   dispatch({
     type: MEAL_EXISTS_RESULT,
-    payload: { loadingMealExistence: true, mealExists: null },
+    payload,
   });
 
   return axios
     .get(`/meal-items?name=${capitalizedMealName}`)
     .then((response) => {
-      dispatch({
-        type: MEAL_EXISTS_RESULT,
-
-        payload: {
-          loadingMealExistence: false,
-
-          mealExists: Boolean(response.data.payload.mealItems.length),
-        },
-      });
+      dispatch(mealItemExistence(response));
     })
     .catch((error) => {
       dispatch({
         type: MEAL_EXISTS_RESULT,
-
-        payload: { loadingMealExistence: false, mealExists: null },
+        payload: { loadingMealExistence: false, mealExists: null, mealItems: [] },
       });
     });
 };

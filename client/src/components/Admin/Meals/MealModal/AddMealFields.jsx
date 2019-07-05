@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 
 const AddMealFields = (props) => {
   const {
-    state,
     state: { name, type },
     errors,
     onChange,
     mealTypes,
     mealExists,
     loadingMealExistence,
+    meals
   } = props;
 
   return (
@@ -31,7 +31,7 @@ const AddMealFields = (props) => {
                 * Invalid
               </span>
             </label>
-            <input type="text" name="name" value={name} onChange={onChange} />
+            <input type="text" name="name" value={name} onChange={onChange} placeholder="Enter meal item" />
             {/*eslint-disable no-nested-ternary, operator-linebreak, indent, spaced-comment*/}
             {!loadingMealExistence &&
             mealExists === null ? null : loadingMealExistence ? (
@@ -50,7 +50,11 @@ const AddMealFields = (props) => {
                   mealExists ? 'meal-exists' : 'meal-no-exists'
                 }`}
               >
-                {mealExists ? 'Meal already exists' : 'Meal doesn\'t exist'}
+                {mealExists ? (
+                  <div>Meal seems to exists <br />
+                    { meals.map((meal) => (<li className="meal-no-exists" key={meal.id}>{meal.name}</li>))}
+                  </div>
+                 ) : 'This Meal doesn\'t exist'}
               </div>
             )}
           </div>
@@ -95,6 +99,7 @@ AddMealFields.propTypes = {
   mealTypes: PropTypes.arrayOf(PropTypes.string),
   loadingMealExistence: PropTypes.bool,
   mealExists: PropTypes.oneOf([null, true, false]),
+  meals: PropTypes.array
 };
 
 export default AddMealFields;
