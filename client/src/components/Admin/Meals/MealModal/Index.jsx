@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ImageView from './ImageView';
+import ImageView from '../../../common/ImageView/ImageView';
 import AddMealFields from './AddMealFields';
 
 import {
@@ -15,8 +15,6 @@ import {
   setAddMealErrors,
   editMealItem,
 } from '../../../../actions/admin/mealItemsAction';
-
-import defaultImage from '../../../../assets/images/default.png';
 
 /**
  *
@@ -97,7 +95,7 @@ class MealModal extends Component {
           ...formData,
           mealName:
             this.props.mealDetails.name === formData.mealName
-              ? ''
+              ? null
               : formData.mealName,
         };
 
@@ -109,7 +107,9 @@ class MealModal extends Component {
 
   static getDerivedStateFromProps({ mealDetails, edit }, { type }) {
     if (edit && !type) {
-      const { id, name, image, mealType } = mealDetails;
+      const {
+        id, name, image, mealType 
+      } = mealDetails;
 
       return {
         id,
@@ -180,7 +180,9 @@ class MealModal extends Component {
   };
 
   render() {
-    const { show, edit, errors, isLoading, addBtnDisabled } = this.props;
+    const {
+      show, edit, errors, isLoading, addBtnDisabled 
+    } = this.props;
 
     const {
       name,
@@ -190,10 +192,9 @@ class MealModal extends Component {
 
     let { error } = this.state.image;
 
-    error =
-      error === null && errors.includes('image')
-        ? 'No image has been selected'
-        : error;
+    error = error === null && errors.includes('image')
+      ? 'No image has been selected'
+      : error;
 
     return (
       <div
