@@ -11,9 +11,14 @@ const props = {
   createAdminUser: jest.fn().mockImplementation(() => Promise.resolve()),
   getAllAdminUsers: jest.fn(),
   loading: false,
+  displayRevokeModal: false,
+  showRevokeModal: jest.fn(),
+  closeRevokeModal: jest.fn(),
+  closeModal: jest.fn(),
+  revokeAdmin: jest.fn()
 };
 
-const wrapper = shallow(<Users {...props} />);
+const wrapper = mount(<Users {...props} />);
 
 const state = {
   emailAddress: '',
@@ -59,6 +64,27 @@ describe('Users Component', () => {
   it('should change email address', () => {
     wrapper.instance().onChange({ target: { name: 'emailAdress', value: 'welike.amos@gmail.com' } });
     expect(wrapper.instance().state.emailAddress).toEqual('welike.amos@gmail.com');
+  });
+
+  it('should open the revoke Admin modal when the button is clicked', () => {
+    const event = {
+      target: {
+        preventDefault: jest.fn()
+      }
+    }; 
+    
+    wrapper.find('#delete-admin').simulate('click', event);
+    const spy = jest.spyOn(wrapper.instance(), 'showRevokeModal');
+    wrapper.instance().showRevokeModal({});
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call revoke Admin', () => {
+    wrapper.setProps({
+      displayRevokeModal: true,
+    }) 
+    wrapper.find('#revoke-admin').simulate('click');
+    expect(props.revokeAdmin).toHaveBeenCalled();
   });
 
   describe('mapStateToProps', () => {

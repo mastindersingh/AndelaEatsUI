@@ -36,7 +36,10 @@ import {
   DELETE_USER_SUCCESS,
   FETCH_USER_ROLES_FAILURE,
   FETCH_USER_ROLES_SUCCESS,
-  FETCH_USER_ROLES_LOADING
+  FETCH_USER_ROLES_LOADING,
+  DELETE_ADMIN_FAILURE,
+  DELETE_ADMIN_SUCCESS,
+  DELETE_ADMIN_LOADING
 } from "../actionTypes";
 
 export const userID = token().id;
@@ -223,6 +226,7 @@ export const createAdminUser = (userData) => dispatch => {
       const payload = response.data.payload.user_role;
       toastSuccess("User role changed to Admin successfully");
       dispatch(addAdminUser(ADD_ADMIN_USER_SUCCESS, payload));
+      dispatch(getAllAdminUsers());
     })
     .catch((error) => {
       error = error.response.data.msg;
@@ -355,4 +359,30 @@ export const fetchUserRoles = () => dispatch => {
     .then((response) => {
       dispatch(fetchUserRolesSuccess(response.data.payload.roles));
     }).catch(err => dispatch(fetchUserRolesFailure(err.response.data.msg)));
+};
+
+export const revokeAdminSuccess = (payload) => ({
+  type: DELETE_ADMIN_SUCCESS,
+  payload
+});
+
+export const revokeAdminLoading = (isDeleting) => ({
+  type: DELETE_ADMIN_LOADING,
+  isDeleting
+});
+
+export const revokeAdminFailure = (error) => ({
+  type: DELETE_ADMIN_FAILURE,
+  error
+});
+
+export const revokeAdmin = (userRoleId) => dispatch => {
+  dispatch(revokeAdminLoading(true));
+  return axios.delete(`/roles/user/delete/${userRoleId}`)
+    .then((response) => {
+      toastSuccess(response.data.msg);
+      dispatch(revokeAdminSuccess(response.data.payload));
+      dispatch(revokeAdminLoading(false));
+      dispatch(getAllAdminUsers());
+    }).catch(err => dispatch(revokeAdminFailure(err.response.data.msg)));
 };
