@@ -130,7 +130,8 @@ export const initialUser = {
     status: false,
     message: null
   },
-  all_permisions: []
+  all_permisions: [],
+  isDeleting: false
 };
 
 

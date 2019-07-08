@@ -30,7 +30,10 @@ import {
   UPDATE_ABOUT_FAILURE,
   UPDATE_USER_LOADING,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE
+  UPDATE_USER_FAILURE,
+  DELETE_ADMIN_FAILURE,
+  DELETE_ADMIN_SUCCESS,
+  DELETE_ADMIN_LOADING
 } from '../../../actions/actionTypes';
 
 import {
@@ -49,7 +52,8 @@ import {
   fetchUsers,
   createUser,
   deleteUser,
-  updateUser
+  updateUser,
+  revokeAdmin
 } from '../../../actions/admin/adminUserAction';
 import {
   adminUsers, roles, permisions, roleId, RolePermisions, permisionData, tappedUsers, newAdminUser
@@ -174,6 +178,7 @@ describe('Get User Role Action', () => {
           type: ADD_ADMIN_USER_SUCCESS,
           payload: newAdminUser.payload.user_role
         },
+        { payload: true, type: "IS_FETCHING_ADMIN_USERS" }
 
       ];
       const store = mockStore({});
@@ -584,6 +589,29 @@ describe('Get User Role Action', () => {
       ];
       const store = mockStore({});
       await store.dispatch(updateUser(users[0])).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+      done();
+    });
+    
+    it('should  revoke admin access for user', async (done) => {
+      moxios.stubRequest(`/roles/user/delete/1`, {
+        status: 200,
+        response: {
+          msg: 'user_role deleted for user',
+          payload: {
+            status: 'success'
+          }
+        }
+      });
+      const expectedActions = [
+        { isDeleting: true, type: DELETE_ADMIN_LOADING },
+        { payload: { status: 'success' }, type: DELETE_ADMIN_SUCCESS },
+        { isDeleting: false, type: DELETE_ADMIN_LOADING },
+        { payload: true, type: "IS_FETCHING_ADMIN_USERS" }
+      ];
+      const store = mockStore({});
+      await store.dispatch(revokeAdmin(1)).then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
       done();

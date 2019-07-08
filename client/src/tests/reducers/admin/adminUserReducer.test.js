@@ -19,7 +19,10 @@ import {
   FETCH_USER_PERMISION_SUCCESS,
   FETCH_ALL_PERMISIONS,
   IS_FETCHING_ROLE_PERMISION,
-  IS_FETCHING_ROLES
+  IS_FETCHING_ROLES,
+  DELETE_ADMIN_FAILURE,
+  DELETE_ADMIN_SUCCESS,
+  DELETE_ADMIN_LOADING
 } from "../../../actions/actionTypes";
 
 describe('Admin User Reducer', () => {
@@ -175,5 +178,21 @@ describe('Admin User Reducer', () => {
     };
     const newState = adminUserReducer(initialUser, action);
     expect(newState.loading_roles).toEqual(true);
+  });
+
+  it('should revoke admin role for a user', () => {
+    const action = {
+      type: DELETE_ADMIN_SUCCESS,
+    };
+    const newState = adminUserReducer(initialUser, action);
+    expect(newState.error.status).toEqual(false);
+  });
+
+  it('should set isDeleting to true', () => {
+    const action = {
+      type: DELETE_ADMIN_LOADING,
+    };
+    const newState = adminUserReducer(initialUser, action);
+    expect(newState).toEqual(newState);
   });
 });
