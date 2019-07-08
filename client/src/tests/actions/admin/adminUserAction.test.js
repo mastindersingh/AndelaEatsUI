@@ -52,7 +52,7 @@ import {
   updateUser
 } from '../../../actions/admin/adminUserAction';
 import {
-  adminUsers, roles, permisions, roleId, RolePermisions, permisionData, tappedUsers
+  adminUsers, roles, permisions, roleId, RolePermisions, permisionData, tappedUsers, newAdminUser
 } from '../../__mocks__/mockAdminUsers';
 
 export const users = [
@@ -165,16 +165,14 @@ describe('Get User Role Action', () => {
     it('should successfully create an admin user', async (done) => {
       moxios.stubRequest(`/roles/user`, {
         status: 201,
-        response: {
-          msg: adminUsers.msg
-        }
+        response: newAdminUser
       });
 
       const expectedActions = [
 
         {
           type: ADD_ADMIN_USER_SUCCESS,
-          message: adminUsers.msg
+          payload: newAdminUser.payload.user_role
         },
 
       ];

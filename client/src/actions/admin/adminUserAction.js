@@ -90,9 +90,9 @@ const isFetchingRoles = (payload) => ({
   payload
 });
 
-export const addAdminUser = (message, type) => ({
+export const addAdminUser = (type, payload) => ({
   type,
-  message
+  payload
 });
 
 export const deleteUserLoading = () => ({
@@ -217,17 +217,19 @@ export const getAllPermisions = (adminId) => dispatch => {
     });
 };
 
-export const createAdminUser = (userData) => dispatch => axios.post(`/roles/user`, userData)
-  .then((response) => {
-    const { msg } = response.data;
-    toastSuccess("User role changed to Admin successfully");
-    dispatch(addAdminUser(msg, ADD_ADMIN_USER_SUCCESS));
-  })
-  .catch((error) => {
-    error = error.response.data.msg;
-    toastError(error);
-    dispatch(addAdminUser(error, ADD_ADMIN_USER_FAILURE));
-  });
+export const createAdminUser = (userData) => dispatch => {
+  return axios.post(`/roles/user`, userData)
+    .then((response) => {
+      const payload = response.data.payload.user_role;
+      toastSuccess("User role changed to Admin successfully");
+      dispatch(addAdminUser(ADD_ADMIN_USER_SUCCESS, payload));
+    })
+    .catch((error) => {
+      error = error.response.data.msg;
+      toastError(error);
+      dispatch(addAdminUser(ADD_ADMIN_USER_FAILURE, error));
+    });
+};
 
 export const addUserRole = (type, role) => ({
   type,
