@@ -62,7 +62,7 @@
       }
 
       button {
-        
+
         @include buttons(
           $color-blue,
           $color-white,
@@ -99,7 +99,7 @@
       button:disabled {
         cursor: not-allowed
       }
-      
+
     }
   }
   .form-field-set {
@@ -130,6 +130,9 @@
     font-size: 12px;
     color: $color-red;
     margin-left: 8px;
+  }
+  .errors{
+    float:right;
   }
 }
 
