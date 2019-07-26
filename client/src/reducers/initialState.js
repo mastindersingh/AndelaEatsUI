@@ -3,7 +3,7 @@ export default {
   activeUser: {},
   menus: [],
   loading_permisions: false,
-  loading_roles: false
+  loading_roles: false,
 };
 
 export const initialMenus = {
@@ -65,7 +65,10 @@ export const initialMealItems = {
   isLoading: false,
   isDeleting: false,
   meals: [],
+  filteredMeals: [],
   pagination: null,
+  mealExists: null,
+  loadingMealExistence: null,
 
   mealModal: {
     show: false,
@@ -128,7 +131,7 @@ export const initialUser = {
   permisions: [],
   error: {
     status: false,
-    message: null
+    message: null,
   },
   all_permisions: [],
   isDeleting: false
