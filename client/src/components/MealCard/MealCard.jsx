@@ -9,7 +9,7 @@ import NotCollectedAction from './NotCollectedAction';
 
 export class MealCard extends Component  {
   state = {
-    meal: null
+    meal: null,
   }
   componentDidMount() {
     const {fetchMealRatings, userID} = this.props;
