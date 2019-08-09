@@ -9,7 +9,9 @@ describe('Admin: Menu Component', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(<MenuTemplate />);});
+    wrapper = mount(
+      <MenuTemplate />);
+  });
 
   afterEach(() => {
     wrapper.unmount();
