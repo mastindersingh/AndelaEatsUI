@@ -22,9 +22,38 @@
     }
   }
 
-    .add-menu-template{
-      .children{
-        .input{
+  .add-menu-template{
+    .children{
+      .input{
+        display: block;
+        border: 1px solid lightgray;
+        outline: none;
+        font-size: 16px;
+        font-weight: 100;
+        border-radius: 3px;
+        padding: 11px 10px;
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      label{
+        display: block;
+        font-size: 15px;
+        font-weight: 100;
+        margin-bottom: 8px;
+        padding-top: 8px;
+        width: 100%;
+        color: $color-dark-gray;
+        margin-top: 2px;
+      }
+
+      .description{
+        .form-error {
+          float: right;
+          margin-top: 0;
+        }
+
+        textarea{
           display: block;
           border: 1px solid lightgray;
           outline: none;
@@ -34,48 +63,19 @@
           padding: 11px 10px;
           width: 100%;
           margin-top: 8px;
+          resize: none;
+          overflow: auto;
         }
-
-        label{
-          display: block;
-          font-size: 15px;
-          font-weight: 100;
-          margin-bottom: 8px;
-          padding-top: 8px;
-          width: 100%;
-          color: $color-dark-gray;
-          margin-top: 2px;
-        }
-
-        .description{
-          .form-error {
-            float: right;
-            margin-top: 0;
-          }
-
-          textarea{
-            display: block;
-            border: 1px solid lightgray;
-            outline: none;
-            font-size: 16px;
-            font-weight: 100;
-            border-radius: 3px;
-            padding: 11px 10px;
-            width: 100%;
-            margin-top: 8px;
-            resize: none;
-            overflow: auto;
-          }
-        }
-      }
-
-      .modal .modal-content .modal-footer .button-container {
-        justify-content: space-between;
-      }
-
-      .modal .form-error {
-        float:right;
-        margin-top: -60px;
       }
     }
+
+    .modal .modal-content .modal-footer .button-container {
+      justify-content: space-between;
+    }
+
+    .modal .form-error {
+      float:right;
+      margin-top: -60px;
+    }
+  }
 }
