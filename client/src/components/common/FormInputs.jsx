@@ -6,7 +6,7 @@ import Select from 'react-select';
 
 const Input = ({
   id, value, onChangeHandler, options, name, label,
-  type, error, clearErrors, isRequired, placeholder, isClearable
+  type, error, clearErrors, isRequired, placeholder
 }) => (
   <div className="form-field-set">
     <label htmlFor={id}>
@@ -18,7 +18,6 @@ const Input = ({
             onChange={onChangeHandler}
             options={options}
             placeholder={placeholder}
-            isClearable={isClearable}
             name={name}
           />
         )
@@ -55,15 +54,14 @@ Input.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChangeHandler: PropTypes.func.isRequired,
-  options: PropTypes.string.isRequired,
+  options: PropTypes.array,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  error: PropTypes.string.isRequired,
+  error: PropTypes.string,
   clearErrors: PropTypes.func,
-  isRequired: PropTypes.bool.isRequired,
-  placeholder: PropTypes.string,
-  isClearable: PropTypes.bool,
+  isRequired: PropTypes.bool,
+  placeholder: PropTypes.string
 };
 
 export default Input;

@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { func, object } from 'prop-types';
+import { ToastContainer } from 'react-toastify';
+import { toastSuccess } from '../../../../helpers/toast';
 import AddMenuTemplate from './AddMenuTemplate';
 import inputValidation from '../../../../helpers/inputValidation';
 import Button from '../../../common/Button/Button';
+import { addMenuTemplate } from '../../../../actions/admin/menuTemplateAction';
 
 /**
  *
@@ -20,6 +25,13 @@ export class MenuTemplate extends Component {
     errors: {}
   }
 
+  static getDerivedStateFromProps({ menuTemplate }, state) {
+    if (menuTemplate.name === state.title) {
+      return { displayModal: false };
+    }
+    return null;
+  }
+
   /**
      * Handles closing a modal
      *
@@ -28,7 +40,6 @@ export class MenuTemplate extends Component {
   closeModal= () => {
     this.setState({
       displayModal: false,
-      errors: {}
     });
   }
 
@@ -40,6 +51,10 @@ export class MenuTemplate extends Component {
    openModal= () => {
      this.setState({
        displayModal: true,
+       title: '',
+       description: '',
+       mealPeriod: '',
+       errors: {}
      });
    }
 
@@ -77,9 +92,16 @@ export class MenuTemplate extends Component {
       };
       const err = inputValidation(data);
 
+      this.setState({ isLoading: true });
       if (!err.isEmpty) {
-        return this.setState({ errors: err.errors });
+        return this.setState({
+          errors: err.errors,
+          isLoading: false
+        });
       }
+
+      this.props.addMenuTemplate(data)
+        .then(() => this.setState({ isLoading: false }));
     };
 
     render() {
@@ -110,9 +132,23 @@ export class MenuTemplate extends Component {
             />
             )}
           </div>
+          <ToastContainer />
         </React.Fragment>
       );
     }
 }
 
-export default MenuTemplate;
+const mapStateToProps = ({ menuTemplateReducer }) => ({
+  menuTemplate: menuTemplateReducer.menuTemplate,
+  error: menuTemplateReducer.error
+});
+
+const mapDispatchToProps = {
+  addMenuTemplate
+};
+
+MenuTemplate.propTypes = {
+  addMenuTemplate: func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuTemplate);

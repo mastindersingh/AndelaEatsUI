@@ -17,6 +17,7 @@ import mealSessionsReducer from './admin/mealSessionsReducer';
 import aboutReducer from './aboutReducer';
 import tappedUserReducer from './admin/tappedUsersReducer';
 import usersReducer from './admin/usersReducer';
+import menuTemplateReducer from './admin/menuTemplateReducer';
 
 export default combineReducers({
   userReducer,
@@ -35,5 +36,6 @@ export default combineReducers({
   faqsReducer,
   aboutReducer,
   vendorPerformance: dashBoardReducer,
-  tappedUserReducer
+  tappedUserReducer,
+  menuTemplateReducer
 });
