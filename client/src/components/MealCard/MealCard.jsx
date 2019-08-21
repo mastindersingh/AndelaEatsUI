@@ -23,7 +23,7 @@ export class MealCard extends Component  {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.ratedMeal && prevProps.ratedMeal !== this.props.ratedMeal) {
-      const mainMeal = this.props.meal.mealItems.find(meal => meal.mealType === 'main');
+      const mainMeal = this.props.meal.mealItems.find(meal => meal.meal_type === 'main');
       const ratedMeal = this.props.ratedMeal && 
         this.props.ratedMeal.result.find(meal => meal.mainMeal == mainMeal.name);
         this.setState({
