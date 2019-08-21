@@ -1,0 +1,363 @@
+#menu-template {
+  display: block;
+  overflow: hidden;
+
+  .no-content {
+    margin-top: 50px;
+  }
+
+  header {
+    all: unset;
+
+    .menu-header-content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      overflow: hidden;
+      width: 100%;
+      margin: 0 0 px-to-rem(5px) 0;
+
+      .button {
+        @include buttons(
+          $color-blue,
+          $color-white,
+          px-to-rem(7px) px-to-rem(18px),
+          px-to-rem(17px),
+          1px solid $color-blue
+        );
+
+        font-family: 'Open Sans', $font-family-pro;
+        font-weight: 300;
+        height: 36px !important;
+        margin: auto 0.5em;
+        border-radius: 4px;
+      }
+
+      .title-date-range {
+        width: 75%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        .title, .date-range, {
+          @include title-text(
+            px-to-rem(6px) 0 0
+          );
+          color: $color-blue;
+          padding: 0px;
+        }
+
+        .date-range, #view-menu {
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+
+        .date-input {
+          display: flex;
+          flex-direction: row;
+          width: 50%;
+          height: 50px;
+          input {
+            @include field-input();
+            padding: 8px !important;
+            color: $color-blue;
+            border: 1px solid $color-blue;
+          }
+        }
+
+      }
+    }
+  }
+
+  main {
+    .empty-content {
+      width: 96.3%;
+      margin-top: 10%;
+    }
+
+    .custom-table {
+      width: 100%;
+      margin-left: 0px;
+
+      .ct-header {
+        width: 100%;
+      }
+
+      .ct-body {
+        .ct-row {
+          &:hover {
+            background: $color-light-grey;
+            transition: all .5s ease-out;
+          }
+          .ct-wrap {
+            width: 95%;
+            margin: 0 auto;
+
+            &:last-child {
+              a {
+                &:last-child {
+                  margin-left: 30px;
+                }
+
+                span {
+                  display: inline-block;
+                  color: $color-blue;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.btn-disabled {
+  background-color: $color-gray !important;
+  border-color: $color-gray !important;
+}
+
+.ratings-modal {
+  z-index: 3;
+  small {
+    color: $color-red;
+    vertical-align: top;
+  }
+
+  .text-error {
+    color: $color-red;
+    position: absolute;
+    right: -1.5rem;
+    top: .7rem;
+  }
+
+  .form-field-single {
+    position: relative;
+  }
+
+  .modal-content {
+    padding: 3rem 2.5rem;
+    position: relative;
+    width: 21rem;
+    z-index: 5;
+
+    .modal-header {
+      margin-bottom: .4rem;
+    }
+
+    .header-title {
+      font-size: 1rem;
+    }
+
+    .modal-footer {
+      justify-content: flex-start;
+      margin-top: 1rem;
+    }
+
+    .bc-grey {
+      border-color: $color-light-gray;
+    }
+
+    .bc-red {
+      border-color: $color-red;
+    }
+
+    .modal-comment {
+      border-radius: 5px;
+      font-size: 1rem;
+      height: 5rem;
+      width: 100%;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .modal-ratings {
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+
+    .text-error {
+      right: 3.5rem;
+    }
+  }
+
+  .modal-close-button {
+    position: absolute;
+    right: .5rem;
+    top: 1rem;
+
+    .close-btn {
+      font-size: 1rem;
+    }
+
+    .btn-no-style {
+      border: 0;
+      color: $color-blue;
+    }
+  }
+}
+
+/* Menu Modal */
+#menu-modal {
+  .modal-header {
+    .close-icon {
+      margin-top: 5px;
+    }
+  }
+
+  .modal-content{
+    width: 95%;
+    max-width: px-to-rem(550px);
+    top: 14%;
+
+    .form-field-double {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 20px;
+      margin-top: 10px;
+      justify-content: space-between;
+
+        .select-width {
+          width: 45%;
+
+          label {
+            @include field-label();
+            font-size: 16px;
+            color: #333E44;
+            margin-top: 2px;
+
+            span {
+              display: inline-block;
+              color: red;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+
+      .date-input {
+        input {
+          @include field-input();
+          padding: 8px !important;
+        }
+      }
+
+      .form-field-single {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        justify-content: space-between;
+
+          label {
+            @include field-label();
+            font-size: 16px;
+            color: #333E44;
+            margin-top: 2px;
+
+            span {
+              display: inline-block;
+              color: red;
+              font-size: 12px;
+            }
+          }
+        }
+  }
+
+  @media only screen and (max-width: 640px) {
+    .modal-content {
+      width: 60%;
+    }
+  }
+
+  @media only screen and (min-width: 641px) and (max-width: 1007px) {
+    .modal-content {
+      width: 50%;
+    }
+  }
+}
+
+#delete-menu-modal {
+  .modal-content{
+    width: 95%;
+    max-width: px-to-rem(420px);
+  }
+}
+
+.edit-menu {
+  color: $color-white !important;
+  padding: 5px 15px;
+  background: $color-yellow;
+  border-radius: 0.1875rem;
+
+  &:hover {
+    color: $color-yellow !important;
+    background: $color-white;
+    border: 1px solid $color-yellow;
+  }
+}
+.option div {
+  display: inline-block;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.delete-menu {
+  color: $color-white !important;
+  padding: 5px 15px;
+  background: $color-red;
+  border-radius: 0.1875rem;
+
+  &:hover {
+    color: $color-red !important;
+    background: $color-white;
+    border: 1px solid $color-red;
+  }
+}
+
+.menu-table-row {
+  background: #F4F8F9;
+  width: 100%;
+}
+
+.no-options {
+  color: $color-white;
+  font-weight: bolder;
+  text-align: center;
+  padding: 20px;
+  background: $color-blue;
+  font-size: 20px;
+  margin: 80px;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+}
+
+.card-header {
+  padding-left: 20px;
+  width: 20%;
+  margin-top: 30px;
+  transition: border-bottom 0.2s;
+}
+.card-header:hover {
+   border-bottom: 1px solid $color-blue;
+}
+
+.side-pick-count {
+  display: block;
+  width: 20px;
+  height: 20px;
+  float: left;
+  background: $color-blue;
+  color: white;
+  border-radius: 50%;
+  font-size: 13px;
+  overflow: hidden;
+  text-align: center;
+  padding-top: 1px;
+  margin-right: 10px;
+}
+
+.rate-vendor-button {
+  text-transform: capitalize;
+}
