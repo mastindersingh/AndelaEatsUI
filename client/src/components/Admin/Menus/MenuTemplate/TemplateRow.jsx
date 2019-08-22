@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const TemplateRow = ({
-  templateDetails: { name, description, mealPeriod }
+  openDeleteMenuTemplateModal,
+  templateDetails: {
+    name, description, mealPeriod, id
+  }
 }) => (
   <div id="table-body">
     <div id="table-row">
@@ -27,7 +30,7 @@ const TemplateRow = ({
             </button>
             <button
               type="button"
-              onClick={() => {}}
+              onClick={() => openDeleteMenuTemplateModal(id)}
               id="delete-menu"
             >
               Delete
@@ -45,6 +48,7 @@ const TemplateRow = ({
 );
 
 TemplateRow.propTypes = {
+  openDeleteMenuTemplateModal: PropTypes.func.isRequired,
   templateDetails: PropTypes.shape({
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,

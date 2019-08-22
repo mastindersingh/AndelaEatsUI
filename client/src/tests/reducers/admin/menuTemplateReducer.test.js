@@ -5,10 +5,15 @@ import {
   GET_MENU_TEMPLATE_SUCCESS,
   GET_MENU_TEMPLATE_FAILURE,
   FETCHING_MENU_TEMPLATES,
+  DELETE_MENU_TEMPLATE_SUCCESS,
+  DELETE_MENU_TEMPLATE_FAILURE
 } from '../../../actions/actionTypes';
 import menuTemplateReducer from '../../../reducers/admin/menuTemplateReducer';
 import { initialMenuTemplates } from '../../../reducers/initialState';
-import { menuTemplate } from '../../__mocks__/menuTemplate';
+import {
+  menuTemplate,
+  deleteMenuTemplateMock
+} from '../../__mocks__/menuTemplate';
 
 describe('Add Menu Template Reducer', () => {
   let newState, action;
@@ -50,6 +55,8 @@ describe('Unit test for the menuTemplate reducer ', () => {
       meta: {},
       isLoading: true,
       error: null,
+      deleteError: null,
+      deleteStatus: null,
     });
   });
   it('should update the store when a get menuTemplates '
@@ -62,6 +69,8 @@ describe('Unit test for the menuTemplate reducer ', () => {
       meta: '',
       isLoading: false,
       error: null,
+      deleteError: null,
+      deleteStatus: null,
     };
     const menuTemplateActionDispatched = {
       type: GET_MENU_TEMPLATE_SUCCESS,
@@ -82,7 +91,9 @@ describe('Unit test for the menuTemplate reducer ', () => {
       menuTemplates: [],
       meta: {},
       isLoading: true,
-      error: null
+      error: null,
+      deleteError: null,
+      deleteStatus: null
     };
     const menuTemplateActionDispatched = {
       type: FETCHING_MENU_TEMPLATES,
@@ -100,6 +111,8 @@ describe('Unit test for the menuTemplate reducer ', () => {
         status: true,
         message: 'my message',
       },
+      deleteError: null,
+      deleteStatus: null
     };
     const menuTemplateActionDispatched = {
       type: GET_MENU_TEMPLATE_FAILURE,
@@ -107,5 +120,30 @@ describe('Unit test for the menuTemplate reducer ', () => {
     };
     expect(menuTemplateReducer(undefined, menuTemplateActionDispatched))
       .toEqual(expectedState);
+  });
+});
+
+
+describe('Delete Menu Template Reducer', () => {
+  let newState, action;
+
+  it('DELETE_MENU_TEMPLATE_SUCCESS', () => {
+    action = {
+      type: DELETE_MENU_TEMPLATE_SUCCESS,
+      payload: deleteMenuTemplateMock.payload.status
+    };
+
+    newState = menuTemplateReducer(initialMenuTemplates, action);
+    expect(newState.deleteStatus).toEqual(action.payload);
+  });
+
+  it('DELETE_MENU_TEMPLATE_FAILURE', () => {
+    action = {
+      type: DELETE_MENU_TEMPLATE_FAILURE,
+      payload: 'An error occured while deleting the menu template, please try again',
+    };
+
+    newState = menuTemplateReducer(initialMenuTemplates, action);
+    expect(newState.deleteError).toEqual('An error occured while deleting the menu template, please try again');
   });
 });

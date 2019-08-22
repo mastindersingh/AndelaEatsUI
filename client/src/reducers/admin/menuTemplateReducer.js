@@ -4,6 +4,8 @@ import {
   GET_MENU_TEMPLATE_SUCCESS,
   GET_MENU_TEMPLATE_FAILURE,
   FETCHING_MENU_TEMPLATES,
+  DELETE_MENU_TEMPLATE_SUCCESS,
+  DELETE_MENU_TEMPLATE_FAILURE
 } from '../../actions/actionTypes';
 import { initialMenuTemplates } from '../initialState';
 
@@ -44,6 +46,17 @@ export default (state = initialMenuTemplates, { type, payload }) => {
           status: true,
           message: payload,
         }
+      };
+
+    case DELETE_MENU_TEMPLATE_SUCCESS:
+      return {
+        ...state,
+        deleteStatus: payload,
+      };
+    case DELETE_MENU_TEMPLATE_FAILURE:
+      return {
+        ...state,
+        deleteError: payload
       };
 
     default: return state;
