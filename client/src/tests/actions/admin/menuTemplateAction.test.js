@@ -3,13 +3,18 @@ import moxios from 'moxios';
 import * as menuTemplatesAction from
   '../../../actions/admin/menuTemplateAction';
 import mockStore from '../../helpers/mockStore';
-import { menuTemplate } from '../../__mocks__/menuTemplate';
+import {
+  menuTemplate,
+  deleteMenuTemplateMock
+} from '../../__mocks__/menuTemplate';
 import {
   ADD_MENU_TEMPLATE_SUCCESS,
   ADD_MENU_TEMPLATE_FAILURE,
   GET_MENU_TEMPLATE_SUCCESS,
   GET_MENU_TEMPLATE_FAILURE,
   FETCHING_MENU_TEMPLATES,
+  DELETE_MENU_TEMPLATE_SUCCESS,
+  DELETE_MENU_TEMPLATE_FAILURE
 } from '../../../actions/actionTypes';
 
 
@@ -124,6 +129,56 @@ describe('Unit tests for the menuTemplate actions', () => {
 
         done();
       });
+    });
+  });
+
+  describe('Delete Menu Template', () => {
+    beforeEach(() => moxios.install());
+    afterEach(() => moxios.uninstall());
+    it('deletes a menu template successfully', async (done) => {
+      moxios.stubRequest('/menu_template/1', {
+        status: 200,
+        response: deleteMenuTemplateMock
+      });
+
+      const expectedAction = {
+        type: DELETE_MENU_TEMPLATE_SUCCESS,
+        payload: deleteMenuTemplateMock.payload.status
+      };
+
+      const store = mockStore({});
+
+      await store
+        .dispatch(menuTemplatesAction.deleteMenuTemplate(1))
+        .then(() => {
+          expect(store.getActions()[0]).toEqual(expectedAction);
+        });
+
+      done();
+    });
+
+    it('fails to delete a menu template', async (done) => {
+      moxios.stubRequest('/menu_template/0', {
+        status: 404,
+        response: {
+          msg: "MenuTemplate with id 0 not found"
+        }
+      });
+
+      const expectedAction = {
+        type: DELETE_MENU_TEMPLATE_FAILURE,
+        payload: 'An error occured while deleting the menu template, please try again'
+      };
+
+      const store = mockStore({});
+
+      await store
+        .dispatch(menuTemplatesAction.deleteMenuTemplate(0))
+        .then(() => {
+          expect(store.getActions()[0]).toEqual(expectedAction);
+        });
+
+      done();
     });
   });
 });

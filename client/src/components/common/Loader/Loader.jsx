@@ -5,4 +5,5 @@ const Loader = () => (
     <div className="wheel" />
   </div>
 );
+
 export default Loader;

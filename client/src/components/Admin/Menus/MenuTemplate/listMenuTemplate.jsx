@@ -3,9 +3,15 @@ import { connect } from 'react-redux';
 import TemplateRow from './TemplateRow';
 import Loader from '../../../common/Loader/Loader';
 import AddMenuTemplateButton from './index';
-import { getMenuTemplates } from '../../../../actions/admin/menuTemplateAction';
+import { getMenuTemplates, deleteMenuTemplate } from '../../../../actions/admin/menuTemplateAction';
+import DeleteModal from '../../../common/DeleteModal/DeleteModal';
 
 export class ListMenuTemplate extends Component {
+  state = {
+    displayDeleteMenuTemplateModal: false,
+    isDeleteMenuTemplateLoading: false,
+    modalContent: undefined
+  }
 
   componentDidMount() {
     this.getMenuTemplates();
@@ -13,21 +19,69 @@ export class ListMenuTemplate extends Component {
 
   getMenuTemplates = () => {
     this.props.getMenuTemplates()
-    .then(() => {}).catch(() => {});
+      .then(() => { }).catch(() => { });
   }
+
   renderMenuTemplates = menuTemplates => {
     return menuTemplates.map(menuTemplate => (
       <TemplateRow
         key={menuTemplate.id}
         templateDetails={menuTemplate}
+        openDeleteMenuTemplateModal={this.openDeleteMenuTemplateModal}
       />
     ));
   }
+
+  /**
+     * Handles opening delete menu template modal
+     *
+     * @returns {void}
+     */
+  openDeleteMenuTemplateModal = async (id) => {
+    await this.setState({
+      modalContent: { id },
+      displayDeleteMenuTemplateModal: true
+    });
+  }
+
+  /**
+    * Handles closing delete menu template modal
+    *
+    * @returns {void}
+    */
+  closeDeleteMenuTemplateModal = () => {
+    this.setState({
+      displayDeleteMenuTemplateModal: false
+    });
+  }
+
+  /**
+    * Handles deleting a menu template
+    *
+    * @returns {void}
+    */
+  deleteMenuTemplate = async (id) => {
+    this.setState({ isDeleteMenuTemplateLoading: true });
+
+    this.props.deleteMenuTemplate(id)
+      .then(() => this.setState({
+        isDeleteMenuTemplateLoading: false,
+        displayDeleteMenuTemplateModal: false
+      }))
+        .then(() => this.getMenuTemplates());
+  }
+
   render() {
     const { menuTemplates, isLoading } = this.props.menuTemplates;
-    return(
+    const {
+      displayDeleteMenuTemplateModal,
+      isDeleteMenuTemplateLoading,
+      modalContent
+    } = this.state;
+
+    return (
       <div id="menu-template">
-        {isLoading  && <Loader />}
+        {isLoading && <Loader />}
         <div className={`${isLoading && 'blurred'}`} id="table-wrapper">
           <div id="menu-template-header">
             <h3 id="menu-template-title">Menu Template</h3>
@@ -54,6 +108,18 @@ export class ListMenuTemplate extends Component {
           {!isLoading && !menuTemplates.length && (
             <EmptyContent message="No menu template has been created yet" />
           )}
+
+          {displayDeleteMenuTemplateModal
+            && (
+              <DeleteModal
+                closeModal={this.closeDeleteMenuTemplateModal}
+                isDeleting={isDeleteMenuTemplateLoading}
+                displayDeleteModal={displayDeleteMenuTemplateModal}
+                deleteItem={this.deleteMenuTemplate}
+                modalContent={modalContent}
+                item={'menu template'}
+              />
+            )}
         </div>
       </div>
     );
@@ -62,8 +128,9 @@ export class ListMenuTemplate extends Component {
 
 export const mapStateToProps = ({ menuTemplates }) => ({ menuTemplates });
 
-export const mapDispatchToProps = (dispatch) => ({
-  getMenuTemplates: () => dispatch(getMenuTemplates()),
-});
+const mapDispatchToProps = {
+  getMenuTemplates,
+  deleteMenuTemplate
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListMenuTemplate);

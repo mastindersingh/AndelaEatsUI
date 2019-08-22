@@ -22,7 +22,7 @@ export class MenuTemplate extends Component {
     description: '',
     mealPeriod: '',
     isLoading: false,
-    errors: {}
+    errors: {},
   }
 
   static getDerivedStateFromProps({ menuTemplates }, state) {
@@ -105,7 +105,11 @@ export class MenuTemplate extends Component {
     };
 
     render() {
-      const { displayModal, errors, isLoading } = this.state;
+      const {
+        displayModal,
+        errors,
+        isLoading
+      } = this.state;
 
       return (
         <React.Fragment>
@@ -141,7 +145,7 @@ const mapStateToProps = ({ menuTemplates }) => ({
 });
 
 const mapDispatchToProps = {
-  addMenuTemplate
+  addMenuTemplate,
 };
 
 MenuTemplate.propTypes = {

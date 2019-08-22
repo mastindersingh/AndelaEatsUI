@@ -172,4 +172,6 @@ export const initialMenuTemplates = {
   meta: {},
   isLoading: true,
   error: null,
+  deleteStatus: null,
+  deleteError: null
 };

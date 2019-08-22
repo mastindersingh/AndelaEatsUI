@@ -6,6 +6,8 @@ import {
   GET_MENU_TEMPLATE_SUCCESS,
   GET_MENU_TEMPLATE_FAILURE,
   FETCHING_MENU_TEMPLATES,
+  DELETE_MENU_TEMPLATE_SUCCESS,
+  DELETE_MENU_TEMPLATE_FAILURE
 } from '../actionTypes';
 
 const menuTemplateType = (type, payload) => ({
@@ -54,3 +56,18 @@ export const getMenuTemplates = () => dispatch => {
     return false;
   });
 };
+
+export const deleteMenuTemplate = (id) => dispatch => (
+  axios.delete(`/menu_template/${id}`)
+    .then((response) => {
+      toastSuccess("Menu Template Deleted Succesfully");
+      dispatch(menuTemplateType(DELETE_MENU_TEMPLATE_SUCCESS,
+        response.data.payload.status));
+    })
+    .catch(error => {
+      toastError(`An error occured while deleting the menu template,
+      please try again`);
+      dispatch(menuTemplateType(DELETE_MENU_TEMPLATE_FAILURE,
+        'An error occured while deleting the menu template, please try again'));
+    })
+);
