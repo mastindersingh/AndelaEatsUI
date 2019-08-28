@@ -37,5 +37,5 @@ export default combineReducers({
   aboutReducer,
   vendorPerformance: dashBoardReducer,
   tappedUserReducer,
-  menuTemplateReducer
+  menuTemplates: menuTemplateReducer,
 });

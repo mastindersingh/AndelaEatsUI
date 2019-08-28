@@ -20,13 +20,13 @@ import {
 import {
   fetchUpcomingEngagements,
 } from '../../../actions/admin/engagementsAction';
-import  {
+import {
   formatDate, isStartgreaterThanEnd
 } from '../../../helpers/formatMealItems';
 
 import Loader from '../../common/Loader/Loader';
 import DeleteMenuModal from './DeleteMenuModal';
-import MenuTable from './MenuTable';
+import MenuTableComponent from './MenuTable';
 
 /**
  *
@@ -200,7 +200,7 @@ export class Menus extends Component {
    *
    * @memberOf Menus
    *
-   * @returns JSX
+   * @returns {JSX}
    */
   renderMenus = () => {
     const {
@@ -231,7 +231,7 @@ export class Menus extends Component {
           : (
             <Fragment>
               <header>
-                <br/><br/>
+                <br /><br />
                 <div className="menu-header-content">
                   <div className="title-date-range">
                     <span className="title">Menu:</span>
@@ -266,9 +266,9 @@ export class Menus extends Component {
                   </button>
                 </div>
               </header>
-              <br/>
+              <br />
               <main>
-                <MenuTable
+                <MenuTableComponent
                   menus={this.props.menus}
                   showAddModal={this.showAddModal}
                   showDeleteModal={this.showDeleteModal}
@@ -287,13 +287,14 @@ export class Menus extends Component {
                 menu={this.state.menuDetails}
               />
               {displayDeleteModal && (
-              <DeleteMenuModal
-                display={displayDeleteModal}
-                deleteMenu={this.deleteMenu}
-                closeModal={this.closeModal}
-                deleting={isDeleting}
-                menuDetails={menuDetails}
-              />)}
+                <DeleteMenuModal
+                  display={displayDeleteModal}
+                  deleteMenu={this.deleteMenu}
+                  closeModal={this.closeModal}
+                  deleting={isDeleting}
+                  menuDetails={menuDetails}
+                />
+              )}
             </Fragment>
           )
         }
@@ -302,7 +303,6 @@ export class Menus extends Component {
   };
 
   render() {
-
     return (
       <React.Fragment>
         {this.props.menus.isLoading ? <Loader /> : this.renderMenus()}

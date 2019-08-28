@@ -30,7 +30,7 @@ const AddMenuTemplate = (props) => {
   ];
 
   /**
-     * Renders modal conten
+     * Renders modal content
      * @returns {JSX}
      */
   const renderContent = () => (

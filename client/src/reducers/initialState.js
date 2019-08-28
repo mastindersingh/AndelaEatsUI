@@ -166,3 +166,10 @@ export const initialTappedUsers = {
   data: [],
   error: '',
 };
+
+export const initialMenuTemplates = {
+  menuTemplates: [],
+  meta: {},
+  isLoading: true,
+  error: null,
+};

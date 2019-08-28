@@ -162,7 +162,8 @@ export class MenuTable extends Component {
                 type="button"
                 name="rateVendor"
                 disabled={isFetching}
-                title={isDisabled ? "Can't rate vendor at the moment" : "Rate former vendor"}
+                title={isDisabled 
+                  ? "Can't rate vendor at the moment" : "Rate former vendor"}
                 className={`engagement-button rate-vendor-button ${isDisabled}`}
                 onClick={isDisabled ? () => {} : this.toggleRatingModal}
               >
@@ -187,7 +188,11 @@ export class MenuTable extends Component {
                 </div>
                 <div className="ct-body">{this.renderRows()}</div>
               </React.Fragment>
-            ) : <EmptyContent message="No menus within the selected date range" />}
+            ) : (
+              <EmptyContent
+                message="No menus within the selected date range"
+              />
+            )}
         </div>
       </React.Fragment>
     );

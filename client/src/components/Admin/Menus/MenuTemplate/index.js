@@ -25,8 +25,8 @@ export class MenuTemplate extends Component {
     errors: {}
   }
 
-  static getDerivedStateFromProps({ menuTemplate }, state) {
-    if (menuTemplate.name === state.title) {
+  static getDerivedStateFromProps({ menuTemplates }, state) {
+    if ((menuTemplates.length) && (menuTemplates[0].name === state.title)) {
       return { displayModal: false };
     }
     return null;
@@ -110,16 +110,13 @@ export class MenuTemplate extends Component {
       return (
         <React.Fragment>
           <div className="menu-template">
-            <div className="header">
-              <span className="heading"> Menu Templates </span>
-              <Button
-                classes="btn"
-                onClickHandler={this.openModal}
-                loading={isLoading}
-                name="add-btn"
-                btnText="Create"
-              />
-            </div>
+            <Button
+              classes="btn"
+              onClickHandler={this.openModal}
+              loading={isLoading}
+              name="add-btn"
+              btnText="Create"
+            />
             {displayModal
             && (
             <AddMenuTemplate
@@ -138,9 +135,9 @@ export class MenuTemplate extends Component {
     }
 }
 
-const mapStateToProps = ({ menuTemplateReducer }) => ({
-  menuTemplate: menuTemplateReducer.menuTemplate,
-  error: menuTemplateReducer.error
+const mapStateToProps = ({ menuTemplates }) => ({
+  menuTemplates: menuTemplates.menuTemplates,
+  error: menuTemplates.error
 });
 
 const mapDispatchToProps = {

@@ -12,15 +12,15 @@ let props = {
     dateBookedFor: "Wed, 08 May 2019 00:00:00 GMT",
     mealItems: [
       {
-        id: 171, image: "image1", name: "Meal1", mealType: "side" 
+        id: 171, image: "image1", name: "Meal1", meal_type: "side" 
       },
       {
-        id: 174, image: "image1", name: "Meal1", mealType: "protein", 
+        id: 174, image: "image1", name: "Meal1", meal_type: "protein", 
       },
       {
         id: 175,
         image: "/assets/images/default.png",
-        mealType: "main",
+        meal_type: "main",
         name: "Caribbean pasta"
       }
     ],
