@@ -20,7 +20,7 @@ import Menus from './Admin/Menus/Index';
 import Vendors from './Admin/Vendors/Vendors';
 import SuspendedVendor from './Admin/SuspendedVendors/Index';
 import UserTabs from './Admin/Tabs/Users';
-import MenuTemplate from './Admin/MenuTemplate/index';
+import MenuTemplate from './Admin/Menus/MenuTemplate/listMenuTemplate';
 
 export const NotFound = () => <h1>Page Not Found</h1>;
 

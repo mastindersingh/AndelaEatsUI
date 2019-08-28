@@ -103,7 +103,7 @@ export default (state = initialAdminMenus, { type, payload }) => {
       return {
         ...state,
         menuList: state.menuList
-          .map(menu => menu.id === payload.menu.id ? payload.menu : menu),
+          .map(menu => (menu.id === payload.menu.id) ? payload.menu : menu),
       };
     default: return state;
   }

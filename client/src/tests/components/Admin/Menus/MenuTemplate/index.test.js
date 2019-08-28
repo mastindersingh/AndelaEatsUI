@@ -2,10 +2,11 @@
 import '../../../../__mocks__/selectMock';
 import React from 'react';
 import { mount } from 'enzyme';
-import { MenuTemplate } from '../../../../../components/Admin/Menus/MenuTemplate';
+import { MenuTemplate }
+  from '../../../../../components/Admin/Menus/MenuTemplate';
 
 const props = {
-  menuTemplate: { name: 'food' },
+  menuTemplates: { name: 'food' },
   error: '',
   addMenuTemplate: jest.fn(() => Promise.resolve())
 };
