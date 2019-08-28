@@ -205,7 +205,6 @@ export class Menus extends Component {
   renderMenus = () => {
     const {
       error,
-      menuList,
       isDeleting,
       mealItems,
       isCreating
@@ -231,7 +230,7 @@ export class Menus extends Component {
           : (
             <Fragment>
               <header>
-                <br /><br />
+                <br />
                 <div className="menu-header-content">
                   <div className="title-date-range">
                     <span className="title">Menu:</span>
@@ -260,7 +259,9 @@ export class Menus extends Component {
                     id="add-menu"
                     className="button"
                     type="button"
-                    onClick={() => this.showAddModal(this.state.menuDetails, false)}
+                    onClick={
+                      () => this.showAddModal(this.state.menuDetails, false)
+                    }
                   >
                     Add menu item
                   </button>
@@ -337,7 +338,7 @@ Menus.propTypes = {
 export const mapStateToProps = (state) => (
   {
     menus: state.menus,
-    upComingEngagements: state.allEngagements.upComingEngagements.engagements
+    upComingEngagements: state.allEngagements.engagements.engagements
   });
 
 export default connect(mapStateToProps,

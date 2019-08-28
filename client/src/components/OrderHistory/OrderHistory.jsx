@@ -45,7 +45,7 @@ export class Orders extends Component {
     this.state = {
       isOpen: false,
       searchParam: '',
-      start: subDays(new Date, 7),
+      start: subDays(new Date(), 7),
       end: addDays(new Date(), 7),
       showModal: false,
       modalContent: null,
@@ -80,22 +80,11 @@ export class Orders extends Component {
     const OrdersStartDate = format(start, 'YYYY-MM-DD');
     const OrdersEndDate = format(end, 'YYYY-MM-DD');
 
-    const menuStartDate = format(new Date, 'YYYY-MM-DD');
-    const menuEndDate = format(addDays(new Date, 5), 'YYYY-MM-DD');
-    this.props.fetchMenus(menuStartDate, menuEndDate)
-    this.props.fetchOrders(OrdersStartDate, OrdersEndDate)
-    .then(() => {
-      if (this.props.orders.orders.length === 0 ) {
-        this.props.fetchMenu(startDate, endDate).then(() => {
-          this.setState({ 
-            isRatingMeal: true
-          })
-        })
-      }
-    })
+    const menuStartDate = format(new Date(), 'YYYY-MM-DD');
+    const menuEndDate = format(addDays(new Date(), 5), 'YYYY-MM-DD');
+    this.props.fetchMenus(menuStartDate, menuEndDate);
+    this.props.fetchOrders(OrdersStartDate, OrdersEndDate).then(() => {});
   }
-
-
 
   /**
    * Handles input fields text changes
@@ -112,7 +101,7 @@ export class Orders extends Component {
   /**
    *
    *
-   * @description chhoose filter button class
+   * @description choose filter button class
    *
    * @memberof Orders
    *
@@ -250,7 +239,9 @@ export class Orders extends Component {
       userId: modalContent.userId
     }
     this.props.collectOrder(orderDetails)
-      .then(() => window.location.reload())
+      .then((res) => {
+        if (res) return window.location.reload();
+      })
   }
 
   /**
@@ -293,9 +284,9 @@ export class Orders extends Component {
   handleRatingSubmit = ({ rating, comment }) => {
     const { modalContent } = this.state;
     const {menuList} = this.props.menu;
-    const engagement = menuList.filter(menu => menu.id == modalContent.menuId);
-    let vendorEngagementId = modalContent.vendorEngagementId || 0;
-    let mainMealId = modalContent.mealItems.filter(meal => meal.mealType === 'main')[0].id
+    const engagement = menuList.filter(menu => menu.id === modalContent.menuId);
+    let vendorEngagementId = modalContent.vendorEngagementId || 1;
+    let mainMealId = modalContent.mealItems.filter(meal => meal.meal_type === 'main')[0].id;
     const serviceDate = format(modalContent.dateBookedFor, 'YYYY-MM-DD');
     if (engagement.length > 0){
       vendorEngagementId= engagement[0].vendorEngagementId;
@@ -314,7 +305,6 @@ export class Orders extends Component {
     this.props.createRating(ratingDetails)
     .then(() => {
       this.hideModal();
-      location.reload();
     });
   }
 
@@ -361,7 +351,9 @@ export class Orders extends Component {
       showRatingModal,
       modalTitle,
       isRatingMeal,
-      modalContent
+      modalContent,
+      showModal,
+      editOrder
     } = this.state;
     const loading = (orders.isLoading || this.props.isLoading) && !isRatingMeal;
     return (
@@ -442,14 +434,14 @@ export class Orders extends Component {
               </div>)
           }
           {!isRatingMeal && <Modal
-            displayModal={this.state.showModal}
+            displayModal={showModal}
             closeModal={this.hideModal}
             deleteOrder={this.deleteOrder}
             modalContent={modalContent}
             modalTitle={modalTitle}
             tapOrder={this.tapOrder}
             editOrder={this.editOrder}
-            edit={this.state.editOrder}
+            edit={editOrder}
           />}
           <RatingModal
             displayModal={showRatingModal}
@@ -464,9 +456,9 @@ export class Orders extends Component {
                 <Fragment>
                   <div className="container">
                     {
-                      mealsToRate.map((meal, index) => (
+                      mealsToRate.map((meal) => (
                         <MealCard
-                          key={index}
+                          key={`card-${meal.id}`}
                           meal={meal}
                           showModal={this.showModal}
                           showRatingModal={this.showRatingModal}

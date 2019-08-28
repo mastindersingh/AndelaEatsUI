@@ -21,26 +21,30 @@ const Input = ({
             name={name}
           />
         )
-        : (type === 'date-picker')
-          ? (
-            <DatePicker
-              selected={value}
-              onChange={onChangeHandler}
-              name={name}
-            />
-          )
-          : (
-            <input
-              id={id}
-              className="input"
-              name={name}
-              onChange={onChangeHandler}
-              onFocus={clearErrors}
-              value={value}
-              type={type}
-              placeholder={placeholder}
-            />
-          )
+        : null
+      }
+      { type === 'date-picker'
+        ? (
+          <DatePicker
+            selected={value}
+            onChange={onChangeHandler}
+            name={name}
+          />
+        )
+        : ((type !== 'date-picker') && (type !== 'select')
+            && (
+              <input
+                id={id}
+                className="input"
+                name={name}
+                onChange={onChangeHandler}
+                onFocus={clearErrors}
+                value={value}
+                type={type}
+                placeholder={placeholder}
+              />
+            )
+        )
       }
       <span className="input-validation">{isRequired ? '* Required' : ''}</span>
       <span className="form-error">
@@ -49,6 +53,18 @@ const Input = ({
     </label>
   </div>
 );
+Input.propTypes = {
+  id: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  options: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
+  onChangeHandler: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
+  isRequired: PropTypes.string.isRequired,
+};
 
 Input.propTypes = {
   id: PropTypes.string.isRequired,
