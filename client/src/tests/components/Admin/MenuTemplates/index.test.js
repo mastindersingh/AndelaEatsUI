@@ -9,7 +9,8 @@ describe('Unit test for the MenuTemplate page', () => {
   const propsObj = {
     menuTemplates: { menuTemplates: [], isLoading: true },
     getMenuTemplates: () => Promise.resolve(),
-    deleteMenuTemplate: jest.fn(() => Promise.resolve())
+    deleteMenuTemplate: jest.fn(() => Promise.resolve()),
+    match: { url: '/menu-templates' },
   };
   it('should call getMenuTemplates when the menuTemplate page '
     + 'component is mounted', () => {

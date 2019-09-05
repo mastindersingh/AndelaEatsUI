@@ -23,11 +23,14 @@ export class ListMenuTemplate extends Component {
   }
 
   renderMenuTemplates = menuTemplates => {
+    const {url}=this.props.match
+
     return menuTemplates.map(menuTemplate => (
       <TemplateRow
         key={menuTemplate.id}
         templateDetails={menuTemplate}
         openDeleteMenuTemplateModal={this.openDeleteMenuTemplateModal}
+        url={`${url}/${ menuTemplate.id}`}
       />
     ));
   }

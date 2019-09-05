@@ -3,9 +3,11 @@ import { toastError, toastSuccess } from '../../helpers/toast';
 import {
   ADD_MENU_TEMPLATE_SUCCESS,
   ADD_MENU_TEMPLATE_FAILURE,
+  GET_MENU_TEMPLATES_SUCCESS,
+  GET_MENU_TEMPLATES_FAILURE,
+  FETCHING_MENU_TEMPLATES,
   GET_MENU_TEMPLATE_SUCCESS,
   GET_MENU_TEMPLATE_FAILURE,
-  FETCHING_MENU_TEMPLATES,
   DELETE_MENU_TEMPLATE_SUCCESS,
   DELETE_MENU_TEMPLATE_FAILURE
 } from '../actionTypes';
@@ -37,12 +39,12 @@ export const fetchingMenuTemplates = () => ({
 });
 
 export const getMenuTemplateSuccess = (menuTemplates) => ({
-  type: GET_MENU_TEMPLATE_SUCCESS,
+  type: GET_MENU_TEMPLATES_SUCCESS,
   payload: menuTemplates,
 });
 
 export const getMenuTemplateFailure = (error) => ({
-  type: GET_MENU_TEMPLATE_FAILURE,
+  type: GET_MENU_TEMPLATES_FAILURE,
   payload: error
 });
 
@@ -71,3 +73,18 @@ export const deleteMenuTemplate = (id) => dispatch => (
         'An error occured while deleting the menu template, please try again'));
     })
 );
+
+export const getMenuTemplate = (id) => dispatch => {
+  return axios.get(`/menu_template/${id}`).then(response => {
+    const { payload } = response.data;
+
+    dispatch(menuTemplateType(
+      GET_MENU_TEMPLATE_SUCCESS, payload));
+  }).catch((error) => {
+    const { msg } = error.response.data;
+
+    toastError(msg);
+    dispatch(menuTemplateType(
+      GET_MENU_TEMPLATE_FAILURE, msg));
+  });
+};

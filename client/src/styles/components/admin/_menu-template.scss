@@ -33,11 +33,11 @@
 
       #menu-template-title{
         flex: 1 1 auto;
-        height: 27px;	
-        width: 53px;	
-        color: $color-blue;	
-        font-size: 21px;	
-        font-weight: 500;	
+        height: 27px;
+        width: 53px;
+        color: $color-blue;
+        font-size: 21px;
+        font-weight: 500;
         line-height: 27px;
       }
       #template-buttons {
@@ -55,7 +55,7 @@
               font-weight: 300;
               float: right;
             }
-        
+
           .add-menu-template{
             flex-direction: column;
             .children{
@@ -70,7 +70,7 @@
                 width: 100%;
                 margin-top: 8px;
               }
-        
+
               label{
                 display: block;
                 font-size: 15px;
@@ -81,13 +81,13 @@
                 color: $color-dark-gray;
                 margin-top: 2px;
               }
-        
+
               .description{
                 .form-error {
                   float: right;
                   margin-top: 0;
                 }
-        
+
                 textarea{
                   display: block;
                   border: 1px solid lightgray;
@@ -103,11 +103,11 @@
                 }
               }
             }
-        
+
             .modal .modal-content .modal-footer .button-container {
               justify-content: space-between;
             }
-        
+
             .modal .form-error {
               float:right;
               margin-top: -60px;
@@ -146,11 +146,14 @@
       background-color: #fff;
       border-radius: 2px;
       font-size: 13px;
-      color: #333E44;
+      color: $color-dark-gray;;
       margin-bottom: 5px;
       box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
       #table-row{
         padding: 15px;
+        a{
+          color:  $color-dark-gray;
+        }
         &:hover {
           background: $color-light-grey;
           transition: all .5s ease-out;
@@ -169,7 +172,7 @@
               border-radius: 0.1875rem;
               outline: none;
               cursor: pointer;
-          
+
               &:hover {
                 color: $color-yellow !important;
                 background: $color-white;
@@ -184,7 +187,7 @@
               outline: none;
               margin-left: 0.5em;
               cursor: pointer;
-              
+
               &:hover {
                 color: $color-red !important;
                 background: $color-white;

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { func, object } from 'prop-types';
+import { func } from 'prop-types';
 import { ToastContainer } from 'react-toastify';
-import { toastSuccess } from '../../../../helpers/toast';
 import AddMenuTemplate from './AddMenuTemplate';
 import inputValidation from '../../../../helpers/inputValidation';
 import Button from '../../../common/Button/Button';

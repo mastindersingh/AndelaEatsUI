@@ -2,9 +2,11 @@
 import {
   ADD_MENU_TEMPLATE_SUCCESS,
   ADD_MENU_TEMPLATE_FAILURE,
+  GET_MENU_TEMPLATES_SUCCESS,
+  GET_MENU_TEMPLATES_FAILURE,
+  FETCHING_MENU_TEMPLATES,
   GET_MENU_TEMPLATE_SUCCESS,
   GET_MENU_TEMPLATE_FAILURE,
-  FETCHING_MENU_TEMPLATES,
   DELETE_MENU_TEMPLATE_SUCCESS,
   DELETE_MENU_TEMPLATE_FAILURE
 } from '../../../actions/actionTypes';
@@ -12,10 +14,11 @@ import menuTemplateReducer from '../../../reducers/admin/menuTemplateReducer';
 import { initialMenuTemplates } from '../../../reducers/initialState';
 import {
   menuTemplate,
-  deleteMenuTemplateMock
+  deleteMenuTemplateMock,
+  menuTemplates
 } from '../../__mocks__/menuTemplate';
 
-describe('Add Menu Template Reducer', () => {
+describe('Menu Template Reducer', () => {
   let newState, action;
   it('should return initial state', () => {
     action = {
@@ -27,7 +30,7 @@ describe('Add Menu Template Reducer', () => {
       .toEqual(initialMenuTemplates);
   });
 
-  it('ADD_MENU_TEMPLATE_SUCCESS', () => {
+  it('should update store when action type is ADD_MENU_TEMPLATE_SUCCESS', () => {
     action = {
       type: ADD_MENU_TEMPLATE_SUCCESS,
       payload: menuTemplate.payload
@@ -37,9 +40,29 @@ describe('Add Menu Template Reducer', () => {
     expect(newState.menuTemplates).toEqual([action.payload]);
   });
 
-  it('ADD_MENU_TEMPLATE_FAILURE', () => {
+  it('should update store when action type is ADD_MENU_TEMPLATE_FAILURE', () => {
     action = {
       type: ADD_MENU_TEMPLATE_FAILURE,
+      payload: 'error',
+    };
+
+    newState = menuTemplateReducer(initialMenuTemplates, action);
+    expect(newState.error).toEqual('error');
+  });
+
+  it('should update store when action type is GET_MENU_TEMPLATE_SUCCESS', () => {
+    action = {
+      type: GET_MENU_TEMPLATE_SUCCESS,
+      payload: menuTemplates[0]
+    };
+
+    newState = menuTemplateReducer(initialMenuTemplates, action);
+    expect(newState.menuTemplate).toEqual(action.payload);
+  });
+
+  it('should update store when action type is GET_MENU_TEMPLATE_FAILURE', () => {
+    action = {
+      type: GET_MENU_TEMPLATE_FAILURE,
       payload: 'error',
     };
 
@@ -52,6 +75,7 @@ describe('Unit test for the menuTemplate reducer ', () => {
   it('should return the initial state of the store ', () => {
     expect(menuTemplateReducer(undefined, {})).toEqual({
       menuTemplates: [],
+      menuTemplate: {},
       meta: {},
       isLoading: true,
       error: null,
@@ -66,6 +90,7 @@ describe('Unit test for the menuTemplate reducer ', () => {
         { name: 'Indomie' },
         { name: 'chicken' },
       ],
+      menuTemplate: {},
       meta: '',
       isLoading: false,
       error: null,
@@ -73,7 +98,7 @@ describe('Unit test for the menuTemplate reducer ', () => {
       deleteStatus: null,
     };
     const menuTemplateActionDispatched = {
-      type: GET_MENU_TEMPLATE_SUCCESS,
+      type: GET_MENU_TEMPLATES_SUCCESS,
       payload: {
         MenuTemplates: [
           { name: 'Indomie' },
@@ -85,10 +110,12 @@ describe('Unit test for the menuTemplate reducer ', () => {
     expect(menuTemplateReducer(undefined, menuTemplateActionDispatched))
       .toEqual(expectedState);
   });
+
   it('should update the store when there is a pending '
     + 'request to get menu templates ', () => {
     const expectedState = {
       menuTemplates: [],
+      menuTemplate: {},
       meta: {},
       isLoading: true,
       error: null,
@@ -101,10 +128,12 @@ describe('Unit test for the menuTemplate reducer ', () => {
     expect(menuTemplateReducer(undefined, menuTemplateActionDispatched))
       .toEqual(expectedState);
   });
+
   it('should update the store when a get menuTemplates '
     + 'request fails ', () => {
     const expectedState = {
       menuTemplates: [],
+      menuTemplate: {},
       meta: {},
       isLoading: false,
       error: {
@@ -115,7 +144,7 @@ describe('Unit test for the menuTemplate reducer ', () => {
       deleteStatus: null
     };
     const menuTemplateActionDispatched = {
-      type: GET_MENU_TEMPLATE_FAILURE,
+      type: GET_MENU_TEMPLATES_FAILURE,
       payload: 'my message',
     };
     expect(menuTemplateReducer(undefined, menuTemplateActionDispatched))

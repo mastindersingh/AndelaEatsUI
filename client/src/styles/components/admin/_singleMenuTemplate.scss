@@ -1,0 +1,76 @@
+.single-menu-template{
+  .header{
+    color:$color-blue;
+    .heading{
+      font-weight: bold;
+      font-size: 1.3125rem;
+    }
+    .fa-arrow-circle-left {
+      float:right;
+      font-size: 40px;
+      margin-top:-2%;
+    }
+  }
+
+  .content-wrapper{
+      background-color: $color-white;
+      color:$color-dark-gray;
+      padding:  3%;
+      min-height: 600px;
+      .description{
+        padding-bottom: 5px;
+      }
+      .other-details{
+        padding-top: 10px;
+        font-size: 14px;
+        span{
+          color:$color-blue;
+          margin-right: 7%;
+        }
+      }
+      .days-wrapper{
+         border: 0.5px solid $color-ghostwhite;
+         min-height: 470px;
+         margin-top: 3%;
+         .tabs{
+           %day-tab{
+            display: inline-block;
+            width: 20%;
+            text-align: center;
+            padding: 8px;
+            color: $color-white;
+            font-weight:bold;
+            border: 1px solid $color-gray-cloud;
+            background-color:$color-gray-goose;
+            cursor: pointer;
+           }
+          .day{
+            @extend %day-tab;
+          }
+          .active{
+            @extend %day-tab;
+            background-color:$color-blue;
+          }
+          .day:hover{
+            background-color: $color-medium-gray;
+            opacity: 0.8;
+          }
+         }
+         .day-title{
+           padding-top: 10px;
+           padding-left: 10px;
+           color: $color-blue;
+         }
+         .addIcon{
+          .fa-plus-circle{
+            position: fixed;
+            top: 87%;
+            right: 6%;
+            font-size: 40px;
+            color: $color-blue;
+            z-index: 3;
+          }
+         }
+      }
+  }
+}

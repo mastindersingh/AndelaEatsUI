@@ -169,6 +169,7 @@ export const initialTappedUsers = {
 
 export const initialMenuTemplates = {
   menuTemplates: [],
+  menuTemplate: {},
   meta: {},
   isLoading: true,
   error: null,

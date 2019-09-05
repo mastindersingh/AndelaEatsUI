@@ -21,6 +21,7 @@ import Vendors from './Admin/Vendors/Vendors';
 import SuspendedVendor from './Admin/SuspendedVendors/Index';
 import UserTabs from './Admin/Tabs/Users';
 import MenuTemplate from './Admin/Menus/MenuTemplate/listMenuTemplate';
+import SingleMenuTemplate from './Admin/Menus/MenuTemplate/SingleMenuTemplate';
 
 export const NotFound = () => <h1>Page Not Found</h1>;
 
@@ -59,6 +60,7 @@ const Root = () => (
           <Route exact path="/admin/ratings" component={Ratings} />
           <Route exact path="/admin/users" component={UserTabs} />
           <Route exact path="/admin/menu-templates" component={MenuTemplate} />
+          <Route exact path="/admin/menu-templates/:id" component={SingleMenuTemplate} />
           <Route component={NotFound} />
         </Switch>
       </SideNav>
