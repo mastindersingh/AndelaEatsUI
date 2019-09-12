@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TemplateRow from './TemplateRow';
 import Loader from '../../../common/Loader/Loader';
-import AddMenuTemplateButton from './index';
 import { getMenuTemplates, deleteMenuTemplate } from '../../../../actions/admin/menuTemplateAction';
 import DeleteModal from '../../../common/DeleteModal/DeleteModal';
 
@@ -28,7 +27,8 @@ export class ListMenuTemplate extends Component {
         key={menuTemplate.id}
         templateDetails={menuTemplate}
         openDeleteMenuTemplateModal={this.openDeleteMenuTemplateModal}
-      />
+        editModalOpen={this.props.openEditModal}
+    />
     ));
   }
 
@@ -78,24 +78,10 @@ export class ListMenuTemplate extends Component {
       isDeleteMenuTemplateLoading,
       modalContent
     } = this.state;
-
     return (
-      <div id="menu-template">
+      <React.Fragment>
         {isLoading && <Loader />}
         <div className={`${isLoading && 'blurred'}`} id="table-wrapper">
-          <div id="menu-template-header">
-            <h3 id="menu-template-title">Menu Template</h3>
-            <div id="template-buttons">
-              <AddMenuTemplateButton />
-              <button className="menu-template-header-buttons" type="button">
-                Filter
-              </button>
-              <button className="menu-template-header-buttons" type="button">
-                Copy
-              </button>
-            </div>
-          </div>
-
           {menuTemplates.length > 0 && (
             <div id="menu-template-table-header">
               <div className="custom-col-2">Name</div>
@@ -121,7 +107,7 @@ export class ListMenuTemplate extends Component {
               />
             )}
         </div>
-      </div>
+        </React.Fragment>
     );
   }
 };

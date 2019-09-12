@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  func, bool, object
+  func, bool, object, string
 } from 'prop-types';
 import Modal from '../../../common/Modal';
 import Input from '../../../common/FormInputs';
@@ -21,7 +21,12 @@ const AddMenuTemplate = (props) => {
     handleSubmit,
     handleChange,
     errors,
-    isLoading
+    isLoading,
+    modalButtonText,
+    modalTitle,
+    title,
+    description,
+    mealPeriodValue,
   } = props;
   const mealPeriod = [
     { value: 'breakfast', label: 'Breakfast' },
@@ -42,6 +47,7 @@ const AddMenuTemplate = (props) => {
         error={errors && errors.name}
         label="Title"
         type="text"
+        value={title}
         placeholder="Enter template title"
       />
       <div className="description">
@@ -76,8 +82,8 @@ const AddMenuTemplate = (props) => {
           closeModal={closeModal}
           formValidation={handleSubmit}
           displayModal={displayModal}
-          modalButtonText="ADD TEMPLATE"
-          modalTitle="Add Menu Template"
+          modalButtonText={`${modalButtonText} Template`}
+          modalTitle={`${modalTitle} Menu Template`}
           loading={isLoading}
         >
           {renderContent()}
@@ -93,7 +99,9 @@ AddMenuTemplate.propTypes = {
   handleSubmit: func.isRequired,
   handleChange: func.isRequired,
   errors: object.isRequired,
-  isLoading: bool.isRequired
+  isLoading: bool.isRequired,
+  modalTitle: string.isRequired,
+  modalButtonText: string.isRequired
 };
 
 export default AddMenuTemplate;

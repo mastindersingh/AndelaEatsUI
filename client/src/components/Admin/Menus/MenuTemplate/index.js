@@ -6,6 +6,7 @@ import { toastSuccess } from '../../../../helpers/toast';
 import AddMenuTemplate from './AddMenuTemplate';
 import inputValidation from '../../../../helpers/inputValidation';
 import Button from '../../../common/Button/Button';
+import ListMenuTemplates from './listMenuTemplate';
 import { addMenuTemplate } from '../../../../actions/admin/menuTemplateAction';
 
 /**
@@ -23,6 +24,9 @@ export class MenuTemplate extends Component {
     mealPeriod: '',
     isLoading: false,
     errors: {},
+    modalTitle: '',
+    modalButtonText: ''
+
   }
 
   static getDerivedStateFromProps({ menuTemplates }, state) {
@@ -40,6 +44,8 @@ export class MenuTemplate extends Component {
   closeModal= () => {
     this.setState({
       displayModal: false,
+      modalButtonText: '',
+      modalTitle: ''
     });
   }
 
@@ -54,7 +60,26 @@ export class MenuTemplate extends Component {
        title: '',
        description: '',
        mealPeriod: '',
-       errors: {}
+       errors: {},
+       modalButtonText: 'ADD',
+       modalTitle: 'Add',
+     });
+   }
+
+   /**
+     * Handles opening the Edit modal
+     *
+     * @returns {void}
+     */
+   openEditModal = () => {
+     this.setState({
+       displayModal: true,
+       title: 'ddd',
+       description: 'fff',
+       mealPeriod: 'dd',
+       errors: {},
+       modalButtonText: 'EDIT',
+       modalTitle: 'Edit',
      });
    }
 
@@ -108,31 +133,58 @@ export class MenuTemplate extends Component {
       const {
         displayModal,
         errors,
-        isLoading
+        isLoading,
+        modalTitle,
+        modalButtonText,
+        title,
+        description,
+        mealPeriod
       } = this.state;
-
       return (
         <React.Fragment>
-          <div className="menu-template">
-            <Button
-              classes="btn"
-              onClickHandler={this.openModal}
-              loading={isLoading}
-              name="add-btn"
-              btnText="Create"
-            />
-            {displayModal
+          <div id="menu-template">
+            <div className={`${isLoading && 'blurred'}`} id="table-wrapper">
+            <div id="menu-template-header">
+              <h3 id="menu-template-title">Menu Template</h3>
+              <div id="template-buttons">
+                <div className="menu-template">
+                  <Button
+                    classes="btn"
+                    onClickHandler={this.openModal}
+                    loading={isLoading}
+                    name="add-btn"
+                    btnText="Create"
+                  />
+                  {displayModal
             && (
-            <AddMenuTemplate
-              closeModal={this.closeModal}
-              displayModal={displayModal}
-              handleSubmit={this.handleSubmit}
-              handleChange={this.handleChange}
-              errors={errors}
-              isLoading={isLoading}
-            />
+              <AddMenuTemplate
+                closeModal={this.closeModal}
+                displayModal={displayModal}
+                handleSubmit={this.handleSubmit}
+                handleChange={this.handleChange}
+                errors={errors}
+                isLoading={isLoading}
+                modalTitle={modalTitle}
+                modalButtonText={modalButtonText}
+                title={title}
+                description={description}
+                mealPeriodValue={mealPeriod}
+              />
             )}
+                </div>    
+                <button className="menu-template-header-buttons" type="button">
+                Filter
+                </button>
+                <button className="menu-template-header-buttons" type="button">
+                Copy
+                </button>
+              </div>
+            </div>
+            <ListMenuTemplates openEditModal={this.openEditModal} />
+            {/* </div> */}
           </div>
+          </div>
+          {/* </div> */}
           <ToastContainer />
         </React.Fragment>
       );
@@ -149,7 +201,7 @@ const mapDispatchToProps = {
 };
 
 MenuTemplate.propTypes = {
-  addMenuTemplate: func.isRequired,
+  addMenuTemplate: func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuTemplate);
