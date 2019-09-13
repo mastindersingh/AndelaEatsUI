@@ -15,7 +15,9 @@ const props = {
   showRevokeModal: jest.fn(),
   closeRevokeModal: jest.fn(),
   closeModal: jest.fn(),
-  revokeAdmin: jest.fn()
+  revokeAdmin: jest.fn(),
+  getEmailsAutocomplete: jest.fn().mockImplementation(() => Promise.resolve()),
+  autoCompleteEmails: ['test-email1@test.com'],
 };
 
 const wrapper = mount(<Users {...props} />);
@@ -61,9 +63,13 @@ describe('Users Component', () => {
     expect(props.createAdminUser).toBeCalled();
   });
 
-  it('should change email address', () => {
-    wrapper.instance().onChange({ target: { name: 'emailAdress', value: 'welike.amos@gmail.com' } });
+  it('should change email address', async () => {
+    await wrapper.instance().onChange({ target: { name: 'emailAdress', value: 'welike.amos@gmail.com' } });
     expect(wrapper.instance().state.emailAddress).toEqual('welike.amos@gmail.com');
+    expect(wrapper.instance().props.getEmailsAutocomplete)
+      .toHaveBeenCalled();
+    expect(wrapper.instance().state.displayAutoCompleteEmails)
+      .toEqual(true);
   });
 
   it('should open the revoke Admin modal when the button is clicked', () => {
@@ -82,9 +88,20 @@ describe('Users Component', () => {
   it('should call revoke Admin', () => {
     wrapper.setProps({
       displayRevokeModal: true,
-    }) 
+    }); 
     wrapper.find('#revoke-admin').simulate('click');
     expect(props.revokeAdmin).toHaveBeenCalled();
+  });
+
+  it('should populate the email field', () => {
+    wrapper.setState({
+      displayAutoCompleteEmails: true
+    });
+    wrapper.find('li').simulate('click');
+    expect(wrapper.instance().state.emailAddress)
+      .toEqual('test-email1@test.com');
+    expect(wrapper.instance().state.displayAutoCompleteEmails)
+      .toEqual(false);
   });
 
   describe('mapStateToProps', () => {
@@ -92,6 +109,9 @@ describe('Users Component', () => {
       const initialState = {
         user: {
           adminUsers: []
+        },
+        users: {
+          autocomplete_emails: ['test-user@test.com']
         }
       };
     

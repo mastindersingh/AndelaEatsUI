@@ -13,7 +13,8 @@ import {
   DELETE_USER_SUCCESS,
   FETCH_USER_ROLES_FAILURE,
   FETCH_USER_ROLES_SUCCESS,
-  FETCH_USER_ROLES_LOADING
+  FETCH_USER_ROLES_LOADING,
+  FETCH_EMAILS_AUTOCOMPLETE_SUCCESS
 } from '../../actions/actionTypes';
 import { initialUsers as initialState } from '../initialState';
 
@@ -71,6 +72,11 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true
+      };
+    case FETCH_EMAILS_AUTOCOMPLETE_SUCCESS:
+      return { 
+        ...state,
+        autocomplete_emails: action.payload
       };
     default:
       return state;

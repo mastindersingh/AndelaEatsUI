@@ -160,7 +160,8 @@ export const initialAbout = {
 export const initialUsers = {
   users: [],
   loading: false,
-  roles: []
+  roles: [],
+  autocomplete_emails: []
 };
 export const initialTappedUsers = {
   data: [],

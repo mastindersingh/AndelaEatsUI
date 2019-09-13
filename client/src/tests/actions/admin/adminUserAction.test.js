@@ -33,7 +33,8 @@ import {
   UPDATE_USER_FAILURE,
   DELETE_ADMIN_FAILURE,
   DELETE_ADMIN_SUCCESS,
-  DELETE_ADMIN_LOADING
+  DELETE_ADMIN_LOADING,
+  FETCH_EMAILS_AUTOCOMPLETE_SUCCESS
 } from '../../../actions/actionTypes';
 
 import {
@@ -53,7 +54,8 @@ import {
   createUser,
   deleteUser,
   updateUser,
-  revokeAdmin
+  revokeAdmin,
+  getEmailsAutocomplete
 } from '../../../actions/admin/adminUserAction';
 import {
   adminUsers, roles, permisions, roleId, RolePermisions, permisionData, tappedUsers, newAdminUser
@@ -68,6 +70,33 @@ describe('Get User Role Action', () => {
   describe('Fetch User Role', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
+
+    it('should successfully autocomplete user emails', async (done) => {
+      moxios.stubRequest(`/roles/autocomplete?q=patrick.azu@andela.co`, {
+        status: 200,
+        response: {
+          msg: [
+            'patrick.azu@andela.com'
+          ]
+        }
+      });
+
+      const expectedAction = {
+        type: FETCH_EMAILS_AUTOCOMPLETE_SUCCESS,
+        payload: [
+          'patrick.azu@andela.com'
+        ]
+      };
+
+      const store = mockStore({});
+
+      await store
+        .dispatch(getEmailsAutocomplete('patrick.azu@andela.co'))
+        .then(() => {
+          expect(store.getActions()[0]).toEqual(expectedAction);
+        });
+      done();
+    });
 
     it('should successfully fetch user role', async (done) => {
       moxios.stubRequest(`/roles/user/${userID}`, {

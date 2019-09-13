@@ -11,7 +11,8 @@ import {
   DELETE_USER_SUCCESS,
   FETCH_USER_ROLES_SUCCESS,
   FETCH_USER_ROLES_FAILURE,
-  FETCH_USER_ROLES_LOADING
+  FETCH_USER_ROLES_LOADING,
+  FETCH_EMAILS_AUTOCOMPLETE_SUCCESS
 
 } from '../../actions/actionTypes';
 import usersReducer from '../../reducers/admin/usersReducer';
@@ -35,6 +36,15 @@ describe('Users Reducer', () => {
     };
     const newState = usersReducer(initialState.users, action);
     expect(newState.users).toEqual(action.users);
+  });
+
+  it('Should auto-complete users email', () => {
+    const action = {
+      type: FETCH_EMAILS_AUTOCOMPLETE_SUCCESS,
+      payload: ['test-user@test.com']
+    };
+    const newState = usersReducer(initialState.autocomplete_emails, action);
+    expect(newState.autocomplete_emails).toEqual(action.payload);
   });
 
   it('Create  user', () => {

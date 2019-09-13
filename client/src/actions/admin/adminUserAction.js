@@ -39,7 +39,8 @@ import {
   FETCH_USER_ROLES_LOADING,
   DELETE_ADMIN_FAILURE,
   DELETE_ADMIN_SUCCESS,
-  DELETE_ADMIN_LOADING
+  DELETE_ADMIN_LOADING,
+  FETCH_EMAILS_AUTOCOMPLETE_SUCCESS
 } from "../actionTypes";
 
 export const userID = token().id;
@@ -220,20 +221,18 @@ export const getAllPermisions = (adminId) => dispatch => {
     });
 };
 
-export const createAdminUser = (userData) => dispatch => {
-  return axios.post(`/roles/user`, userData)
-    .then((response) => {
-      const payload = response.data.payload.user_role;
-      toastSuccess("User role changed to Admin successfully");
-      dispatch(addAdminUser(ADD_ADMIN_USER_SUCCESS, payload));
-      dispatch(getAllAdminUsers());
-    })
-    .catch((error) => {
-      error = error.response.data.msg;
-      toastError(error);
-      dispatch(addAdminUser(ADD_ADMIN_USER_FAILURE, error));
-    });
-};
+export const createAdminUser = (userData) => dispatch => axios.post(`/roles/user`, userData)
+  .then((response) => {
+    const payload = response.data.payload.user_role;
+    toastSuccess("User role changed to Admin successfully");
+    dispatch(addAdminUser(ADD_ADMIN_USER_SUCCESS, payload));
+    dispatch(getAllAdminUsers());
+  })
+  .catch((error) => {
+    error = error.response.data.msg;
+    toastError(error);
+    dispatch(addAdminUser(ADD_ADMIN_USER_FAILURE, error));
+  });
 
 export const addUserRole = (type, role) => ({
   type,
@@ -386,3 +385,14 @@ export const revokeAdmin = (userRoleId) => dispatch => {
       dispatch(getAllAdminUsers());
     }).catch(err => dispatch(revokeAdminFailure(err.response.data.msg)));
 };
+
+const fetchEmailsAutocomplete = payload => ({
+  type: FETCH_EMAILS_AUTOCOMPLETE_SUCCESS,
+  payload
+});
+
+export const getEmailsAutocomplete = (query) => dispatch => axios.get(`/roles/autocomplete?q=${query}`)
+  .then((response) => {
+    dispatch(fetchEmailsAutocomplete(response.data.msg));
+  })
+  .catch(error => (error));

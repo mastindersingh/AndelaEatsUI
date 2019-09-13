@@ -1,16 +1,19 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { debounce } from "debounce";
 import PropTypes from 'prop-types';
 import Loader from '../../common/Loader/Loader';
 import RevokeAdminModal from './RevokeAdminModal';
 
 // Actions
 import {
-  createAdminUser, 
+  createAdminUser,
   getAllAdminUsers,
-  revokeAdmin
+  revokeAdmin,
+  getEmailsAutocomplete
 } from '../../../actions/admin/adminUserAction';
 import EmptyContent from "../../common/EmptyContent";
 
@@ -26,6 +29,7 @@ export class Users extends Component {
   state = {
     emailAddress: '',
     displayRevokeModal: false,
+    displayAutoCompleteEmails: false
   };
 
   componentDidMount() {
@@ -58,11 +62,16 @@ export class Users extends Component {
    * @returns {void}
    * @memberOf Users
    */
-  onChange = (e) => {
+  onChange = async (e) => {
     const { value } = e.target;
-    this.setState({ emailAddress: value });
+    await this.setState({ emailAddress: value });
+    const { emailAddress } = this.state;
+    debounce(this.props.getEmailsAutocomplete(
+      emailAddress).then(() => this.setState({
+      displayAutoCompleteEmails: true
+    })), 500);
   };
-    
+
   /** 
    * @method showRevokeModal
    *
@@ -111,9 +120,28 @@ export class Users extends Component {
     });
   };
 
+  /**
+   *
+   * @method populateEmailInputField
+   *
+   * @param {string} emailAddress
+   *
+   * @memberOf Users
+   *
+   * @returns {void}
+   */
+  populateEmailInputField = (emailAddress) => {
+    this.setState({
+      emailAddress,
+      displayAutoCompleteEmails: false
+    });
+  }
+
   render() {
-    const { adminUsers, loading } = this.props;
-    const { displayRevokeModal, adminUser, emailAddress } = this.state;
+    const { adminUsers, loading, autoCompleteEmails } = this.props;
+    const {
+      displayRevokeModal, adminUser, emailAddress, displayAutoCompleteEmails
+    } = this.state;
     return (
       <div>
         <div>
@@ -128,71 +156,93 @@ export class Users extends Component {
               value={emailAddress}
             />
             <button type="submit" className="assign-role button-right">
-            Assign Admin Role
+              Assign Admin Role
             </button>
+            {
+              displayAutoCompleteEmails && (
+                <div className="admin-users__autocomplete-emails">
+                  {
+                    autoCompleteEmails && autoCompleteEmails.length > 0
+                    && (
+                      <ul>
+                        {autoCompleteEmails.map(email => (
+                          <li
+                            key={email}
+                            onClick={() => this.populateEmailInputField(email)}
+                          >
+                            {email}
+                          </li>
+                        ))}
+                      </ul>
+                    )
+                  }
+                </div>
+              )
+            }
           </form><br /><br />
           <span className="heading-style">List of Admin Users</span><br /><br />
           {
-          loading && (
-            <Loader />
-          )
-        }
+            loading && (
+              <Loader />
+            )
+          }
 
 
           {
-          adminUsers.length > 0 && (
-            <div className="table-header custom-row">
-              <div className="custom-col-5">Name</div>
-              <div className="custom-col-5">Email</div>
-              <div className="custom-col-2">Options</div>
-            </div>
-          )
-        }
+            adminUsers.length > 0 && (
+              <div className="table-header custom-row">
+                <div className="custom-col-5">Name</div>
+                <div className="custom-col-5">Email</div>
+                <div className="custom-col-2">Options</div>
+              </div>
+            )
+          }
 
           {
-          adminUsers.length > 0 && (
-            adminUsers.map((user) => (
-              <div key={user.email} className="table-body">
-                <div className="table-row">
-                  <div className="custom-row">
-                    <div className="custom-col-5">{user.name}</div>
-                    <div className="custom-col-5">{user.email}</div>
-                    <div className="custom-col-2">
-                      <span
-                        className="delete-color"
-                        id="delete-admin"
-                        role="menuitem"
-                        tabIndex="0" 
-                        onClick={() => this.showRevokeModal(user)}
-                      >Revoke
-                      </span>
+            adminUsers.length > 0 && (
+              adminUsers.map((user) => (
+                <div key={user.email} className="table-body">
+                  <div className="table-row">
+                    <div className="custom-row">
+                      <div className="custom-col-5">{user.name}</div>
+                      <div className="custom-col-5">{user.email}</div>
+                      <div className="custom-col-2">
+                        <span
+                          className="delete-color"
+                          id="delete-admin"
+                          role="menuitem"
+                          tabIndex="0"
+                          onClick={() => this.showRevokeModal(user)}
+                        >Revoke
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )))
-        }
+              )))
+          }
           {!loading && adminUsers.length === 0 && <EmptyContent message="No Admin Found" />}
           <ToastContainer />
         </div>
-        { displayRevokeModal && (
-        <RevokeAdminModal
-          display={displayRevokeModal}
-          deleteMenu={this.deleteMenu}
-          closeModal={this.closeRevokeModal}
-          adminUser={adminUser}
-          revokeAdmin={this.revokeAdmin}
-        />
+        {displayRevokeModal && (
+          <RevokeAdminModal
+            display={displayRevokeModal}
+            deleteMenu={this.deleteMenu}
+            closeModal={this.closeRevokeModal}
+            adminUser={adminUser}
+            revokeAdmin={this.revokeAdmin}
+          />
         )}
       </div>
     );
   }
 }
 
-export const mapStateToProps = state => ({
-  userEmail: state.user.email,
-  adminUsers: state.user.adminUsers,
-  loading: state.user.isloading
+export const mapStateToProps = ({ user, users }) => ({
+  userEmail: user.email,
+  adminUsers: user.adminUsers,
+  loading: user.isloading,
+  autoCompleteEmails: users.autocomplete_emails
 });
 
 Users.propTypes = {
@@ -201,6 +251,8 @@ Users.propTypes = {
   adminUsers: PropTypes.array.isRequired,
   loading: PropTypes.bool,
   revokeAdmin: PropTypes.func.isRequired,
+  getEmailsAutocomplete: PropTypes.func.isRequired,
+  autoCompleteEmails: PropTypes.array.isRequired
 };
 
 Users.defaultProps = {
@@ -208,4 +260,9 @@ Users.defaultProps = {
 };
 
 export default
-connect(mapStateToProps, { createAdminUser, getAllAdminUsers, revokeAdmin })(Users);
+connect(mapStateToProps, {
+  createAdminUser,
+  getAllAdminUsers,
+  revokeAdmin,
+  getEmailsAutocomplete
+})(Users);

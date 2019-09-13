@@ -109,3 +109,26 @@
     }
   }
 }
+
+.admin-users__autocomplete-emails {
+  height: 100%;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  position: absolute;
+  width: 28%;
+  z-index: 1;
+}
+
+.admin-users__autocomplete-emails li {
+  background-color: white;
+  border-bottom: 2px solid rgb(204, 203, 204);
+  border-radius: 2px;
+  list-style-type: none;
+  margin-left: -2.7rem;
+  padding: 2%;
+}
+
+.admin-users__autocomplete-emails li:hover {
+  background-color: rgb(204, 203, 204);
+  cursor: pointer;
+}
